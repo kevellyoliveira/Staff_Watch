@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="telaInicio.css">
+    <title>Tela de Início</title>
+</head>
+
+<body>
+
+    <section class="slider">
+        <div class="slides">
+          <input type="radio" name="radio-btn" id="radio1">
+          <input type="radio" name="radio-btn" id="radio2">
+          <input type="radio" name="radio-btn" id="radio3">
+          <!-- <input type="radio" name="radio-btn" id="radio4"> -->
+    
+          <div class="slide first">
+            <img src="./img/crs-hardware.jpg" alt="img_carrousel" id="img-slide1">
+            <div class="text-overlay">Monitore o hardware dos computadores de seus colaboradores e maximize o desempenho das atividades</div>
+          </div>
+
+          <div class="slide">
+                <img src="./img/crs-software.jpg" alt="img_carrousel">
+                <div class="text-overlay">Supervisione o software utilizado por seus colaboradores e impulsione a produtividade no trabalho</div>
+            </div>
+
+          <div class="slide">
+            <img src="./img/crs-equipe.jpg" alt="img_carrousel">
+            <div class="text-overlay">Agregue valor ao seu negócio unindo desempenho de hardware, software e equipe</div>
+          </div>
+          <!-- <div class="slide">
+            <img src="./imagem2.png" alt="img_carrousel">
+          </div> -->
+        </div>
+        
+    
+        <div class="manual-navigation">
+    
+          <label for="radio1" class="manual-btn" id="btn-radio1"></label>
+          <label for="radio2" class="manual-btn" id="btn-radio2"></label>
+          <label for="radio3" class="manual-btn" id="btn-radio3"></label>
+          <!-- <label for="radio4" class="manual-btn" id="btn-radio4"></label> -->
+        </div>
+    
+      </section>
+
+      <div class="linha" style="background-color: #001E42; width: 100%; height: 8px;"></div>
+
+    <section class="aplicacao">
+
+        <aside class="img">
+            
+        </aside>
+
+        <article class="textos">
+            <h1>Aplicação</h1>
+            <div class="texto1">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            </div>
+
+            <div class="texto2">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            </div>
+
+            <div class="texto3">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            </div>
+        </article>
+    </section>
+
+    <div class="text" style="background-color: aqua; width: 100px; height: 100px;"></div>
+
+</body>
+
+</html>
+
+<script>
+// Inicializa a variável 'count' com o valor 1
+var count = 1;
+
+// Seleciona o primeiro botão de rádio (com ID 'radio1') como o padrão marcado
+document.getElementById("radio1").checked = true;
+
+// Define um intervalo que chama a função 'nextImage' a cada 1 segundo (1000 milissegundos)
+setInterval(function () {
+  nextImage();
+}, 1000);
+
+// Define a cor de fundo do primeiro botão de controle de rádio (com ID 'btn-radio1') como branco
+document.getElementById("btn-radio1").style.backgroundColor = "#FFFFFF";
+
+// Função que avança para a próxima imagem no carrossel
+function nextImage() {
+  // Loop através dos três botões de controle de rádio
+  for (let i = 1; i <= 3; i++) {
+    // Remove a cor de fundo de todos os botões de controle de rádio
+    document.getElementById("btn-radio" + i).style.backgroundColor = "";
+  }
+
+  // Incrementa o contador 'count' para apontar para a próxima imagem
+  count++;
+  console.log("i = " + count); // Exibe o valor atual de 'count' no console
+
+  // Se o contador 'count' for maior que 3, reseta-o para 1 (reinicia o ciclo)
+  if (count > 3) {
+    count = 1;
+  }
+
+  // Marca o botão de rádio correspondente ao valor atual de 'count'
+  document.getElementById("radio" + count).checked = true;
+
+  // Define a cor de fundo do botão de controle de rádio correspondente ao valor atual de 'count' como branco
+  document.getElementById("btn-radio" + count).style.backgroundColor = "#FFFFFF";
+}
+
+
+</script>
