@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página Operário | Staff Watch</title>
     <link rel="stylesheet" href="./css/telaListas.css">
+    <script src="js/script.js" defer></script>
 </head>
 
 <body>
@@ -19,7 +20,7 @@
     </article>
     <main class="main-section">
         <section class="section-card">
-            <div class="card">
+            <div class="card open-modal">
                 <div class="up-card">
                     <img src="./src/img/ferramenta-lapis (1) 2.png" alt="">
                     <img src="./src/img/lixeira-de-reciclagem (2) 2.png" alt="">
@@ -32,7 +33,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card">
+            <div class="card open-modal">
                 <div class="up-card">
                     <img src="./src/img/ferramenta-lapis (1) 2.png" alt="">
                     <img src="./src/img/lixeira-de-reciclagem (2) 2.png" alt="">
@@ -45,7 +46,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card">
+            <div class="card open-modal">
                 <div class="up-card">
                     <img src="./src/img/ferramenta-lapis (1) 2.png" alt="">
                     <img src="./src/img/lixeira-de-reciclagem (2) 2.png" alt="">
@@ -61,7 +62,7 @@
         </section>
 
         <section class="section-card">
-            <div class="card">
+            <div class="card open-modal">
                 <div class="up-card">
                     <img src="./src/img/ferramenta-lapis (1) 2.png" alt="">
                     <img src="./src/img/lixeira-de-reciclagem (2) 2.png" alt="">
@@ -74,7 +75,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card">
+            <div class="card open-modal">
                 <div class="up-card">
                     <img src="./src/img/ferramenta-lapis (1) 2.png" alt="">
                     <img src="./src/img/lixeira-de-reciclagem (2) 2.png" alt="">
@@ -87,7 +88,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card">
+            <div class="card open-modal">
                 <div class="up-card">
                     <img src="./src/img/ferramenta-lapis (1) 2.png" alt="">
                     <img src="./src/img/lixeira-de-reciclagem (2) 2.png" alt="">
@@ -102,7 +103,7 @@
             </div>
         </section>
         <section class="section-card">
-            <div class="card">
+            <div class="card open-modal">
                 <div class="up-card">
                     <img src="./src/img/ferramenta-lapis (1) 2.png" alt="">
                     <img src="./src/img/lixeira-de-reciclagem (2) 2.png" alt="">
@@ -115,7 +116,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card">
+            <div class="card open-modal">
                 <div class="up-card">
                     <img src="./src/img/ferramenta-lapis (1) 2.png" alt="">
                     <img src="./src/img/lixeira-de-reciclagem (2) 2.png" alt="">
@@ -128,7 +129,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card">
+            <div class="card open-modal">
                 <div class="up-card">
                     <img src="./src/img/ferramenta-lapis (1) 2.png" alt="">
                     <img src="./src/img/lixeira-de-reciclagem (2) 2.png" alt="">
@@ -144,7 +145,49 @@
         </section>
 
     </main>
-
+    <div id="modal" class="hide">
+        <div class="modal-header">
+           
+        </div>
+        <div class="modal-content">
+            <div class="modal-user">
+                <p><b>RF:</b> 23433454</p>
+                <p><b>Máquina:</b> 23433454</p>
+            </div>
+            <div class="modal-form">
+                <p><b>Nome:</b> José Antônio da Silva</p>
+                <p><b>Nascimento:</b> 28/08/1995</p>
+                <p><b>Email:</b> Jose.Silva@email.com</p>
+                <p><b>Equipe:</b> 1</p>
+            </div>
+        </div>
+    </div>
+    <div id="fade" class="hide"></div>
 </body>
 
 </html>
+
+<script defer>
+document.addEventListener("DOMContentLoaded", () => {
+    const openModal = document.querySelectorAll(".open-modal"); // Seleciona todos os botões que abrem o modal
+    const closeModal = document.querySelector("#close-modal"); // Certifique-se de que este botão existe no DOM
+    const modal = document.querySelector("#modal");
+    const fade = document.querySelector("#fade");
+
+    const toggleModal = () => {
+        modal.classList.toggle("hide");
+        fade.classList.toggle("hide");
+    }
+    openModal.forEach((button) => {
+        button.addEventListener("click", toggleModal);
+    });
+    
+    [closeModal, fade].forEach((el) => {
+        if (el) {
+            el.addEventListener("click", toggleModal);
+        }
+    });
+});
+
+
+    </script>

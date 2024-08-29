@@ -8,8 +8,7 @@ html {
     margin: 0;
     padding: 0;
     font-family: "Inter";
-    display: flex;
-    justify-content: start;
+
     flex-direction: column;
     background-color: #E7ECEF;
 }
@@ -69,6 +68,13 @@ html {
     border-radius: 12px;
     box-shadow: 4px 5px 4px rgba(0, 0, 0, 0.25);
     font-size: 20px;
+    transform: translateY(0) scale(1.0);
+    transition: transform 0.5s;
+}
+.card:hover,
+.card:focus{
+    transform: translateY(5px) scale(1.1);
+    transition: transform 0.5s;
 }
 
 .up-card {
@@ -99,3 +105,63 @@ html {
 .down-card p b {
     font-weight: bold;
 }
+
+#fade{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 5;
+}
+
+#modal{
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    width: 65%;
+    height: 45%;
+    background-color: #E7ECEF;
+    border-radius: 8px;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+}
+
+#modal,
+#fade{
+    transition: 0.5s;
+    opacity: 1;
+    pointer-events: all;
+}
+
+#modal.hide,
+#fade.hide{
+    opacity: 0;
+    pointer-events: none;
+}
+
+.modal-header{
+    
+}
+
+.modal-content{
+    display: flex;
+    margin: 5%;
+    font-size: 25px;
+}
+
+.modal-user{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 5%;
+}
+.modal-user p {
+    margin: 10px 0;
+}
+
+.modal-form{
+    margin-left: 15%;
+}
+
