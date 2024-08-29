@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navbar Responsiva</title>
+    <link rel="stylesheet" href="Testenav.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar" role="navigation" aria-label="Navegação principal">
+            <div class="logo">
+                <a href="#" aria-label="Página inicial"><img src="./LogoStaffWatch.png" alt=""></a>
+            </div>
+            <button class="toggle-menu" aria-label="Abrir menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+            <ul class="nav-links" role="menubar">
+                <li><a href="#" role="menuitem">Benefícios  </a></li>
+                
+                <li><a href="#" role="menuitem">Aplicação  </a></li>
+                
+                <li><a href="#" role="menuitem">Sobre nós  </a></li>
+                
+                <li><a href="#" role="menuitem">Contate-nos</a></li>
+                 <ul  class="cadastroEntrarResposivo" role="menubar">
+                    <li><a href="" role="menuitem">Entrar</a></li>
+                
+                    <li><a href="#" role="menuitem">Cadastrar</a></li>
+                 </ul>
+                
+            </ul> 
+            <ul class="cadastroEntrar" role="menubar">
+                
+                <li><a href="" role="menuitem">Entrar</a></li>
+                
+                <li><a href="#" role="menuitem">Cadastrar</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <!-- Conteúdo principal do site -->
+        <section>
+            <!-- Adicione seções de conteúdo aqui -->
+        </section>
+    </main>
+    <footer>
+        <!-- Rodapé do site -->
+        <p>&copy; 2024 Seu Nome ou Sua Empresa. Todos os direitos reservados.</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+    const toggleMenu = document.querySelector('.toggle-menu');
+    const navLinks = document.querySelector('.nav-links');
+    const cadastroEntrar = document.querySelector('.cadastroEntrar');
+
+    toggleMenu.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+    });
+});
+
+</script>
