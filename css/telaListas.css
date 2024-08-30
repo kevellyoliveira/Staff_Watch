@@ -121,7 +121,7 @@ html {
     left: 50%;
     top: 50%;
     width: 65%;
-    height: 45%;
+    height: auto;
     background-color: #E7ECEF;
     border-radius: 8px;
     transform: translate(-50%, -50%);
@@ -141,13 +141,11 @@ html {
     pointer-events: none;
 }
 
-.modal-header{
-    
-}
 
 .modal-content{
     display: flex;
     margin: 5%;
+    margin-top: 0;
     font-size: 25px;
 }
 
@@ -160,6 +158,16 @@ html {
 .modal-user p {
     margin: 10px 0;
 }
+
+.modal-header figure img{
+    width: 10vw;
+    margin-left: 4.5%;
+}
+
+.modal-header{
+    margin-bottom: 0;
+}
+
 
 .modal-form{
     margin-left: 15%;
