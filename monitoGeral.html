@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="monitoGeral.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <title>Monitoramento Geral</title>
+</head>
+
+<body>
+
+    <div class="conteudo">
+
+        <nav class="text" style="width: 100%; height: 12vh; background-color: #001E42;"></nav>
+
+        <aside class="menuLateral">
+            <nav class="menu">
+                <ul>
+                    <li><a href="">Equipe 1</a></li>
+                    <li><a href="">Equipe 2</a></li>
+                    <li><a href="">Equipe 3</a></li>
+                    <li><a href="">Equipe 4</a></li>
+                    <li><a href="">Equipe 5</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <article class="corpo">
+
+            <div class="outros">
+                <h1>Equipamento: 1338437</h1>
+
+                <section class="labelContainer">
+                    <!-- <label for="opcoes">Escolha uma opção:</label> -->
+                    <select id="opcoes">
+                        <option disabled selected value="opcao0">Funcionários</option>
+                        <option value="opcao1">Funcionário 1</option>
+                        <option value="opcao2">Funcionário 2</option>
+                        <option value="opcao3">Funcionário 3</option>
+                        <option value="opcao4">Funcionário 4</option>
+                        <option value="opcao5">Funcionário 5</option>
+                        <option value="opcao6">Funcionário 6</option>
+                        <option value="opcao7">Funcionário 7</option>
+                        <option value="opcao8">Funcionário 8</option>
+                        <option value="opcao9">Funcionário 9</option>
+                        <option value="opcao10">Funcionário 10</option>
+                    </select>
+                </section>
+
+            </div>
+
+            <div class="outros2">
+                
+                <section class="equipamentos">
+                    <ul id="menuEquipamentos">
+                        <li><a href="#" data-type="CPU">CPU</a></li>
+                        <li><a href="#" data-type="Memória">Memória</a></li>
+                        <li><a href="#" data-type="GPU">GPU</a></li>
+                        <li><a href="#" data-type="Disco 0">Disco 0</a></li>
+                        <li><a href="#" data-type="Rede">Rede</a></li>
+                    </ul>
+                </section>
+
+
+                <div class="divChart">
+                    <canvas id="myChart" style="width: 100%;"></canvas>
+                </div>
+
+            </div>
+
+        </article>
+
+    </div>
+</body>
+
+</html>
+
+<script>
+    const labels = ['60 segundos', '.', '.', '.', '.', '0'];
+
+const datasetsConfig = {
+    'CPU': {
+        label: 'Uso da CPU (%)',
+        backgroundColor: '#001E42',
+        borderColor: '#001E42',
+        pointBackgroundColor: '#001E42',
+        pointBorderColor: '#001E42',
+        data: [45, 50, 55, 40, 60, 70],
+    },
+    'Memória': {
+        label: 'Uso da Memória (%)',
+        backgroundColor: '#FF6B6B',
+        borderColor: '#FF6B6B',
+        pointBackgroundColor: '#FF6B6B',
+        pointBorderColor: '#FF6B6B',
+        data: [30, 35, 40, 45, 50, 55],
+    },
+    'GPU': {
+        label: 'Uso da GPU (%)',
+        backgroundColor: '#4ECDC4',
+        borderColor: '#4ECDC4',
+        pointBackgroundColor: '#4ECDC4',
+        pointBorderColor: '#4ECDC4',
+        data: [20, 25, 30, 35, 40, 45],
+    },
+    'Disco 0': {
+        label: 'Uso do Disco 0 (%)',
+        backgroundColor: '#FFD93D',
+        borderColor: '#FFD93D',
+        pointBackgroundColor: '#FFD93D',
+        pointBorderColor: '#FFD93D',
+        data: [50, 45, 55, 60, 65, 70],
+    },
+    'Rede': {
+        label: 'Uso da Rede (%)',
+        backgroundColor: '#36A2EB',
+        borderColor: '#36A2EB',
+        pointBackgroundColor: '#36A2EB',
+        pointBorderColor: '#36A2EB',
+        data: [10, 20, 30, 40, 50, 60],
+    }
+};
+
+const data = {
+    labels: labels,
+    datasets: [datasetsConfig['CPU']]
+};
+
+const config = {
+    type: 'line',
+    data: data,
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true,
+                max: 100,
+                ticks: {
+                    callback: function (value) {
+                        return value + "%";
+                    }
+                }
+            }
+        },
+        plugins: {
+            legend: {
+                labels: {
+                    usePointStyle: true,
+                    color: '#001E42'
+                }
+            }
+        },
+        elements: {
+            line: {
+                tension: 0.4
+            }
+        }
+    }
+};
+
+const myChart = new Chart(
+    document.getElementById('myChart'),
+    config
+);
+
+document.getElementById('menuEquipamentos').addEventListener('click', function (e) {
+    e.preventDefault();
+    if (e.target.tagName === 'A') {
+        const tipo = e.target.getAttribute('data-type');
+        myChart.data.datasets[0] = datasetsConfig[tipo];
+        myChart.update();
+    }
+});
+
+</script>
+
+
+</script>
