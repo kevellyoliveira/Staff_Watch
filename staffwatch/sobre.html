@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="sobre.css" />
+    <link rel="shortcut icon" href="./img/LogoStaffWatch-removebg-preview (2).png" type="image/x-icon"
+    />
+    <title>Sobre Nós</title>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar" role="navigation" aria-label="Navegação principal">
+        <div class="logo">
+          <a href="#" aria-label="Página inicial"
+            ><img src="./img/LogoStaffWatch-removebg-preview (2).png" alt=""
+          /></a>
+        </div>
+        <button class="toggle-menu" aria-label="Abrir menu">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+        <ul class="nav-links" role="menubar">
+          <li><a href="#" role="menuitem">Benefícios </a></li>
+
+          <li><a href="#" role="menuitem">Aplicação </a></li>
+
+          <li><a href="#" role="menuitem">Sobre nós </a></li>
+
+          <li><a href="#" role="menuitem">Contate-nos</a></li>
+          <ul class="cadastroEntrarResposivo" role="menubar">
+            <li><a href="" role="menuitem">Entrar</a></li>
+
+            <li><a href="#" role="menuitem">Cadastrar</a></li>
+          </ul>
+        </ul>
+        <ul class="cadastroEntrar" role="menubar">
+          <li><a href="" role="menuitem">Entrar</a></li>
+
+          <li><a href="#" role="menuitem">Cadastrar</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <article class="container_master">
+      <section class="container_one">
+        <h3>Sobre Nós</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        <p>Donec tortor massa, porttitor nec dignissim vel, varius a lorem.</p>
+        <p>Aliquam dui dui, eleifend at imperdiet eu, cursus eu mauris.</p>
+        <p>Donec vel tortor ornare, tincidunt est nec, pulvinar augue.</p>
+        <p>
+          Aenean lacus velit, interdum consectetur feugiat quis, porttitor vel
+          leo.
+        </p>
+      </section>
+
+      <aside class="container_two">
+        <img src="./img/LogoStaffWatch-removebg-preview (2).png" alt="img_logo_principal" class="logo_principal"/>
+      </aside>
+    
+<!-- 
+      <footer>
+        <p>&copy; 2024 StaffWatch. Todos os direitos reservados.</p>
+      </footer> -->
+    </article>
+
+   
+  </body>
+</html>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const toggleMenu = document.querySelector(".toggle-menu");
+    const navLinks = document.querySelector(".nav-links");
+    const cadastroEntrar = document.querySelector(".cadastroEntrar");
+
+    toggleMenu.addEventListener("click", () => {
+      navLinks.classList.toggle("active");
+    });
+  });
+</script>
