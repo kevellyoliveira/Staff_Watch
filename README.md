@@ -6,7 +6,7 @@ A Staff Watch é uma empresa inovadora dedicada à supervisão e monitoramento d
 ______________________________________________________________________________________________________________________________________________________________________________________________
 
 Funcionalidades
--Monitoramento de Hardware 
--Alertas de Estresse do Componente
--Gráficos de Saúde dos Computadores
--Telas de monitoramento
+Monitoramento de Hardware 
+Alertas de Estresse do Componente
+Gráficos de Saúde dos Computadores
+Telas de monitoramento
