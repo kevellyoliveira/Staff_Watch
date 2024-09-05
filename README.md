@@ -1,3 +1,4 @@
-# Sprint1-2S
-Repositório destinado ao projeto da sprint 1 do segundo semestre
-##teste
+Staff Watch 🖥
+______________________________________________________________________________________________________________________________________________________________________________________________
+
+A Staff Watch é uma empresa inovadora dedicada à supervisão e monitoramento de hardware em computadores de call centers. Fundada com o objetivo de proporcionar uma gestão mais eficiente e segura dos recursos tecnológicos, a Staff Watch oferece soluções especializadas que garantem o desempenho ideal dos equipamentos utilizados em ambientes de atendimento ao cliente.
