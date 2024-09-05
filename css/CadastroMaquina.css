@@ -1,0 +1,264 @@
+/* Reseta margens, preenchimentos e define box-sizing global */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Estiliza o corpo da página */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Estiliza a sessão inicial */
+.sessao-inicial {
+    display: flex;
+    max-width: 1518px;
+    width: 100%;
+    height: 650px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Estiliza o cabeçalho */
+header {
+    display: flex;
+    padding: 0;
+    position: absolute;
+    width: 100%;
+    height: 13%;
+    background-color: #F5F5F5;
+    justify-content: space-around;
+    align-items: center;
+    box-shadow: 0px 0px 11px rgba(56, 56, 56, 0.644);
+}
+
+/* Estiliza o logo no cabeçalho */
+.logoTopo {
+    display: flex;
+    width: 6.5%;
+    height: 100%;
+    margin-left: -15%;
+}
+
+/* Estiliza a logo azul */
+.logoAzul {
+    width: 200vw;
+    height: 120vh;
+}
+
+/* Estiliza os links no cabeçalho */
+.link {
+    color: #000;
+    font-size: 1.3rem;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    text-decoration: none;
+    gap: 1%;
+    width: 35%;
+    margin-left: -30%;
+}
+
+a {
+    text-decoration: none;
+    color: #000;
+}
+
+a:hover {
+    color: #6096BA;
+}
+
+/* Estiliza a área do usuário no cabeçalho */
+.user {
+    display: flex;
+    align-items: center;
+    width: auto;
+    height: 60%;
+    margin-right: -10%;
+}
+
+.userIcon {
+    width: 4vw;
+    height: 9vh;
+}
+
+/* Estiliza o bloco do computador */
+.blocoComputador {
+    display: flex;
+    padding: 0;
+    margin: 128px 533px;
+    position: absolute;
+    width: 11%;
+    height: 5%;
+    background-color: #002148;
+    color: #E7ECEF;
+    justify-content: center;
+    align-items: center;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+}
+
+/* Estiliza o bloco do funcionário */
+.blocoFuncionario {
+    display: flex;
+    padding: 0;
+    margin: 128px 683px;
+    position: absolute;
+    width: 11%;
+    height: 5%;
+    background-color: #F5F5F5;
+    color: #002148;
+    justify-content: center;
+    align-items: center;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+/* Estiliza o bloco de software */
+.bloco-SW {
+    background-color: #002148;
+    color: #E7ECEF;
+    width: 50%;
+    padding: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Estiliza a logo dentro do bloco de software */
+.logo {
+    top: -140px;
+    height: 30%;
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+/* Estiliza a imagem dentro do bloco de software */
+.bloco-SW img {
+    height: 376px;
+    width: 378px;
+}
+
+/* Estiliza o parágrafo dentro do bloco de software */
+.bloco-SW p {
+    font-size: 24px;
+    color: #bebebe;
+    text-align: center;
+    margin-bottom: 2px;
+}
+
+/* Estiliza o botão de entrar */
+.botao-entrar {
+    margin-top: 16px;
+    padding: 10px 50px;
+    background-color: #e7ecef00;
+    color: #E7ECEF;
+    border: 3px solid #E7ECEF;
+    border-radius: 25px;
+    font-size: 16px;
+    cursor: pointer;
+    left: -300px;
+    transition: background-color 0.3s ease;
+}
+
+.botao-entrar:hover {
+    background-color: #CAD5E0;
+}
+
+/* Estiliza a sessão de cadastro */
+.sessao-cadastro {
+    width: 50%;
+    padding: 40px;
+    background-color: #F5F5F5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Estiliza o container do formulário */
+.form-container {
+    margin-top: 15%;
+    width: 100%;
+    box-shadow: 0px 10px 20px rgba(202, 202, 202, 0.644);
+    border-radius: 10px;
+    padding: 25px;
+    max-width: 360px;
+    background-color: #002148;
+}
+
+/* Estiliza o cabeçalho dentro do formulário */
+h1 {
+    font-size: 24px;
+    color: #E7ECEF;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+/* Estiliza o campo de entrada */
+.input-field {
+    margin-bottom: 30px;
+    position: relative;
+    height: 35px;
+    width: 100%;
+}
+
+.input-field input {
+    width: 100%;
+    padding: 10px;
+    background-color: #E7ECEF;
+    border: 2px solid #E7ECEF;
+    border-radius: 5px;
+    outline: none;
+    font-size: 16px;
+    color: #333;
+    transition: background-color 0.3s ease;
+}
+
+.input-field span {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: #666;
+    transition: top 0.3s ease, font-size 0.3s ease;
+    pointer-events: none;
+}
+
+.input-field input:focus + span,
+.input-field input:valid + span {
+    top: 0%;
+    font-size: 12px;
+    background-color: #002148;
+    padding: 0 5px;
+    color: #E7ECEF;
+    border-radius: 5px;
+    border: 2px solid #002148;
+}
+
+/* Estiliza o botão de cadastrar */
+.botao-cadastrar {
+    width: 100%;
+    padding: 10px;
+    background-color: #E7ECEF;
+    border: none;
+    border-radius: 5px;
+    color: #333;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.botao-cadastrar:hover {
+    background-color: #CAD5E0;
+}

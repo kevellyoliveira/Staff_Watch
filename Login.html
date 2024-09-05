@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Watch | Login </title>
+    <link rel="stylesheet" href="css/Login.css">
+</head>
+
+<body>
+    <!-- Início do corpo da página -->
+
+    <section class="sessao-inicial">
+        <!-- Define a seção principal da página, que é uma área que agrupa dois blocos: o bloco visual e o formulário de login -->
+
+        <article class="bloco-SW">
+            <!-- Artigo que representa o bloco visual do lado esquerdo da seção principal -->
+
+            <div class="logo">
+                <!-- Div que contém a logo do Staff Watch -->
+
+                <img src="src/img/LogoStaffWatch.svg" alt="Logo Staff Watch">
+                <!-- Imagem da logo com o caminho especificado no atributo `src` e um texto alternativo `alt` para acessibilidade -->
+            </div>
+
+            <p>Para se manter conectado entre</p> 
+            <p>com suas informações pessoais</p>
+            <!-- Parágrafos que fornecem uma mensagem de boas-vindas ou explicação -->
+
+        <a href="Cadastro.html"><button class="botao-entrar"><b>Cadastre-se</b></button></a>
+            <!-- Botão para iniciar o processo de cadastro com o texto "Cadastre-se" em negrito. O botão está estilizado com a classe `botao-entrar` -->
+        </article>
+
+        <article class="sessao-cadastro">
+            <!-- Artigo que representa o bloco do lado direito da seção principal, que contém o formulário de login -->
+
+            <div class="form-container">
+                <!-- Contêiner para o formulário, que aplica estilos e centraliza o formulário -->
+
+                <h1>Entrar</h1>
+                <!-- Título do formulário com o texto "Entrar" -->
+
+                <div class="input-field">
+                    <!-- Campo de entrada para o email -->
+
+                    <input type="email" name="Email" id="email_input" required="required" autocomplete="off" placeholder="Email">
+                    <!-- Campo para inserção do email, configurado para aceitar apenas emails, obrigatório e com preenchimento automático desativado -->
+
+                </div>
+
+                <div class="input-field">
+                    <!-- Campo de entrada para a senha -->
+
+                    <input type="password" name="Senha" id="senha_input" required="required" autocomplete="off" placeholder="Senha">
+                    <!-- Campo para inserção da senha, configurado para aceitar apenas senhas, obrigatório e com preenchimento automático desativado -->
+                    
+                </div>
+
+                <button class="botao-cadastrar">Entrar</button>
+                <!-- Botão para enviar o formulário com o texto "Entrar". O botão está estilizado com a classe `botao-cadastrar` -->
+            </div>
+        </article>
+    </section>
+    <!-- Fim da seção principal -->
+</body>
+
+
+</html>

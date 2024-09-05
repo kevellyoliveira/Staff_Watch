@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Watch | Cadastro</title>
+    <!-- Link para o arquivo CSS que contém os estilos da página -->
+    <link rel="stylesheet" href="css/CadastroFuncionario.css">
+</head>
+
+<body>
+    <!-- Início do corpo da página -->
+
+    <section class="sessao-inicial">
+        <!-- Seção que agrupa o conteúdo visual e o formulário de cadastro -->
+
+        <header>
+            <!-- Cabeçalho da página, contendo a logo e o menu de navegação -->
+
+            <div class="logoTopo">
+                <!-- Contêiner para a logo no topo do cabeçalho -->
+                <img src="src/img/LogoStaffWatchBlue.svg" alt="" class="LogoAzul">
+                <!-- Imagem da logo com o caminho especificado e uma classe para estilização -->
+            </div>
+
+            <nav class="link">
+                <!-- Menu de navegação principal -->
+                <a href="">Home</a>
+                <a href="">Associados</a>
+                <a href="" class="Cadastrar">Cadastrar</a>
+                <!-- Links para diferentes seções do site, com um link destacado para "Cadastrar" -->
+            </nav>
+
+            <nav class="user">
+                <!-- Menu de navegação secundário para o usuário -->
+                <img src="src/img/Group 52.svg" alt="" class="userIcon">
+                <!-- Ícone do usuário -->
+            </nav>
+        </header>
+
+        <!-- Blocos adicionais (Computador e Funcionario) -->
+        <div class="blocoComputador">Computador</div>
+        <div class="blocoFuncionario">Funcionario</div>
+
+        <article class="bloco-SW">
+            <!-- Bloco que contém a logo principal e pode incluir outros elementos de marca -->
+
+            <div class="logo">
+                <!-- Contêiner para a imagem da logo -->
+
+                <img src="/img/LogoStaffWatch.svg" alt="Logo Staff Watch">
+                <!-- Imagem da logo com o caminho especificado e texto alternativo para acessibilidade -->
+            </div>
+        </article>
+
+        <article class="sessao-cadastro">
+            <!-- Bloco que contém o formulário de cadastro -->
+
+            <div class="form-container">
+                <!-- Contêiner para o formulário, aplicando estilos e centralizando-o -->
+
+                <h1>Cadastrar Operador</h1>
+                <!-- Título do formulário indicando que é para cadastro -->
+
+                <div class="input-field">
+                    <!-- Campo de entrada para o nome -->
+
+                    <input type="text" name="Nome" id="name_input" required="required" autocomplete="off">
+                    <!-- Campo para inserção do nome, configurado como obrigatório e com preenchimento automático desativado -->
+
+                    <span>Nome</span>
+                    <!-- Texto de instrução que aparece sobre o campo quando está vazio -->
+                </div>
+
+                <div class="input-field">
+                    <!-- Campo de entrada para o email -->
+
+                    <input type="email" name="Email" id="email_input" required="required" autocomplete="off">
+                    <!-- Campo para inserção do email, configurado para aceitar apenas emails e obrigatório -->
+
+                    <span>Email</span>
+                    <!-- Texto de instrução que aparece sobre o campo quando está vazio -->
+                </div>
+
+                <div class="input-field">
+                    <!-- Campo de entrada para o CNPJ -->
+
+                    <input type="text" name="CNPJ" id="CNPJ_input" required="required" autocomplete="off">
+                    <!-- Campo para inserção do CNPJ, configurado como obrigatório e com preenchimento automático desativado -->
+
+                    <span>ID Máquina</span>
+                    <!-- Texto de instrução que aparece sobre o campo quando está vazio -->
+                </div>
+
+                <div class="input-field">
+                    <!-- Campo de entrada para a senha -->
+
+                    <input type="password" name="Senha" id="senha_input" required="required" autocomplete="off">
+                    <!-- Campo para inserção da senha, configurado como obrigatório e com preenchimento automático desativado -->
+
+                    <span>Equipe</span>
+                    <!-- Texto de instrução que aparece sobre o campo quando está vazio -->
+                </div>
+
+                <button class="botao-cadastrar"><b>Cadastrar</b></button>
+                <!-- Botão para enviar o formulário de cadastro, estilizado com a classe `botao-cadastrar` -->
+            </div>
+        </article>
+    </section>
+
+    <!-- Fim do corpo da página -->
+</body>
+
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Watch | Cadastro</title>
+    <link rel="stylesheet" href="css/CadastroMaquina.css">
+</head>
+
+<body>
+    <!-- Início do corpo da página -->
+
+    <section class="sessao-inicial">
+        <!-- Seção que agrupa o conteúdo visual e o formulário de cadastro -->
+
+        <header>
+            <!-- Cabeçalho com logo e navegação -->
+            <div class="logoTopo">
+                <img src="src/img/LogoStaffWatchBlue.svg" alt="Logo Staff Watch Azul" class="LogoAzul">
+            </div>
+            <nav class="link">
+                <a href="">Home</a>
+                <a href="">Associados</a>
+                <a href="" class="Cadastrar">Cadastrar</a>
+            </nav>
+            <nav class="user">
+                <img src="src/img/Group 52.svg" alt="Ícone de usuário" class="userIcon">
+            </nav>
+        </header>
+
+        <!-- Blocos de informação adicionais -->
+        <div class="blocoComputador">Computador</div>
+        <div class="blocoFuncionario">Funcionário</div>
+
+        <article class="sessao-cadastro">
+            <!-- Bloco que contém o formulário de cadastro -->
+            <div class="form-container">
+                <!-- Contêiner para o formulário, aplicando estilos e centralizando-o -->
+
+                <h1>Cadastrar Máquina</h1>
+                <!-- Título do formulário indicando que é para cadastro -->
+
+                <!-- Campos de entrada para o cadastro de máquina -->
+                <div class="input-field">
+                    <input type="text" name="Modelo" id="modelo_input" required="required" autocomplete="off">
+                    <span>Modelo</span>
+                </div>
+
+                <div class="input-field">
+                    <input type="text" name="CPU" id="cpu_input" required="required" autocomplete="off">
+                    <span>CPU</span>
+                </div>
+
+                <div class="input-field">
+                    <input type="text" name="MemoriaRAM" id="ram_input" required="required" autocomplete="off">
+                    <span>Memória RAM</span>
+                </div>
+
+                <div class="input-field">
+                    <input type="text" name="Armazenamento" id="armazenamento_input" required="required" autocomplete="off">
+                    <span>Armazenamento</span>
+                </div>
+
+                <div class="input-field">
+                    <input type="text" name="SistemaOperacional" id="so_input" required="required" autocomplete="off">
+                    <span>Sistema Operacional</span>
+                </div>
+
+                <div class="input-field">
+                    <input type="number" name="DataLancamentoModelo" id="dt_lancamento_input" required="required" autocomplete="off">
+                    <span>Data lançamento do modelo</span>
+                </div>
+
+                <button class="botao-cadastrar"><b>Cadastrar</b></button>
+                <!-- Botão para enviar o formulário -->
+            </div>
+        </article>
+
+        <article class="bloco-SW">
+            <!-- Bloco que contém a logo e o botão para acesso -->
+            <div class="logo">
+                <!-- Contêiner para a imagem da logo -->
+                <img src="src/img/LogoStaffWatch.svg" alt="Logo Staff Watch">
+            </div>
+        </article>
+
+    </section>
+
+    <!-- Fim do corpo da página -->
+</body>
+
+</html>

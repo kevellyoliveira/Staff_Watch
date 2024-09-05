@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Watch | Cadastro </title>
+    <link rel="stylesheet" href="/css/Cadastro.css">
+</head>
+
+<body>
+    <!-- Início do corpo da página -->
+
+    <section class="sessao-inicial">
+        <!-- Seção que agrupa o conteúdo visual e o formulário de cadastro -->
+
+        <article class="bloco-SW">
+            <!-- Bloco que contém a logo e o botão para acesso -->
+
+            <div class="logo">
+                <!-- Contêiner para a imagem da logo -->
+
+                <img src="src/img/LogoStaffWatch.svg" alt="Logo Staff Watch">
+                <!-- Imagem da logo com o caminho especificado e texto alternativo para acessibilidade -->
+            </div>
+
+            <p>Para se manter conectado entre</p> 
+            <p>com suas informações pessoais</p>
+            <!-- Parágrafos que fornecem uma mensagem de introdução -->
+
+            <a href="Login.html"><button class="botao-entrar"><b>Entrar</b></button></a>
+            <!-- Botão para entrar na página, estilizado com a classe `botao-entrar` e com o texto em negrito -->
+        </article>
+
+        <article class="sessao-cadastro">
+            <!-- Bloco que contém o formulário de cadastro -->
+
+            <div class="form-container">
+                <!-- Contêiner para o formulário, aplicando estilos e centralizando-o -->
+
+                <h1>Cadastre-se</h1>
+                <!-- Título do formulário indicando que é para cadastro -->
+
+                <div class="input-field">
+                    <!-- Campo de entrada para o nome -->
+
+                    <input type="text" name="Nome" id="name_input" required="required" autocomplete="off" placeholder="Nome">
+                    <!-- Campo para inserção do nome, configurado como obrigatório e com preenchimento automático desativado -->
+
+                </div>
+
+                <div class="input-field">
+                    <!-- Campo de entrada para o email -->
+
+                    <input type="email" name="Email" id="email_input" required="required" autocomplete="off" placeholder="Email">
+                    <!-- Campo para inserção do email, configurado para aceitar apenas emails e obrigatório -->
+
+                </div>
+
+                <div class="input-field">
+                    <!-- Campo de entrada para o CNPJ -->
+
+                    <input type="text" name="CNPJ" id="CNPJ_input" required="required" autocomplete="off" placeholder="CNPJ">
+                    <!-- Campo para inserção do CNPJ, configurado como obrigatório e com preenchimento automático desativado -->
+
+                </div>
+
+                <div class="input-field">
+                    <!-- Campo de entrada para a senha -->
+
+                    <input type="password" name="Senha" id="senha_input" required="required" autocomplete="off" placeholder="Senha">
+                    <!-- Campo para inserção da senha, configurado como obrigatório e com preenchimento automático desativado -->
+
+
+                </div>
+
+                <div class="input-field">
+                    <!-- Campo de entrada para confirmar a senha -->
+
+                    <input type="password" name="Confirmar Senha" id="confirm_senha_input" required="required" autocomplete="off" placeholder="Confirmar Senha">
+                    <!-- Campo para confirmação da senha, configurado como obrigatório e com preenchimento automático desativado -->
+
+                </div>
+
+                <button class="botao-cadastrar">Cadastrar</button>
+                <!-- Botão para enviar o formulário de cadastro, estilizado com a classe `botao-cadastrar` -->
+            </div>
+        </article>
+    </section>
+
+    <!-- Fim do corpo da página -->
+</body>
+
+</html>
