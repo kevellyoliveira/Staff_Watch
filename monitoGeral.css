@@ -15,13 +15,13 @@ body {
 
 .menu ul {
     list-style-type: none;
-    padding: 0;
+    padding: 20px;
     /* Opcional: remove o recuo padrão da lista */
     margin: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 100px;
+    padding-top: 25rem;
     gap: 40px;
     /* Define o espaçamento entre as equipes */
 }
@@ -159,7 +159,7 @@ select:focus {
     width: 70%;
 
     position: absolute;
-    bottom: 72%;
+    bottom: 75%;
     left: 20%;
 }
 
@@ -182,7 +182,7 @@ select:focus {
 
 
         position: absolute;
-        bottom: 70%;
+        bottom: 67%;
         left: 15%;
     }
 
@@ -309,4 +309,222 @@ select:focus {
     /* height: 80vh; */
     display: flex;
     justify-content: center;
+}
+
+/* CSS MENU  */
+
+/* @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap'); */
+
+body,
+html {
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    font-family: 'Inter';
+}
+
+header {
+    background-color: #001E42;
+    padding: 0;
+}
+
+nav {
+    display: flex;
+    /* justify-content: space-evenly; */
+    margin: 0;
+    flex-direction: row;
+    gap: 30px;
+    align-items: center;
+    padding: 0;
+    width: 100%;
+    height: 100px;
+    /* border: #333 2px solid; */
+}
+
+.navbar ul {
+    width: 40%;
+    /* margin-left: 0px  ; */
+}
+
+.logo {
+    display: flex;
+    display: flex;
+    align-items: center;
+    margin-left: 25px;
+    /* Faz com que a logo ocupe o espaço necessário */
+}
+
+/* .logo a {
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    font-size: 5px;
+} */
+
+img{
+    width: 5rem;
+}
+
+.nav-links {
+    list-style: none;
+    /* margin-left: 10%; */
+    /* padding: 0; */
+    display: flex;
+    /* flex: 0; Ocupa o espaço restante ao lado da logo */
+    justify-content: space-around;
+    /* Centraliza os itens na barra de navegação */
+    width: 70%;
+    margin-right: 5rem;
+
+    /* list-style: none; */
+    /* text-transform: uppercase; */
+    /* position: absolute; */
+}
+
+/* .nav-links li {
+    margin:0 5%;
+    width: 50%;
+} */
+
+.nav-links li a {
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    font-size: 18px;
+    justify-content: space-around;
+
+    /* display: inline-block; */
+    /* background: #e7ecef; */
+    /* padding: 10px;
+    margin: 2px; */
+    transition: background-color 1s;
+
+}
+
+.nav-links li:hover {
+    background-color: #6096ba;
+}
+
+.nav-links a:hover {
+    /* text-decoration: underline; */
+    color: #ffffff;
+
+}
+
+.toggle-menu {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+}
+
+.toggle-menu .bar {
+    width: 35px;
+    height: 3px;
+    background-color: rgb(255, 255, 255);
+    margin: 4px 0;
+    transition: 0.3s;
+
+}
+
+.cadastroEntrar {
+    display: flex;
+    align-items: normal;
+    /* width: 35%; */
+    list-style: none;
+    justify-content: flex-end;
+    gap: 10%;
+    /* Reduzido de 1% para 0.5em */
+    font-style: normal;
+    font-family: 'Inter';
+    padding: 0;
+    /* Adicionado para remover espaçamento extra */
+    margin: 0;
+    /* Adicionado para remover margens extra */
+}
+
+.cadastroEntrar li {
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+    color: rgb(255, 255, 255);
+    padding: 0;
+    /* Adicionado para garantir que não há padding extra */
+    margin: 0;
+    /* Adicionado para garantir que não há margin extra */
+}
+
+.cadastroEntrar li a {
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    font-family: 'Inter', sans-serif;
+    font-size: larger;
+}
+
+.cadastroEntrarResposivo {
+    display: none;
+
+}
+
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        position: absolute;
+        top: 60px;
+        right:200px;
+        background-color: #333;
+        align-items: center;
+        gap: 12px;
+        /* Alinha os itens no centro na versão móvel */
+    }
+
+    .nav-links.active {
+        display: flex;
+        background-color: #001E42;
+        margin-left: 160px;
+        border-radius: 5px;
+        padding-top: 5px;
+        border: #ffffff 2px solid;
+        font-size: medium;
+        z-index: 2000;
+
+    }
+
+    .toggle-menu {
+        display: flex;
+        margin-left: 10px;
+    }
+
+    .cadastroEntrar {
+        display: none
+    }
+
+    .cadastroEntrarResposivo {
+        display: flex;
+        flex-direction: column;
+        align-items: end;
+        justify-content: start;
+
+    }
+
+    .cadastroEntrarResposivo li {
+        font-style: normal;
+        list-style-type: none;
+
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        margin-left: 25px;
+        /* Faz com que a logo ocupe o espaço necessário */
+    }
+    
+   
+    
+    img{
+        width: 0rem;
+    }
+    
 }
