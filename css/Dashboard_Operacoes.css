@@ -1,0 +1,109 @@
+* {
+    margin: 0;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+body {
+    background-color: #E7ECEF;
+}
+
+main {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-evenly;
+    /* background-color: aqua; */
+    height: 100vh;
+    margin-top: 20px;
+}
+
+h1 {
+    color: #002148;
+    font-family: "Inter", sans-serif;
+    font-size: 30px;
+}
+
+.selecao {
+    background-color: #001E42;
+    color: white;
+    border-radius: 5px;
+    width: 150px;
+    height: 30px;
+    padding-left: 8px;
+    font-family: "Inter", sans-serif;
+}
+
+.selecao-select-placeholde{
+    font-family: "Inter", sans-serif;
+}
+
+.inicio-pagina{
+    display: flex;
+    justify-content: space-evenly;
+    width: 995px;
+}
+
+.conteudo-inicio{
+    width: 100%;
+    display: flex;
+    justify-content: end;
+}
+
+.conteudo-cards{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.card {
+    background-color: #001E42;
+    color: white;
+    width: 430px;
+    height: 230px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 20px;
+    /* align-items: center; */
+    justify-content: center;
+    /* box-shadow: 60px -16px teal; */
+    box-shadow: 6px 5px 5px 5px rgba(0, 0, 0, 0.2);
+}
+
+.card-textos {
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    height: 100px;
+    font-family: "Inter", sans-serif;
+    margin-left: 30px;
+}
+
+.card-grafico {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    font-family: "Inter", sans-serif;
+}
+
+.card-grafico img {
+    width: 265px;
+    height: 90px;
+}
+
+.card-grafico section {
+    height: 90px;
+    justify-content: space-evenly;
+    flex-direction: column;
+    display: flex;
+    font-size: 15px;
+}
+
+.dupla-cards {
+    display: flex;
+    width: 100vw;
+    justify-content: space-evenly;
+}
