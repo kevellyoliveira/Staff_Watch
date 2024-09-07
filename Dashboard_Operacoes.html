@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Gerente Operações</title>
     <link rel="stylesheet" href="css/Dashboard_Operacoes.css">
+    <link rel="stylesheet" href="./css/telaListas.css">
+    <script src="./js/script.js"></script>
 </head>
 
 <body>
@@ -30,7 +32,7 @@
             <article class="dupla-cards">
 
                 <!-- Card 1 -->
-                <section class="card">
+                <section class="card open-modal">
 
                     <section class="card-textos">
                         <p><b>Funcionário:</b> Kevelly Mendes de Oliveira</p>
@@ -53,7 +55,7 @@
                 </section>
 
                 <!-- Card 2 -->
-                <section class="card">
+                <section class="card open-modal">
 
                     <section class="card-textos">
                         <p><b>Funcionário:</b> Kevelly Mendes de Oliveira</p>
@@ -80,7 +82,7 @@
             <article class="dupla-cards">
 
                 <!-- Card 1 -->
-                <section class="card">
+                <section class="card open-modal">
 
                     <section class="card-textos">
                         <p><b>Funcionário:</b> Kevelly Mendes de Oliveira</p>
@@ -103,7 +105,7 @@
                 </section>
 
                 <!-- Card 2 -->
-                <section class="card">
+                <section class="card open-modal">
 
                     <section class="card-textos">
                         <p><b>Funcionário:</b> Kevelly Mendes de Oliveira</p>
@@ -127,6 +129,26 @@
             </article>
 
         </section>
+
+        <div id="modal" class="hide">
+            <!-- <div class="modal-header">
+                
+            </div> -->
+            <div class="modal-content">
+                <div class="modal-user">
+                    <p><b>Funcionário:</b> Fátima Mendes da Silva</p>
+                    <p><b>Cargo:</b> Analista de dados</p>
+                    <p><b>PC:</b> 12345</p>
+
+                    <img src="img/GraficoAtividades.png" alt="">
+                </div>
+                <div class="modal-form">
+                    <p><b>Atividade:</b> youtube</p>
+                    <p><b>hora de abertura:</b> 19:12</p>
+                </div>
+            </div>
+        </div>
+        <div id="fade" class="hide"></div>
 
     </main>
 
