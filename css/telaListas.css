@@ -159,17 +159,32 @@ html {
     margin: 10px 0;
 }
 
-.modal-header figure img{
+.modal-figure img{
     width: 10vw;
     margin-left: 4.5%;
+    justify-self: start;
+}
+
+.modal-figure{
+    margin-left: auto;
 }
 
 .modal-header{
     margin-bottom: 0;
+    display: flex;
+    justify-content: start;
 }
 
+.modal-header figure img{
+    height: 20vh;
+    width: 20vh;
+    margin-left:35px;
+}
 
 .modal-form{
     margin-left: 15%;
 }
-
+#close-modal{
+    height: 4vh;
+    width: 4vh;
+}
