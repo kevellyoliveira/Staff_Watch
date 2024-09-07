@@ -16,29 +16,19 @@
         <!-- Seção que agrupa o conteúdo visual e o formulário de cadastro -->
 
         <header>
-            <!-- Cabeçalho da página, contendo a logo e o menu de navegação -->
-
+            <!-- Cabeçalho com logo e navegação -->
             <div class="logoTopo">
-                <!-- Contêiner para a logo no topo do cabeçalho -->
-                <img src="src/img/LogoStaffWatchBlue.svg" alt="" class="LogoAzul">
-                <!-- Imagem da logo com o caminho especificado e uma classe para estilização -->
+                <img src="src/img/LogoStaffWatchBlue.svg" alt="Logo Staff Watch Azul" class="LogoAzul">
             </div>
-
             <nav class="link">
-                <!-- Menu de navegação principal -->
                 <a href="">Home</a>
                 <a href="">Associados</a>
                 <a href="" class="Cadastrar">Cadastrar</a>
-                <!-- Links para diferentes seções do site, com um link destacado para "Cadastrar" -->
             </nav>
-
             <nav class="user">
-                <!-- Menu de navegação secundário para o usuário -->
-                <img src="src/img/Group 52.svg" alt="" class="userIcon">
-                <!-- Ícone do usuário -->
+                <img src="src/img/Group 52.svg" alt="Ícone de usuário" class="userIcon">
             </nav>
         </header>
-
         <!-- Blocos adicionais (Computador e Funcionario) -->
         <div class="blocoComputador">Computador</div>
         <div class="blocoFuncionario">Funcionario</div>
@@ -49,7 +39,7 @@
             <div class="logo">
                 <!-- Contêiner para a imagem da logo -->
 
-                <img src="/img/LogoStaffWatch.svg" alt="Logo Staff Watch">
+                <img src="src/img/LogoStaffWatch.svg" alt="Logo Staff Watch">
                 <!-- Imagem da logo com o caminho especificado e texto alternativo para acessibilidade -->
             </div>
         </article>
@@ -113,3 +103,17 @@
 </body>
 
 </html>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+    const toggleMenu = document.querySelector('.toggle-menu');
+    const navLinks = document.querySelector('.nav-links');
+    const cadastroEntrar = document.querySelector('.cadastroEntrar');
+
+    toggleMenu.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+    });
+});
+
+</script>
+

@@ -262,3 +262,180 @@ h1 {
 .botao-cadastrar:hover {
     background-color: #CAD5E0;
 }
+
+/* ========================== Responsividade ========================== */
+
+/* Para dispositivos com largura máxima de 1156px */
+@media (max-width: 1156px) {
+    .sessao-inicial {
+        flex-direction: column;
+        height: auto;
+    }
+
+    header {
+        display: none;
+    }
+
+    .logoTopo {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .logoAzul {
+        width: 150vw;
+        height: auto;
+    }
+
+    .link {
+        width: 100%;
+        margin-left: 0;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .user {
+        margin-right: 0;
+    }
+
+    .blocoComputador, .blocoFuncionario {
+        display: none;
+    }
+
+    .bloco-SW {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .logo img {
+        width: 100%;
+        height: auto;
+    }
+
+    .sessao-cadastro {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .form-container {
+        width: 90%;
+        padding: 15px;
+        margin-top: 10%;
+    }
+
+    .input-field input {
+        font-size: 14px;
+    }
+
+    .botao-cadastrar {
+        font-size: 16px;
+    }
+}
+
+/* Para dispositivos com largura máxima de 768px (ex: tablets em modo retrato) */
+@media (max-width: 768px) {
+    header {
+        display: none;
+    }
+
+    .logoTopo {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .logoAzul {
+        width: 150vw;
+        height: auto;
+    }
+
+    .link {
+        width: 100%;
+        margin-left: 0;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .user {
+        margin-right: 0;
+    }
+
+    .bloco-SW {
+        margin: 0;
+        width: 100%;
+        padding: 20px;
+    }
+
+    .logo img {
+        width: 100%;
+        height: auto;
+    }
+
+    .sessao-cadastro {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .form-container {
+        width: 90%;
+        padding: 15px;
+        margin-top: 10%;
+    }
+
+    .input-field input {
+        font-size: 14px;
+    }
+
+    .botao-cadastrar {
+        font-size: 16px;
+    }
+
+    .blocoComputador, .blocoFuncionario {
+        display: none;
+    }
+}
+
+/* Para dispositivos com largura máxima de 576px (ex: smartphones em modo retrato) */
+@media (max-width: 576px) {
+    .logoTopo img {
+        width: 120vw;
+        height: auto;
+    }
+
+    .link {
+        font-size: 1rem;
+        gap: 5px;
+    }
+
+    .blocoComputador, .blocoFuncionario {
+        font-size: 12px;
+        padding: 10px;
+    }
+
+    .bloco-SW {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .logo img {
+        height: 250px;
+        width: auto;
+    }
+
+    .sessao-cadastro {
+        padding: 15px;
+    }
+
+    .form-container {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5%;
+    }
+
+    .input-field input {
+        font-size: 12px;
+    }
+
+    .botao-cadastrar {
+        font-size: 14px;
+        padding: 8px;
+    }
+}

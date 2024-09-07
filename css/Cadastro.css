@@ -163,7 +163,7 @@ h1 {
 
 /* Estilo do botão de cadastro, com largura e altura definidas, cor de fundo azul escuro, bordas arredondadas e cor do texto branca */
 .botao-cadastrar {
-    width: 100%;
+    width: calc(100% - 30px); /* Ajusta a largura para ficar alinhada com os inputs */
     padding: 10px 0;
     background-color: #002148;
     color: #FFF;
@@ -172,9 +172,64 @@ h1 {
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    margin-top: 20px; /* Adiciona uma margem para afastar o botão dos inputs */
 }
 
 /* Altera a cor de fundo do botão de cadastrar ao passar o mouse */
 .botao-cadastrar:hover {
     background-color: #00152F;
+}
+
+
+/* Ajustes para resoluções menores, como smartphones */
+@media (max-width: 1024px) {
+    .sessao-inicial {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .bloco-SW, .sessao-cadastro {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .logo {
+        height: 20%;
+        width: 60%;
+    }
+
+    .bloco-SW img {
+        height: 280px;
+        width: 280px;
+    }
+
+    .form-container {
+        max-width: 100%;
+        padding: 20px;
+    }
+
+    .botao-entrar {
+        margin-top: 12px;
+        padding: 8px 40px;
+    }
+}
+
+/* Ajustes específicos para iPhone XR (828px de largura) */
+@media (max-width: 828px) {
+    .sessao-inicial {
+        height: auto;
+        max-width: 100%;
+    }
+
+    .bloco-SW, .sessao-cadastro {
+        width: 100%;
+    }
+
+    .botao-cadastrar {
+        font-size: 14px;
+    }
+
+    .input-field {
+        margin-bottom: 20px;
+    }
 }

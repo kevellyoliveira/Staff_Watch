@@ -1,12 +1,15 @@
+/*=======================Importação Fonte=====================*/
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+/*======================Estlização Global=====================*/
 
 body {
     margin: 0;
     padding: 0;
 }
 
-/* CARROSSEL*/
-
+/*========================= Carrosel =========================*/
+/*=============Estrutura Principal do Carrossel===============*/
 .slider {
     width: 100%;
     height: 100vh;
@@ -22,6 +25,7 @@ body {
     display: none;
 }
 
+/*=====================Slides e Imagens======================*/
 .slide {
     width: 100%;
     height: 50%;
@@ -35,11 +39,9 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    transition: 1s;
-    background: rgb(18, 18, 18);
-    content: "";
-
     background: #00000094;
+    content: "";
+    transition: 1s;
 }
 
 .slide img {
@@ -48,25 +50,13 @@ body {
     object-fit: cover;
 }
 
-
+/*===========================Navegandção Manual===============*/
 .manual-navigation {
     position: absolute;
     display: flex;
     justify-content: center;
-
     top: 90%;
     width: 100%;
-}
-
-@media screen and (max-width: 768px) {
-    .manual-navigation {
-        position: absolute;
-        display: flex;
-        justify-content: center;
-
-        top: 95%;
-        width: 100%;
-    }
 }
 
 .manual-btn {
@@ -84,6 +74,7 @@ body {
 .manual-btn:hover {
     background-color: white;
 }
+/*==================Regras de Interatividade==================*/
 
 #radio1:checked~.first {
     margin: 0;
@@ -99,14 +90,14 @@ body {
 
 #radio4:checked~.first {
     margin-left: -300%;
-
 }
+
+/*=====================Texto Sobreposto=======================*/
 
 .text-overlay {
     position: absolute;
     top: 40%;
     left: 20%;
-    /* transform: translate(-50%, -50%); */
     color: white;
     font-size: xx-large;
     z-index: 10;
@@ -114,42 +105,74 @@ body {
     text-align: center;
     pointer-events: none;
     width: 60%;
-
 }
 
 @media screen and (max-width: 768px) {
     .text-overlay {
-        position: absolute;
+        font-size: medium;
         top: 45%;
         left: 20%;
-        /* transform: translate(-50%, -50%); */
-        color: white;
-        font-size: medium;
-        z-index: 10;
-        font-family: "Inter", sans-serif;
-        text-align: center;
-        pointer-events: none;
-
     }
 }
 
-/* FIM CARROSSEL  */
-
-/* APLICACAO */
-
+/*==================Sessão de Aplicação=======================*/
 .aplicacao {
     display: flex;
     justify-content: space-around;
-
     width: 100%;
     height: 100vh;
     flex-wrap: nowrap;
+}
+.aplicacao .img {
+    width: 100%;
+    height: 100%;
+    background-image: url(../src/img/comptador-aplicacao.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+
+
+.aplicacao .textos {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    background-color: #E7ECEF;
+}
+
+.textos h1 {
+    font-family: "Inter", sans-serif;
+    font-weight: 200;
+    font-size: xx-large;
+    color: #001E42;
+}
+
+.textos p {
+    color: #E7ECEF;
+    font-weight: 500;
+    font-size: medium;
+    text-align: center;
+    align-self: center;
+    font-family: "Inter", sans-serif;
 }
 
 @media screen and (max-width: 768px) {
     .aplicacao {
         flex-direction: column-reverse;
         /* Muda a direção do flexbox para coluna */
+    }
+    .about-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 95vh;
+        width: 100%;
+        background: linear-gradient(to top, #001f3f, #001f3f, #001f3f,#f0f0f0,#f0f0f0);
+     
+        color: #fff;
     }
 }
 
@@ -163,151 +186,210 @@ body {
     background-size: cover;
 }
 
-.aplicacao .img:after {
-    position: absolute;
-
-    width: 50%;
-    height: 100vh;
-
-    content: "";
-    background: #00000094;
+/*================Botões de Texto com Animação================*/
+.textos .texto1, .textos .texto2, .textos .texto3 {
+    width: 60%;
+    height: 20%;
+    margin-bottom: 40px;
+    display: flex;
+    justify-content: center;
+    background-color: #001E42;
+    border-radius: 17px;
+    transition: transform 1s;
+    transform: translateY(0) scale(1.0);
 }
 
+.textos .texto1:hover, .textos .texto2:hover, .textos .texto3:hover {
+    transform: translateY(10px) scale(1.1);
+}
+/*====================Sessão Benefícios=======================*/
+.beneficios {
+    display: flex;
+    flex-direction: column;
+    height: 70vh;
+    padding: 20px;
+    text-align: center;
+    background-color: #001f3f;
+}
+
+.benefits-container {
+    display: flex;
+    justify-content: space-around;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.benefit-item {
+    background-color: #f0f0f0;
+    width: 20%;
+    height: 35vh;
+    padding: 20px;
+    border-radius: 10px;
+    box-sizing: border-box;
+}
+
+h2 {
+    color: #fff;
+    margin-bottom: 20px;
+    font-family: "Inter", sans-serif;
+    font-size: 30px;
+}
+
+/*==================Responsividade Sessão Benefícios==========*/
+
 @media screen and (max-width: 768px) {
-    .aplicacao .img:after {
-        position: absolute;
+    .benefits-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+    }
 
-        width: 100%;
-        height: 50vh;
-
-        content: "";
-        background: #00000094;
+    .benefit-item {
+        width: 40%;
+        height: 12vh;
     }
 }
 
-.aplicacao .textos {
+/*=============== Sessão Sobre NósSessão Sobre Nós ===========*/
+
+.sobreNos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+    min-height: 400px;
+    background-color: #001f3f;
+}
+
+.about-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100vh;
     width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-
-    flex-direction: column;
-    align-items: center;
-    /* flex-wrap: wrap; */
-    background-color: #E7ECEF;
+    background: linear-gradient(90deg, rgba(0,31,63,1) 0%, rgba(9,39,70,1) 38%, rgba(241,242,242,1) 72%);
+    color: #fff;
 }
 
-.textos h1 {
-    font-family: "Inter", sans-serif;
-    font-weight: 200;
-    font-size: xx-large;
-    color: #001E42;
-}
-
-.textos .texto1 {
-    width: 60%;
-    height: 20%;
-    margin-bottom: 40px;
-
-    display: flex;
-    justify-content: center;
-
-    background-color: #001E42;
-
-    border-radius: 17px;
-
-    transition: transform 1s;
-    transform: translateY(0) scale(1.0);
-}
-
-.textos .texto1:hover,
-.textos .texto1:focus {
-    width: 60%;
-    height: 20%;
-    margin-bottom: 40px;
-
-    display: flex;
-    justify-content: center;
-
-    background-color: #001E42;
-
-    border-radius: 17px;
-
-    transform: translateY(10px) scale(1.1);
-}
-
-.textos .texto2 {
-    width: 60%;
-    height: 20%;
-    margin-bottom: 40px;
-
-    display: flex;
-    justify-content: center;
-
-    background-color: #001E42;
-
-    border-radius: 17px;
-    transition: transform 1s;
-    transform: translateY(0) scale(1.0);
-}
-
-.textos .texto2:hover,
-.textos .texto2:focus {
-    width: 60%;
-    height: 20%;
-    margin-bottom: 40px;
-
-    display: flex;
-    justify-content: center;
-
-    background-color: #001E42;
-
-    border-radius: 17px;
-
-    transform: translateY(10px) scale(1.1);
-}
-
-.textos .texto3 {
-    width: 60%;
-    height: 20%;
-    margin-bottom: 40px;
-
-
-    display: flex;
-    justify-content: center;
-
-    background-color: #001E42;
-
-    border-radius: 17px;
-    transition: transform 1s;
-    transform: translateY(0) scale(1.0);
-}
-
-.textos .texto3:hover,
-.textos .texto3:focus {
-    width: 60%;
-    height: 20%;
-    margin-bottom: 40px;
-
-    display: flex;
-    justify-content: center;
-
-    background-color: #001E42;
-
-    border-radius: 17px;
-
-    transform: translateY(10px) scale(1.1);
-}
-
-.textos p {
-    color: #E7ECEF;
-    font-weight: 500;
-    font-size: medium;
+.about-text {
+    flex: 1;
     text-align: center;
-    align-items: center;
-
-    width: 80%;
-    align-self: center;
-    font-family: "Inter", sans-serif;
-
+    font-family: 'Inter', sans-serif;
 }
+
+.about-logo {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.about-logo img {
+    max-width: 100%;
+    width: 30vw;
+    height: auto;
+}
+
+@media screen and (max-width: 768px) {
+    
+    .sobreNos{
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        height: 50vh; /* Ajustado para ocupar metade da tela */
+        min-height: 400px; /* Garante que tenha no mínimo 400px */
+        background-color: #001f3f;
+    }
+
+    .about-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: column;
+        height: 95vh;
+        width: 100%;
+        background: linear-gradient(to bottom, #001f3f, #001f3f, #001f3f,#f0f0f0,#f0f0f0);
+     
+        color: #fff;
+    }
+    
+    
+}
+
+/*============================= Footer =======================*/
+
+.footer {
+    position: relative;
+    width: 100%;
+    height: auto;
+    bottom: 0;
+    padding: 20px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 2.5%;
+    background-color: #01142c;
+}
+
+#grupo {
+    width: 65vw;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
+#email, #linkedin, #github {
+    width: 20vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+#email img, #linkedin img, #github img {
+    width: 50%;
+}
+
+/*====================== Responsividade do Footer ============*/
+@media screen and (max-width: 768px) {
+    #grupo {
+        
+        flex-direction: row; /* Alinha os itens em lista */
+        width: 90vw; /* Largura ajustada para telas menores */
+        gap: 20px; /* Espaçamento ajustado */
+    }
+    #grupo h2{
+        font-size: 100%;
+    }
+
+    #email, #linkedin, #github {
+        width: 60vw; /* Largura ajustada dos itens */
+    }
+
+    #email img, #linkedin img, #github img {
+        width: 60%; /* Largura ajustada das imagens */
+    }
+}
+
+@media screen and (max-width: 480px) {
+    #grupo {
+        width: 95vw; /* Largura ainda maior para telas muito pequenas */
+        gap: 15px; /* Espaçamento ajustado */
+    }
+
+    #email, #linkedin, #github {
+        width: 80vw; /* Largura maior dos itens */
+    }
+
+    #email img, #linkedin img, #github img {
+        width: 70%; /* Largura ajustada das imagens para smartphones */
+    }
+}
+
+
+
