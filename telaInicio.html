@@ -5,6 +5,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="./css/telaInicio.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="shortcut icon" href="./img/LogoStaffWatch-removebg-preview (2).png" type="image/x-icon" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+    rel="stylesheet" />
   <title>Tela de Início</title>
 </head>
 
@@ -106,6 +113,27 @@
     </article>
   </section>
 
+  <article class="beneficios">
+
+    <article class="article-h1">
+      <h1 class="h1">Benefícios</h1>
+    </article>
+
+    <article class="main-article">
+      <section class="card_one">
+        <p>Uso mais eficiente dos recursos de TI e do tempo dos funcionários</p>
+      </section>
+
+      <section class="card_two">
+        <p>Melhoria na produtividade </p>
+      </section>
+
+      <section class="card_tree">
+        <p>Melhor alocação de ferramentas e tempo de trabalho</p>
+      </section>
+    </article>
+
+  </article>
 
   <!-- <div style="width: 100px; height: 100px; background-color: aqua;"></div> -->
 </body>
@@ -152,14 +180,14 @@
   }
 
   document.addEventListener('DOMContentLoaded', () => {
-        const toggleMenu = document.querySelector('.toggle-menu');
-        const navLinks = document.querySelector('.nav-links');
-        const cadastroEntrar = document.querySelector('.cadastroEntrar');
+    const toggleMenu = document.querySelector('.toggle-menu');
+    const navLinks = document.querySelector('.nav-links');
+    const cadastroEntrar = document.querySelector('.cadastroEntrar');
 
-        toggleMenu.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-        });
+    toggleMenu.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
     });
+  });
 
 
 </script>
