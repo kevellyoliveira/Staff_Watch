@@ -8,18 +8,16 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="shortcut icon" href="./img/LogoStaffWatch-removebg-preview (2).png" type="image/x-icon" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
-    rel="stylesheet" />
-  <title>Tela de Início</title>
+  <link rel="shortcut icon" href="./img/logoB.png" type="image/x-icon" />
+
+  <title>Tela de Início | Staff Watch</title>
 </head>
 
 <body>
   <header>
     <nav class="navbar" role="navigation" aria-label="Navegação principal">
       <div class="logo">
-        <a href="#" aria-label="Página inicial"><img src="./img/LogoStaffWatch.png" alt=""></a>
+        <a href="#" aria-label="Página inicial"><img src="./img/logoA.png" alt=""></a>
       </div>
       <button class="toggle-menu" aria-label="Abrir menu">
         <span class="bar"></span>
@@ -27,13 +25,13 @@
         <span class="bar"></span>
       </button>
       <ul class="nav-links" role="menubar">
-        <li><a href="#" role="menuitem">Benefícios </a></li>
+        <li><a href="#Aplicacao" role="menuitem">Aplicação</a></li>
 
-        <li><a href="#" role="menuitem">Aplicação </a></li>
+        <li><a href="#Beneficios" role="menuitem">Benefícios</a></li>
 
-        <li><a href="#" role="menuitem">Sobre nós </a></li>
+        <li><a href="#SobreNos" role="menuitem">Sobre nós</a></li>
 
-        <li><a href="#" role="menuitem">Contate-nos</a></li>
+        <!-- <li><a href="#ContateNos" role="menuitem">Contate-nos</a></li> -->
         <ul class="cadastroEntrarResposivo" role="menubar">
           <li><a href="" role="menuitem">Entrar</a></li>
 
@@ -91,11 +89,9 @@
 
   <div class="linha" style="background-color: #001E42; width: 100%; height: 8px;"></div>
 
-  <section class="aplicacao">
+  <section class="aplicacao" id="Aplicacao">
 
-    <aside class="img">
-
-    </aside>
+    <aside class="img"></aside>
 
     <article class="textos">
       <h1>Aplicação</h1>
@@ -113,7 +109,8 @@
     </article>
   </section>
 
-  <article class="beneficios">
+
+  <article class="beneficios" id="Beneficios">
 
     <article class="article-h1">
       <h1 class="h1">Benefícios</h1>
@@ -135,7 +132,32 @@
 
   </article>
 
-  <!-- <div style="width: 100px; height: 100px; background-color: aqua;"></div> -->
+
+  <article class="container_master" id="SobreNos">
+    <section class="container_one">
+      <h3>Sobre Nós</h3>
+      <p>A Staff Watch é uma empresa de tecnologia especializada em monitoramento de computadores que visa melhorar a
+        produtividade nas empresas.
+        <br><br>
+        Localizada em São Paulo, a Staff Watch está sempre acompanhando as inovações e tecnologias do mercado.
+        <br><br>
+        Nossos valores são inovação, qualidade e segurança.
+      </p>
+    </section>
+
+    <section class="container_two">
+      <img src="./img/logoA.png" alt="img_logo_principal" class="logo_principal" />
+    </section>
+
+  </article>
+
+  <div class="linha" style="background-color: #E7ECEF; width: 100%; height: 8px;"></div>
+
+  <footer class="footer">
+    <br>
+    <img src="./img/logob.png" alt="img_logo_principal" class="logo_principal" />
+    <p> Todos os direitos reservados.  <br><br>&copy; 2024 StaffWatch.</p>
+  </footer>
 </body>
 
 </html>
