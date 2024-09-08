@@ -609,6 +609,20 @@ nav {
 /* resposividade */
 @media (max-width: 768px) {
 
+
+    .beneficios {
+        background-color: #001E42;
+        /* overflow-x: hidden; */
+        justify-content: center;
+        align-items: center;
+        height: 80%;
+        border: #E7ECEF 12px solid;
+        width: 98,5%;
+        font-family: 'Inter';
+        /* Fonte padrão do sistema */
+    
+    }
+    
     .main-article {
         flex-direction: column;
         align-items: center;
