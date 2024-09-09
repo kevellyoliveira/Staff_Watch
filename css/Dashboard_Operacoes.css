@@ -9,37 +9,7 @@ body {
 }
 
 .menuLateral {
-    height: 100vh;
-    width: 20vh;
-    background-color: #001E42;
-}
-
-.menu ul {
-    list-style-type: none;
-    padding: 20px;
-    /* Opcional: remove o recuo padrão da lista */
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 25rem;
-    gap: 40px;
-    /* Define o espaçamento entre as equipes */
-}
-
-.menu ul a {
-    text-decoration: none;
-    color: #fff;
-    font-family: "Inter", sans-serif;
-    font-size: medium;
-}
-
-.menu ul a:hover {
-    text-decoration: none;
-    color: #6096BA;
-    font-family: "Inter", sans-serif;
-    font-size: large;
-
+    width: 20vw;
 }
 
 main {
@@ -49,7 +19,6 @@ main {
     justify-content: space-evenly;
     /* background-color: aqua; */
     height: 100vh;
-    margin-top: 20px;
     width: 100vw;
 }
 
@@ -57,6 +26,10 @@ h1 {
     color: #002148;
     font-family: "Inter", sans-serif;
     font-size: 30px;
+}
+
+.conteudoGeral{
+    margin-top: 95px;
 }
 
 .selecao {
@@ -90,14 +63,14 @@ h1 {
     height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    /* justify-content: space-evenly; */
 }
 
 .card {
     background-color: #001E42;
     color: white;
-    width: 430px;
-    height: 230px;
+    width: 400px;
+    height: 200px;
     display: flex;
     flex-direction: column;
     border-radius: 20px;
