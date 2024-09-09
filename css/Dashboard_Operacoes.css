@@ -8,14 +8,49 @@ body {
     background-color: #E7ECEF;
 }
 
+.menuLateral {
+    height: 100vh;
+    width: 20vh;
+    background-color: #001E42;
+}
+
+.menu ul {
+    list-style-type: none;
+    padding: 20px;
+    /* Opcional: remove o recuo padrão da lista */
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 25rem;
+    gap: 40px;
+    /* Define o espaçamento entre as equipes */
+}
+
+.menu ul a {
+    text-decoration: none;
+    color: #fff;
+    font-family: "Inter", sans-serif;
+    font-size: medium;
+}
+
+.menu ul a:hover {
+    text-decoration: none;
+    color: #6096BA;
+    font-family: "Inter", sans-serif;
+    font-size: large;
+
+}
+
 main {
     display: flex;
     align-items: center;
-    flex-direction: column;
+    /* flex-direction: column; */
     justify-content: space-evenly;
     /* background-color: aqua; */
     height: 100vh;
     margin-top: 20px;
+    width: 100vw;
 }
 
 h1 {
@@ -104,6 +139,6 @@ h1 {
 
 .dupla-cards {
     display: flex;
-    width: 100vw;
+    width: 90vw;
     justify-content: space-evenly;
 }
