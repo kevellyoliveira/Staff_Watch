@@ -1,41 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Work Sans';
+    font-family: 'Inter';
     font-weight: 500;
 }
 
 /* HEADER */
+
 header {
     display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    position: absolute;
+    flex-direction: row;
+    justify-content: space-between;
     width: 100%;
     height: auto;
-    top: 0;
-    left: 0;
-    padding: 1.25rem 4.5rem; 
+    background-color: #002148;
+    color: #fff;
 }
-.logo {
+
+.esq {
     display: flex;
-    width: 10%;
-}
-header img{
-    width: 100%;
-    cursor: pointer;
-}
-.links {
-    display: flex;
-    font-size: 1.9rem;
-    /* gap: 80px; */
-    border-bottom: 3px solid #000;
-    border-radius: 2px;
-}
-.links a{
-    text-decoration: none;
-    color: #000;
+    width: 70%;
+    height: 100%;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 0 0 1.75rem;
 }
 
 .opcoes {
@@ -43,35 +34,106 @@ header img{
     justify-content: space-between;
     align-items: center;
     height: 6rem;
-    font-size: 2.4rem;
+    font-size: 2.2rem;
+    width: 100%;
 }
+
+.opcoes a {
+    text-decoration: none;
+    color: #000;
+}
+
+.logo {
+    display: flex;
+    width: 10%;
+    padding: 1.5rem 0;
+}
+
+.logo img {
+    width: 90%;
+    cursor: pointer;
+}
+
 .opcoesComponentes {
     display: flex;
-    width: 100%;
+    width: 70%;
     justify-content: space-evenly;
+    white-space: nowrap;
+    position: relative;
 }
-/* escondendo o icone burg inicialmente */
-.iconMenuBurg {
-    display: none;
-    cursor: pointer;
+
+.opcoesComponentes img {
+    width: 15px;
 }
 
 .opcoesMenu {
     cursor: pointer;
+    font-weight: 300;
 }
 
+.opcoesMenu.slct {
+    font-weight: 600;
+}
+
+#menu {
+    display: none;
+    flex-direction: column;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #002048b6;
+    position: absolute;
+    margin-top: 3.92rem;
+    left: 16rem;
+    padding: 0.5rem;
+    z-index: 10;
+}
+
+.opcoesComponentes h6:hover {
+    transform: scale(1.05);
+}
+
+.opcoesComponentes h6 {
+    transition: 0.4s;
+}
+
+#menu h4 {
+    margin: 0;
+    padding: .7rem;
+    cursor: pointer;
+}
+
+.sair {
+    display: flex;
+    padding: 0 1.5rem;
+    cursor: pointer;
+    transition: 0.4s;
+}
+
+.sair h6:hover {
+    color: #C43302;
+}
 
 /* BODY */
 body {
-    background-color: #C7D0D8;
+    background-color: #e7ecef;
 }
 
-#dashCpu, #dashDisco, #dashRede, #dashMemoria {
+.opcoesComponentes.menu {
+    font-size: 2.4rem;
+    padding-bottom: 2rem;
+}
+
+#dashCpu,
+#dashDisco,
+#dashRede,
+#dashMemoria {
     display: none;
 }
+
 #dashCpu {
     display: flex;
 }
+
 #dashDisco {
     row-gap: 30%;
 }
@@ -81,11 +143,12 @@ body {
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    padding: 10rem 4rem 3rem;
-    height: 100vh;
+    padding: 1.5rem 4rem 3rem;
+    height: 85vh;
 }
 
-.aside, .bside {
+.aside,
+.bside {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -95,15 +158,15 @@ body {
 }
 
 .aside {
-    width: 45%;
+    width: 40%;
     font-size: 4rem;
 }
 
 .bside {
     width: 55%;
     gap: 13%;
-    flex-wrap:wrap;
-    padding: 2rem 0 0 ;
+    flex-wrap: wrap;
+    padding: 2rem 0 0;
 }
 
 /* informações do aside */
@@ -129,7 +192,7 @@ body {
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 70%;
+    height: 58%;
 }
 
 .graficoComponente img {
@@ -141,19 +204,21 @@ body {
     display: flex;
     justify-content: center;
     position: relative;
-    height:40vh; 
-    width:80vw;
+    height: 40vh;
+    width: 80vw;
 }
 
 .componente {
     font-size: 3rem;
 }
+
 .nomeComponente {
-    font-size: 1.8rem;
-    color: #fff;
-}
-.monitoramento {
     font-size: 2rem;
+    color: #002148;
+}
+
+.monitoramento {
+    font-size: 1.8rem;
     padding: 10px;
 }
 
@@ -167,7 +232,9 @@ body {
     text-align: center;
     font-size: 1.1rem;
 }
-.dado h3, h2 {
+
+.dado h3,
+h2 {
     padding: .5rem;
     font-weight: 600;
     /* white-space: nowrap; impede a quebra de linha */
@@ -206,15 +273,18 @@ body {
     .aside {
         width: 100%;
     }
+
     .aside img {
         width: 80%;
     }
+
     .dadosComponente {
         gap: 1rem;
     }
+
     .graficoChart {
-        height:50vh; 
-        width:100vw;
+        height: 50vh;
+        width: 100vw;
     }
 
     .bside {
@@ -226,17 +296,18 @@ body {
     .dado {
         flex-direction: row;
         min-width: 47%;
-      /* flex-basis: 50%; Em telas menores que 768px, os itens ocuparão a largura total */
+        /* flex-basis: 50%; Em telas menores que 768px, os itens ocuparão a largura total */
     }
-  }
+}
 
-  @media (max-width: 768px) {
+@media (max-width: 768px) {
 
     .infosComponente {
         flex-direction: column;
         align-items: center;
         text-align: center;
     }
+
     .bside {
         flex-direction: column;
         gap: 1.3rem;
@@ -244,30 +315,35 @@ body {
         align-content: center;
         width: 100%;
     }
+
     .graficoChart {
         padding: 1rem;
     }
-    
+
     .dado {
         font-size: 1.5rem;
     }
+
     .dado h3 {
         width: 100%;
     }
+
     .dadoInfo {
         width: auto;
     }
 
-  }  
+}
 
-  @media (max-width: 480px) {
+@media (max-width: 480px) {
     header img {
         width: 3rem;
     }
 
     .dado {
-      flex-basis: 100%; /* itens ocupam a largura total! */
+        flex-basis: 100%;
+        /* itens ocupam a largura total! */
     }
+
     .container {
         padding: 10rem 2rem 3rem;
     }
@@ -277,7 +353,7 @@ body {
     .iconMenuBurg {
         display: flex;
     }
-  
+
     .opcoesMenu {
         background-color: #4f4e4ee3;
         color: #fff;
@@ -287,9 +363,11 @@ body {
         border-bottom: 1px solid #ccc;
         transition: 0.3s;
     }
+
     .opcoesMenu:hover {
         color: #000;
     }
+
     .sair {
         background-color: unset;
         color: #000;
@@ -299,18 +377,7 @@ body {
         height: auto;
     }
 
-    .opcoesComponentes {
-        display: none;
-        flex-direction: column;
-        position: absolute;
-        top: 3.7rem; /* essas configs garantem que a lista nao fique escondida acima da tela*/
-        left: 0;
-        width: 100%; 
-    }
-    .opcoesComponentes.exibir {
-        display: flex;
-    }
-  }
+}
 
 
 /* FOOTER */

@@ -5,38 +5,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/dashboard.css">
-    <link rel="shortcut icon" href="assets/icon/HardStock.png" type="image/x-icon">
+    <link rel="shortcut icon" href="./img/logoB.png" type="image/x-icon" />
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet">
-
-    <title>Dashboard</title>
+    <title>Dashboard | Staff Watch</title>
 </head>
 
 <body>
     <header>
-        <div class="opcoes links">
-            <div class="logo">
-                <img href="index.html" src="assets/icon/HardStock.svg" alt="logo">
+        <div class="opcoes">
+            <div class="esq">
+                <div class="logo">
+                    <img href="index.html" src="img/logoB.png" alt="logo">
+                </div>
+
+                <div class="opcoesComponentes" id="itens">
+                    <h6 class="opcoesMenu slct" onclick="window.location.href='dashboard.html'">Home</h6>
+                    <h6 class="opcoesMenu associMenu" onclick="abrirMenu()">Associados <img
+                            src="img/icons/seta.png" alt="icone menu vertical"></h6>
+                    <h6 class="opcoesMenu" onclick="window.location.href='cadastroCRUD.html'">Cadastrar</h6>
+                    <div id="menu">
+                        <h4 onclick="window.location.href='pagina-operario.html'">Funcionários</h4>
+                        <h4 onclick="window.location.href='pagina-maquina.html'">Dispositivos</h4>
+                    </div>
+                </div>
             </div>
 
-            <span class="iconMenuBurg" onclick="clickMenu()">
-                <img src="assets/icon/iconMenu.svg">
-            </span>
-
-            <div class="opcoesComponentes" id="itens">
-                <h6 class="opcoesMenu" id="cpu" onclick="alterarComponente('dashCpu')"> CPU </h6>
-                <h6 class="opcoesMenu" id="disco" onclick="alterarComponente('dashDisco')"> Disco </h6>
-                <h6 class="opcoesMenu" id="rede" onclick="alterarComponente('dashRede')"> Rede </h6>
-                <h6 class="opcoesMenu" id="memoria" onclick="alterarComponente('dashMemoria')"> Memória </h6>
-            </div>
             <div class="sair">
                 <h6 class="opcoesMenu sair" onclick="sair()"> Sair </h6>
             </div>
@@ -44,10 +39,18 @@
     </header>
 
     <div class="container">
+
+        <div class="opcoesComponentes menu" id="itens">
+            <h6 class="opcoesMenu" id="cpu" onclick="alterarComponente('dashCpu')"> CPU </h6>
+            <h6 class="opcoesMenu" id="disco" onclick="alterarComponente('dashDisco')"> Disco </h6>
+            <h6 class="opcoesMenu" id="rede" onclick="alterarComponente('dashRede')"> Rede </h6>
+            <h6 class="opcoesMenu" id="memoria" onclick="alterarComponente('dashMemoria')"> Memória </h6>
+        </div>
+        
         <div class="aside">
             <div class="dadosComponente">
                 <div class="infosComponente">
-                    <h6 class="componente" id="idComponente"> CPU </h6>
+                    <!-- <h6 class="componente" id="idComponente"> CPU </h6> -->
                     <h6 class="nomeComponente" id="idNomeComponente"> nome do componente </h6>
                 </div>
 
@@ -224,7 +227,7 @@
         menu.classList.remove('exibir')
         // obs: se fosse .toggle('exibir') também serviria para remover, mas como essa função é chamada de início para
         // a CPU, a lista começaria aberta. Usar o .remove garante que a lista sempre se feche ao selecionar um item.
-        
+
 
 
         const dashComponentes = ["dashCpu", "dashDisco", "dashRede", "dashMemoria"];
@@ -239,7 +242,7 @@
             "dashCpu": "12th Gen Intel(R) Core(TM) i5-1235U",
             "dashDisco": "Samsung MZVLQ512HBLU-00B",
             "dashRede": "Intel(R) Wireless-AC 9560 160MHz",
-            "dashMemoria": "8,00 GB"
+            "dashMemoria": "Armazenamento total: 8,00 GB"
         };
 
         // esconde a div de todos todos os componentes
@@ -250,13 +253,14 @@
         dashComponentes.forEach(id => {
             document.getElementById(id).style.fontWeight = (id === componenteId) ? "700" : "500";
         });
+      
 
 
         // mostra a div componente selecionado através do id
         document.getElementById(componenteId).style.display = "flex";
 
         // mostra o componente e a especificação dele no aside, de acordo as informações do objeto
-        document.getElementById("idComponente").innerHTML = componentes[componenteId];
+        // document.getElementById("idComponente").innerHTML = componentes[componenteId];
         document.getElementById("idNomeComponente").innerHTML = nomeComponentes[componenteId];
 
 
@@ -276,6 +280,14 @@
     function sair() {
         sessionStorage.clear()
         window.location = "index.html"
+    }
+
+    function abrirMenu() {
+        if (document.getElementById("menu").style.display == "flex") {
+            document.getElementById("menu").style.display = "none";
+        } else {
+            document.getElementById("menu").style.display = "flex"
+        }
     }
 
     const ctx = document.getElementById('myChart');

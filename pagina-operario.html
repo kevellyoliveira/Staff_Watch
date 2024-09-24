@@ -7,12 +7,36 @@
     <title>Página Operário | Staff Watch</title>
     <link rel="stylesheet" href="./css/telaListas.css">
     <script src="js/script.js" defer></script>
+    <link rel="shortcut icon" href="./img/logoB.png" type="image/x-icon" />
+
 </head>
 
 <body>
     <header>
+        <div class="opcoes">
+            <div class="esq">
+                <div class="logo">
+                    <img href="index.html" src="img/logoB.png" alt="logo">
+                </div>
 
+                <div class="opcoesComponentes" id="itens">
+                    <h6 class="opcoesMenu" onclick="window.location.href='dashboard.html'">Home</h6>
+                    <h6 class="opcoesMenu slct associMenu" onclick="abrirMenu()">Associados <img
+                            src="img/icons/seta.png" alt="icone menu vertical"></h6>
+                    <h6 class="opcoesMenu" onclick="window.location.href='cadastroCRUD.html'">Cadastrar</h6>
+                    <div id="menu">
+                        <h4 onclick="window.location.href='pagina-operario.html'">Funcionários</h4>
+                        <h4 onclick="window.location.href='pagina-maquina.html'">Dispositivos</h4>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sair">
+                <h6 class="opcoesMenu sair" onclick="sair()"> Sair </h6>
+            </div>
+        </div>
     </header>
+
     <article class="title">
         <h2>
             Funcionários
@@ -26,7 +50,7 @@
                     <img src="./src/img/lixeira-de-reciclagem (2) 2.png" alt="">
                 </div>
                 <div class="down-card">
-                
+
                     <div class="content-card">
                         <p><b>RF:</b> 23433454</p>
                         <p><b>Nome:</b> José Antônio da Silva</p>
@@ -39,7 +63,7 @@
                     <img src="./src/img/lixeira-de-reciclagem (2) 2.png" alt="">
                 </div>
                 <div class="down-card">
-                
+
                     <div class="content-card">
                         <p><b>RF:</b> 23433454</p>
                         <p><b>Nome:</b> José Antônio da Silva</p>
@@ -52,7 +76,7 @@
                     <img src="./src/img/lixeira-de-reciclagem (2) 2.png" alt="">
                 </div>
                 <div class="down-card">
-                
+
                     <div class="content-card">
                         <p><b>RF:</b> 23433454</p>
                         <p><b>Nome:</b> José Antônio da Silva</p>
@@ -68,7 +92,7 @@
                     <img src="./src/img/lixeira-de-reciclagem (2) 2.png" alt="">
                 </div>
                 <div class="down-card">
-                
+
                     <div class="content-card">
                         <p><b>RF:</b> 23433454</p>
                         <p><b>Nome:</b> José Antônio da Silva</p>
@@ -81,7 +105,7 @@
                     <img src="./src/img/lixeira-de-reciclagem (2) 2.png" alt="">
                 </div>
                 <div class="down-card">
-                
+
                     <div class="content-card">
                         <p><b>RF:</b> 23433454</p>
                         <p><b>Nome:</b> José Antônio da Silva</p>
@@ -94,7 +118,7 @@
                     <img src="./src/img/lixeira-de-reciclagem (2) 2.png" alt="">
                 </div>
                 <div class="down-card">
-                
+
                     <div class="content-card">
                         <p><b>RF:</b> 23433454</p>
                         <p><b>Nome:</b> José Antônio da Silva</p>
@@ -109,7 +133,7 @@
                     <img src="./src/img/lixeira-de-reciclagem (2) 2.png" alt="">
                 </div>
                 <div class="down-card">
-                
+
                     <div class="content-card">
                         <p><b>RF:</b> 23433454</p>
                         <p><b>Nome:</b> José Antônio da Silva</p>
@@ -122,7 +146,7 @@
                     <img src="./src/img/lixeira-de-reciclagem (2) 2.png" alt="">
                 </div>
                 <div class="down-card">
-                
+
                     <div class="content-card">
                         <p><b>RF:</b> 23433454</p>
                         <p><b>Nome:</b> José Antônio da Silva</p>
@@ -135,7 +159,7 @@
                     <img src="./src/img/lixeira-de-reciclagem (2) 2.png" alt="">
                 </div>
                 <div class="down-card">
-                
+
                     <div class="content-card">
                         <p><b>RF:</b> 23433454</p>
                         <p><b>Nome:</b> José Antônio da Silva</p>
@@ -147,7 +171,7 @@
     </main>
     <div id="modal" class="hide">
         <div class="modal-header">
-           
+
         </div>
         <div class="modal-content">
             <div class="modal-user">
@@ -167,3 +191,17 @@
 
 </html>
 
+<script>
+    function abrirMenu() {
+        if (document.getElementById("menu").style.display == "flex") {
+            document.getElementById("menu").style.display = "none";
+        } else {
+            document.getElementById("menu").style.display = "flex"
+        }
+    }
+    
+    function sair() {
+        sessionStorage.clear()
+        window.location = "index.html"
+    }
+</script>

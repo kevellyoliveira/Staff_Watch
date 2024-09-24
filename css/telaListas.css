@@ -23,14 +23,10 @@ header {
     background-color: #002148;
     color: #fff;
 }
-
-header img{
-    width: 100%;
-    cursor: pointer;
-}
 .esq {
     display: flex;
     width: 70%;
+    height: 100%;
     align-items: center;
     justify-content: flex-start;
     padding: 0 0 0 1.75rem;
@@ -42,7 +38,6 @@ header img{
     align-items: center;
     height: 6rem;
     font-size: 2.2rem;
-    padding: 1.25rem; 
     width: 100%;
 }
 
@@ -54,12 +49,24 @@ header img{
 .logo {
     display: flex;
     width: 10%;
+    padding: 1.5rem 0 ;
+}
+
+.logo img{
+    width: 90%;
+    cursor: pointer;
 }
 
 .opcoesComponentes {
     display: flex;
     width: 70%;
     justify-content: space-evenly;
+    white-space: nowrap;
+    position: relative;
+}
+
+.opcoesComponentes img {
+    width: 15px;
 }
 
 .opcoesMenu {
@@ -70,8 +77,41 @@ header img{
     font-weight: 600;
 }
 
+#menu {
+    display: none;
+    flex-direction: column;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #002048b6;
+    position: absolute;
+    margin-top: 7rem;
+    left: 16rem;
+    padding: 0.5rem;
+    z-index: 10;
+}
+.opcoesComponentes h6:hover {
+    transform: scale(1.05);
+}
+
+.opcoesComponentes h6 {
+    transition: 0.4s;
+}
+
+#menu h4 {
+    margin: 0;
+    padding: .7rem;
+    cursor: pointer;
+}
+
 .sair {
     display: flex;
+    padding: 0 1.5rem;
+    cursor: pointer;
+    transition: 0.4s;
+}
+
+.sair h6:hover {
+    color: #C43302;
 }
 
 
