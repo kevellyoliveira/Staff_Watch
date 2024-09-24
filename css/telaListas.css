@@ -8,11 +8,74 @@ html {
     margin: 0;
     padding: 0;
     font-family: "Inter";
-
     flex-direction: column;
     background-color: #E7ECEF;
 }
 
+
+/* HEADER */
+header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    height: auto;
+    background-color: #002148;
+    color: #fff;
+}
+
+header img{
+    width: 100%;
+    cursor: pointer;
+}
+.esq {
+    display: flex;
+    width: 70%;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 0 0 1.75rem;
+}
+
+.opcoes {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 6rem;
+    font-size: 2.2rem;
+    padding: 1.25rem; 
+    width: 100%;
+}
+
+.opcoes a{
+    text-decoration: none;
+    color: #000;
+}
+
+.logo {
+    display: flex;
+    width: 10%;
+}
+
+.opcoesComponentes {
+    display: flex;
+    width: 70%;
+    justify-content: space-evenly;
+}
+
+.opcoesMenu {
+    cursor: pointer;
+    font-weight: 300;
+}
+.opcoesMenu.slct {
+    font-weight: 600;
+}
+
+.sair {
+    display: flex;
+}
+
+
+/* PAGINA */
 .title {
     color: #002148;
     text-align: center;

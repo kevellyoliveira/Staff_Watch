@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="shortcut icon" href="assets/icon/HardStock.png" type="image/x-icon">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+
+    <title>Dashboard</title>
+</head>
+
+<body>
+    <header>
+        <div class="opcoes links">
+            <div class="logo">
+                <img href="index.html" src="assets/icon/HardStock.svg" alt="logo">
+            </div>
+
+            <span class="iconMenuBurg" onclick="clickMenu()">
+                <img src="assets/icon/iconMenu.svg">
+            </span>
+
+            <div class="opcoesComponentes" id="itens">
+                <h6 class="opcoesMenu" id="cpu" onclick="alterarComponente('dashCpu')"> CPU </h6>
+                <h6 class="opcoesMenu" id="disco" onclick="alterarComponente('dashDisco')"> Disco </h6>
+                <h6 class="opcoesMenu" id="rede" onclick="alterarComponente('dashRede')"> Rede </h6>
+                <h6 class="opcoesMenu" id="memoria" onclick="alterarComponente('dashMemoria')"> Memória </h6>
+            </div>
+            <div class="sair">
+                <h6 class="opcoesMenu sair" onclick="sair()"> Sair </h6>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="aside">
+            <div class="dadosComponente">
+                <div class="infosComponente">
+                    <h6 class="componente" id="idComponente"> CPU </h6>
+                    <h6 class="nomeComponente" id="idNomeComponente"> nome do componente </h6>
+                </div>
+
+                <h5 class="monitoramento" id="idMonitoramentoGrafico"> Utilização: </h5>
+            </div>
+
+            <div class="graficoComponente">
+                <!-- <img src="assets/imgs/CPU.png" alt="gráfico"> -->
+                <div class="graficoChart">
+                    <canvas id="myChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div id="dashCpu" class="bside">
+            <div class="dado">
+                <h3> Utilização: </h3>
+                <div class="dadoInfo">
+                    <h2> <span id="cpuUtilizacao"> 100% </span> </h2>
+                </div>
+            </div>
+            <div class="dado">
+                <h3> Velocidade: </h3>
+                <div class="dadoInfo">
+                    <h2> <span id="cpuVelocidade"> 2,09 GHz </span> </h2>
+                </div>
+            </div>
+            <div class="dado">
+                <h3> Threads: </h3>
+                <div class="dadoInfo">
+                    <h2> <span id="cpuThreads"> 2400 </span> </h2>
+                </div>
+            </div>
+            <div class="dado">
+                <h3> Processos: </h3>
+                <div class="dadoInfo">
+                    <h2> <span id="cpuProcessos"> 140 </span> </h2>
+                </div>
+            </div>
+            <div class="dado">
+                <h3> Identificadores: </h3>
+                <div class="dadoInfo">
+                    <h2> <span id="cpuIdentificadores"> 82750 </span> </h2>
+                </div>
+            </div>
+            <div class="dado">
+                <h3> Tempo de atividade:</h3>
+                <div class="dadoInfo">
+                    <h2> <span id="cpuTempoDeAtividade"> 0:08:17:42 </span> </h2>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="dashDisco" class="bside">
+            <div class="dado">
+                <h3> Utilização: </h3>
+                <div class="dadoInfo">
+                    <h2> <span id="discoUtilizacao"> 100% </span> </h2>
+                </div>
+            </div>
+
+            <div class="dado">
+                <h3> Tempo de resposta: </h3>
+                <div class="dadoInfo">
+                    <h2> <span id="discoResposta"> 0,1 ms </span> </h2>
+                </div>
+            </div>
+
+            <div class="dado">
+                <h3> Velocidade de leitura: </h3>
+                <div class="dadoInfo">
+                    <h2> <span id="discoLeitura"> 90,8 KB/s </span> </h2>
+                </div>
+            </div>
+
+            <div class="dado">
+                <h3> Velocidade de gravação: </h3>
+                <div class="dadoInfo">
+                    <h2> <span id="discoGravacao"> 130,2 KB/s </span> </h2>
+                </div>
+            </div>
+        </div>
+
+        <div id="dashRede" class="bside">
+            <div class="dado">
+                <h3> Enviar: </h3>
+                <div class="dadoInfo">
+                    <h2> <span id="redeEnviar"> 120,2 KB/s </span> </h2>
+                </div>
+            </div>
+
+            <div class="dado">
+                <h3> Receber: </h3>
+                <div class="dadoInfo">
+                    <h2> <span id="redeReceber"> 390,1 KB/s </span> </h2>
+                </div>
+            </div>
+        </div>
+
+        <div id="dashMemoria" class="bside">
+
+            <div class="dado">
+                <h3> Utilização: </h3>
+                <div class="dadoInfo">
+                    <h2> <span id="memoriaUtilizacao"> 44% </span> </h2>
+                </div>
+            </div>
+
+            <div class="dado">
+                <h3> Disponível: </h3>
+                <div class="dadoInfo">
+                    <h2> <span id="memoriaDisponivel"> 8,9 GB </span> </h2>
+                </div>
+            </div>
+
+            <div class="dado">
+                <h3> Confirmado: </h3>
+                <div class="dadoInfo">
+                    <h2> <span id="memoriaConfirmado"> 10,1/22,7 GB </span> </h2>
+                </div>
+            </div>
+
+            <div class="dado">
+                <h3> Cache: </h3>
+                <div class="dadoInfo">
+                    <h2> <span id="memoriaCache"> 4,6 GB </span> </h2>
+                </div>
+            </div>
+
+            <div class="dado">
+                <h3> Reserva paginável: </h3>
+                <div class="dadoInfo">
+                    <h2> <span id="memoriaPaginavel"> 580 MB </span> </h2>
+                </div>
+            </div>
+
+            <div class="dado">
+                <h3> Reserva não paginável: </h3>
+                <div class="dadoInfo">
+                    <h2> <span id="memoriaNaoPaginavel"> 460 MB </span> </h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+<script>
+
+    window.onload = function () {
+        alterarComponente("dashCpu");
+    }
+
+    // essa funcao abre e fecha o menu do header em telas pequenas!
+    function clickMenu() {
+        const menu = document.getElementById('itens')
+        menu.classList.toggle('exibir')
+        // classList -> permite adicionar, remover, alternar (toggle) ou verificar uma classe
+        // alternando para a classe 'exibir', o css passa a pegar as propriedades dessa classe que, 
+        // no caso, é só pra deixar display flex.
+        // obs: essa forma só substitui um if ('displ==none') -> displ=flex
+    }
+
+
+
+    // essa função serve pra mudar as métricas na tela de acordo com o componente selecionado no header
+    // quando o item for selecionado, a div correspondente aparece e as outras são escondidas.
+
+    function alterarComponente(componenteId) {
+        // essas duas linhas servem pra quando o usuário clicar em um item do menu, caso a tela seja pequena
+        // e esteja no menu burger, a lista vai sumir de novo, removendo a classe 'exibir'
+        const menu = document.getElementById('itens')
+        menu.classList.remove('exibir')
+        // obs: se fosse .toggle('exibir') também serviria para remover, mas como essa função é chamada de início para
+        // a CPU, a lista começaria aberta. Usar o .remove garante que a lista sempre se feche ao selecionar um item.
+        
+
+
+        const dashComponentes = ["dashCpu", "dashDisco", "dashRede", "dashMemoria"];
+        const componentes = {
+            "dashCpu": "CPU",
+            "dashDisco": "Disco",
+            "dashRede": "Rede",
+            "dashMemoria": "Memória"
+        };
+
+        const nomeComponentes = {
+            "dashCpu": "12th Gen Intel(R) Core(TM) i5-1235U",
+            "dashDisco": "Samsung MZVLQ512HBLU-00B",
+            "dashRede": "Intel(R) Wireless-AC 9560 160MHz",
+            "dashMemoria": "8,00 GB"
+        };
+
+        // esconde a div de todos todos os componentes
+        dashComponentes.forEach(id => {
+            document.getElementById(id).style.display = "none";
+        });
+
+        dashComponentes.forEach(id => {
+            document.getElementById(id).style.fontWeight = (id === componenteId) ? "700" : "500";
+        });
+
+
+        // mostra a div componente selecionado através do id
+        document.getElementById(componenteId).style.display = "flex";
+
+        // mostra o componente e a especificação dele no aside, de acordo as informações do objeto
+        document.getElementById("idComponente").innerHTML = componentes[componenteId];
+        document.getElementById("idNomeComponente").innerHTML = nomeComponentes[componenteId];
+
+
+        // 1- o forEach passa por todos os elementos e tira o dash do nome de cada um, e fica somente com o nome do elemento
+        // exemplo: dashDisco --> Disco
+
+        // 2- transforma em lower case, pra que fique com o id identico de cada opcao do menu
+        // exemplo: Disco -->
+
+        // 3- verifica se o id que ele está é igual ao id do componente selecionado pelo usuário. se for, a font weight fica em 700(negrito), senão, fica em 500
+        dashComponentes.forEach(id => {
+            const elemento = document.getElementById(id.replace("dash", "").toLowerCase());
+            elemento.style.fontWeight = (id === componenteId) ? "700" : "500";
+        });
+    }
+
+    function sair() {
+        sessionStorage.clear()
+        window.location = "index.html"
+    }
+
+    const ctx = document.getElementById('myChart');
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['14:16:34', '14:16:35', '14:16:36', '14:16:37', '14:16:38', '14:16:39'],
+            datasets: [{
+                label: '% de uso',
+                data: [18, 11, 30, 45, 77, 20],
+                borderWidth: 1,
+                borderColor: "#C7D",
+                backgroundColor: "#C7D"
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+</script>

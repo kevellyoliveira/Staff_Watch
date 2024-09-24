@@ -1,0 +1,316 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Work Sans';
+    font-weight: 500;
+}
+
+/* HEADER */
+header {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    position: absolute;
+    width: 100%;
+    height: auto;
+    top: 0;
+    left: 0;
+    padding: 1.25rem 4.5rem; 
+}
+.logo {
+    display: flex;
+    width: 10%;
+}
+header img{
+    width: 100%;
+    cursor: pointer;
+}
+.links {
+    display: flex;
+    font-size: 1.9rem;
+    /* gap: 80px; */
+    border-bottom: 3px solid #000;
+    border-radius: 2px;
+}
+.links a{
+    text-decoration: none;
+    color: #000;
+}
+
+.opcoes {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 6rem;
+    font-size: 2.4rem;
+}
+.opcoesComponentes {
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+}
+/* escondendo o icone burg inicialmente */
+.iconMenuBurg {
+    display: none;
+    cursor: pointer;
+}
+
+.opcoesMenu {
+    cursor: pointer;
+}
+
+
+/* BODY */
+body {
+    background-color: #C7D0D8;
+}
+
+#dashCpu, #dashDisco, #dashRede, #dashMemoria {
+    display: none;
+}
+#dashCpu {
+    display: flex;
+}
+#dashDisco {
+    row-gap: 30%;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    padding: 10rem 4rem 3rem;
+    height: 100vh;
+}
+
+.aside, .bside {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.aside {
+    width: 45%;
+    font-size: 4rem;
+}
+
+.bside {
+    width: 55%;
+    gap: 13%;
+    flex-wrap:wrap;
+    padding: 2rem 0 0 ;
+}
+
+/* informações do aside */
+.dadosComponente {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 30%;
+}
+
+.infosComponente {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-around;
+    width: 100%;
+    gap: 6%;
+}
+
+.graficoComponente {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 70%;
+}
+
+.graficoComponente img {
+    height: 100%;
+    width: 100%;
+}
+
+.graficoChart {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    height:40vh; 
+    width:80vw;
+}
+
+.componente {
+    font-size: 3rem;
+}
+.nomeComponente {
+    font-size: 1.8rem;
+    color: #fff;
+}
+.monitoramento {
+    font-size: 2rem;
+    padding: 10px;
+}
+
+/* informações do bside */
+
+.dado {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    text-align: center;
+    font-size: 1.1rem;
+}
+.dado h3, h2 {
+    padding: .5rem;
+    font-weight: 600;
+    /* white-space: nowrap; impede a quebra de linha */
+}
+
+.dado span {
+    font-weight: 400;
+}
+
+.dadoInfo {
+    font-size: 1.2rem;
+    width: 100%;
+}
+
+/* todo: ajuste da rsponsividade em telas maiores */
+/* 
+@media (max-width: 2000px) {
+    .bside {
+        height: 40vh;
+    }
+} */
+
+@media (max-width: 1024px) {
+
+    header {
+        padding: 0.5rem;
+    }
+
+    .container {
+        flex-direction: column;
+        flex-wrap: nowrap;
+        height: auto;
+        gap: 4rem;
+    }
+
+    .aside {
+        width: 100%;
+    }
+    .aside img {
+        width: 80%;
+    }
+    .dadosComponente {
+        gap: 1rem;
+    }
+    .graficoChart {
+        height:50vh; 
+        width:100vw;
+    }
+
+    .bside {
+        flex-direction: row;
+        width: 100%;
+        gap: 1.5rem;
+    }
+
+    .dado {
+        flex-direction: row;
+        min-width: 47%;
+      /* flex-basis: 50%; Em telas menores que 768px, os itens ocuparão a largura total */
+    }
+  }
+
+  @media (max-width: 768px) {
+
+    .infosComponente {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .bside {
+        flex-direction: column;
+        gap: 1.3rem;
+        align-items: stretch;
+        align-content: center;
+        width: 100%;
+    }
+    .graficoChart {
+        padding: 1rem;
+    }
+    
+    .dado {
+        font-size: 1.5rem;
+    }
+    .dado h3 {
+        width: 100%;
+    }
+    .dadoInfo {
+        width: auto;
+    }
+
+  }  
+
+  @media (max-width: 480px) {
+    header img {
+        width: 3rem;
+    }
+
+    .dado {
+      flex-basis: 100%; /* itens ocupam a largura total! */
+    }
+    .container {
+        padding: 10rem 2rem 3rem;
+    }
+
+    /* MENU BURGUER PARA CELULARES */
+
+    .iconMenuBurg {
+        display: flex;
+    }
+  
+    .opcoesMenu {
+        background-color: #4f4e4ee3;
+        color: #fff;
+        width: 100%;
+        padding: 0.5rem;
+        text-align: center;
+        border-bottom: 1px solid #ccc;
+        transition: 0.3s;
+    }
+    .opcoesMenu:hover {
+        color: #000;
+    }
+    .sair {
+        background-color: unset;
+        color: #000;
+    }
+
+    .opcoes {
+        height: auto;
+    }
+
+    .opcoesComponentes {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 3.7rem; /* essas configs garantem que a lista nao fique escondida acima da tela*/
+        left: 0;
+        width: 100%; 
+    }
+    .opcoesComponentes.exibir {
+        display: flex;
+    }
+  }
+
+
+/* FOOTER */
