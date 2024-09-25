@@ -113,6 +113,34 @@ header {
     color: #C43302;
 }
 
+/* MENU LATERAL */
+.menuLateral {
+    display: flex;
+    flex-direction: column;
+    background-color: #002148;
+    color: #fff;
+    left: 0;
+    width: 10.5%;
+    height: -webkit-fill-available;
+    position: absolute;
+}
+
+.itens{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    font-size: 1.3rem;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 4.5rem;
+
+}
+.itens h4 {
+    cursor: pointer;
+}
+.slc {
+    color: #6096ba;
+}
 /* BODY */
 body {
     background-color: #e7ecef;
@@ -143,7 +171,7 @@ body {
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    padding: 1.5rem 4rem 3rem;
+    padding: 1.5rem 4rem 3rem 13.5rem;
     height: 85vh;
 }
 
