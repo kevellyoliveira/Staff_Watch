@@ -7,7 +7,7 @@ ENV MYSQL_ROOT_PASSWORD=senha_segura
 ENV MYSQL_DATABASE=StaffWatch
 
 # Copiando o script Mysql para pasta app de dentro do container
-COPY /StaffWatch.sql /app
+COPY /StaffWatch.sql /docker-entrypoint-initdb.d/
 
 # Expondo a porta 3306 para fazer as chamadas aqui
 EXPOSE 3306
