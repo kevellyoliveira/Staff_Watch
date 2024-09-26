@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/dashboardGeral.css">
     <link rel="shortcut icon" href="./img/logoB.png" type="image/x-icon" />
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -12,7 +12,7 @@
     <title>Dashboard | Staff Watch</title>
 </head>
 
-<body>
+<body onload="carregarDashboard(0)">
     <header>
         <div class="opcoes">
             <div class="esq">
@@ -21,9 +21,9 @@
                 </div>
 
                 <div class="opcoesComponentes" id="itens">
-                    <h6 class="opcoesMenu slct" onclick="window.location.href='dashboard.html'">Home</h6>
-                    <h6 class="opcoesMenu associMenu" onclick="abrirMenu()">Associados <img
-                            src="img/icons/seta.png" alt="icone menu vertical"></h6>
+                    <h6 class="opcoesMenu slct" onclick="window.location.href='dashboardGeral.html'">Home</h6>
+                    <h6 class="opcoesMenu associMenu" onclick="abrirMenu()">Associados <img src="img/icons/seta.png"
+                            alt="icone menu vertical"></h6>
                     <h6 class="opcoesMenu" onclick="window.location.href='cadastroFuncionario.html'">Cadastrar</h6>
                     <div id="menu">
                         <h4 onclick="window.location.href='pagina-operario.html'">Funcionários</h4>
@@ -40,11 +40,11 @@
 
     <div class="menuLateral">
         <div class="itens">
-            <h4 class="slc">Visão Geral</h4>
-            <h4>Equipe 1</h4>
-            <h4>Equipe 2</h4>
-            <h4>Equipe 3</h4>
-            <h4>Equipe 4</h4>
+            <h4 id="0" class="slc" onclick="window.location.href='dashboardGeral.html'">Visão Geral</h4>
+            <h4 id="1" onclick="selecionarItem(this)">Equipe 1</h4>
+            <h4 id="2" onclick="selecionarItem(this)">Equipe 2</h4>
+            <h4 id="3" onclick="selecionarItem(this)">Equipe 3</h4>
+            <h4 id="4" onclick="selecionarItem(this)">Equipe 4</h4>
         </div>
     </div>
 
@@ -56,7 +56,7 @@
             <h6 class="opcoesMenu" id="rede" onclick="alterarComponente('dashRede')"> Rede </h6>
             <h6 class="opcoesMenu" id="memoria" onclick="alterarComponente('dashMemoria')"> Memória </h6>
         </div>
-        
+
         <div class="aside">
             <div class="dadosComponente">
                 <div class="infosComponente">
@@ -209,27 +209,42 @@
 </body>
 
 </html>
-<script>
 
+<script>
     window.onload = function () {
         alterarComponente("dashCpu");
     }
 
-    // essa funcao abre e fecha o menu do header em telas pequenas!
-    function clickMenu() {
-        const menu = document.getElementById('itens')
-        menu.classList.toggle('exibir')
-        // classList -> permite adicionar, remover, alternar (toggle) ou verificar uma classe
-        // alternando para a classe 'exibir', o css passa a pegar as propriedades dessa classe que, 
-        // no caso, é só pra deixar display flex.
-        // obs: essa forma só substitui um if ('displ==none') -> displ=flex
+    function abrirMenu() {
+        if (document.getElementById("menu").style.display == "flex") {
+            document.getElementById("menu").style.display = "none";
+        } else {
+            document.getElementById("menu").style.display = "flex"
+        }
     }
 
+    function carregarDashboard(id) {
 
+    }
+
+    function selecionarItem(elemento) {
+
+        var id = elemento.id;  // Pega o ID da equipe clicada
+
+    if (id == 0) {
+        // Redireciona para dashboardGeral.html
+        window.location.href = "dashboardGeral.html";
+    } else {
+        // Armazena o ID correto da equipe no sessionStorage
+        sessionStorage.setItem('equipeSelecionada', id);
+
+        // Redireciona para a página da equipe
+        window.location.href = 'dashboardEquipe.html';
+    }
+    }
 
     // essa função serve pra mudar as métricas na tela de acordo com o componente selecionado no header
     // quando o item for selecionado, a div correspondente aparece e as outras são escondidas.
-
     function alterarComponente(componenteId) {
         // essas duas linhas servem pra quando o usuário clicar em um item do menu, caso a tela seja pequena
         // e esteja no menu burger, a lista vai sumir de novo, removendo a classe 'exibir'
@@ -237,8 +252,6 @@
         menu.classList.remove('exibir')
         // obs: se fosse .toggle('exibir') também serviria para remover, mas como essa função é chamada de início para
         // a CPU, a lista começaria aberta. Usar o .remove garante que a lista sempre se feche ao selecionar um item.
-
-
 
         const dashComponentes = ["dashCpu", "dashDisco", "dashRede", "dashMemoria"];
         const componentes = {
@@ -263,8 +276,6 @@
         dashComponentes.forEach(id => {
             document.getElementById(id).style.fontWeight = (id === componenteId) ? "700" : "500";
         });
-      
-
 
         // mostra a div componente selecionado através do id
         document.getElementById(componenteId).style.display = "flex";
@@ -291,15 +302,7 @@
         sessionStorage.clear()
         window.location = "index.html"
     }
-
-    function abrirMenu() {
-        if (document.getElementById("menu").style.display == "flex") {
-            document.getElementById("menu").style.display = "none";
-        } else {
-            document.getElementById("menu").style.display = "flex"
-        }
-    }
-
+    //============================================ gráfico estático ==================================================================
     const ctx = document.getElementById('myChart');
 
     new Chart(ctx, {

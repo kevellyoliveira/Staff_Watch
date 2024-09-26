@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/dashboardEquipe.css">
+    <script src="js/script.js" defer></script>
+    <link rel="shortcut icon" href="./img/logoB.png" type="image/x-icon" />
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <title>Dashboard | Staff Watch</title>
+</head>
+
+<body>
+    <header>
+        <div class="opcoes">
+            <div class="esq">
+                <div class="logo">
+                    <img href="index.html" src="img/logoB.png" alt="logo">
+                </div>
+
+                <div class="opcoesComponentes" id="itens">
+                    <h6 class="opcoesMenu slct" onclick="window.location.href='dashboardGeral.html'">Home</h6>
+                    <h6 class="opcoesMenu associMenu" onclick="abrirMenu()">Associados <img src="img/icons/seta.png"
+                            alt="icone menu vertical"></h6>
+                    <h6 class="opcoesMenu" onclick="window.location.href='cadastroFuncionario.html'">Cadastrar</h6>
+                    <div id="menu">
+                        <h4 onclick="window.location.href='pagina-operario.html'">Funcionários</h4>
+                        <h4 onclick="window.location.href='pagina-maquina.html'">Dispositivos</h4>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sair">
+                <h6 class="opcoesMenu sair" onclick="sair()"> Sair </h6>
+            </div>
+        </div>
+    </header>
+
+    <div class="menuLateral">
+        <div class="itens">
+            <h4 id="0" onclick="window.location.href='dashboardGeral.html'">Visão Geral</h4>
+            <h4 id="1" onclick="selecionarItem(this)">Equipe 1</h4>
+            <h4 id="2" onclick="selecionarItem(this)">Equipe 2</h4>
+            <h4 id="3" onclick="selecionarItem(this)">Equipe 3</h4>
+            <h4 id="4" onclick="selecionarItem(this)">Equipe 4</h4>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="secao1">
+            <div class="conteudo">
+                <h1>Desempenho Geral do Hardware</h1>
+                <div class="elementos">
+                    <div class="elemento">
+                        <h4>CPU</h4>
+                        <div class="grafico">
+                            <img src="img/icons/tendencia.png" alt="">
+                        </div>
+                    </div>
+                    <div class="elemento">
+                        <h4>Rede</h4>
+                        <div class="grafico">
+                            <img src="C:\Users\icarm\Downloads\tendencia.png" alt="">
+                        </div>
+                    </div>
+                    <div class="elemento">
+                        <h4>RAM</h4>
+                        <div class="grafico">
+                            <img src="C:\Users\icarm\Downloads\tendencia.png" alt="">
+                        </div>
+                    </div>
+                    <div class="elemento">
+                        <h4>Armazenamento</h4>
+                        <div class="grafico">
+                            <img src="C:\Users\icarm\Downloads\tendencia.png" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alertas">
+                <h3>Alertas / Outliers</h3>
+                <div class="alerta">
+                    <div class="icone"> <img src="img/icons/alerta1.png" alt="simbolo de alerta"> </div>
+                    <div class="resumo">Máquina 1 está com uso da CPU acima da média há 2 horas.</div>
+                </div>
+                <div class="alerta">
+                    <div class="icone"> <img src="img/icons/alerta1.png" alt="simbolo de alerta"> </div>
+                    <div class="resumo">Máquina 12 está com uso da CPU acima da média há 5 horas.</div>
+                </div>
+                <div class="alerta">
+                    <div class="icone"> <img src="img/icons/alerta2.png" alt="simbolo de alerta"> </div>
+                    <div class="resumo">Máquina 2 está com uso da RAM muito acima da média há 4 horas.</div>
+                </div>
+                <div class="alerta">
+                    <div class="icone"> <img src="img/icons/alerta1.png" alt="simbolo de alerta"> </div>
+                    <div class="resumo">Máquina 3 está com uso do armazenamento perto do limite seguro.</div>
+                </div>
+            </div>
+        </div>
+        <div class="secao2">
+            <article class="title">
+                <h2>
+                    Funcionários
+                </h2>
+            </article>
+            <main class="main-section">
+                <section class="section-card">
+                    <div class="card open-modal">
+                        <div class="up-card">
+                            <img src="./src/img/ferramenta-lapis (1) 2.png" alt="">
+                            <img src="./src/img/lixeira-de-reciclagem (2) 2.png" alt="">
+                        </div>
+                        <div class="down-card">
+                            <div class="content-card">
+                                <p><b>RF:</b> 23433454</p>
+                                <p><b>Nome:</b> José Antônio da Silva</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card open-modal">
+                        <div class="up-card">
+                            <img src="./src/img/ferramenta-lapis (1) 2.png" alt="">
+                            <img src="./src/img/lixeira-de-reciclagem (2) 2.png" alt="">
+                        </div>
+                        <div class="down-card">
+                            <div class="content-card">
+                                <p><b>RF:</b> 23433454</p>
+                                <p><b>Nome:</b> José Antônio da Silva</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card open-modal">
+                        <div class="up-card">
+                            <img src="./src/img/ferramenta-lapis (1) 2.png" alt="">
+                            <img src="./src/img/lixeira-de-reciclagem (2) 2.png" alt="">
+                        </div>
+                        <div class="down-card">
+                            <div class="content-card">
+                                <p><b>RF:</b> 23433454</p>
+                                <p><b>Nome:</b> José Antônio da Silva</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card open-modal">
+                        <div class="up-card">
+                            <img src="./src/img/ferramenta-lapis (1) 2.png" alt="">
+                            <img src="./src/img/lixeira-de-reciclagem (2) 2.png" alt="">
+                        </div>
+                        <div class="down-card">
+                            <div class="content-card">
+                                <p><b>RF:</b> 23433454</p>
+                                <p><b>Nome:</b> José Antônio da Silva</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card open-modal">
+                        <div class="up-card">
+                            <img src="./src/img/ferramenta-lapis (1) 2.png" alt="">
+                            <img src="./src/img/lixeira-de-reciclagem (2) 2.png" alt="">
+                        </div>
+                        <div class="down-card">
+                            <div class="content-card">
+                                <p><b>RF:</b> 23433454</p>
+                                <p><b>Nome:</b> José Antônio da Silva</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card open-modal">
+                        <div class="up-card">
+                            <img src="./src/img/ferramenta-lapis (1) 2.png" alt="">
+                            <img src="./src/img/lixeira-de-reciclagem (2) 2.png" alt="">
+                        </div>
+                        <div class="down-card">
+                            <div class="content-card">
+                                <p><b>RF:</b> 23433454</p>
+                                <p><b>Nome:</b> José Antônio da Silva</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+    </div>
+</body>
+
+</html>
+<script>
+    window.onload = function () {
+        var equipeSelecionada = sessionStorage.getItem('equipeSelecionada');  // Recupera o ID da equipe
+
+        if (equipeSelecionada) {
+            var item = document.getElementById(equipeSelecionada);  // Seleciona o item da equipe
+
+            if (item) {
+                // Remove a classe 'slc' de todos os itens e aplica ao selecionado
+                var itens = document.querySelectorAll('.menuLateral .itens h4');
+                itens.forEach(function (el) {
+                    el.classList.remove('slc');
+                });
+
+                // Adiciona a classe 'slc' ao item selecionado
+                item.classList.add('slc');
+            }
+        }
+    };
+
+    function abrirMenu() {
+        var menu = document.getElementById("menu");
+        if (menu.style.display === "flex") {
+            menu.style.display = "none";
+        } else {
+            menu.style.display = "flex";
+        }
+    }
+
+    function carregarDashboard(id) {
+        // Aqui vai a lógica para carregar a dashboard da equipe com o ID especificado
+        console.log("Carregando dashboard da equipe com ID:", id);
+        // Exemplo: alterarComponente(id);
+    }
+
+    function selecionarItem(elemento) {
+        // Salvar o id do item selecionado no localStorage
+        localStorage.setItem('equipeSelecionada', elemento.id);
+
+        // Remover a classe 'slc' de todos os h4
+        var itens = document.querySelectorAll('.menuLateral .itens h4');
+        itens.forEach(function (item) {
+            item.classList.remove('slc');
+        });
+
+        // Adicionar a classe 'slc' ao item clicado
+        elemento.classList.add('slc');
+
+    }
+
+    function sair() {
+        sessionStorage.clear()
+        window.location = "index.html"
+    }
+
+    // lembrar de chamar essa funcao pra exibir os graficos dinamicos
+    //         alterarComponente("dashCpu");
+    //          Chama a função que recarrega a dashboard para a equipe selecionada
+    // carregarDashboard(elemento.id);
+
+
+
+
+
+
+    // ===================================================== FUNÇÕES DE GRÁFICOS ========================================================================================
+
+
+    // essa função serve pra mudar as métricas na tela de acordo com o componente selecionado no header
+    // quando o item for selecionado, a div correspondente aparece e as outras são escondidas.
+    function alterarComponente(componenteId) {
+        const dashComponentes = ["dashCpu", "dashDisco", "dashRede", "dashMemoria"];
+        const componentes = {
+            "dashCpu": "CPU",
+            "dashDisco": "Disco",
+            "dashRede": "Rede",
+            "dashMemoria": "Memória"
+        };
+
+        const nomeComponentes = {
+            "dashCpu": "12th Gen Intel(R) Core(TM) i5-1235U",
+            "dashDisco": "Samsung MZVLQ512HBLU-00B",
+            "dashRede": "Intel(R) Wireless-AC 9560 160MHz",
+            "dashMemoria": "Armazenamento total: 8,00 GB"
+        };
+
+        // esconde a div de todos todos os componentes
+        dashComponentes.forEach(id => {
+            document.getElementById(id).style.display = "none";
+        });
+
+        dashComponentes.forEach(id => {
+            document.getElementById(id).style.fontWeight = (id === componenteId) ? "700" : "500";
+        });
+
+        // mostra a div componente selecionado através do id
+        document.getElementById(componenteId).style.display = "flex";
+
+        // mostra o componente e a especificação dele no aside, de acordo as informações do objeto
+        // document.getElementById("idComponente").innerHTML = componentes[componenteId];
+        document.getElementById("idNomeComponente").innerHTML = nomeComponentes[componenteId];
+
+
+        // 1- o forEach passa por todos os elementos e tira o dash do nome de cada um, e fica somente com o nome do elemento
+        // exemplo: dashDisco --> Disco
+
+        // 2- transforma em lower case, pra que fique com o id identico de cada opcao do menu
+        // exemplo: Disco -->
+
+        // 3- verifica se o id que ele está é igual ao id do componente selecionado pelo usuário. se for, a font weight fica em 700(negrito), senão, fica em 500
+        dashComponentes.forEach(id => {
+            const elemento = document.getElementById(id.replace("dash", "").toLowerCase());
+            elemento.style.fontWeight = (id === componenteId) ? "700" : "500";
+        });
+    }
+
+
+    //============================================ gráfico estático ==================================================================
+    const ctx = document.getElementById('myChart');
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['14:16:34', '14:16:35', '14:16:36', '14:16:37', '14:16:38', '14:16:39'],
+            datasets: [{
+                label: '% de uso',
+                data: [18, 11, 30, 45, 77, 20],
+                borderWidth: 1,
+                borderColor: "#C7D",
+                backgroundColor: "#C7D"
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+</script>
