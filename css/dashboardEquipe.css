@@ -7,6 +7,7 @@
     font-family: 'Inter';
     font-weight: 500;
 }
+
 body {
     background-color: #e7ecef;
     height: auto;
@@ -123,10 +124,9 @@ header {
     flex-direction: column;
     background-color: #002148;
     color: #fff;
-    left: 0;
-    width: 10.5%;
-    height: -webkit-fill-available;
-    position: absolute;
+    width: 12%;
+    min-height: 100%;
+    position: relative;
 }
 
 .itens {
@@ -151,13 +151,18 @@ header {
 
 /* BODY  */
 
+.corpo {
+    display: flex;
+    width: 99vw;
+    min-height: auto;
+}
+
 .container {
     display: flex;
     flex-direction: column;
     width: -webkit-fill-available;
     height: auto;
     background-color: #e7ecef;
-    margin-left: 9rem;
     padding: 3.5rem 2rem 2rem 3rem;
 }
 
@@ -167,6 +172,12 @@ header {
     justify-content: space-between;
     gap: 3rem;
     height: 85vh;
+}
+
+.secao2 {
+    display: flex;
+    flex-direction: column;
+    height: auto;
 }
 
 /* seção de gráficos globais */
@@ -201,6 +212,7 @@ header {
     height: 40%;
     /* background-color: #6096ba; */
 }
+
 .elemento h4 {
     color: #002148;
     font-size: 1.5rem;
@@ -261,16 +273,15 @@ header {
 
 /* seção da lista de funcionários da equipe */
 
-/* PAGINA */
 .title {
     color: #002148;
     text-align: center;
 }
 
 .title h2 {
-    margin-top: 5%;
+    padding: 7rem 0 3rem;
     font-weight: bold;
-    font-size: 30px;
+    font-size: 2.3rem;
 }
 
 .main-section {
@@ -287,16 +298,18 @@ header {
         flex-direction: column;
         justify-content: center;
     }
+
     .up-card img {
         width: 30px;
         height: 30px;
         margin: 5px 2.5px;
     }
 
-    .down-card{
+    .down-card {
         flex-direction: row;
     }
-    .down-card figure{
+
+    .down-card figure {
         margin: 0;
         width: auto;
     }
@@ -304,19 +317,19 @@ header {
 
 .section-card {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-evenly;
     flex-wrap: wrap;
     gap: 4rem;
-    padding: 1%;
+    padding: 1rem 1rem 5rem;
 }
 
 .card {
     display: flex;
     flex-direction: column;
-    flex: 0 0 calc(50% - 20px);
-    margin: 2.5%;
     padding: 10px 10px;
     background-color: #001E42;
+    width: 40%;
     color: white;
     border: 3px solid white;
     border-radius: 12px;
@@ -325,8 +338,9 @@ header {
     transform: translateY(0) scale(1.0);
     transition: transform 0.5s;
 }
+
 .card:hover,
-.card:focus{
+.card:focus {
     transform: translateY(5px) scale(1.1);
     transition: transform 0.5s;
 }
@@ -360,7 +374,7 @@ header {
     font-weight: bold;
 }
 
-#fade{
+#fade {
     position: fixed;
     top: 0;
     left: 0;
@@ -370,63 +384,209 @@ header {
     z-index: 5;
 }
 
-#modal{
+#modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: fixed;
     left: 50%;
     top: 50%;
-    width: 65%;
-    height: auto;
+    width: 80%;
+    height: 70%;
     background-color: #E7ECEF;
     border-radius: 8px;
     transform: translate(-50%, -50%);
     z-index: 10;
+    overflow: hidden; /* Impedir o overflow */
+
+
+    align-items: stretch; /* Alinhamento esticado */
 }
 
 #modal,
-#fade{
+#fade {
     transition: 0.5s;
     opacity: 1;
     pointer-events: all;
 }
 
 #modal.hide,
-#fade.hide{
+#fade.hide {
     opacity: 0;
     pointer-events: none;
 }
 
 
-.modal-content{
+.modal-content {
     display: flex;
     margin: 5%;
     margin-top: 0;
     font-size: 25px;
+    flex-direction: row; 
+    width: 100%; 
+    height: 100%;
 }
 
-.modal-user{
+.modal-user {
     display: flex;
     flex-direction: column;
     justify-content: center;
     margin-left: 5%;
 }
+
 .modal-user p {
     margin: 10px 0;
 }
 
-.modal-header figure img{
+.modal-header figure img {
     width: 10vw;
     margin-left: 4.5%;
 }
 
-.modal-header{
+.modal-header {
     margin-bottom: 0;
 }
 
 
-.modal-form{
+.modal-form {
     margin-left: 15%;
 }
 
+
+/* MODAL -- GRÁFICOS */
+.opcoesComponentes.menu {
+    font-size: 2.4rem;
+    padding-bottom: 2rem;
+}
+
+#dashCpu,
+#dashDisco,
+#dashRede,
+#dashMemoria {
+    display: none;
+}
+
+#dashCpu {
+    display: flex;
+}
+
+#dashDisco {
+    row-gap: 30%;
+}
+
+.containerModal {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: space-around;
+    padding: 2rem;
+    height: 100%;
+}
+
+.aside,
+.bside {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    height: 100%;
+    padding: 1rem;
+    flex: 1;
+}
+
+.aside {
+    width: 40%;
+    font-size: 4rem;
+}
+
+.bside {
+    width: 55%;
+    gap: 13%;
+    flex-wrap: wrap;
+    padding: 2rem 0 0;
+}
+
+/* informações do aside */
+.dadosComponente {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 30%;
+}
+
+.infosComponente {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-around;
+    width: 100%;
+    gap: 6%;
+}
+
+.graficoComponente {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 58%;
+}
+
+.graficoComponente img {
+    height: 100%;
+    width: 100%;
+}
+
+.graficoChart {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    height: 40vh;
+    width: 100%;
+}
+
+.componente {
+    font-size: 3rem;
+}
+
+.nomeComponente {
+    font-size: 2rem;
+    color: #002148;
+}
+
+.monitoramento {
+    font-size: 1.8rem;
+    padding: 10px;
+}
+
+/* informações do bside */
+
+.dado {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+.dado h3,
+h2 {
+    padding: .5rem;
+    font-weight: 600;
+    /* white-space: nowrap; impede a quebra de linha */
+}
+
+.dado span {
+    font-weight: 400;
+}
+
+.dadoInfo {
+    font-size: 1.2rem;
+    width: 100%;
+}
 
 /* RESPONSIVIDADE */
 @media (max-width: 1024px) {
