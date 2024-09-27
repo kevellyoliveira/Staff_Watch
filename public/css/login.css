@@ -1,0 +1,320 @@
+/*======================================================================================================================*/
+/* Estilos Globais */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Estiliza o corpo da página, centralizando seu conteúdo horizontal e verticalmente na tela */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0; /* Cor de fundo leve para a tela inteira */
+}
+
+/*================================================   Sessão Principal    ===============================================*/
+
+/* Define a seção principal da página, com um tamanho máximo de largura, altura definida, cor de fundo branca, bordas arredondadas e sombra para criar um efeito de elevação */
+.sessao-inicial {
+    display: flex;
+    flex-direction: row;
+    max-width: 1518px;
+    width: 100%;
+    height: 724px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Bloco visual do Staff Watch (lado esquerdo) */
+.bloco-SW {
+    background-color: #002148;
+    color: #E7ECEF;
+    width: 50%;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Estilo da logo */
+.logo {
+    height: 30%;
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.bloco-SW img {
+    max-height: 200px;
+    width: auto;
+}
+
+.bloco-SW p {
+    font-size: 24px;
+    color: #bebebe;
+    text-align: center;
+    margin-bottom: 2px;
+}
+
+.botao-entrar {
+    margin-top: 16px;
+    padding: 10px 50px;
+    background-color: transparent;
+    color: #E7ECEF;
+    border: 3px solid #E7ECEF;
+    border-radius: 25px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.botao-entrar:hover {
+    background-color: #CAD5E0;
+    color: #00152F;
+}
+
+/*================================================   Sessão Cadastro    ================================================*/
+
+/* Estilo da seção de cadastro, com largura de 50%, preenchimento, cor de fundo cinza claro e centralização do conteúdo */
+.sessao-cadastro {
+    width: 50%;
+    padding: 40px;
+    background-color: #F5F5F5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-container {
+    width: 100%;
+    box-shadow: 0px 10px 20px rgba(202, 202, 202, 0.644);
+    border-radius: 10px;
+    padding: 40px;
+    max-width: 360px;
+    background-color: #f8f6f6;
+}
+
+h1 {
+    font-size: 24px;
+    color: #002148;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.input-field {
+    margin-bottom: 30px;
+    position: relative;
+    height: 35px;
+    width: 100%;
+}
+
+.input-field input {
+    width: 100%;
+    padding: 10px;
+    border: 2.1px solid #002148;
+    background: transparent;
+    border-radius: 5px;
+    outline: none;
+    color: #002148;
+    font-size: 1em;
+}
+
+.input-field span {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 0 10px;
+    pointer-events: none;
+    font-size: 1em;
+    color: #002148;
+    transition: 0.3s;
+}
+
+.input-field input:focus + span,
+.input-field input:not(:placeholder-shown) + span {
+    top: -10px;
+    left: 10px;
+    font-size: 12px;
+    color: #002148;
+    background-color: #F5F5F5;
+    padding: 0 5px;
+}
+
+.botao-cadastrar {
+    width: 100%;
+    padding: 10px 0;
+    background-color: #002148;
+    color: #FFF;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.botao-cadastrar:hover {
+    background-color: #00152F;
+}
+
+/*================================================ Responsividade Adicional ============================================*/
+
+/* Media Queries para max-width: 768px */
+@media (max-width: 768px) {
+    .sessao-inicial {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .bloco-SW {
+        width: 100%;
+        height: 75vh;
+        position: static;
+        margin: 0;
+    }
+
+    .sessao-cadastro {
+        width: 100%;
+        height: auto;
+    }
+
+    .form-container {
+        padding: 20px;
+        max-width: 90%;
+    }
+
+    .bloco-SW p {
+        font-size: 18px;
+    }
+
+    .botao-entrar, .botao-cadastrar {
+        font-size: 14px;
+        padding: 10px 30px;
+    }
+}
+
+@media (max-width: 480px) {
+    .bloco-SW img {
+        max-height: 150px;
+    }
+
+    .bloco-SW p {
+        font-size: 16px;
+    }
+
+    .input-field input {
+        padding: 8px;
+    }
+
+    .form-container {
+        padding: 15px;
+    }
+}
+
+/* Media Queries para dispositivos específicos */
+
+/* iPhone XR e dispositivos com largura máxima de 414px */
+@media (max-width: 414px) {
+    .sessao-inicial {
+        height: auto;
+    }
+
+    .bloco-SW {
+        width: 100%;
+        height: auto;
+    }
+
+    .bloco-SW img {
+        max-height: 180px;
+    }
+
+    .bloco-SW p {
+        font-size: 18px;
+    }
+
+    .botao-entrar {
+        padding: 10px 40px;
+        font-size: 15px;
+    }
+
+    .form-container {
+        padding: 25px;
+        max-width: 320px;
+    }
+
+    h1 {
+        font-size: 22px;
+    }
+
+    .botao-cadastrar {
+        font-size: 15px;
+        padding: 10px 0;
+    }
+}
+
+/* Dispositivos Android comuns com largura máxima de 360px */
+@media (max-width: 360px) {
+    .sessao-inicial {
+        height: auto;
+    }
+
+    .bloco-SW {
+        width: 100%;
+        height: auto;
+    }
+
+    .bloco-SW img {
+        max-height: 160px;
+    }
+
+    .bloco-SW p {
+        font-size: 16px;
+    }
+
+    .botao-entrar {
+        padding: 8px 30px;
+        font-size: 14px;
+    }
+
+    .form-container {
+        padding: 20px;
+        max-width: 280px;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+
+    .botao-cadastrar {
+        font-size: 14px;
+        padding: 8px 0;
+    }
+}
+
+/* Melhorias adicionais para garantir a responsividade em orientação paisagem */
+@media (orientation: landscape) and (max-width: 768px) {
+    .bloco-SW {
+        width: 100%;
+        height: auto;
+    }
+
+    .bloco-SW img {
+        max-height: 150px;
+    }
+
+    .bloco-SW p {
+        font-size: 16px;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+}

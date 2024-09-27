@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" />
+    <link rel="stylesheet" href="css/cadastroMaquina.css">
+    <link rel="shortcut icon" href="src/img/logoB.png" type="image/x-icon" />
+
+
+    <title>Cadastrar | Staff Watch</title>
+</head>
+
+<body>
+    <header>
+        <div class="opcoes">
+            <div class="esq">
+                <div class="logo">
+                    <img href="index.html" src="src/img/logoB.png" alt="logo">
+                </div>
+
+                <div class="opcoesComponentes" id="itens">
+                    <h6 class="opcoesMenu" onclick="window.location.href='dashboardGeral.html'">Home</h6>
+                    <h6 class="opcoesMenu associMenu" onclick="abrirMenu()">Associados <img src="src/img/icons/seta.png"
+                            alt="icone menu vertical"></h6>
+                    <h6 class="opcoesMenu slct" onclick="window.location.href='cadastroFuncionario.html'">Cadastrar</h6>
+                    <div id="menu">
+                        <h4 onclick="window.location.href='pagina-operario.html'">Funcionários</h4>
+                        <h4 onclick="window.location.href='pagina-maquina.html'">Dispositivos</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="sair">
+                <h6 class="opcoesMenu sair" onclick="sair()"> Sair </h6>
+            </div>
+        </div>
+    </header>
+
+    <!-- Início do corpo da página -->
+
+    <section class="sessao-inicial">
+
+        <article class="sessao-cadastro">
+
+            <div class="form-container">
+
+                <h1>Cadastrar Máquina</h1>
+
+                <div class="input-field">
+                    <input type="text" name="Modelo" id="modelo_input" required="required" autocomplete="off"
+                        placeholder="Modelo (desktop, laptop...)">
+                </div>
+
+                <div class="input-field">
+                    <input type="text" name="Cpu" id="cpu_input" required="required" autocomplete="off"
+                        placeholder="Modelo da CPU">
+                </div>
+
+                <div class="input-field">
+                    <input type="text" name="Ram" id="ram_input" required="required" autocomplete="off"
+                        placeholder="Memória RAM (GB)">
+                </div>
+
+                <div class="input-field">
+                    <input type="text" name="Armazenamento" id="armazenamento_input" required="required" autocomplete="off"
+                        placeholder="Armazenamento (GB)">
+                </div>
+
+                <div class="input-field">
+                    <input type="text" name="SistemaOperacional" id="sistemaOperacional_input" required="required" autocomplete="off"
+                        placeholder="Sistema Operacional">
+                </div>
+
+
+                <button class="botao-cadastrar">Cadastrar</button>
+            </div>
+        </article>
+
+        <article class="bloco-SW">
+            <div class="logoE">
+                <img src="src/img/logoB.png" alt="Logo Staff Watch">
+            </div>
+        </article>
+        <div class="alternarCadastro">
+            <div class="esqr">
+                <h3 onclick="window.location.href='cadastroMaquina.html'">Computador</h3>
+            </div>
+            <div class="dire">
+                <h3 onclick="window.location.href='cadastroFuncionario.html'">Funcionário</h3>
+            </div>
+        </div>
+    </section>
+
+</body>
+
+</html>
+<script>
+    function abrirMenu() {
+        if (document.getElementById("menu").style.display == "flex") {
+            document.getElementById("menu").style.display = "none";
+        } else {
+            document.getElementById("menu").style.display = "flex"
+        }
+    }
+
+    function sair() {
+        sessionStorage.clear()
+        window.location = "index.html"
+    }
+</script>
