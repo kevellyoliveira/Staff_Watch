@@ -301,7 +301,7 @@ header {
 
     .up-card img {
         width: 30px;
-        height: 30px;
+        /* height: 30px; */
         margin: 5px 2.5px;
     }
 
@@ -352,8 +352,7 @@ header {
 }
 
 .up-card img {
-    width: 15px;
-    height: 15px;
+    width: 1.6rem;
     margin: 5px 2.5px;
 }
 
@@ -386,6 +385,7 @@ header {
 
 #modal {
     display: flex;
+    flex-direction: row-reverse;
     justify-content: center;
     align-items: center;
     position: fixed;
@@ -398,9 +398,7 @@ header {
     transform: translate(-50%, -50%);
     z-index: 10;
     overflow: hidden; /* Impedir o overflow */
-
-
-    align-items: stretch; /* Alinhamento esticado */
+    align-items: flex-start;
 }
 
 #modal,
@@ -416,6 +414,22 @@ header {
     pointer-events: none;
 }
 
+.btnSair {
+    display: flex;
+    justify-self: flex-end;
+    padding: 3% 3% 0 0;
+
+}
+
+.btnSair img{
+    width: 3.5rem;
+    transition: 0.4s;
+    cursor: pointer;
+}
+
+.btnSair img:hover {
+    transform: scale(1.15);
+}
 
 .modal-content {
     display: flex;
@@ -467,11 +481,12 @@ header {
 }
 
 #dashCpu {
-    display: flex;
+    display: grid;
 }
 
 #dashDisco {
-    row-gap: 30%;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
 }
 
 .containerModal {
@@ -481,31 +496,34 @@ header {
     align-items: stretch;
     justify-content: space-around;
     padding: 2rem;
+    width: 100%;
     height: 100%;
 }
 
-.aside,
-.bside {
+.aside {
     display: flex;
     flex-direction: column;
     align-items: center;
     align-content: center;
-    justify-content: center;
-    height: 100%;
+    justify-content: space-between;
+    height: 85%;
     padding: 1rem;
     flex: 1;
-}
-
-.aside {
-    width: 40%;
+    width: 60%;
     font-size: 4rem;
 }
 
 .bside {
-    width: 55%;
-    gap: 13%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    width: 40%;
     flex-wrap: wrap;
-    padding: 2rem 0 0;
+    height: 85%;
+    justify-content: space-around;
+    align-content: space-around;
+    gap: 5%;
+    padding: 1rem;
 }
 
 /* informações do aside */
@@ -513,7 +531,7 @@ header {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-evenly;
     width: 100%;
     height: 30%;
 }
@@ -545,6 +563,8 @@ header {
     position: relative;
     height: 40vh;
     width: 100%;
+    /* width: 26rem; 
+    height: 14rem; */
 }
 
 .componente {
@@ -552,12 +572,12 @@ header {
 }
 
 .nomeComponente {
-    font-size: 2rem;
+    font-size: 1.5rem;
     color: #002148;
 }
 
 .monitoramento {
-    font-size: 1.8rem;
+    font-size: 1.4rem;
     padding: 10px;
 }
 
