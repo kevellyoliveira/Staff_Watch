@@ -16,6 +16,14 @@ body {
     background-color: #f0f0f0; /* Cor de fundo leve para a tela inteira */
 }
 
+.msgAlerta {
+    color: #000;
+    font-style: italic;
+    font: 600;
+    font-size: 1rem;
+    text-shadow: 0px 0px 1px #DD2007;
+}
+
 /*================================================   Sessão Principal    ===============================================*/
 
 /* Define a seção principal da página, com um tamanho máximo de largura, altura definida, cor de fundo branca, bordas arredondadas e sombra para criar um efeito de elevação */
@@ -98,9 +106,10 @@ body {
     box-shadow: 0px 10px 20px rgba(202, 202, 202, 0.644);
     border-radius: 10px;
     padding: 40px;
-    max-width: 360px;
+    max-width: 460px;
     background-color: #f8f6f6;
 }
+
 
 h1 {
     font-size: 24px;
