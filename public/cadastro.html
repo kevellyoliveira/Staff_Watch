@@ -58,13 +58,22 @@
                     </div>
                 </div>
 
-                <div class="input-wrapper">
+                <!-- <div class="input-wrapper">
                     <span id="alertToken" class="msgAlerta"></span>
                     <span class="token-span pholder">Token de Acesso</span>
                     <div class="input-field">
                         <input type="text" name="Token" id="token_input" required="required" autocomplete="off"
                             placeholder="Token de acesso" oninput="exibirLegenda(this)">
-                        <!-- Campo para inserção do CNPJ, configurado como obrigatório e com preenchimento automático desativado -->
+                    </div>
+                </div> -->
+
+                <div class="input-wrapper">
+                    <span id="alertNomeRepr" class="msgAlerta"></span>
+                    <span class="nome-span pholder">Nome do representante</span>
+                    <div class="input-field">
+                        <input type="text" name="Nome Representante" id="nomeRepresentante_input" required="required" autocomplete="off"
+                            placeholder="Nome do representante" oninput="exibirLegenda(this)">
+                        <!-- Campo para inserção do nome, configurado como obrigatório e com preenchimento automático desativado -->
                     </div>
                 </div>
 
@@ -117,16 +126,16 @@
     }
 
     function cadastrar(req, res) {
-        let nome = name_input.value;
+        let nomeEmp = name_input.value;
         let cnpj = Number(cnpj_input.value);
-        let token = token_input.value;
+        let nomeRep = nomeRepresentante_input.value;
         let email = email_input.value;
         let senha = senha_input.value;
         let confirmSenha = confirmSenha_input.value;
 
         alertNome.innerHTML = '';
         alertCnpj.innerHTML = '';
-        alertToken.innerHTML = '';
+        alertNomeRepr.innerHTML = '';
         alertEmail.innerHTML = '';
         alertSenha.innerHTML = '';
         alertConfirmSenha.innerHTML = '';
@@ -136,23 +145,23 @@
         event.preventDefault();
 
         // validação das inputs
-        let validacaoVazio = nome == "" || email == '' || cnpj == "" || token == "" || senha == "" || confirmSenha == "";
+        let validacaoVazio = nomeEmp == "" || email == '' || cnpj == "" || nomeRep == "" || senha == "" || confirmSenha == "";
 
         if (validacaoVazio) {
-            if (nome == "") {
-                alertNome.innerHTML += "Preencha o campo com o seu nome! <br>";
+            if (nomeEmp == "") {
+                alertNome.innerHTML += "Preencha o campo com o nome da empresa! <br>";
             }
             if (cnpj == "") {
                 alertCnpj.innerHTML += "Preencha o campo com a CNPJ da sua empresa!<br>";
             }
-            if (token == '') {
-                alertToken.innerHTML += "Insira o Token disponibilizado para a sua empresa!"
+            if (nomeRep == '') {
+                alertToken.innerHTML += "Preencha o campo com o seu nome! <br>"
             }
             if (email == "") {
                 alertEmail.innerHTML += "Preencha o campo com o seu email!<br>";
             }
             if (senha == "") {
-                alertSenha.innerHTML += "Preencha o campo com a sua senha!";
+                alertSenha.innerHTML += "Preencha o campo com a sua senha!<br>";
             }
             if (confirmSenha == "") {
                 alertConfirmSenha.innerHTML += "Preencha o campo confirmando a sua senha!<br>";
@@ -196,9 +205,9 @@
             if (validacaoSenha == false) {
                 alertSenha.innerHTML += "Sua senha deve conter: letra maiúscula, minúscula, número e caracter especial!";
             }
-            if ((nome.length <= 2) || (email.indexOf("@") == -1 || email.indexOf(".com") == -1) || (senha != confirmSenha)) {
-                if (nome.length <= 2) {
-                    alertNome.innerHTML += "Insira um nome válido!";
+            if ((nomeEmp.length <= 2) || (email.indexOf("@") == -1 || email.indexOf(".com") == -1) || (senha != confirmSenha)) {
+                if (nomeEmp.length <= 2) {
+                    alertnomeEmp.innerHTML += "Insira um nome válido!";
                 }
                 if (email.indexOf("@") == -1 || email.indexOf(".com") == -1) {
                     alertEmail.innerHTML += 'Seu email deve conter @ e ".com!"';
@@ -219,9 +228,9 @@
                     body: JSON.stringify({
                         // crie um atributo que recebe o valor recuperado aqui
                         // Agora vá para o arquivo routes/usuario.js
-                        nomeServer: nome,
+                        nomeEmpServer: nomeEmp,
                         cnpjServer: cnpj,
-                        tokenServer: token,
+                        nomeRepServer: nomeRep,
                         emailServer: email,
                         senhaServer: senha,
                     }),

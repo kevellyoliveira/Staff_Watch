@@ -51,6 +51,13 @@
                     <!-- Campo para inserção da senha, configurado para aceitar apenas senhas, obrigatório e com preenchimento automático desativado -->
                 </div>
 
+                <span id="alertToken" class="msgAlerta"></span>
+                <div class="input-field token">
+                    <input type="text" name="Token" id="token_input" required="required" autocomplete="off"
+                        placeholder="Token de acesso" oninput="exibirLegenda(this)">
+                </div>
+                <span class="pholder">Caso não possua um token, deixe o campo acima em branco.</span>
+
                 <button class="botao-cadastrar" type="submit" onclick="entrar()">Entrar</button>
             </div>
         </article>
@@ -62,9 +69,11 @@
     function entrar() {
         let email = email_input.value;
         let senha = senha_input.value;
+        let token = token_input.value;
 
         alertEmail.innerHTML = '';
         alertSenha.innerHTML = '';
+        alertToken.innerHTML = '';
 
         // let formulario = document.getElementById('formulario');
         event.preventDefault();
@@ -92,6 +101,7 @@
                 body: JSON.stringify({
                     emailServer: email,
                     senhaServer: senha,
+                    tokenServer: token
                 })
             }).then(function (resposta) {
                 console.log("ESTOU NO THEN DO entrar()!")

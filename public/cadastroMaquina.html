@@ -48,7 +48,16 @@
 
                 <h1>Cadastrar Máquina</h1>
 
-                <div class="input-field">
+                <div class="input-wrapper">
+                    <span id="alertNome" class="msgAlerta"></span>
+                    <!-- <span class="nome-span pholder">Equipe </span> -->
+                    <div class="input-field">
+                        <input type="text" name="Equipe" id="equipe_input" required="required" autocomplete="off"
+                            placeholder="ID da equipe">
+                    </div>
+                </div>
+
+                <!-- <div class="input-field">
                     <input type="text" name="Modelo" id="modelo_input" required="required" autocomplete="off"
                         placeholder="Modelo (desktop, laptop...)">
                 </div>
@@ -71,7 +80,7 @@
                 <div class="input-field">
                     <input type="text" name="SistemaOperacional" id="sistemaOperacional_input" required="required" autocomplete="off"
                         placeholder="Sistema Operacional">
-                </div>
+                </div> -->
 
 
                 <button class="botao-cadastrar">Cadastrar</button>

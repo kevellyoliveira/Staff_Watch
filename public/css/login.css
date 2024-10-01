@@ -23,6 +23,17 @@ body {
     font-size: 1rem;
     text-shadow: 0px 0px 1px #DD2007;
 }
+.pholder {
+    display: flex;
+    color: #797777;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.input-field.token {
+    margin-bottom: 13px;
+}
 
 /*================================================   Sessão Principal    ===============================================*/
 
