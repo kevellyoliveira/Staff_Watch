@@ -1,5 +1,6 @@
 CREATE DATABASE IF NOT EXISTS StaffWatch;
 USE StaffWatch;
+-- drop database staffwatch;
 
 CREATE TABLE IF NOT EXISTS Empresa (
 idEmpresa INT PRIMARY KEY AUTO_INCREMENT,
@@ -7,10 +8,11 @@ CNPJ CHAR(18),
 NomeEmp VARCHAR(45),
 EmailRep VARCHAR(45),
 senhaRep VARCHAR(45),
-NomeReo VARCHAR(45)
+NomeRep VARCHAR(45)
 );
+
 insert into Empresa values
-(default, "123456789123456789","Aristeu","aristeu.futuro@gmail.com");
+(default, "123456789123456789", "Falla", "aristeu.futuro@gmail.com", MD5("senha123"), "Aristeu");
 
 CREATE TABLE IF NOT EXISTS Token (
 idToken INT PRIMARY KEY AUTO_INCREMENT,
@@ -51,7 +53,7 @@ CONSTRAINT fkGerenteFuncionario FOREIGN KEY(fkGerente)
 REFERENCES Funcionario(idFuncionario)
 );
 insert into Funcionario values
-(default,"Jeffinho","Jeffinho.botafogo@gmail.com","123456",1,1,1);
+(default,"Jeffinho","Jeffinho.botafogo@gmail.com",MD5("123456"),1,1,1);
 
 CREATE TABLE IF NOT EXISTS Computador (
 idComputador INT PRIMARY KEY AUTO_INCREMENT,
@@ -64,7 +66,7 @@ references Empresa(idEmpresa)
 );
 
 insert into Computador values
-(default,"Comp1-Aristeu","Ubuntu",1,1);
+(default,1,1);
 
 CREATE TABLE IF NOT EXISTS Componente(
 idComponente INT PRIMARY KEY AUTO_INCREMENT,
@@ -91,16 +93,13 @@ idRegistro int primary key auto_increment,
 Registro decimal(2,1),
 dataRegistro DATETIME,
 fkComponente INT,
-CONSTRAINT ComponenteComputador FOREIGN KEY(fkComponente)
+CONSTRAINT ComponenteComputador1 FOREIGN KEY(fkComponente)
 REFERENCES Componente(idComponente),
     
 fkComputador INT,
 CONSTRAINT ComputadorComponente FOREIGN KEY(fkComputador)
 REFERENCES Computador(idComputador)
 );
-
-alter table ComponenteComputador
-modify column Registro decimal(7,2);
 
 CREATE TABLE IF NOT EXISTS Alerta(
 idAlerta INT PRIMARY KEY AUTO_INCREMENT,
@@ -113,4 +112,10 @@ fkComputador INT,
 CONSTRAINT AlertaComputador FOREIGN KEY(fkComputador)
 REFERENCES Computador(idComputador)
 );
+
+select * from empresa;
+select * from funcionario;
+
+SELECT idFuncionario, Nome, Email
+        FROM funcionario WHERE email = 'Jeffinho.botafogo@gmail.com' AND senha = '123456';
 

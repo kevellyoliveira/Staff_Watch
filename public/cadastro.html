@@ -42,7 +42,7 @@
                     <span id="alertNome" class="msgAlerta"></span>
                     <span class="nome-span pholder">Nome da Empresa</span>
                     <div class="input-field">
-                        <input type="text" name="Nome" id="name_input" required="required" autocomplete="off"
+                        <input type="text" name="Nome" id="nome_input" required="required" autocomplete="off"
                             placeholder="Nome da Empresa" oninput="exibirLegenda(this)">
                         <!-- Campo para inserção do nome, configurado como obrigatório e com preenchimento automático desativado -->
                     </div>
@@ -126,7 +126,7 @@
     }
 
     function cadastrar(req, res) {
-        let nomeEmp = name_input.value;
+        let nomeEmp = nome_input.value;
         let cnpj = Number(cnpj_input.value);
         let nomeRep = nomeRepresentante_input.value;
         let email = email_input.value;
@@ -219,6 +219,8 @@
 
             else { // passou em todas as validações!!
 
+
+                console.log(nomeEmp, nomeRep)
                 // Enviando o valor da nova input
                 fetch("/usuarios/cadastrar", {
                     method: "POST",

@@ -1,35 +1,58 @@
 var database = require("../database/config")
 
-function autenticar(email, senha) {
+function autenticar(email, senha, token) {
     console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function entrar(): ", email, senha)
     var instrucaoSql = `
         SELECT idFuncionario, nome, email
-        FROM usuario WHERE email = '${email}' AND senha = MD5('${senha}');
+        FROM funcionario WHERE email = '${email}' AND senha = MD5('${senha}');
     `;
+
+    var instrucaoSql1 = `
+        SELECT idEmpresa FROM funcionario WHERE email = '${email}' AND senha = MD5('${senha}');
+    `;
+
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
-    return database.executar(instrucaoSql);
+    return database.executar(instrucaoSql, instrucaoSql1);
 }
 
 // Coloque os mesmos parâmetros aqui. Vá para a var instrucaoSql
 function cadastrar(nomeEmp, cnpj, nomeRep, email, senha) {
-    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrar():", nome, email, senha);
+    console.log("Iniciando o processo de cadastro:\n", nomeEmp, cnpj, nomeRep, email, senha);
 
-    // Insira exatamente a query do banco aqui, lembrando da nomenclatura exata nos valores
-    //  e na ordem de inserção dos dados.
-    var instrucaoSql = `
-        INSERT INTO empresa (nomeEmp, cnpj, nomeRep, email, senhaRep) VALUES 
-        ('${nomeEmp}', '${cnpj}', '${nomeRep}', '${email}', MD5('${senha}'));
+    // Query para inserir os dados da empresa
+    var instrucaoSqlEmpresa = `
+        INSERT INTO empresa (nomeEmp, cnpj, NomeRep, EmailRep, senhaRep) 
+        VALUES ('${nomeEmp}', '${cnpj}', '${nomeRep}', '${email}', MD5('${senha}'));
     `;
 
-    var instrucaoSql1 = `
-        SELECT idEmpresa FROM Empresa WHERE nomeEmp = ${nomeEmp};
-    `;
-    var instrucaoSql2 = `
-        INSERT INTO funcionario (nome, email, senha, fkEmpresa) VALUES 
-        ('${nomeRep}', '${email}', MD5('${senha}', ${instrucaoSql1})); `;
+    console.log("Executando a instrução SQL para empresa:\n" + instrucaoSqlEmpresa);
 
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
-    return database.executar(instrucaoSql, instrucaoSql1, instrucaoSql2);
+    // Executa a query de inserção da empresa
+    return database.executar(instrucaoSqlEmpresa)
+        .then(() => {
+            // Após inserir a empresa, obtemos o ID gerado
+            var instrucaoSqlObterIdEmpresa = `
+                SELECT idEmpresa FROM empresa WHERE nomeEmp = '${nomeEmp}';
+            `;
+            console.log("Executando a instrução SQL para obter o ID da empresa:\n" + instrucaoSqlObterIdEmpresa);
+            return database.executar(instrucaoSqlObterIdEmpresa);
+        })
+        .then((resultado) => {
+            // Supondo que o resultado seja um array de linhas e a primeira linha contém o idEmpresa
+            var idEmpresa = resultado[0].idEmpresa;
+
+            // Agora inserimos o representante na tabela de funcionários
+            var instrucaoSqlFuncionario = `
+                INSERT INTO funcionario (Nome, Email, Senha, fkEmpresa) 
+                VALUES ('${nomeRep}', '${email}', MD5('${senha}'), ${idEmpresa});
+            `;
+            console.log("Executando a instrução SQL para funcionário:\n" + instrucaoSqlFuncionario);
+            return database.executar(instrucaoSqlFuncionario);
+        })
+        .catch((erro) => {
+            console.error("Erro durante o cadastro:", erro);
+            throw erro; // Para capturar e propagar o erro
+        });
 }
 
 module.exports = {
