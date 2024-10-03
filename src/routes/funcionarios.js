@@ -4,6 +4,14 @@ var router = express.Router();
 
 var funcionarioController = require("../controllers/funcionarioController");
 
+// rotas utilizadas
+router.post("/cadastrar", function (req, res) {
+    funcionarioController.cadastrar(req, res);
+});
+
+
+
+// rotas nao utilizadas  ==========================================================================================
 router.get("/listar", function (req, res) {
     funcionarioController.listar(req, res);
 });
@@ -14,10 +22,6 @@ router.get("/listar/:idUsuario", function (req, res) {
 
 router.get("/pesquisar/:mensagem", function (req, res) {
     funcionarioController.pesquisarmensagem(req, res);
-});
-
-router.post("/publicar/:idUsuario", function (req, res) {
-    funcionarioController.publicar(req, res);
 });
 
 router.put("/editar/:idAviso", function (req, res) {

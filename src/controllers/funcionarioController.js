@@ -1,5 +1,53 @@
 var funcionarioModel = require("../models/funcionarioModel");
 
+function cadastrar(req, res) {
+
+    let nome = req.body.nomeServer
+    let email = req.body.emailServer
+    let idEquipe = req.body.idEquipeServer
+    let token = req.body.tokenServer
+    var fkEmpresa = req.body.fkEmpresaServer
+    var fkGerente = req.body.fkGerenteServer
+
+    console.log(`idEquipe: ${idEquipe} \n
+        nome: ${nome} \n
+        email: ${email} \n
+        token: ${token} \n
+        fkGerente: ${fkGerente} \n
+        fkEmpresa: ${fkEmpresa} \n`)
+
+    if (nome == undefined) {
+        res.status(400).send("O nome está indefinido!");
+    } else if (email == undefined) {
+        res.status(400).send("O email está indefinido!");
+    } else if (idEquipe == undefined) {
+        res.status(403).send("O idEquipe está indefinido!");
+    }  else if (token == undefined) {
+        res.status(403).send("O token está indefinido!");
+    } else if (fkEmpresa == undefined) {
+        res.status(403).send("O fkEmpresa está indefinido!");
+    } else if (fkGerente == undefined) {
+        res.status(403).send("O fkGerente está indefinido!");
+    }
+    else {
+        funcionarioModel.cadastrar(nome, email, idEquipe, token, fkEmpresa, fkGerente)
+            .then(
+                function (resultado) {
+                    res.json(resultado);
+                }
+            )
+            .catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log("Houve um erro ao realizar o cadastro do funcionário: ", erro.sqlMessage);
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
+    }
+}
+
+
+// funcoes nao utilizadas =============================================================
 function listar(req, res) {
     funcionarioModel.listar().then(function (resultado) {
         if (resultado.length > 0) {
@@ -60,35 +108,6 @@ function pesquisarmensagem(req, res) {
         );
 }
 
-function publicar(req, res) {
-    var tema = req.body.tema;
-    var mensagem = req.body.mensagem;
-    var idUsuario = req.params.idUsuario;
-
-
-    if (tema == undefined) {
-        res.status(400).send("O título está indefinido!");
-    } else if (mensagem == undefined) {
-        res.status(400).send("A descrição está indefinido!");
-    } else if (idUsuario == undefined) {
-        res.status(403).send("O id do usuário está indefinido!");
-    } else {
-        funcionarioModel.publicar(tema, mensagem, idUsuario)
-            .then(
-                function (resultado) {
-                    res.json(resultado);
-                }
-            )
-            .catch(
-                function (erro) {
-                    console.log(erro);
-                    console.log("Houve um erro ao realizar o post: ", erro.sqlMessage);
-                    res.status(500).json(erro.sqlMessage);
-                }
-            );
-    }
-}
-
 function editar(req, res) {
     var novamensagem = req.body.mensagem;
     var idAviso = req.params.idAviso;
@@ -131,46 +150,46 @@ function curtir(req, res) {
     var idPostagem = req.body.idPostagem;
     var idUsuario = req.body.idUsuario;
 
-        funcionarioModel.curtir(idUsuario, idPostagem)
-            .then(
-                function (resultado) {
-                    res.json(resultado);
-                }
-            )
-            .catch(
-                function (erro) {
-                    console.log(erro);
-                    console.log("Houve um erro ao realizar a curtida: ", erro.sqlMessage);
-                    res.status(500).json(erro.sqlMessage);
-                }
-            );
-    }
+    funcionarioModel.curtir(idUsuario, idPostagem)
+        .then(
+            function (resultado) {
+                res.json(resultado);
+            }
+        )
+        .catch(
+            function (erro) {
+                console.log(erro);
+                console.log("Houve um erro ao realizar a curtida: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+}
 
-    function descurtir(req, res) {
-        var idPostagem = req.body.idPostagem;
-        var idUsuario = req.body.idUsuario;
-    
-            funcionarioModel.descurtir(idUsuario, idPostagem)
-                .then(
-                    function (resultado) {
-                        res.json(resultado);
-                    }
-                )
-                .catch(
-                    function (erro) {
-                        console.log(erro);
-                        console.log("Houve um erro ao realizar a descurtida: ", erro.sqlMessage);
-                        res.status(500).json(erro.sqlMessage);
-                    }
-                );
-        }
+function descurtir(req, res) {
+    var idPostagem = req.body.idPostagem;
+    var idUsuario = req.body.idUsuario;
+
+    funcionarioModel.descurtir(idUsuario, idPostagem)
+        .then(
+            function (resultado) {
+                res.json(resultado);
+            }
+        )
+        .catch(
+            function (erro) {
+                console.log(erro);
+                console.log("Houve um erro ao realizar a descurtida: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+}
 
 module.exports = {
     listarPorUsuario,
     pesquisarmensagem,
     editar,
     deletar,
-    publicar,
+    cadastrar,
     listar,
     curtir,
     descurtir

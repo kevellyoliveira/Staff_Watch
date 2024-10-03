@@ -1,4 +1,41 @@
 var database = require("../database/config");
+// funcoes utilizadas =======================================================================================
+
+function cadastrar(nome, email, idEquipe, token, fkEmpresa, fkGerente) {
+    console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. function cadastrar()")
+
+    // Validação do token
+    var validarToken = `SELECT token FROM Token WHERE token = "${token}" AND fkEmpresa = ${fkEmpresa};`;
+
+    console.log("Executando a instrução SQL: \n" + validarToken);
+
+    // Executar a consulta de validação de token
+    return database.executar(validarToken)
+        .then((resultado) => {
+            if (resultado.length === 0) {
+                throw new Error("Token inválido ou não encontrado.");
+            }
+
+            // Inserção na tabela funcionário
+            var instrucaoSqlFuncionario = `insert into funcionario (Nome, Email, fkEmpresa, fkEquipe, fkGerente) values
+("${nome}", "${email}", ${fkEmpresa}, ${idEquipe}, ${fkGerente});`;
+
+            console.log("Executando a instrução SQL para inserir funcionário:\n" + instrucaoSqlFuncionario);
+
+            return database.executar(instrucaoSqlFuncionario);
+        })
+        .catch((erro) => {
+            console.error("Erro durante o cadastro:", erro);
+            throw erro; // Propaga o erro para ser tratado no nível superior
+        });
+}
+
+
+
+
+
+
+// funcoes nao utilizadas =======================================================================================
 
 function listar() {
     console.log("ACESSEI O AVISO  MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listar()");
@@ -56,14 +93,6 @@ function listarPorUsuario(idUsuario) {
     return database.executar(instrucaoSql);
 }
 
-function publicar(idTema, mensagem, idUsuario) {
-    console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. function publicar()")
-    var instrucaoSql = `
-        INSERT INTO postagem VALUES (default, '${mensagem}', ${idUsuario}, '${idTema}');
-    `;
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
-    return database.executar(instrucaoSql);
-}
 
 function editar(novaDescricao, idAviso) {
     console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function editar(): ", novaDescricao, idAviso);
@@ -105,7 +134,7 @@ module.exports = {
     listar,
     listarPorUsuario,
     pesquisarDescricao,
-    publicar,
+    cadastrar,
     editar,
     deletar,
     curtir,
