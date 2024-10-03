@@ -18,9 +18,10 @@ function autenticar(req, res) {
                     console.log(resultadoAutenticar, 'AUTENTICAÇÃO REALIZADA!!!!!');
 
                     res.json({
-                        id: resultadoAutenticar[0].idUsuario,
+                        id: resultadoAutenticar[0].idFuncionario,
                         email: resultadoAutenticar[0].email,
                         nome: resultadoAutenticar[0].nome,
+                        fkEmpresa: resultadoAutenticar[0].fkEmpresa,
                     });
 
                 } else if (resultadoAutenticar.length == 0) {

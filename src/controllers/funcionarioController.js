@@ -1,7 +1,7 @@
-var avisoModel = require("../models/avisoModel");
+var funcionarioModel = require("../models/funcionarioModel");
 
 function listar(req, res) {
-    avisoModel.listar().then(function (resultado) {
+    funcionarioModel.listar().then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -17,7 +17,7 @@ function listar(req, res) {
 function listarPorUsuario(req, res) {
     var idUsuario = req.params.idUsuario;
 
-    avisoModel.listarPorUsuario(idUsuario)
+    funcionarioModel.listarPorUsuario(idUsuario)
         .then(
             function (resultado) {
                 if (resultado.length > 0) {
@@ -42,7 +42,7 @@ function listarPorUsuario(req, res) {
 function pesquisarmensagem(req, res) {
     var mensagem = req.params.mensagem;
 
-    avisoModel.pesquisarmensagem(mensagem)
+    funcionarioModel.pesquisarmensagem(mensagem)
         .then(
             function (resultado) {
                 if (resultado.length > 0) {
@@ -73,7 +73,7 @@ function publicar(req, res) {
     } else if (idUsuario == undefined) {
         res.status(403).send("O id do usuário está indefinido!");
     } else {
-        avisoModel.publicar(tema, mensagem, idUsuario)
+        funcionarioModel.publicar(tema, mensagem, idUsuario)
             .then(
                 function (resultado) {
                     res.json(resultado);
@@ -93,7 +93,7 @@ function editar(req, res) {
     var novamensagem = req.body.mensagem;
     var idAviso = req.params.idAviso;
 
-    avisoModel.editar(novamensagem, idAviso)
+    funcionarioModel.editar(novamensagem, idAviso)
         .then(
             function (resultado) {
                 res.json(resultado);
@@ -112,7 +112,7 @@ function editar(req, res) {
 function deletar(req, res) {
     var idAviso = req.params.idAviso;
 
-    avisoModel.deletar(idAviso)
+    funcionarioModel.deletar(idAviso)
         .then(
             function (resultado) {
                 res.json(resultado);
@@ -131,7 +131,7 @@ function curtir(req, res) {
     var idPostagem = req.body.idPostagem;
     var idUsuario = req.body.idUsuario;
 
-        avisoModel.curtir(idUsuario, idPostagem)
+        funcionarioModel.curtir(idUsuario, idPostagem)
             .then(
                 function (resultado) {
                     res.json(resultado);
@@ -150,7 +150,7 @@ function curtir(req, res) {
         var idPostagem = req.body.idPostagem;
         var idUsuario = req.body.idUsuario;
     
-            avisoModel.descurtir(idUsuario, idPostagem)
+            funcionarioModel.descurtir(idUsuario, idPostagem)
                 .then(
                     function (resultado) {
                         res.json(resultado);

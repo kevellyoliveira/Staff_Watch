@@ -1,9 +1,9 @@
-var aquarioModel = require("../models/aquarioModel");
+var maquinaModel = require("../models/maquinaModel");
 
 function buscarUsuario(req, res) {
   var idUsuario = req.params.idUsuario;
 
-  aquarioModel.buscarUsuario(idUsuario).then((resultado) => {
+  maquinaModel.buscarUsuario(idUsuario).then((resultado) => {
     if (resultado.length > 0) {
       res.status(200).json(resultado);
     } else {
@@ -16,21 +16,22 @@ function buscarUsuario(req, res) {
   });
 }
 
-// essa é a função de cadastrar os pontos do usuário ao final do quiz;
+// essa é a função de cadastrar novas máquinas em uma equipe;
 function cadastrar(req, res) {
-  var pontuacao = req.body.pontuacao;
-  var idUsuario = req.body.idUsuario;
-  var idQuiz = req.body.idQuiz;
+  var idEquipe = req.body.idEquipeServer;
+  var token = req.body.tokenServer;
+  var fkEmpresa = req.body.fkEmpresaServer;
 
-  if (pontuacao == undefined) {
-    res.status(400).send("pontuacao está undefined!");
-  } else if (idUsuario == undefined) {
-    res.status(400).send("idUsuario está undefined!");
-  } else if (idQuiz == undefined) {
-    res.status(400).send("idQuiz está undefined!");
+  if (idEquipe == undefined) {
+    res.status(400).send("idEquipe está undefined!")
+  } if (token == undefined) {
+    res.status(400).send("token está undefined!");
+  }if (fkEmpresa == undefined) {
+    res.status(400).send("fkEmpresa está undefined!");
   }
+
    else {
-    aquarioModel.cadastrar(pontuacao, idUsuario, idQuiz)
+    maquinaModel.cadastrar(idEquipe, token, fkEmpresa)
       .then((resultado) => {
         res.status(201).json(resultado);
       }
