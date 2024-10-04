@@ -1,14 +1,14 @@
 import psutil
 import time
 import mysql.connector
-import os
-from dotenv import load_dotenv
+# import os
+# from dotenv import load_dotenv
 
 config = {
     'user': 'root',
-    'password': '73917391',
+    'password': 'sptech',
     'host': 'localhost',
-    'database': 'StaffWatch'
+    'database': 'staffwatch'
 }
 
 # Estabelecendo a conexão

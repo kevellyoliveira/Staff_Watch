@@ -48,7 +48,22 @@
 
                 <h1>Cadastrar Máquina</h1>
 
-                <div class="input-field">
+                <div class="input-wrapper">
+                    <span id="alertEquipe" class="msgAlerta"></span>
+                    <!-- <span class="nome-span pholder">Equipe </span> -->
+                    <div class="input-field">
+                        <input type="text" name="Equipe" id="equipe_input" required="required" autocomplete="off"
+                            placeholder="ID da equipe">
+                    </div>
+                </div>
+
+                <span id="alertToken" class="msgAlerta"></span>
+                <div class="input-field token">
+                    <input type="text" name="Token" id="token_input" required="required" autocomplete="off"
+                        placeholder="Token de permissão" oninput="exibirLegenda(this)">
+                </div>
+
+                <!-- <div class="input-field">
                     <input type="text" name="Modelo" id="modelo_input" required="required" autocomplete="off"
                         placeholder="Modelo (desktop, laptop...)">
                 </div>
@@ -71,10 +86,10 @@
                 <div class="input-field">
                     <input type="text" name="SistemaOperacional" id="sistemaOperacional_input" required="required" autocomplete="off"
                         placeholder="Sistema Operacional">
-                </div>
+                </div> -->
 
 
-                <button class="botao-cadastrar">Cadastrar</button>
+                <button class="botao-cadastrar" type="submit" onclick="cadastrar()">Cadastrar</button>
             </div>
         </article>
 
@@ -108,5 +123,65 @@
     function sair() {
         sessionStorage.clear()
         window.location = "index.html"
+    }
+
+
+    function cadastrar(req, res) {
+        let idEquipe = equipe_input.value;
+        let token = token_input.value;
+        var idEmpresa = sessionStorage.ID_EMPRESA;
+        console.log("id empresa: ", idEmpresa);
+        
+
+
+        alertToken.innerHTML = '';
+        alertEquipe.innerHTML = '';
+
+        // let formulario = document.getElementById('formulario');
+        // tira o padrão de apagar o cosnteúdo da tela quando clicar em enviar o formulário
+        event.preventDefault();
+
+        // validação das inputs
+        let validacaoVazio = idEquipe == "" || token == '';
+
+        if (validacaoVazio) {
+            if (idEquipe == "") {
+                alertEquipe.innerHTML += "Preencha o campo com o ID da equipe da máquina! <br>";
+            }
+            if (token == "") {
+                alertToken.innerHTML += "Preencha o campo com o seu token de acesso!<br>";
+            }
+        } else { // passou em todas as validações!!
+
+            fetch("maquinas/cadastrar", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                        // crie um atributo que recebe o valor recuperado aqui
+                        // Agora vá para o arquivo routes/usuario.js
+                        idEquipeServer: idEquipe,
+                        tokenServer: token,
+                        fkEmpresaServer: idEmpresa,
+                    }),
+            })
+            .then(function (resposta) {
+                        console.log("resposta: ", resposta);
+
+                        if (resposta.ok) {
+                            alert("Cadastro realizado com sucesso!");
+                            window.location.href = 'dashboardEquipe.html';
+                        } 
+                        else {
+                            alert('Erro bizarro')
+                            console.log(`#ERRO: ${resposta}`)
+                        }
+                    })
+                    .catch(function (resposta) {
+                        console.log(`#ERRO: ${resposta}`);
+                    });
+                return false;
+        }
     }
 </script>

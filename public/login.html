@@ -25,46 +25,115 @@
                 <!-- Imagem da logo com o caminho especificado no atributo `src` e um texto alternativo `alt` para acessibilidade -->
             </div>
 
-            <p>Para se manter conectado entre</p> 
+            <p>Para se manter conectado entre</p>
             <p>com suas informações pessoais</p>
             <!-- Parágrafos que fornecem uma mensagem de boas-vindas ou explicação -->
 
-        <a href="cadastro.html"><button class="botao-entrar"><b>Cadastre-se</b></button></a>
+            <a href="cadastro.html"><button class="botao-entrar"><b>Cadastre-se</b></button></a>
             <!-- Botão para iniciar o processo de cadastro com o texto "Cadastre-se" em negrito. O botão está estilizado com a classe `botao-entrar` -->
         </article>
 
         <article class="sessao-cadastro">
             <!-- Artigo que representa o bloco do lado direito da seção principal, que contém o formulário de login -->
-
             <div class="form-container">
-                <!-- Contêiner para o formulário, que aplica estilos e centraliza o formulário -->
-
                 <h1>Entrar</h1>
-                <!-- Título do formulário com o texto "Entrar" -->
-
+                <span id="alertEmail" class="msgAlerta"></span>
                 <div class="input-field">
-                    <!-- Campo de entrada para o email -->
-
-                    <input type="email" name="Email" id="email_input" required="required" autocomplete="off" placeholder="Email">
+                    <input type="email" name="Email" id="email_input" required="required" autocomplete="off"
+                        placeholder="Email">
                     <!-- Campo para inserção do email, configurado para aceitar apenas emails, obrigatório e com preenchimento automático desativado -->
-
                 </div>
 
+                <span id="alertSenha" class="msgAlerta"></span>
                 <div class="input-field">
-                    <!-- Campo de entrada para a senha -->
-
-                    <input type="password" name="Senha" id="senha_input" required="required" autocomplete="off" placeholder="Senha">
+                    <input type="password" name="Senha" id="senha_input" required="required" autocomplete="off"
+                        placeholder="Senha">
                     <!-- Campo para inserção da senha, configurado para aceitar apenas senhas, obrigatório e com preenchimento automático desativado -->
-                    
                 </div>
 
-                <button class="botao-cadastrar">Entrar</button>
-                <!-- Botão para enviar o formulário com o texto "Entrar". O botão está estilizado com a classe `botao-cadastrar` -->
+                <span id="alertToken" class="msgAlerta"></span>
+                <div class="input-field token">
+                    <input type="text" name="Token" id="token_input" required="required" autocomplete="off"
+                        placeholder="Token de acesso" oninput="exibirLegenda(this)">
+                </div>
+                <span class="pholder">Caso não possua um token, deixe o campo acima em branco.</span>
+
+                <button class="botao-cadastrar" type="submit" onclick="entrar()">Entrar</button>
             </div>
         </article>
     </section>
-    <!-- Fim da seção principal -->
 </body>
 
-
 </html>
+<script>
+    function entrar() {
+        let email = email_input.value;
+        let senha = senha_input.value;
+        let token = token_input.value;
+
+        alertEmail.innerHTML = '';
+        alertSenha.innerHTML = '';
+        alertToken.innerHTML = '';
+
+        // let formulario = document.getElementById('formulario');
+        event.preventDefault();
+
+        // validação das inputs
+
+        let validacaoVazio = email == "" || senha == "";
+
+        if (validacaoVazio) {
+            if (email == "") {
+                alertEmail.innerHTML += "Preencha o campo com o seu email!<br>";
+            }
+            if (senha == "") {
+                alertSenha.innerHTML += "Preencha o campo com a sua senha!<br>";
+            }
+        }
+
+        else {
+
+            fetch("/usuarios/autenticar", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    emailServer: email,
+                    senhaServer: senha,
+                    tokenServer: token
+                })
+            }).then(function (resposta) {
+                console.log("ESTOU NO THEN DO entrar()!")
+
+                if (resposta.ok) {
+                    console.log(resposta);
+                    resposta.json().then(json => {
+                        console.log(json);
+                        console.log(JSON.stringify(json));
+                        sessionStorage.ID_USUARIO = json.id;
+                        sessionStorage.EMAIL_USUARIO = json.email;
+                        sessionStorage.NOME_USUARIO = json.nome;
+                        sessionStorage.ID_EMPRESA = json.fkEmpresa;
+
+                        window.location.href = "dashboardEquipe.html";
+                        console.log(`idUser: ${ID_USUARIO}\n email: ${NOME_USUARIO}\n nome: ${NOME_USUARIO}\n idEmpresa: ${ID_EMPRESA}\n`)
+                    });
+                } else {
+
+                    console.log("Houve um erro ao tentar realizar o login!");
+                    alert("Houve um erro ao tentar realizar o login!");
+
+                    resposta.text().then(texto => {
+                        console.error(texto);
+                    });
+                }
+
+            }).catch(function (erro) {
+                console.log(erro);
+            })
+            return false;
+
+        }
+    }
+</script>

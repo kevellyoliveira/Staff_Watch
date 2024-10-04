@@ -26,7 +26,7 @@
                 <!-- Imagem da logo com o caminho especificado e texto alternativo para acessibilidade -->
             </div>
 
-            <p>Para se manter conectado entre</p> 
+            <p>Para se manter conectado entre</p>
             <p>com suas informações pessoais</p>
             <!-- Parágrafos que fornecem uma mensagem de introdução -->
 
@@ -35,62 +35,240 @@
         </article>
 
         <article class="sessao-cadastro">
-            <!-- Bloco que contém o formulário de cadastro -->
-
             <div class="form-container">
-                <!-- Contêiner para o formulário, aplicando estilos e centralizando-o -->
+                <h1>Cadastre sua Empresa</h1>
 
-                <h1>Cadastre-se</h1>
-                <!-- Título do formulário indicando que é para cadastro -->
-
-                <div class="input-field">
-                    <!-- Campo de entrada para o nome -->
-
-                    <input type="text" name="Nome" id="name_input" required="required" autocomplete="off" placeholder="Nome">
-                    <!-- Campo para inserção do nome, configurado como obrigatório e com preenchimento automático desativado -->
-
+                <div class="input-wrapper">
+                    <span id="alertNome" class="msgAlerta"></span>
+                    <span class="nome-span pholder">Nome da Empresa</span>
+                    <div class="input-field">
+                        <input type="text" name="Nome" id="nome_input" required="required" autocomplete="off"
+                            placeholder="Nome da Empresa" oninput="exibirLegenda(this)">
+                        <!-- Campo para inserção do nome, configurado como obrigatório e com preenchimento automático desativado -->
+                    </div>
                 </div>
 
-                <div class="input-field">
-                    <!-- Campo de entrada para o email -->
-
-                    <input type="email" name="Email" id="email_input" required="required" autocomplete="off" placeholder="Email">
-                    <!-- Campo para inserção do email, configurado para aceitar apenas emails e obrigatório -->
-
+                <div class="input-wrapper">
+                    <span id="alertCnpj" class="msgAlerta"></span>
+                    <span class="cnpj-span pholder">CNPJ</span>
+                    <div class="input-field">
+                        <input type="text" name="CNPJ" id="cnpj_input" required="required" autocomplete="off"
+                            placeholder="CNPJ" oninput="exibirLegenda(this)">
+                        <!-- Campo para inserção do CNPJ, configurado como obrigatório e com preenchimento automático desativado -->
+                    </div>
                 </div>
 
-                <div class="input-field">
-                    <!-- Campo de entrada para o CNPJ -->
+                <!-- <div class="input-wrapper">
+                    <span id="alertToken" class="msgAlerta"></span>
+                    <span class="token-span pholder">Token de Acesso</span>
+                    <div class="input-field">
+                        <input type="text" name="Token" id="token_input" required="required" autocomplete="off"
+                            placeholder="Token de acesso" oninput="exibirLegenda(this)">
+                    </div>
+                </div> -->
 
-                    <input type="text" name="CNPJ" id="CNPJ_input" required="required" autocomplete="off" placeholder="Código da Empresa">
-                    <!-- Campo para inserção do CNPJ, configurado como obrigatório e com preenchimento automático desativado -->
-
+                <div class="input-wrapper">
+                    <span id="alertNomeRepr" class="msgAlerta"></span>
+                    <span class="nome-span pholder">Nome do representante</span>
+                    <div class="input-field">
+                        <input type="text" name="Nome Representante" id="nomeRepresentante_input" required="required" autocomplete="off"
+                            placeholder="Nome do representante" oninput="exibirLegenda(this)">
+                        <!-- Campo para inserção do nome, configurado como obrigatório e com preenchimento automático desativado -->
+                    </div>
                 </div>
 
-                <div class="input-field">
-                    <!-- Campo de entrada para a senha -->
-
-                    <input type="password" name="Senha" id="senha_input" required="required" autocomplete="off" placeholder="Senha">
-                    <!-- Campo para inserção da senha, configurado como obrigatório e com preenchimento automático desativado -->
-
-
+                <div class="input-wrapper">
+                    <span id="alertEmail" class="msgAlerta"></span>
+                    <span class="email-span pholder">Email do representante</span>
+                    <div class="input-field">
+                        <input type="email" name="Email" id="email_input" required="required" autocomplete="off"
+                            placeholder="Email do representante" oninput="exibirLegenda(this)">
+                        <!-- Campo para inserção do email, configurado para aceitar apenas emails e obrigatório -->
+                    </div>
                 </div>
 
-                <div class="input-field">
-                    <!-- Campo de entrada para confirmar a senha -->
-
-                    <input type="password" name="Confirmar Senha" id="confirm_senha_input" required="required" autocomplete="off" placeholder="Confirmar Senha">
-                    <!-- Campo para confirmação da senha, configurado como obrigatório e com preenchimento automático desativado -->
-
+                <div class="input-wrapper">
+                    <span id="alertSenha" class="msgAlerta"></span>
+                    <span class="senha-span pholder">Senha do representante</span>
+                    <div class="input-field">
+                        <input type="password" name="Senha" id="senha_input" required="required" autocomplete="off"
+                            placeholder="Senha do representante" oninput="exibirLegenda(this)">
+                    </div>
                 </div>
 
-                <button class="botao-cadastrar">Cadastrar</button>
-                <!-- Botão para enviar o formulário de cadastro, estilizado com a classe `botao-cadastrar` -->
+                <div class="input-wrapper">
+                    <span id="alertConfirmSenha" class="msgAlerta"></span>
+                    <span class="confirmSenha-span pholder">Confirmar Senha</span>
+                    <div class="input-field">
+                        <input type="password" name="Confirmar Senha" id="confirmSenha_input" required="required"
+                            autocomplete="off" placeholder="Confirmar Senha" oninput="exibirLegenda(this)">
+                    </div>
+                </div>
+                    <button class="botao-cadastrar" type="submit" onclick="cadastrar()">Cadastrar</button>
             </div>
         </article>
     </section>
-
-    <!-- Fim do corpo da página -->
 </body>
 
 </html>
+
+<script>
+    // quando o placeholder sumir, uma legenda do campo aparecerá acima dele, pra tela nao ficar confusa com muitos inputs sem legendas!
+    function exibirLegenda(input) {
+        // Encontra o span associado ao input
+        var span = input.closest('.input-wrapper').querySelector('.pholder');
+
+        if (input.value.length > 0) {
+            span.style.display = "flex"; // Exibe o span com display flex
+        } else {
+            span.style.display = "none"; // Esconde o span se o campo estiver vazio
+        }
+    }
+
+    function cadastrar(req, res) {
+        let nomeEmp = nome_input.value;
+        let cnpj = Number(cnpj_input.value);
+        let nomeRep = nomeRepresentante_input.value;
+        let email = email_input.value;
+        let senha = senha_input.value;
+        let confirmSenha = confirmSenha_input.value;
+
+        alertNome.innerHTML = '';
+        alertCnpj.innerHTML = '';
+        alertNomeRepr.innerHTML = '';
+        alertEmail.innerHTML = '';
+        alertSenha.innerHTML = '';
+        alertConfirmSenha.innerHTML = '';
+
+        // let formulario = document.getElementById('formulario');
+        // tira o padrão de apagar o cosnteúdo da tela quando clicar em enviar o formulário
+        event.preventDefault();
+
+        // validação das inputs
+        let validacaoVazio = nomeEmp == "" || email == '' || cnpj == "" || nomeRep == "" || senha == "" || confirmSenha == "";
+
+        if (validacaoVazio) {
+            if (nomeEmp == "") {
+                alertNome.innerHTML += "Preencha o campo com o nome da empresa! <br>";
+            }
+            if (cnpj == "") {
+                alertCnpj.innerHTML += "Preencha o campo com a CNPJ da sua empresa!<br>";
+            }
+            if (nomeRep == '') {
+                alertToken.innerHTML += "Preencha o campo com o seu nome! <br>"
+            }
+            if (email == "") {
+                alertEmail.innerHTML += "Preencha o campo com o seu email!<br>";
+            }
+            if (senha == "") {
+                alertSenha.innerHTML += "Preencha o campo com a sua senha!<br>";
+            }
+            if (confirmSenha == "") {
+                alertConfirmSenha.innerHTML += "Preencha o campo confirmando a sua senha!<br>";
+            }
+        }
+
+        else {
+            // Verificacação de senha forte: letras maiúsculas e minúsculas, números e caracteres especiais
+            var caracMai = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            var validMai = 0;
+            var caracMin = 'abcdefghijklmnopqrstuvwxyz';
+            var validMin = 0;
+            var caracNum = '0123456789';
+            var validNum = 0;
+            var caracEsp = '!@#$%^&*()_+-=[]{}|;:",.<>/?';
+            var validEsp = 0;
+            var validacaoSenha = false;
+
+            // verificando cada caracter da senha
+            for (let i = 0; i < senha.length; i++) {
+                var atual = senha[i];
+
+                if (caracMai.indexOf(atual) != -1) {
+                    validMai++;
+                }
+                if (caracMin.indexOf(atual) != -1) {
+                    validMin++;
+                }
+                if (caracNum.indexOf(atual) != -1) {
+                    validNum++;
+                }
+                if (caracEsp.indexOf(atual) != -1) {
+                    validEsp++;
+                }
+                if (validMai > 0 && validMin > 0 && validNum > 0 && validEsp > 0) {
+                    validacaoSenha = true;
+                    break;
+                }
+            }
+
+            if (validacaoSenha == false) {
+                alertSenha.innerHTML += "Sua senha deve conter: letra maiúscula, minúscula, número e caracter especial!";
+            }
+            if ((nomeEmp.length <= 2) || (email.indexOf("@") == -1 || email.indexOf(".com") == -1) || (senha != confirmSenha)) {
+                if (nomeEmp.length <= 2) {
+                    alertnomeEmp.innerHTML += "Insira um nome válido!";
+                }
+                if (email.indexOf("@") == -1 || email.indexOf(".com") == -1) {
+                    alertEmail.innerHTML += 'Seu email deve conter @ e ".com!"';
+                }
+                if (senha != confirmSenha) {
+                    alertConfirmSenha.innerHTML += "As senhas não são iguais!";
+                }
+            }
+
+            else { // passou em todas as validações!!
+
+
+                console.log(nomeEmp, nomeRep)
+                // Enviando o valor da nova input
+                fetch("/usuarios/cadastrar", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        // crie um atributo que recebe o valor recuperado aqui
+                        // Agora vá para o arquivo routes/usuario.js
+                        nomeEmpServer: nomeEmp,
+                        cnpjServer: cnpj,
+                        nomeRepServer: nomeRep,
+                        emailServer: email,
+                        senhaServer: senha,
+                    }),
+                })
+
+                    .then(function (resposta) {
+                        console.log("resposta: ", resposta);
+
+                        if (resposta.ok) {
+                            alert("Cadastro realizado com sucesso!");
+                            window.location.href = 'login.html';
+                        } else {
+                            alert('Email já cadastrado! Faça o seu login.')
+                        }
+                    })
+                    .catch(function (resposta) {
+                        console.log(`#ERRO: ${resposta}`);
+                    });
+
+                return false;
+
+                //     usuarioModel.cadastrar(nome, nickname, email, senha, personagem)
+                //         .then(
+                //             function (resultado) {
+                //                 res.json(resultado);
+                //             }
+                //         ).catch(
+                //             function (erro) {
+                //                 console.log(erro);
+                //                 console.log(
+                //                     "\nHouve um erro ao realizar o cadastro! Erro: ", erro.sqlMessage)
+                //                     ;
+                //                 res.status(500).json(erro.sqlMessage);
+                //             }
+                //         );
+            }
+        }
+    }
+</script>
