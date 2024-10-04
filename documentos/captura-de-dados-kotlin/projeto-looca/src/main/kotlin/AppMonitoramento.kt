@@ -11,6 +11,13 @@ fun main() {
     println()
     println(looca.grupoDeProcessos.totalProcessos)
     println()
+    println(looca.rede.grupoDeInterfaces.interfaces)
+    println()
+    println(looca.grupoDeServicos.totalDeServicos)
+    println()
+    println(looca.rede.parametros.nomeDeDominio)
+    println()
+
 
 
 

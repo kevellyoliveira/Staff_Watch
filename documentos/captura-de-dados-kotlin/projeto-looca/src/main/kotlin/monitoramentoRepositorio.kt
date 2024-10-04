@@ -4,8 +4,10 @@ import com.sun.org.apache.xpath.internal.operations.Bool
     import org.springframework.jdbc.core.BeanPropertyRowMapper
     import org.springframework.jdbc.core.JdbcTemplate
     import org.springframework.jdbc.core.queryForObject
-/*
-    class MusicaRepositorio {
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
+class MusicaRepositorio {
 
         lateinit var jdbcTemplate: JdbcTemplate
 
@@ -14,26 +16,124 @@ import com.sun.org.apache.xpath.internal.operations.Bool
             val dataSource: BasicDataSource = BasicDataSource()
             dataSource.driverClassName = "org.h2.Driver"
             //dataSource.url = "jdbc:h2:file:./festival"
-            dataSource.url = "jdbc:mysql://localhost:3306/SteffWatch"
+            dataSource.url = "jdbc:mysql://localhost:3306/StaffWatch"
             dataSource.username = "sa"
             dataSource.password = ""
 
             jdbcTemplate = JdbcTemplate(dataSource)
         }
+        fun inserirBytesRecebLooca(novoMonitoramento: Monitoramento): Boolean {
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+            val current = LocalDateTime.now().format(formatter)
 
-        fun inserir(novaMusica: Musica): Boolean {
             val qtdLinhasAfetadas = jdbcTemplate.update(
                 """
-               INSERT INTO Musica (nome, banda, produtor)
-                VALUES(?, ?, ?)
+               INSERT INTO Log 
+                VALUES(default, ?, ?, 13, 1)
             """,
-                novaMusica.nome,
-                novaMusica.banda,
-                novaMusica.produtor,
+                novoMonitoramento.redeRecebLooca,
+                novoMonitoramento.current,
+
             )
             return qtdLinhasAfetadas > 0
         }
 
+    fun inserirRedeEnvLooca(novoMonitoramento: Monitoramento): Boolean {
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        val current = LocalDateTime.now().format(formatter)
+
+        val qtdLinhasAfetadas = jdbcTemplate.update(
+            """
+               INSERT INTO Log 
+                VALUES(default, ?, ?, 14, 1)
+            """,
+            novoMonitoramento.redeEnvLooca,
+            novoMonitoramento.current,
+            )
+        return qtdLinhasAfetadas > 0
+    }
+
+
+    fun inserirPctEnvLooca(novoMonitoramento: Monitoramento): Boolean {
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        val current = LocalDateTime.now().format(formatter)
+
+        val qtdLinhasAfetadas = jdbcTemplate.update(
+            """
+               INSERT INTO Log 
+                VALUES(default, ?, ?, 15, 1)
+            """,
+            novoMonitoramento.pctEnvLooca,
+            novoMonitoramento.current,
+
+            )
+        return qtdLinhasAfetadas > 0
+    }
+
+    fun inserirPctRecebLooca(novoMonitoramento: Monitoramento): Boolean {
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        val current = LocalDateTime.now().format(formatter)
+
+        val qtdLinhasAfetadas = jdbcTemplate.update(
+            """
+               INSERT INTO Log 
+                VALUES(default, ?, ?, 16, 1)
+            """,
+            novoMonitoramento.pctRecebLooca,
+            novoMonitoramento.current,
+
+            )
+        return qtdLinhasAfetadas > 0
+    }
+
+    fun inserirServicosLooca(novoMonitoramento: Monitoramento): Boolean {
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        val current = LocalDateTime.now().format(formatter)
+
+        val qtdLinhasAfetadas = jdbcTemplate.update(
+            """
+               INSERT INTO Log 
+                VALUES(default, ?, ?, 17, 1)
+            """,
+            novoMonitoramento.servicosLooca,
+            novoMonitoramento.current,
+
+            )
+        return qtdLinhasAfetadas > 0
+    }
+
+    fun inserirProcessosLooca(novoMonitoramento: Monitoramento): Boolean {
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        val current = LocalDateTime.now().format(formatter)
+
+        val qtdLinhasAfetadas = jdbcTemplate.update(
+            """
+               INSERT INTO Log 
+                VALUES(default, ?, ?, 18, 1)
+            """,
+            novoMonitoramento.processosLooca,
+            novoMonitoramento.current,
+
+            )
+        return qtdLinhasAfetadas > 0
+    }
+
+    fun inserirTempoAtividadeLooca(novoMonitoramento: Monitoramento): Boolean {
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        val current = LocalDateTime.now().format(formatter)
+
+        val qtdLinhasAfetadas = jdbcTemplate.update(
+            """
+               INSERT INTO Log 
+                VALUES(default, ?, ?, 19, 1)
+            """,
+            novoMonitoramento.tempoAtividadeLooca,
+            novoMonitoramento.current,
+
+            )
+        return qtdLinhasAfetadas > 0
+    }
+/*
         fun listar(): List<Musica> {
             return jdbcTemplate.query(
                 "SELECT * FROM Musica",
@@ -83,5 +183,6 @@ import com.sun.org.apache.xpath.internal.operations.Bool
             )
             return  qtdLinhaAfetadas > 0
         }
+
+ */
     }
-*/
