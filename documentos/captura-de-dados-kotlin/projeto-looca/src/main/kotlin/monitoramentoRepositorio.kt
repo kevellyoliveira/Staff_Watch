@@ -10,7 +10,7 @@ class monitoramentoRepositorio {
 
         fun configurar() {
             val dataSource: BasicDataSource = BasicDataSource()
-            dataSource.driverClassName = "org.h2.Driver"
+            dataSource.driverClassName = "com.mysql.cj.jdbc.Driver"
             //dataSource.url = "jdbc:h2:mem:StaffWatch"
             dataSource.url = "jdbc:mysql://localhost:3306/StaffWatch"
             dataSource.username = "root"
