@@ -35,4 +35,7 @@ fi
 fi 
 
 echo "Instalando a imagem do dockerhub"
-sudo docker pull
+sudo docker pull fermoselle/looca:desafio
+
+echo "Instanciando o container, com a imagem do dockerHub"
+sudo docker run -d -p 8081:8081 --name containerkotlincliente fermoselle/looca:desafio
