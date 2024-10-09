@@ -93,7 +93,7 @@ class monitoramentoRepositorio {
         val qtdLinhasAfetadas = jdbcTemplate.update(
             """
                INSERT INTO captura 
-                VALUES (default, ?, ?, 1, 17);
+                VALUES (default, ?, ?, 5, 1, 17);
             """,
             novoMonitoramento.servicosLooca,
             current,
@@ -109,7 +109,7 @@ class monitoramentoRepositorio {
         val qtdLinhasAfetadas = jdbcTemplate.update(
             """
                INSERT INTO captura 
-                VALUES (default, ?, ?, 5, 18);
+                VALUES (default, ?, ?, 5, 1, 18);
             """,
             novoMonitoramento.processosLooca,
             current,
@@ -125,7 +125,7 @@ class monitoramentoRepositorio {
         val qtdLinhasAfetadas = jdbcTemplate.update(
             """
                INSERT INTO captura 
-                VALUES (default, ?, ?, 5, 19);
+                VALUES (default, ?, ?, 5, 1, 19);
             """,
             novoMonitoramento.tempoAtividadeLooca,
             current,
