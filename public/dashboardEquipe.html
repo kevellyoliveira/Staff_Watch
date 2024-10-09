@@ -428,9 +428,12 @@
         document.getElementById('modal').classList.add('hide');
     });
 
-    const ctx = document.getElementById('myChart');
+    //GRÁFICO EM TEMPO REAL ==================================================================================
 
-    new Chart(ctx, {
+    const ctx = document.getElementById('myChart').getContext('2d');
+
+    // Cria uma instância do gráfico
+    const myChart = new Chart(ctx, {
         type: 'line',
         data: {
             labels: ['14:16:34', '14:16:35', '14:16:36', '14:16:37', '14:16:38', '14:16:39'],
@@ -451,13 +454,72 @@
         }
     });
 
+    // Função para gerar um novo valor aleatório para simular os dados do gráfico
+    let dadoPublic = 0
+    function getRandomValue() {
+        let dado = (Math.floor(Math.random() * 100)); // Gera um valor aleatório entre 0 e 100
+        dadoPublic = dado
+        return dado
+    }
+
+    // Função para obter o horário atual como label
+    function getCurrentTimeLabel() {
+        const now = new Date();
+        return now.toLocaleTimeString(); // Retorna o horário no formato HH:MM:SS
+    }
+
+    // Função para atualizar o gráfico a cada 1 segundo
+    setInterval(function () {
+        // Remove o primeiro valor e label se houver mais de 6 pontos (para manter a janela de dados constante)
+        if (myChart.data.labels.length > 8) {
+            myChart.data.labels.shift(); // Remove o primeiro label
+            myChart.data.datasets[0].data.shift(); // Remove o primeiro dado
+        }
+        // adiciona um novo valor
+        myChart.data.labels.push(getCurrentTimeLabel());
+        myChart.data.datasets[0].data.push(getRandomValue());
+
+        // Atualiza o gráfico
+        myChart.update();
+
+        // enviando alerta para o slack caso o dado seja alerta (teste, não vai ser usado assim depois)
+
+        if (dadoPublic > 85) {
+            const webhookUrl = "https://hooks.slack.com/services/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";
+
+            const payload = {
+                channel: "#alerta",
+                username: "webhookbot",
+                text: "A máquina 1 está com o uso da CPU alto!"
+                // icon_emoji: ":ghost:"
+            };
+
+            fetch(webhookUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            })
+                .then(response => {
+                    if (response.ok) {
+                        console.log("Notificação enviada com sucesso ao Slack.");
+                    } else {
+                        console.error("Erro ao enviar notificação ao Slack:", response.statusText);
+                    }
+                })
+                .catch(error => {
+                    console.error("Erro na requisição ao Slack:", error);
+                });
+
+        }
+
+    }, 5000);
+    // FIM DO GRÁFICO EM TEMPO REAL ==================================================================================
 
 
-    // ==========================================================================================================================================================
 
-
-
-    // ===================================================== FUNÇÕES DE GRÁFICOS ========================================================================================
+    // =============== FUNÇÕES DE GRÁFICOS ========================================================================================
 
 
     // essa função serve pra mudar as métricas na tela de acordo com o componente selecionado no header
