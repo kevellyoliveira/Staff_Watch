@@ -133,6 +133,15 @@ class monitoramentoRepositorio {
             )
         return qtdLinhasAfetadas > 0
     }
+    fun existePorId(id: Int): Boolean {
+        val qtdExistentes = jdbcTemplate.queryForObject(
+            "Select count(*) from Computador where idComputador = ?;",
+            Int::class.java,
+            id
+        )
+
+        return qtdExistentes > 0
+    }
 
 
     }
