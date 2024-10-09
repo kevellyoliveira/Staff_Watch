@@ -1,3 +1,6 @@
+package repositorio
+
+import dominio.Monitoramento
 import org.apache.commons.dbcp2.BasicDataSource
 import org.springframework.jdbc.core.JdbcTemplate
 import java.time.LocalDateTime
@@ -12,9 +15,9 @@ class monitoramentoRepositorio {
             val dataSource: BasicDataSource = BasicDataSource()
             dataSource.driverClassName = "com.mysql.cj.jdbc.Driver"
             //dataSource.url = "jdbc:h2:mem:StaffWatch"
-            dataSource.url = "jdbc:mysql://localhost:3306/StaffWatch"
+            dataSource.url = "jdbc:mysql://localhost:3306/StaffWatch?serverTimezone=America/Sao_Paulo"
             dataSource.username = "root"
-            dataSource.password = "73917391"
+            dataSource.password = "sptech"
 
             jdbcTemplate = JdbcTemplate(dataSource)
         }
@@ -25,8 +28,8 @@ class monitoramentoRepositorio {
 
             val qtdLinhasAfetadas = jdbcTemplate.update(
                 """
-               INSERT INTO LOG
-                VALUES (default, ?, ?, 13, 1);
+               INSERT INTO captura
+                VALUES (default, ?, ?, 1, 1, 13);
             """,
                 novoMonitoramento.redeRecebLooca,
                 current,
@@ -41,8 +44,8 @@ class monitoramentoRepositorio {
 
         val qtdLinhasAfetadas = jdbcTemplate.update(
             """
-               INSERT INTO LOG
-                VALUES (default, ?, ?, 14, 1);
+               INSERT INTO captura
+                VALUES (default, ?, ?, 1, 1, 14);
             """,
             novoMonitoramento.redeEnvLooca,
             current,
@@ -57,8 +60,8 @@ class monitoramentoRepositorio {
 
         val qtdLinhasAfetadas = jdbcTemplate.update(
             """
-               INSERT INTO LOG 
-                VALUES (default, ?, ?, 15, 1);
+               INSERT INTO captura 
+                VALUES (default, ?, ?, 1, 1, 15);
             """,
             novoMonitoramento.pctEnvLooca,
             current,
@@ -73,8 +76,8 @@ class monitoramentoRepositorio {
 
         val qtdLinhasAfetadas = jdbcTemplate.update(
             """
-               INSERT INTO LOG 
-                VALUES (default, ?, ?, 16, 1);
+               INSERT INTO captura 
+                VALUES (default, ?, ?, 1, 1, 16);
             """,
             novoMonitoramento.pctRecebLooca,
             current,
@@ -89,8 +92,8 @@ class monitoramentoRepositorio {
 
         val qtdLinhasAfetadas = jdbcTemplate.update(
             """
-               INSERT INTO LOG 
-                VALUES (default, ?, ?, 17, 1);
+               INSERT INTO captura 
+                VALUES (default, ?, ?, 1, 17);
             """,
             novoMonitoramento.servicosLooca,
             current,
@@ -105,8 +108,8 @@ class monitoramentoRepositorio {
 
         val qtdLinhasAfetadas = jdbcTemplate.update(
             """
-               INSERT INTO LOG 
-                VALUES (default, ?, ?, 18, 1);
+               INSERT INTO captura 
+                VALUES (default, ?, ?, 5, 18);
             """,
             novoMonitoramento.processosLooca,
             current,
@@ -121,8 +124,8 @@ class monitoramentoRepositorio {
 
         val qtdLinhasAfetadas = jdbcTemplate.update(
             """
-               INSERT INTO LOG 
-                VALUES (default, ?, ?, 19, 1);
+               INSERT INTO captura 
+                VALUES (default, ?, ?, 5, 19);
             """,
             novoMonitoramento.tempoAtividadeLooca,
             current,

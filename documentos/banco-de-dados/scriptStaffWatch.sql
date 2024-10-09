@@ -91,10 +91,11 @@ insert into Componente values
 (default,"rede"),
 (default,"memoria"),
 (default,"disco"),
-(default,"cpu");
+(default,"cpu"),
+(default, "processos");
 
 insert into auxComponente values
-(default,"rede","%", 1),
+(default,"redeUso","%", 1),
 (default,"redeEnvio","bytes", 1),
 (default,"redeRecebidos","bytes", 1),
 (default,"pacoteRecebidos","qte", 1),
@@ -105,19 +106,33 @@ insert into auxComponente values
 (default,"discoUso","byte", 3),
 (default,"discoTotal","byte", 3),
 (default,"discoPorcen","%", 3),
-(default,"cpuPorcen","%", 4);
+(default,"cpuPorcen","%", 4),
+
+-- looca
+(default,"redeRecebidosLooca","bytes", 1),
+(default,"redeEnviadosLooca","bytes", 1),
+(default,"pacoteEnviadosLooca","qte", 1),
+(default,"pacoteRecebidosLooca","qte", 1),
+(default,"totalServiçosLooca","qte", 5),
+(default,"totalProcessosLooca","qte", 5),
+(default,"tempoAtividadeLooca","segundos", 5);
 
 CREATE TABLE IF NOT EXISTS captura(
 idCaptura int primary key auto_increment,
-captura decimal(2,1),
+captura bigint,
 dataCaptura DATETIME,
+
 fkComponente INT,
 CONSTRAINT ComponenteComputador1 FOREIGN KEY(fkComponente)
 REFERENCES Componente(idComponente),
     
 fkComputador INT,
 CONSTRAINT ComputadorComponente FOREIGN KEY(fkComputador)
-REFERENCES Computador(idComputador)
+REFERENCES Computador(idComputador),
+
+fkAuxComponente INT,
+CONSTRAINT capturaAuxComponente FOREIGN KEY (fkAuxComponente)
+REFERENCES auxComponente(idAuxComponente)
 );
 
 CREATE TABLE IF NOT EXISTS Alerta(

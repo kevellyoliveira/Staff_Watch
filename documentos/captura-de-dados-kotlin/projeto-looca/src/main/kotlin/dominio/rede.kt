@@ -1,3 +1,5 @@
+package dominio
+
 class Monitoramento {
 
    var id: Int = 0
