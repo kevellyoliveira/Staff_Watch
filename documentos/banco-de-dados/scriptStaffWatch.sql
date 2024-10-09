@@ -35,8 +35,9 @@ cargo VARCHAR(255)
 );
 
 insert into cargo values
-(default, "Supervisor"),
-(default, "Funcionário"),
+(default, "Operador"), 
+(default, "Suporte de TI"),
+(default, "Gerente de Operações"),
 (default, "Gerente de TI");
 
 CREATE TABLE IF NOT EXISTS Funcionario (
