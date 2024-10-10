@@ -6,9 +6,9 @@ import mysql.connector
 
 config = {
     'user': 'root',
-    'password': 'sptech',
-    'host': 'localhost',
-    'database': 'staffwatch'
+    'password': 'senha_segura',
+    'host': 'containerMysql',
+    'database': 'StaffWatch'
 }
 
 # Estabelecendo a conexão
@@ -19,9 +19,6 @@ try:
 except mysql.connector.Error as err:
     print(f'Erro: {err}')
 
-
-
-
 def print_system_info():
     # Obtém e exibe o uso de memória RAM
     cursor = mydb.cursor()
@@ -31,17 +28,17 @@ def print_system_info():
     memTotal = mem.total / (1024 ** 3)
     memPerc = mem.percent
 
-    add_mem = ("""INSERT INTO ComponenteComputador 
-                (idRegistro, Registro,fkComponente, fkComputador)
-                VALUES (default,%s,7,1),
-                (default,%s,8,1),
-                (default,%s,9,1)""")
+    add_mem = ("""INSERT INTO captura 
+                (idCaptura, captura,fkComponente, fkComputador, fkAuxComponente)
+                VALUES (default,%s,2,1, 6),
+                (default,%s,2,1,7),
+                (default,%s,2,1,8)""")
     
     data_mem = [memUso, memTotal, memPerc]
 
     cursor.execute(add_mem, data_mem)
     mydb.commit()
-    print(cursor.rowcount, "registro inserido - memória")
+    print(cursor.rowcount, "dado inserido - memória")
     
     # Obtém e exibe o uso de disco
     disk = psutil.disk_usage('/')
@@ -50,29 +47,29 @@ def print_system_info():
     discoTotal = disk.total / (1024 ** 3)
     discoPerc = disk.percent
 
-    add_disco = ("""INSERT INTO ComponenteComputador 
-                (idRegistro, Registro,fkComponente, fkComputador)
-                VALUES (default,%s,10,1),
-                (default,%s,11,1),
-                (default,%s,12,1)""")
+    add_disco = ("""INSERT INTO captura 
+                (idCaptura, captura,fkComponente, fkComputador , fkAuxComponente)
+                VALUES (default,%s,3, 1, 9),
+                (default,%s,3,1, 10),
+                (default,%s,3,1, 11)""")
     
     data_disco = [discoUso, discoTotal, discoPerc]
 
     cursor.execute(add_disco, data_disco)
     mydb.commit()
-    print(cursor.rowcount, "registro inserido - disco")
+    print(cursor.rowcount, "dado inserido - disco")
     # Obtém e exibe o uso da CPU
     cpu_percent = psutil.cpu_percent(interval=None)
 
-    add_cpu = ("""INSERT INTO ComponenteComputador 
-                (idRegistro, Registro,fkComponente, fkComputador)
-                VALUES (default,%s,13,1)""")
+    add_cpu = ("""INSERT INTO captura 
+                (idCaptura, captura,fkComponente, fkComputador, fkAuxComponente)
+                VALUES (default,%s,4,1, 12)""")
     
     data_cpu = [cpu_percent]
 
     cursor.execute(add_disco, data_disco)
     mydb.commit()
-    print(cursor.rowcount, "registro inserido - cpu")
+    print(cursor.rowcount, "dado inserido - cpu")
     
     print(f"Uso Total da CPU: {cpu_percent}%")
     cpuPerc = cpu_percent
@@ -97,12 +94,12 @@ def print_system_info():
     print("="*60)
     
     
-    add_rede = ("""INSERT INTO ComponenteComputador 
-                (idRegistro, Registro,fkComponente, fkComputador)
-                VALUES (default,%s,2,1),
-                (default,%s,3,1),
-                (default,%s,4,1),
-                (default,%s,5,1)""")
+    add_rede = ("""INSERT INTO captura 
+                (idCaptura, captura,fkComponente, fkComputador, fkAuxComponente)
+                VALUES (default,%s,1,1, 2),
+                (default,%s,1,1, 3),
+                (default,%s,1,1,4),
+                (default,%s,1,1,5)""")
     
     data_rede = [bytesEnv, bytesReceb, pctReceb, pctEnv]
     print(type(data_rede))
@@ -110,7 +107,7 @@ def print_system_info():
     
     cursor.execute(add_rede, data_rede)
     mydb.commit()
-    print(cursor.rowcount, "registro inserido")
+    print(cursor.rowcount, "dado inserido")
 
     # Obtém e exibe informações dos processos
     for proc in psutil.process_iter(['pid', 'name', 'cpu_percent']):

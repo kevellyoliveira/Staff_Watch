@@ -1,4 +1,4 @@
-FROM maven:3.8.5-jdk-8 AS build
+FROM maven:3.8.4-openjdk-17 AS build
 
 COPY /src/ /app/src
 COPY pom.xml /app
@@ -7,9 +7,11 @@ WORKDIR /app
 
 RUN mvn clean install
 
-FROM openjdk:8-jre-alpine
+FROM openjdk:17-alpine
 
-COPY --from=build /app/target/projeto-looca-1.0-SNAPSHOT.jar /app/app.jar
+RUN apk add --no-cache eudev-dev
+
+COPY --from=build /app/target/projeto-looca-1.0-SNAPSHOT-jar-with-dependencies.jar /app/app.jar
 
 WORKDIR /app
 

@@ -2,31 +2,31 @@ CREATE DATABASE IF NOT EXISTS StaffWatch;
 USE StaffWatch;
 -- drop database staffwatch;
 
-CREATE TABLE IF NOT EXISTS Empresa (
+CREATE TABLE IF NOT EXISTS empresa (
 idEmpresa INT PRIMARY KEY AUTO_INCREMENT,
-CNPJ CHAR(18),
-NomeEmp VARCHAR(45)
+cnpj CHAR(18),
+nomeEmp VARCHAR(45)
 );
 
-insert into Empresa values
+insert into empresa values
 (default, "123456789123456789", "Falla");
 
-CREATE TABLE IF NOT EXISTS Token (
+CREATE TABLE IF NOT EXISTS token (
 idToken INT PRIMARY KEY AUTO_INCREMENT,
-Token VARCHAR(255),
+token VARCHAR(255),
 
 fkEmpresa INT,
 CONSTRAINT fkEmpresaToken FOREIGN KEY(fkEmpresa)
-REFERENCES Empresa(idEmpresa)
+REFERENCES empresa(idEmpresa)
 );
 
-CREATE TABLE IF NOT EXISTS Equipe (
+CREATE TABLE IF NOT EXISTS equipe (
 idEquipe INT PRIMARY KEY AUTO_INCREMENT,
-Nome VARCHAR(45),
-Setor VARCHAR(45)
+nome VARCHAR(45),
+setor VARCHAR(45)
 );
 
-insert into Equipe values
+insert into equipe values
 (default,"dos","desenvolvimento");
 
 CREATE TABLE IF NOT EXISTS cargo (
@@ -40,41 +40,42 @@ insert into cargo values
 (default, "Gerente de Operações"),
 (default, "Gerente de TI");
 
-CREATE TABLE IF NOT EXISTS Funcionario (
+CREATE TABLE IF NOT EXISTS funcionario (
 idFuncionario INT PRIMARY KEY AUTO_INCREMENT,
-Nome VARCHAR(45),
-Email VARCHAR(45),
-Senha VARCHAR(255),
+nome VARCHAR(45),
+email VARCHAR(45),
+senha VARCHAR(255),
 
 fkEmpresa INT,
 CONSTRAINT fkEmpresaFuncionario FOREIGN KEY(fkEmpresa)
-REFERENCES Empresa(idEmpresa),
+REFERENCES empresa(idEmpresa),
 
 fkEquipe INT,
 CONSTRAINT fkEquipeFuncionario FOREIGN KEY(fkEquipe)
-REFERENCES Equipe(idEquipe),
+REFERENCES equipe(idEquipe),
 
 fkCargo INT,
 CONSTRAINT fkCargoFuncionario FOREIGN KEY(fkCargo)
 REFERENCES cargo(idCargo)
 );
-insert into Funcionario values
+
+insert into funcionario values
 (default,"Jeffinho","Jeffinho.botafogo@gmail.com",MD5("123456"),1,1,1);
 
-CREATE TABLE IF NOT EXISTS Computador (
+CREATE TABLE IF NOT EXISTS computador (
 idComputador INT PRIMARY KEY AUTO_INCREMENT,
 
 fkEquipe INT,
 CONSTRAINT fkEquipeComputador FOREIGN KEY(fkEquipe)
-REFERENCES Equipe(idEquipe)
+REFERENCES equipe(idEquipe)
 );
 
-insert into Computador values
+insert into computador values
 (default,1);
 
-CREATE TABLE IF NOT EXISTS Componente(
+CREATE TABLE IF NOT EXISTS componente(
 idComponente INT PRIMARY KEY AUTO_INCREMENT,
-Nome VARCHAR(45)
+nome VARCHAR(45)
 );
 
 CREATE TABLE IF NOT EXISTS auxComponente (
@@ -87,7 +88,7 @@ CONSTRAINT fkComponenteAuxComponente FOREIGN KEY(fkComponente)
 REFERENCES componente(idComponente)
 );
 
-insert into Componente values
+insert into componente values
 (default,"rede"),
 (default,"memoria"),
 (default,"disco"),
@@ -123,23 +124,25 @@ captura bigint,
 dataCaptura DATETIME,
 
 fkComponente INT,
-CONSTRAINT ComponenteComputador1 FOREIGN KEY(fkComponente)
-REFERENCES Componente(idComponente),
+CONSTRAINT componenteComputador1 FOREIGN KEY(fkComponente)
+REFERENCES componente(idComponente),
     
 fkComputador INT,
-CONSTRAINT ComputadorComponente FOREIGN KEY(fkComputador)
-REFERENCES Computador(idComputador),
+CONSTRAINT computadorComponente FOREIGN KEY(fkComputador)
+REFERENCES computador(idComputador),
 
 fkAuxComponente INT,
 CONSTRAINT capturaAuxComponente FOREIGN KEY (fkAuxComponente)
 REFERENCES auxComponente(idAuxComponente)
 );
 
-CREATE TABLE IF NOT EXISTS Alerta(
+CREATE TABLE IF NOT EXISTS alerta(
 idAlerta INT PRIMARY KEY AUTO_INCREMENT,
 
 fkCaptura INT,
 CONSTRAINT fkAlertaCaptura FOREIGN KEY(fkCaptura)
 REFERENCES captura(idCaptura)
 );
+
+select * from auxComponente;
 
