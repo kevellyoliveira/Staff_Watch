@@ -19,14 +19,15 @@ try:
 except mysql.connector.Error as err:
     print(f'Erro: {err}')
 
+
 def print_system_info():
-    # Obtém e exibe o uso de memória RAM
     cursor = mydb.cursor()
     mem = psutil.virtual_memory()
     print(f"\nUso de RAM: {mem.percent}% ({mem.used / (1024 ** 3):.2f} GB usado de {mem.total / (1024 ** 3):.2f} GB total)")
     memUso = mem.used / (1024 ** 3)
     memTotal = mem.total / (1024 ** 3)
     memPerc = mem.percent
+    idComputador = menu_python()
 
     add_mem = ("""INSERT INTO captura 
                 (idCaptura, captura,fkComponente, fkComputador, fkAuxComponente)
@@ -40,6 +41,7 @@ def print_system_info():
     mydb.commit()
     print(cursor.rowcount, "dado inserido - memória")
     
+
     # Obtém e exibe o uso de disco
     disk = psutil.disk_usage('/')
     print(f"Uso de Disco: {disk.percent}% ({disk.used / (1024 ** 3):.2f} GB usado de {disk.total / (1024 ** 3):.2f} GB total)")
@@ -71,6 +73,7 @@ def print_system_info():
     mydb.commit()
     print(cursor.rowcount, "dado inserido - cpu")
     
+
     print(f"Uso Total da CPU: {cpu_percent}%")
     cpuPerc = cpu_percent
     # Obtém e exibe o uso da CPU por núcleo
@@ -79,7 +82,7 @@ def print_system_info():
     for i, perc in enumerate(cpu_per_core):
         print(f"  Núcleo {i}: {perc}%")
 
-    # Obtém e exibe o uso da rede
+        # Obtém e exibe o uso da rede
     net_io = psutil.net_io_counters()
     print(f"\nUso de Rede:")
     print(f"  Bytes recebidos: {net_io.bytes_recv / (1024 ** 1):.2f} KB")
@@ -102,14 +105,17 @@ def print_system_info():
                 (default,%s,1,1,5)""")
     
     data_rede = [bytesEnv, bytesReceb, pctReceb, pctEnv]
+
     print(type(data_rede))
-    
-    
+
+
     cursor.execute(add_rede, data_rede)
     mydb.commit()
-    print(cursor.rowcount, "dado inserido")
 
-    # Obtém e exibe informações dos processos
+    print(cursor.rowcount, "registro inserido")
+    monitor_system()
+
+    """ Obtém e exibe informações dos processos
     for proc in psutil.process_iter(['pid', 'name', 'cpu_percent']):
         try:
             pid = proc.info['pid']
@@ -118,7 +124,7 @@ def print_system_info():
             if cpu_percent > 0:  # Filtro para exibir apenas processos com uso de CPU maior que 0
                 print(f"{pid:<10} {name:<30} {cpu_percent:<15}")
         except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
-            pass
+            pass"""
 
 def monitor_system(interval=5):
     while True:
@@ -127,9 +133,8 @@ def monitor_system(interval=5):
     #if conn.is_connected():
      #   conn.close()
       #  print('Conexão encerrada.')
-       
+
 
 if __name__ == "__main__":
-    monitor_system()
-    
-
+    menu()
+    #monitor_system()

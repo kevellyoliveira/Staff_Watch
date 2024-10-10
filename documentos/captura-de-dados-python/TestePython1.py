@@ -1,6 +1,10 @@
 import psutil
 import time
 
+
+
+
+
 def print_system_info():
     # Obtém e exibe o uso de memória RAM
     mem = psutil.virtual_memory()

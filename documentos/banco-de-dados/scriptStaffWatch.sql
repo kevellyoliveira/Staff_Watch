@@ -1,6 +1,6 @@
 CREATE DATABASE IF NOT EXISTS StaffWatch;
 USE StaffWatch;
--- drop database staffwatch;
+drop database staffwatch;
 
 CREATE TABLE IF NOT EXISTS empresa (
 idEmpresa INT PRIMARY KEY AUTO_INCREMENT,
@@ -94,7 +94,8 @@ insert into componente values
 (default,"disco"),
 (default,"cpu"),
 (default, "processos");
-
+select * from auxComponente;
+select count(*) from computador where idComputador = 1;
 insert into auxComponente values
 (default,"redeUso","%", 1),
 (default,"redeEnvio","bytes", 1),
@@ -120,7 +121,7 @@ insert into auxComponente values
 
 CREATE TABLE IF NOT EXISTS captura(
 idCaptura int primary key auto_increment,
-captura bigint,
+captura long,
 dataCaptura DATETIME,
 
 fkComponente INT,
@@ -146,3 +147,5 @@ REFERENCES captura(idCaptura)
 
 select * from auxComponente;
 
+select * from captura;
+select * from auxComponente;
