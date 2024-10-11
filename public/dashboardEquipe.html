@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="css/dashboardEquipe.css">
     <script src="js/script.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
 
     <link rel="shortcut icon" href="src/img/logoB.png" type="image/x-icon" />
 
@@ -484,37 +486,66 @@
 
         // enviando alerta para o slack caso o dado seja alerta (teste, não vai ser usado assim depois)
 
-        if (dadoPublic > 85) {
-            const webhookUrl = "https://hooks.slack.com/services/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";
+        if (dadoPublic > 90) {
 
-            const payload = {
-                channel: "#alerta",
-                username: "webhookbot",
-                text: "A máquina 1 está com o uso da CPU alto!"
-                // icon_emoji: ":ghost:"
+            // const axios = require('axios/dist/node/axios.cjs');
+            // var qs = requer('qs');
+
+            var mensagemAlerta = "A máquina 1 está com o uso da CPU alto!"
+
+            var dados = new URLSearchParams();
+            dados.append('payload', `{"channel": "#alertas", "username": "incoming-webhook", "text": "${mensagemAlerta}", "icon_emoji": ":ghost:"}`);
+
+            var configuração = {
+                method: 'post',
+                url: 'https://hooks.slack.com/services/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',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                data: dados
             };
 
-            fetch(webhookUrl, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(payload)
-            })
-                .then(response => {
-                    if (response.ok) {
-                        console.log("Notificação enviada com sucesso ao Slack.");
-                    } else {
-                        console.error("Erro ao enviar notificação ao Slack:", response.statusText);
-                    }
+            axios(configuração)
+                .then(function (response) {
+                    console.log("Notificação enviada com sucesso:", response.data);
                 })
-                .catch(error => {
-                    console.error("Erro na requisição ao Slack:", error);
+                .catch(function (error) {
+                    console.error("Erro ao enviar notificação:", error.response ? error.response.data : error.message);
                 });
 
-        }
 
-    }, 5000);
+
+
+
+
+            // const webhookUrl = "https://hooks.slack.com/services/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";
+
+            // const payload = {
+            //     channel: "#alerta",
+            //     username: "webhookbot",
+            //     text: "A máquina 1 está com o uso da CPU alto!"
+            //     // icon_emoji: ":ghost:"
+            // };
+
+            // fetch(webhookUrl, {
+            //     method: "POST",
+            //     headers: {
+            //         "Content-Type": "application/json"
+            //     },
+            //     body: JSON.stringify(payload)
+            // })
+            //     .then(response => {
+            //         if (response.ok) {
+            //             console.log("Notificação enviada com sucesso ao Slack.");
+            //         } else {
+            //             console.error("Erro ao enviar notificação ao Slack:", response.statusText);
+            //         }
+            //     })
+            //     .catch(error => {
+            //         console.error("Erro na requisição ao Slack:", error);
+            //     });
+        }
+    }, 2000);
     // FIM DO GRÁFICO EM TEMPO REAL ==================================================================================
 
 

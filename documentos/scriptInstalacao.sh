@@ -106,7 +106,7 @@ sudo docker pull izabellefigueiredo/captura-python:v3
 echo "Instanciando imagem do Python..."
 sudo docker run -d -p 5000:5000 --name containerPython --network redeContainers izabellefigueiredo/captura-python:v3
 
-# iniciando containers, caso nao estejam "up", após 5 segundos, para garantir que todos os containers sejam criados completamente
+# iniciando o container de Python (que depende do MySQL), caso os 5 segundos do MySQL não tenham sido suficientes, para garantir que todos os containers sejam criados completamente
 echo "aguardando instalações........"
 sleep 10
 sudo docker start containerPython
