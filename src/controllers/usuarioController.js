@@ -44,6 +44,7 @@ function cadastrar(req, res) {
     var nomeEmp = req.body.nomeEmpServer;
     var cnpj = req.body.cnpjServer;
     var nomeRep = req.body.nomeRepServer;
+    var cargo = req.body.cargoServer;
     var email = req.body.emailServer;
     var senha = req.body.senhaServer
 
@@ -56,12 +57,14 @@ function cadastrar(req, res) {
         res.status(400).send("Seu nomeRep está undefined!");
     } else if (email == undefined) {
         res.status(400).send("Sua email está undefined!");
+    } else if (cargo == undefined) {
+        res.status(400).send("Seu cargo está undefined!");
     } else if (senha == undefined) {
         res.status(400).send("Seu senha está undefined!");
     } else {
 
         // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
-        usuarioModel.cadastrar(nomeEmp, cnpj, nomeRep, email, senha)
+        usuarioModel.cadastrar(nomeEmp, cnpj, nomeRep, email, cargo, senha)
             .then(
                 function (resultado) {
                     res.json(resultado);

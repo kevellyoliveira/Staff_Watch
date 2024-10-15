@@ -26,13 +26,13 @@ function autenticar(email, senha, token) {
 }
 
 // Coloque os mesmos parâmetros aqui. Vá para a var instrucaoSql
-function cadastrar(nomeEmp, cnpj, nomeRep, email, senha) {
-    console.log("Iniciando o processo de cadastro:\n", nomeEmp, cnpj, nomeRep, email, senha);
+function cadastrar(nomeEmp, cnpj, nomeRep, email, cargo, senha) {
+    console.log("Iniciando o processo de cadastro:\n", nomeEmp, cnpj, nomeRep, email, cargo, senha);
 
     // Query para inserir os dados da empresa
     var instrucaoSqlEmpresa = `
-        INSERT INTO empresa (nomeEmp, cnpj, NomeRep, EmailRep, senhaRep) 
-        VALUES ('${nomeEmp}', '${cnpj}', '${nomeRep}', '${email}', MD5('${senha}'));
+        INSERT INTO empresa (nomeEmp, cnpj) 
+        VALUES ('${nomeEmp}', '${cnpj}');
     `;
 
     console.log("Executando a instrução SQL para empresa:\n" + instrucaoSqlEmpresa);
@@ -53,8 +53,8 @@ function cadastrar(nomeEmp, cnpj, nomeRep, email, senha) {
 
             // Agora inserimos o representante na tabela de funcionários
             var instrucaoSqlFuncionario = `
-                INSERT INTO funcionario (Nome, Email, Senha, fkEmpresa) 
-                VALUES ('${nomeRep}', '${email}', MD5('${senha}'), ${idEmpresa});
+                INSERT INTO funcionario (nome, email, senha, fkCargo, status, fkEmpresa) 
+                VALUES ('${nomeRep}', '${email}', MD5('${senha}'), ${cargo}, default, ${idEmpresa});
             `;
             console.log("Executando a instrução SQL para funcionário:\n" + instrucaoSqlFuncionario);
             return database.executar(instrucaoSqlFuncionario);

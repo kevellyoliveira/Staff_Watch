@@ -153,6 +153,19 @@ h1 {
     font-size: 1em;
 }
 
+.slct {
+    width: calc(100% - 30px);
+    padding: 7px;
+    height: 40px;
+    border: 2.5px solid #002148;
+    background: transparent;
+    border-radius: 5px;
+    outline: none;
+    color: #002148;
+    font-size: 1em;
+}
+
+
 /* Estilo do texto de instrução (span) dentro do campo de entrada, com posicionamento absoluto e cor do texto */
 .input-field span {
     position: absolute;

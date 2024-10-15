@@ -1,6 +1,6 @@
 CREATE DATABASE IF NOT EXISTS StaffWatch;
 USE StaffWatch;
-drop database staffwatch;
+-- drop database staffwatch;
 
 CREATE TABLE IF NOT EXISTS empresa (
 idEmpresa INT PRIMARY KEY AUTO_INCREMENT,
@@ -35,16 +35,18 @@ cargo VARCHAR(255)
 );
 
 insert into cargo values
-(default, "Operador"), 
 (default, "Suporte de TI"),
 (default, "Gerente de Operações"),
-(default, "Gerente de TI");
+(default, "Gerente de TI"),
+(default, "Operador");
+
 
 CREATE TABLE IF NOT EXISTS funcionario (
 idFuncionario INT PRIMARY KEY AUTO_INCREMENT,
 nome VARCHAR(45),
 email VARCHAR(45),
 senha VARCHAR(255),
+status TINYINT(1) DEFAULT 1,
 
 fkEmpresa INT,
 CONSTRAINT fkEmpresaFuncionario FOREIGN KEY(fkEmpresa)
@@ -59,8 +61,8 @@ CONSTRAINT fkCargoFuncionario FOREIGN KEY(fkCargo)
 REFERENCES cargo(idCargo)
 );
 
-insert into funcionario values
-(default,"Jeffinho","Jeffinho.botafogo@gmail.com",MD5("123456"),1,1,1);
+insert into funcionario (nome, email, senha, fkEmpresa, fkEquipe, fkCargo) values
+("Jeffinho", "Jeffinho.botafogo@gmail.com", MD5("123456"), 1, 1, 1);
 
 CREATE TABLE IF NOT EXISTS computador (
 idComputador INT PRIMARY KEY AUTO_INCREMENT,
@@ -146,6 +148,6 @@ REFERENCES captura(idCaptura)
 );
 
 select * from auxComponente;
-
+select * from funcionario;
 select * from captura;
 select * from auxComponente;

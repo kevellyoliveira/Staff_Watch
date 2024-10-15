@@ -69,30 +69,40 @@
 
                 <div class="input-wrapper">
                     <span id="alertNomeRepr" class="msgAlerta"></span>
-                    <span class="nome-span pholder">Nome do representante</span>
+                    <span class="nome-span pholder">Seu nome</span>
                     <div class="input-field">
                         <input type="text" name="Nome Representante" id="nomeRepresentante_input" required="required" autocomplete="off"
-                            placeholder="Nome do representante" oninput="exibirLegenda(this)">
+                            placeholder="Seu nome" oninput="exibirLegenda(this)">
                         <!-- Campo para inserção do nome, configurado como obrigatório e com preenchimento automático desativado -->
                     </div>
                 </div>
 
                 <div class="input-wrapper">
                     <span id="alertEmail" class="msgAlerta"></span>
-                    <span class="email-span pholder">Email do representante</span>
+                    <span class="email-span pholder">Seu email</span>
                     <div class="input-field">
                         <input type="email" name="Email" id="email_input" required="required" autocomplete="off"
-                            placeholder="Email do representante" oninput="exibirLegenda(this)">
+                            placeholder="Seu email" oninput="exibirLegenda(this)">
                         <!-- Campo para inserção do email, configurado para aceitar apenas emails e obrigatório -->
                     </div>
                 </div>
 
                 <div class="input-wrapper">
+                    <span id="alertCargo" class="msgAlerta"></span>
+                    <select class="input-field slct" id="cargo_select">
+                        <option value="#" selected disabled> Selecione o seu cargo </option>
+                        <option value="1">Suporte de TI</option>
+                        <option value="2">Gerente de Operações</option>
+                        <option value="3">Gerente de TI</option>
+                    </select>
+                </div>
+
+                <div class="input-wrapper">
                     <span id="alertSenha" class="msgAlerta"></span>
-                    <span class="senha-span pholder">Senha do representante</span>
+                    <span class="senha-span pholder">Sua senha</span>
                     <div class="input-field">
                         <input type="password" name="Senha" id="senha_input" required="required" autocomplete="off"
-                            placeholder="Senha do representante" oninput="exibirLegenda(this)">
+                            placeholder="Sua senha" oninput="exibirLegenda(this)">
                     </div>
                 </div>
 
@@ -130,6 +140,7 @@
         let cnpj = Number(cnpj_input.value);
         let nomeRep = nomeRepresentante_input.value;
         let email = email_input.value;
+        let cargo = Number(cargo_select.value);
         let senha = senha_input.value;
         let confirmSenha = confirmSenha_input.value;
 
@@ -137,6 +148,7 @@
         alertCnpj.innerHTML = '';
         alertNomeRepr.innerHTML = '';
         alertEmail.innerHTML = '';
+        alertCargo.innerHTML = '';
         alertSenha.innerHTML = '';
         alertConfirmSenha.innerHTML = '';
 
@@ -145,7 +157,7 @@
         event.preventDefault();
 
         // validação das inputs
-        let validacaoVazio = nomeEmp == "" || email == '' || cnpj == "" || nomeRep == "" || senha == "" || confirmSenha == "";
+        let validacaoVazio = nomeEmp == "" || email == '' || cnpj == "" || nomeRep == "" || cargo == "#" || senha == "" || confirmSenha == "";
 
         if (validacaoVazio) {
             if (nomeEmp == "") {
@@ -159,6 +171,9 @@
             }
             if (email == "") {
                 alertEmail.innerHTML += "Preencha o campo com o seu email!<br>";
+            }
+            if (cargo == '#') {
+                alertCargo.innerHTML += "Selecione o seu cargo!"
             }
             if (senha == "") {
                 alertSenha.innerHTML += "Preencha o campo com a sua senha!<br>";
@@ -234,6 +249,7 @@
                         cnpjServer: cnpj,
                         nomeRepServer: nomeRep,
                         emailServer: email,
+                        cargoServer: cargo,
                         senhaServer: senha,
                     }),
                 })
@@ -253,21 +269,6 @@
                     });
 
                 return false;
-
-                //     usuarioModel.cadastrar(nome, nickname, email, senha, personagem)
-                //         .then(
-                //             function (resultado) {
-                //                 res.json(resultado);
-                //             }
-                //         ).catch(
-                //             function (erro) {
-                //                 console.log(erro);
-                //                 console.log(
-                //                     "\nHouve um erro ao realizar o cadastro! Erro: ", erro.sqlMessage)
-                //                     ;
-                //                 res.status(500).json(erro.sqlMessage);
-                //             }
-                //         );
             }
         }
     }
