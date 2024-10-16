@@ -26,7 +26,7 @@ function autenticar(email, senha, token) {
 }
 
 // Coloque os mesmos parâmetros aqui. Vá para a var instrucaoSql
-function cadastrar(nomeEmp, cnpj, nomeRep, email, cargo, senha) {
+function cadastrar(nomeEmp, cnpj, nomeRep, email, cargo, senha, token) {
     console.log("Iniciando o processo de cadastro:\n", nomeEmp, cnpj, nomeRep, email, cargo, senha);
 
     // Query para inserir os dados da empresa
@@ -42,7 +42,7 @@ function cadastrar(nomeEmp, cnpj, nomeRep, email, cargo, senha) {
         .then(() => {
             // Após inserir a empresa, obtemos o ID gerado
             var instrucaoSqlObterIdEmpresa = `
-                SELECT idEmpresa FROM empresa WHERE nomeEmp = '${nomeEmp}';
+                SELECT idEmpresa FROM empresa WHERE NomeEmp = '${nomeEmp}';
             `;
             console.log("Executando a instrução SQL para obter o ID da empresa:\n" + instrucaoSqlObterIdEmpresa);
             return database.executar(instrucaoSqlObterIdEmpresa);
@@ -54,10 +54,19 @@ function cadastrar(nomeEmp, cnpj, nomeRep, email, cargo, senha) {
             // Agora inserimos o representante na tabela de funcionários
             var instrucaoSqlFuncionario = `
                 INSERT INTO funcionario (nome, email, senha, fkCargo, status, fkEmpresa) 
-                VALUES ('${nomeRep}', '${email}', MD5('${senha}'),${cargo}, default, ${idEmpresa});
+                VALUES ('${nomeRep}', '${email}', MD5('${senha}'), ${cargo}, default, ${idEmpresa});
             `;
             console.log("Executando a instrução SQL para funcionário:\n" + instrucaoSqlFuncionario);
-            return database.executar(instrucaoSqlFuncionario);
+            return database.executar(instrucaoSqlFuncionario)
+                .then(() => {
+                    // Após inserir o funcionário, agora inserimos o token
+                    var instrucaoSqlInserindoToken = `
+                        INSERT INTO Token (token, fkEmpresa) 
+                        VALUES ('${token}', '${idEmpresa}');
+                    `;
+                    console.log("Executando a instrução SQL para inserir o token:\n" + instrucaoSqlInserindoToken);
+                    return database.executar(instrucaoSqlInserindoToken);
+                });
         })
         .catch((erro) => {
             console.error("Erro durante o cadastro:", erro);

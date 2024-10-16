@@ -1,7 +1,7 @@
 CREATE DATABASE IF NOT EXISTS StaffWatch;
 USE StaffWatch;
 
--- drop database staffwatch;
+--  drop database staffwatch;
 
 CREATE TABLE IF NOT EXISTS empresa (
 idEmpresa INT PRIMARY KEY AUTO_INCREMENT,
@@ -157,5 +157,6 @@ select * from empresa;
 select * from token;
 desc funcionario;
 select * from captura;
+
 
 desc captura;

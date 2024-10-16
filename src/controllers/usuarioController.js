@@ -58,7 +58,8 @@ function cadastrar(req, res) {
     var nomeRep = req.body.nomeRepServer;
     var cargo = req.body.cargoServer;
     var email = req.body.emailServer;
-    var senha = req.body.senhaServer
+    var senha = req.body.senhaServer;
+    var token = req.body.tokenServer;
 
     // Faça as validações dos valores
     if (nomeEmp == undefined) {
@@ -75,11 +76,25 @@ function cadastrar(req, res) {
         res.status(400).send("Seu senha está undefined!");
     } else {
 
+        token = gerarToken()
         // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
-        usuarioModel.cadastrar(nomeEmp, cnpj, nomeRep, email, cargo, senha)
+        usuarioModel.cadastrar(nomeEmp, cnpj, nomeRep, email, cargo, senha,token)
             .then(
                 function (resultado) {
                     res.json(resultado);
+
+                    
+                    
+                    slack = 'https://join.slack.com/t/sptech-vd51973/shared_invite/zt-2r4gyat4x-xaaEqqxCL4wAW3LqqjSgPw'
+
+                    transport.sendMail({
+                        from: '"Staff Watch" <eduardo.miyasaki@sptech.school>',
+                        to: email,
+                        subject: "Token para fazer cadastro de outros funcionários e link para nosso slack",
+                        html: "Olá, Somos da Staff Watch e estamos enviando esse email para que você possa fazer o cadastro de outros funcionários, com o seguinte token " + token + " , Também estamos enviando o nosso Slack para que você possa receber notificações de possiveis falhas no seu hardware " + slack
+                    })
+                        .then((resposta) => console.log("Email enviado"))
+                        .catch((resposta) => console.log('erro ao enviar email', resposta))
                 }
             ).catch(
                 function (erro) {
@@ -92,18 +107,6 @@ function cadastrar(req, res) {
                 }
             );
     }
-
-    token = gerarToken()
-    slack = 'https://join.slack.com/t/sptech-vd51973/shared_invite/zt-2r4gyat4x-xaaEqqxCL4wAW3LqqjSgPw'
-
-    transport.sendMail({
-        from: '"Staff Watch" <eduardo.miyasaki@sptech.school>',
-        to: email,
-        subject: "Token para fazer cadastro de outros funcionários e link para nosso slack",
-        html: "Olá, Somos da Staff Watch e estamos enviando esse email para que você possa fazer o cadastro de outros funcionários, com o seguinte token " + token + " , Também estamos enviando o nosso Slack para que você possa receber notificações de possiveis falhas no seu hardware " + slack
-    })
-        .then((resposta) => console.log("Email enviado"))
-        .catch((resposta) => console.log('erro ao enviar email', resposta))
 }
 
 function gerarToken() {
