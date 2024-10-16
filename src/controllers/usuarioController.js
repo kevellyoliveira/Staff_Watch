@@ -3,13 +3,16 @@ var database = require("../database/config");
 
 const nodemailer = require('nodemailer')
 
+
+
+
 const transport = nodemailer.createTransport({
-    host: 'smtp.office365.com',
-    port: 587,
-    secure: false,
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
     auth: {
-        user: 'eduardo.miyasaki@sptech.school',
-        pass: '#Gf57868954833',
+        user: 'equipestaffwatch@gmail.com',
+        pass: 'tbmccgwpeugvdwqj',
     }
 });
 
@@ -87,14 +90,30 @@ function cadastrar(req, res) {
                     
                     slack = 'https://join.slack.com/t/sptech-vd51973/shared_invite/zt-2r4gyat4x-xaaEqqxCL4wAW3LqqjSgPw'
 
-                    transport.sendMail({
-                        from: '"Staff Watch" <eduardo.miyasaki@sptech.school>',
-                        to: email,
-                        subject: "Token para fazer cadastro de outros funcionários e link para nosso slack",
-                        html: "Olá, Somos da Staff Watch e estamos enviando esse email para que você possa fazer o cadastro de outros funcionários, com o seguinte token " + token + " , Também estamos enviando o nosso Slack para que você possa receber notificações de possiveis falhas no seu hardware " + slack
-                    })
-                        .then((resposta) => console.log("Email enviado"))
-                        .catch((resposta) => console.log('erro ao enviar email', resposta))
+                   
+
+
+                        transport.sendMail({
+                            from: '"Staff Watch" <equipestaffwatch@gmail.com>',
+                            to: email,
+                            subject: "Negociação serviço Staff Watch",
+                            html: ` <p>Prezado(a) ${nomeRep},</p>
+                            <p>Espero que esta mensagem o(a) encontre bem.</p>
+
+    <p>A <strong>Staff Watch</strong> oferece um software robusto de monitoramento de atividades em tempo real, relatórios personalizados e análises detalhadas de desempenho, permitindo uma gestão mais eficaz de equipes e operações de atendimento ao cliente. Nosso objetivo é contribuir para a melhoria contínua da performance e a tomada de decisões mais estratégicas no seu call center.</p>
+
+    <p>Estamos à disposição para agendar uma demonstração da nossa plataforma e discutir como podemos apoiar as necessidades específicas da sua empresa. Temos certeza de que nossa solução pode agregar valor às suas operações, oferecendo maior controle e eficiência.</p>
+
+    <p>Fico à disposição para agendarmos uma reunião e explorarmos as melhores oportunidades de parceria.</p>
+
+    <p>Aguardo seu retorno e agradeço sua atenção.</p>
+    
+     <p>Atenciosamente,</p>
+    <p><strong>Equipe Staff Watch</strong></p>`
+                        })
+                            .then((resposta2) => console.log("Email enviado2"))
+                            .catch((resposta) => console.log('erro ao enviar email', resposta))
+                         
                 }
             ).catch(
                 function (erro) {
