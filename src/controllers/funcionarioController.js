@@ -6,15 +6,14 @@ function cadastrar(req, res) {
     let email = req.body.emailServer
     let idEquipe = req.body.idEquipeServer
     let token = req.body.tokenServer
-    var fkEmpresa = req.body.fkEmpresaServer
-    var fkGerente = req.body.fkGerenteServer
+    var fkEmpresa = req.body.fkEmpresaServer;
 
     console.log(`idEquipe: ${idEquipe} \n
         nome: ${nome} \n
         email: ${email} \n
         token: ${token} \n
-        fkGerente: ${fkGerente} \n
-        fkEmpresa: ${fkEmpresa} \n`)
+        fkEmpresa: ${fkEmpresa}
+        `)
 
     if (nome == undefined) {
         res.status(400).send("O nome está indefinido!");
@@ -26,11 +25,9 @@ function cadastrar(req, res) {
         res.status(403).send("O token está indefinido!");
     } else if (fkEmpresa == undefined) {
         res.status(403).send("O fkEmpresa está indefinido!");
-    } else if (fkGerente == undefined) {
-        res.status(403).send("O fkGerente está indefinido!");
-    }
+    } 
     else {
-        funcionarioModel.cadastrar(nome, email, idEquipe, token, fkEmpresa, fkGerente)
+        funcionarioModel.cadastrar(nome, email, idEquipe, token, fkEmpresa)
             .then(
                 function (resultado) {
                     res.json(resultado);

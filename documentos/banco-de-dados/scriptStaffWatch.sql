@@ -1,7 +1,7 @@
 CREATE DATABASE IF NOT EXISTS StaffWatch;
 USE StaffWatch;
 
---  drop database staffwatch;
+-- drop database staffwatch;
 
 CREATE TABLE IF NOT EXISTS empresa (
 idEmpresa INT PRIMARY KEY AUTO_INCREMENT,
@@ -70,11 +70,18 @@ idComputador INT PRIMARY KEY AUTO_INCREMENT,
 
 fkEquipe INT,
 CONSTRAINT fkEquipeComputador FOREIGN KEY(fkEquipe)
-REFERENCES equipe(idEquipe)
+REFERENCES equipe(idEquipe),
+
+fkEmpresa INT,
+CONSTRAINT fkEmpresaComputador FOREIGN KEY(fkEmpresa)
+REFERENCES empresa(idEmpresa)
 );
 
+
+
+
 insert into computador values
-(default,1);
+(default,1,1);
 
 CREATE TABLE IF NOT EXISTS componente(
 idComponente INT PRIMARY KEY AUTO_INCREMENT,
@@ -157,6 +164,7 @@ select * from empresa;
 select * from token;
 desc funcionario;
 select * from captura;
+select * from computador;
 
-
+SELECT token FROM Token WHERE token = 'SEZje7' and fkEmpresa = 2;
 desc captura;

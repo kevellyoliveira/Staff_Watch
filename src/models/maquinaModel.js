@@ -9,7 +9,6 @@ function buscarUsuario(idUsuario, idQuiz) {
 }
 
 
-
 function cadastrar(idEquipe, token, fkEmpresa) {
 
     // Validação do token
@@ -18,7 +17,7 @@ function cadastrar(idEquipe, token, fkEmpresa) {
     console.log("Executando a instrução SQL: \n" + validarToken);
     
     // Executar a consulta de validação de token
-    return database.executar(validarToken, [token, fkEmpresa])
+    return database.executar(validarToken)
         .then((resultado) => {
             if (resultado.length === 0) {
                 throw new Error("Token inválido ou não encontrado.");
@@ -29,7 +28,7 @@ function cadastrar(idEquipe, token, fkEmpresa) {
 
             console.log("Executando a instrução SQL para inserir computador:\n" + instrucaoSqlFuncionario);
             
-            return database.executar(instrucaoSqlFuncionario, [idEquipe, fkEmpresa]);
+            return database.executar(instrucaoSqlFuncionario);
         })
         .catch((erro) => {
             console.error("Erro durante o cadastro:", erro);
