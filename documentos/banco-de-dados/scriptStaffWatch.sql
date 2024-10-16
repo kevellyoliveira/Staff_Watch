@@ -1,5 +1,6 @@
 CREATE DATABASE IF NOT EXISTS StaffWatch;
 USE StaffWatch;
+
 -- drop database staffwatch;
 
 CREATE TABLE IF NOT EXISTS empresa (
@@ -151,3 +152,6 @@ select * from auxComponente;
 select * from funcionario;
 select * from captura;
 select * from auxComponente;
+select * from cargo;
+select * from empresa;
+select * from token;
