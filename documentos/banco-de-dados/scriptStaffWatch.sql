@@ -163,8 +163,10 @@ select * from cargo;
 select * from empresa;
 select * from token;
 desc funcionario;
+select * from funcionario;
 select * from captura;
 select * from computador;
+
 
 SELECT token FROM Token WHERE token = 'SEZje7' and fkEmpresa = 2;
 desc captura;

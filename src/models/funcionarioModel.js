@@ -18,7 +18,7 @@ function cadastrar(nome, email, idEquipe, token, fkEmpresa) {
 
             // Inserção na tabela funcionário
             var instrucaoSqlFuncionario = `insert into funcionario (Nome, Email, fkEmpresa, fkEquipe, fkCargo) values
-("${nome}", "${email}", '${fkEmpresa}',' ${idEquipe}',8);`; 
+("${nome}", "${email}", '${fkEmpresa}',' ${idEquipe}',4);`; 
 
             console.log("Executando a instrução SQL para inserir funcionário:\n" + instrucaoSqlFuncionario);
 
