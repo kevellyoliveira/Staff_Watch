@@ -155,3 +155,7 @@ select * from auxComponente;
 select * from cargo;
 select * from empresa;
 select * from token;
+desc funcionario;
+select * from captura;
+
+desc captura;

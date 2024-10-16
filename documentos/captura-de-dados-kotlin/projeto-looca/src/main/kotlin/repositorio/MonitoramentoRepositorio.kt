@@ -17,7 +17,7 @@ class monitoramentoRepositorio {
             //dataSource.url = "jdbc:h2:mem:StaffWatch"
             dataSource.url = "jdbc:mysql://localhost:3306/StaffWatch?serverTimezone=America/Sao_Paulo"
             dataSource.username = "root"
-            dataSource.password = "sptech"
+            dataSource.password = "10062006Dudu"
 
             jdbcTemplate = JdbcTemplate(dataSource)
         }

@@ -6,8 +6,8 @@ import mysql.connector
 
 config = {
     'user': 'root',
-    'password': 'senha_segura',
-    'host': 'containerMysql',
+    'password': '10062006Dudu',
+    'host': 'localhost',
     'database': 'StaffWatch'
 }
 
@@ -135,6 +135,7 @@ def monitor_system(interval=5):
       #  print('Conexão encerrada.')
 
 
-if __name__ == "__main__":
-    menu()
+#if __name__ == "__main__":
+    #menu()
     #monitor_system()
+

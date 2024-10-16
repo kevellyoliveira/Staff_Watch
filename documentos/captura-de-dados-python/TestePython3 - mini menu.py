@@ -2,16 +2,18 @@ import psutil
 import time
 import mysql.connector
 import tkinter as tk
+from datetime import datetime
 
 #import os
 #import dotenv
 
 config = {
     'user': 'root',
-    'password': '73917391',
+    'password': '10062006Dudu',
     'host': 'localhost',
     'database': 'StaffWatch'
 }
+
 root = tk.Tk()
 def sair():
     root.destroy()
@@ -42,6 +44,7 @@ def menu_python():
             idComputador = input("Digite o id do computador que deseja monitorar: ")
             cursor = mydb.cursor()
             for i in range(15):
+                agora = datetime.now()
                 mem = psutil.virtual_memory()
                 print(f"\nUso de RAM: {mem.percent}% ({mem.used / (1024 ** 3):.2f} GB usado de {mem.total / (1024 ** 3):.2f} GB total)")
                 memUso = mem.used / (1024 ** 3)
@@ -49,12 +52,12 @@ def menu_python():
                 memPerc = mem.percent
 
                 add_mem = ("""INSERT INTO captura
-                            (idCaptura, captura,fkAuxComponente, fkComponente, fkComputador)
-                            VALUES (default,%s,6,2,%s),
-                            (default,%s,7,2,%s),
-                            (default,%s,8,2,%s)""")
+                            (idCaptura, captura,dataCaptura,fkAuxComponente, fkComponente, fkComputador)
+                            VALUES (default,%s,%s,6,2,%s),
+                            (default,%s,%s,7,2,%s),
+                            (default,%s,%s,8,2,%s)""")
 
-                data_mem = [memUso, idComputador, memTotal, idComputador, memPerc, idComputador]
+                data_mem = [memUso, agora, idComputador, memTotal, agora, idComputador, memPerc, agora, idComputador]
 
                 cursor.execute(add_mem, data_mem)
                 mydb.commit()
@@ -68,12 +71,12 @@ def menu_python():
                 discoPerc = disk.percent
 
                 add_disco = ("""INSERT INTO captura
-                            (idCaptura, captura,fkAuxComponente, fkComponente, fkComputador)
-                            VALUES (default,%s,9,3,%s),
-                            (default,%s,10,3,%s),
-                            (default,%s,11,3,%s)""")
+                            (idCaptura, captura, dataCaptura, fkAuxComponente, fkComponente, fkComputador)
+                            VALUES (default,%s,%s,9,3,%s),
+                            (default,%s,%s,10,3,%s),
+                            (default,%s,%s,11,3,%s)""")
 
-                data_disco = [discoUso,idComputador, discoTotal, idComputador, discoPerc,idComputador]
+                data_disco = [discoUso, agora, idComputador, discoTotal, agora, idComputador, discoPerc, agora, idComputador]
 
                 cursor.execute(add_disco, data_disco)
                 mydb.commit()
@@ -82,12 +85,12 @@ def menu_python():
                 cpu_percent = psutil.cpu_percent(interval=None)
 
                 add_cpu = ("""INSERT INTO captura
-                            (idRegistro, Registro, fkAuxComponente,fkComponente, fkComputador)
-                            VALUES (default,%s,12,4,%s)""")
+                            (idCaptura,captura, dataCaptura, fkAuxComponente, fkComponente, fkComputador)
+                            VALUES (default,%s,%s,12,4,%s)""")
 
-                data_cpu = [cpu_percent, idComputador]
+                data_cpu = [cpu_percent, agora , idComputador]
 
-                cursor.execute(add_disco, data_disco)
+                cursor.execute(add_cpu, data_cpu)
                 mydb.commit()
                 print(cursor.rowcount, "registro inserido - cpu")
 
@@ -115,13 +118,14 @@ def menu_python():
 
 
                 add_rede = ("""INSERT INTO captura
-                            (idCaptura, Captura, fkAuxComponente,fkComponente, fkComputador)
-                            VALUES (default,%s,2,1,%s),
-                            (default,%s,3,1,%s),
-                            (default,%s,4,1,%s),
-                            (default,%s,5,1,%s)""")
+                            (idCaptura, Captura, dataCaptura, fkAuxComponente,fkComponente, fkComputador)
+                            VALUES (default,%s,%s,2,1,%s),
+                            (default,%s,%s,3,1,%s),
+                            (default,%s,%s,4,1,%s),
+                            (default,%s,%s,5,1,%s)""")
 
-                data_rede = [bytesEnv,idComputador, bytesReceb,idComputador, pctReceb,idComputador, pctEnv, idComputador]
+                data_rede = [bytesEnv, agora , idComputador, bytesReceb, agora, idComputador, pctReceb, agora, idComputador,
+                             pctEnv, agora, idComputador]
                 print(type(data_rede))
 
 
@@ -140,12 +144,12 @@ def print_system_info():
     idComputador = menu_python()
 
     add_mem = ("""INSERT INTO captura
-                (idCaptura, captura,fkAuxComponente, fkComponente, fkComputador)
-                VALUES (default,%s,6,2,%s),
-                (default,%s,7,2,%s),
-                (default,%s,8,2,%s)""")
+                (idCaptura, captura, dataCaptura, fkAuxComponente, fkComponente, fkComputador)
+                VALUES (default,%s,%s,6,2,%s),
+                (default,%s,%s,7,2,%s),
+                (default,%s,%s,8,2,%s)""")
 
-    data_mem = [memUso, idComputador, memTotal, idComputador, memPerc, idComputador]
+    data_mem = [memUso, agora, idComputador, memTotal, agora, idComputador, memPerc, agora, idComputador]
 
     cursor.execute(add_mem, data_mem)
     mydb.commit()
@@ -159,12 +163,12 @@ def print_system_info():
     discoPerc = disk.percent
 
     add_disco = ("""INSERT INTO captura
-                (idCaptura, captura,fkAuxComponente, fkComponente, fkComputador)
-                VALUES (default,%s,9,3,%s),
-                (default,%s,10,3,%s),
-                (default,%s,11,3,%s)""")
+                (idCaptura, captura, dataCaptura, fkAuxComponente, fkComponente, fkComputador)
+                VALUES (default,%s,%s,9,3,%s),
+                (default,%s,%s,10,3,%s),
+                (default,%s,%s,11,3,%s)""")
 
-    data_disco = [discoUso,idComputador, discoTotal, idComputador, discoPerc,idComputador]
+    data_disco = [discoUso, agora , idComputador, discoTotal, agora, idComputador, discoPerc, agora, idComputador]
 
     cursor.execute(add_disco, data_disco)
     mydb.commit()
@@ -173,10 +177,10 @@ def print_system_info():
     cpu_percent = psutil.cpu_percent(interval=None)
 
     add_cpu = ("""INSERT INTO captura
-                (idRegistro, Registro, fkAuxComponente,fkComponente, fkComputador)
-                VALUES (default,%s,12,4,%s)""")
+                (idCaptura, captura, dataCaptura, fkAuxComponente,fkComponente, fkComputador)
+                VALUES (default,%s,%s,12,4,%s)""")
 
-    data_cpu = [cpu_percent, idComputador]
+    data_cpu = [cpu_percent, agora, idComputador]
 
     cursor.execute(add_disco, data_disco)
     mydb.commit()
@@ -206,13 +210,13 @@ def print_system_info():
 
 
     add_rede = ("""INSERT INTO captura
-                (idCaptura, Captura, fkAuxComponente,fkComponente, fkComputador)
-                VALUES (default,%s,2,1,%s),
-                (default,%s,3,1,%s),
-                (default,%s,4,1,%s),
-                (default,%s,5,1,%s)""")
+                (idCaptura, Captura, dataCaptura, fkAuxComponente,fkComponente, fkComputador)
+                VALUES (default,%s,%s,2,1,%s),
+                (default,%s,%s,3,1,%s),
+                (default,%s,%s,4,1,%s),
+                (default,%s,%s,5,1,%s)""")
 
-    data_rede = [bytesEnv,idComputador, bytesReceb,idComputador, pctReceb,idComputador, pctEnv, idComputador]
+    data_rede = [bytesEnv, agora, idComputador, bytesReceb, agora, idComputador, pctReceb, agora, idComputador, pctEnv, agora, idComputador]
     print(type(data_rede))
 
 
@@ -220,7 +224,6 @@ def print_system_info():
     mydb.commit()
     print(cursor.rowcount, "registro inserido")
     monitor_system()
-
 
 
 
