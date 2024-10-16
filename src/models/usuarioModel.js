@@ -54,7 +54,7 @@ function cadastrar(nomeEmp, cnpj, nomeRep, email, cargo, senha) {
             // Agora inserimos o representante na tabela de funcionários
             var instrucaoSqlFuncionario = `
                 INSERT INTO funcionario (nome, email, senha, fkCargo, status, fkEmpresa) 
-                VALUES ('${nomeRep}', '${email}', MD5('${senha}'),1, default, ${idEmpresa});
+                VALUES ('${nomeRep}', '${email}', MD5('${senha}'),${cargo}, default, ${idEmpresa});
             `;
             console.log("Executando a instrução SQL para funcionário:\n" + instrucaoSqlFuncionario);
             return database.executar(instrucaoSqlFuncionario);
