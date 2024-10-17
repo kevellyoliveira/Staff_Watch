@@ -66,15 +66,7 @@ sudo apt install npm -y
 fi #fecha o if
 
 #Baixar Docker
-echo "Verificando se o Docker já está instalado"
-if [ $? = 0 ]; #se retorno for igual a 0
-then #entao,
-echo “Cliente possui Docker instalado!” 
-else #se nao,
-echo “Cliente não possui Docker instalado!”
 sudo apt install docker.io -y
-fi
-
 
 # criando uma rede para os containers se comunicarem entre si
 sudo docker network create redeContainers

@@ -3,9 +3,6 @@ var database = require("../database/config");
 
 const nodemailer = require('nodemailer')
 
-
-
-
 const transport = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 465,
@@ -86,12 +83,7 @@ function cadastrar(req, res) {
                 function (resultado) {
                     res.json(resultado);
 
-                    
-                    
                     slack = 'https://join.slack.com/t/sptech-vd51973/shared_invite/zt-2r4gyat4x-xaaEqqxCL4wAW3LqqjSgPw'
-
-                   
-
 
                         transport.sendMail({
                             from: '"Staff Watch" <equipestaffwatch@gmail.com>',
