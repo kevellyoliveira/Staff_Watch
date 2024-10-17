@@ -28,8 +28,16 @@ sudo apt install python -y
 fi
 fi 
 
-echo "Instalando a imagem do dockerhub"
-sudo docker pull fermoselle/looca:desafio
+sudo apt install docker.io -y
+
+echo "Instalando a imagem de kotlin"
+sudo docker pull eduardomiyasaki/captura-kotlin-cliente:v1
 
 echo "Instanciando o container, com a imagem do dockerHub"
-sudo docker run -d -p 8081:8081 --name containerkotlincliente fermoselle/looca:desafio
+sudo docker run -d -p 8081:8081 --name containerkotlincliente eduardomiyasaki/captura-kotlin-cliente:v1
+
+echo "Instalando a imagem de python"
+sudo docker pull eduardomiyasaki/captura-python-cliente:v1
+
+echo "Instanciando o container, com a imagem do dockerHub"
+sudo docker run -d -p 5000:5000 --name containerkotlincliente eduardomiyasaki/captura-python-cliente:v1

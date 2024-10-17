@@ -15,7 +15,7 @@ class monitoramentoRepositorio {
             val dataSource: BasicDataSource = BasicDataSource()
             dataSource.driverClassName = "com.mysql.cj.jdbc.Driver"
             //dataSource.url = "jdbc:h2:mem:StaffWatch"
-            dataSource.url = "jdbc:mysql://54.205.232.197:3306/StaffWatch?serverTimezone=America/Sao_Paulo"
+            dataSource.url = "jdbc:mysql://44.194.151.184:3306/StaffWatch?serverTimezone=America/Sao_Paulo"
             dataSource.username = "root"
             dataSource.password = "senha_segura"
 
