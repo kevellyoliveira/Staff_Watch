@@ -6,9 +6,11 @@ WORKDIR /app
 
 #instalando as bibliotecas que usamos no script
 RUN pip install psutil mysql-connector-python
+RUN apt-get update && apt-get install -y python3-tk
+
 
 # Copie o script Python para dentro do contêiner
-COPY scriptPython.py .
+COPY TestePython3-minimenu.py .
 
 # Defina o comando a ser executado ao iniciar o contêiner
-CMD ["python", "scriptPython.py"]
+CMD ["python", "TestePython3-minimenu.py"]
