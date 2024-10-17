@@ -167,6 +167,4 @@ select * from funcionario;
 select * from captura;
 select * from computador;
 
-
-SELECT token FROM Token WHERE token = 'SEZje7' and fkEmpresa = 2;
 desc captura;
