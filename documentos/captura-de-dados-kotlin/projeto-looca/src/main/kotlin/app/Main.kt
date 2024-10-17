@@ -20,23 +20,23 @@ open class Main {
 
 
             while (true){
-                print("""
-          ====================================================================
-            1 - Iniciar monitoramento
-            2 - sair
-          ====================================================================
-          
-        """.trimIndent())
-                print("digite uma opção:")
-                val opcao = readln().toInt()
+//                print("""
+//          ====================================================================
+//            1 - Iniciar monitoramento
+//            2 - sair
+//          ====================================================================
+//
+//        """.trimIndent())
+//                print("digite uma opção:")
+//                val opcao = readln().toInt()
 
-                when (opcao){
-                    1 -> {
-                        print("Antes disso, selecione o computador a ser monitorado pelo id:")
-                        val id = readln().toInt()
-                        novoMonitoramento.id = id
+//                when (opcao){
+//                    1 -> {
+//                        print("Antes disso, selecione o computador a ser monitorado pelo id:")
+//                        val id = readln().toInt()
+//                        novoMonitoramento.id = id
 
-                        if (monitoramentoRepositorio.existePorId(id)) {
+                        if (monitoramentoRepositorio.existePorId(1)) {
                             // Criação do gerenciador
                             val grupoDeRedes = looca.rede.grupoDeInterfaces
                             val rotacao: Int = 20
@@ -108,10 +108,10 @@ open class Main {
                         }else{
                             println("Não existe um computador com esse id")
                         }
-                    }
-                    2 -> break
-                    else -> println("opção inválida")
-                }
+//                    }
+//                    2 -> break
+//                    else -> println("opção inválida")
+//                }
             }
             /*Bytes recebidos: 117243982
 Bytes enviados: 15450483

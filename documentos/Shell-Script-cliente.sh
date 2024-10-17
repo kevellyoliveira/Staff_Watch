@@ -1,11 +1,5 @@
 !/bin/bash
 
-echo “Meu primeiro shell script”
-echo “O diretório corrente é”
-pwd
-echo “O conteúdo do diretório corrente é”
-ls
-
 java -version #verifica versao atual do java
 if [ $? = 0 ]; #se retorno for igual a 0
 then #entao,

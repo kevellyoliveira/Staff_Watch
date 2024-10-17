@@ -15,9 +15,9 @@ class monitoramentoRepositorio {
             val dataSource: BasicDataSource = BasicDataSource()
             dataSource.driverClassName = "com.mysql.cj.jdbc.Driver"
             //dataSource.url = "jdbc:h2:mem:StaffWatch"
-            dataSource.url = "jdbc:mysql://localhost:3306/StaffWatch?serverTimezone=America/Sao_Paulo"
+            dataSource.url = "jdbc:mysql://54.205.232.197:3306/StaffWatch?serverTimezone=America/Sao_Paulo"
             dataSource.username = "root"
-            dataSource.password = "10062006Dudu"
+            dataSource.password = "senha_segura"
 
             jdbcTemplate = JdbcTemplate(dataSource)
         }
@@ -135,7 +135,7 @@ class monitoramentoRepositorio {
     }
     fun existePorId(id: Int): Boolean {
         val qtdExistentes = jdbcTemplate.queryForObject(
-            "Select count(*) from Computador where idComputador = ?;",
+            "Select count(*) from computador where idComputador = ?;",
             Int::class.java,
             id
         )
