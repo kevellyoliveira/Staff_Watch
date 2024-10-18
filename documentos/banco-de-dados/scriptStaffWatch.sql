@@ -3,13 +3,75 @@ USE StaffWatch;
 
 -- drop database staffwatch;
 
+CREATE TABLE IF NOT EXISTS componente(
+idComponente INT PRIMARY KEY AUTO_INCREMENT,
+nome VARCHAR(45)
+);
+
+CREATE TABLE IF NOT EXISTS auxComponente (
+idAuxComponente INT PRIMARY KEY AUTO_INCREMENT,
+unidadeMedida varchar(45),
+descricao varchar(255),
+
+fkComponente INT,
+CONSTRAINT fkComponenteAuxComponente FOREIGN KEY(fkComponente)
+REFERENCES componente(idComponente)
+);
+
+insert into componente values
+(default,"rede"),
+(default,"memoria"),
+(default,"disco"),
+(default,"cpu"),
+(default, "processos");
+-- select * from auxComponente;
+-- select count(*) from computador where idComputador = 1;
+insert into auxComponente values
+(default,"redeUso","%", 1),
+(default,"redeEnvio","bytes", 1),
+(default,"redeRecebidos","bytes", 1),
+(default,"pacoteRecebidos","qte", 1),
+(default,"pacoteEnviados","qte", 1),
+(default,"memoriaUso","byte", 2),
+(default,"memoriaTotal","byte", 2),
+(default,"memoriaPorcen","%", 2),
+(default,"discoUso","byte", 3),
+(default,"discoTotal","byte", 3),
+(default,"discoPorcen","%", 3),
+(default,"cpuPorcen","%", 4),
+
+-- looca
+(default,"redeRecebidosLooca","bytes", 1),
+(default,"redeEnviadosLooca","bytes", 1),
+(default,"pacoteEnviadosLooca","qte", 1),
+(default,"pacoteRecebidosLooca","qte", 1),
+(default,"totalServiçosLooca","qte", 5),
+(default,"totalProcessosLooca","qte", 5),
+(default,"tempoAtividadeLooca","segundos", 5);
+
+
 CREATE TABLE IF NOT EXISTS empresa (
 idEmpresa INT PRIMARY KEY AUTO_INCREMENT,
 cnpj CHAR(18),
-nomeEmp VARCHAR(45)
+nomeEmp VARCHAR(45),
+fkRede int null,
+constraint fkRedeEmpresa foreign key(fkRede)
+references componente(idComponente),
+fkMemoria int null,
+constraint fkMemoriaEmpresa foreign key(fkMemoria)
+references componente(idComponente),
+fkDisco int null,
+constraint fkDiscoEmpresa foreign key(fkDisco)
+references componente(idComponente),
+fkCpu int null,
+constraint fkCpuEmpresa foreign key(fkCpu)
+references componente(idComponente),
+fkProcessos int null,
+constraint fkProcessosEmpresa foreign key(fkProcessos)
+references componente(idComponente)
 );
 
-insert into empresa values
+insert into empresa (idEmpresa, cnpj, nomeEmp) values
 (default, "123456789123456789", "Falla");
 
 CREATE TABLE IF NOT EXISTS token (
@@ -83,51 +145,9 @@ REFERENCES empresa(idEmpresa)
 insert into computador values
 (default,1,1);
 
-CREATE TABLE IF NOT EXISTS componente(
-idComponente INT PRIMARY KEY AUTO_INCREMENT,
-nome VARCHAR(45)
-);
 
-CREATE TABLE IF NOT EXISTS auxComponente (
-idAuxComponente INT PRIMARY KEY AUTO_INCREMENT,
-unidadeMedida varchar(45),
-descricao varchar(255),
 
-fkComponente INT,
-CONSTRAINT fkComponenteAuxComponente FOREIGN KEY(fkComponente)
-REFERENCES componente(idComponente)
-);
 
-insert into componente values
-(default,"rede"),
-(default,"memoria"),
-(default,"disco"),
-(default,"cpu"),
-(default, "processos");
-select * from auxComponente;
-select count(*) from computador where idComputador = 1;
-insert into auxComponente values
-(default,"redeUso","%", 1),
-(default,"redeEnvio","bytes", 1),
-(default,"redeRecebidos","bytes", 1),
-(default,"pacoteRecebidos","qte", 1),
-(default,"pacoteEnviados","qte", 1),
-(default,"memoriaUso","byte", 2),
-(default,"memoriaTotal","byte", 2),
-(default,"memoriaPorcen","%", 2),
-(default,"discoUso","byte", 3),
-(default,"discoTotal","byte", 3),
-(default,"discoPorcen","%", 3),
-(default,"cpuPorcen","%", 4),
-
--- looca
-(default,"redeRecebidosLooca","bytes", 1),
-(default,"redeEnviadosLooca","bytes", 1),
-(default,"pacoteEnviadosLooca","qte", 1),
-(default,"pacoteRecebidosLooca","qte", 1),
-(default,"totalServiçosLooca","qte", 5),
-(default,"totalProcessosLooca","qte", 5),
-(default,"tempoAtividadeLooca","segundos", 5);
 
 CREATE TABLE IF NOT EXISTS captura(
 idCaptura int primary key auto_increment,
