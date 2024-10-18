@@ -1,4 +1,4 @@
-!/bin/bash
+#!/bin/bash
 
 # Atualizar Instancia
 echo "Atualizando Instância"
@@ -75,31 +75,31 @@ sudo docker network create redeContainers
 sudo systemctl stop mysql
 
 echo "Baixando imagem do MySQL..."
-sudo docker pull izabellefigueiredo/sql-staff-watch:v2
+sudo docker pull eduardomiyasaki/bancodados_staff_watch:v2
 echo "Instanciando imagem do MySQL..."
-sudo docker run -d -p 3306:3306 --name containerMysql --network redeContainers izabellefigueiredo/sql-staff-watch:v2
+sudo docker run -d -p 3306:3306 --name containerMysql --network redeContainers eduardomiyasaki/bancodados_staff_watch:v2
 echo "aguardando instalações do MySQL........"
 sleep 5
 
-echo "Baixando imagem do Kotlin..."
-sudo docker pull izabellefigueiredo/captura-kotlin:v3
-echo "Instanciando imagem do Kotlin..."
-sudo docker run -it -d -p 8081:8081 --name containerKotlin --network redeContainers izabellefigueiredo/captura-kotlin:v3
+# echo "Baixando imagem do Kotlin..."
+# sudo docker pull eduardomiyasaki/captura-kotlin-cliente:v1
+# echo "Instanciando imagem do Kotlin..."
+# sudo docker run -it -d -p 8081:8081 --name containerKotlin --network redeContainers eduardomiyasaki/captura-kotlin-cliente:v1
 
 
 echo "Baixando imagem do site..."
-sudo docker pull eduardomiyasaki/site:v1
+sudo docker pull eduardomiyasaki/site_staff_watch:v8
 echo "Instanciando imagem do site..."
-sudo docker run -d -p 8080:8080 --name containerSite --network redeContainers eduardomiyasaki/site:v1
+sudo docker run -d -p 3333:3333 --name containerSite --network redeContainers eduardomiyasaki/site_staff_watch:v8
 
 
-echo "Baixando imagem do Python..."
-sudo docker pull izabellefigueiredo/captura-python:v3
-echo "Instanciando imagem do Python..."
-sudo docker run -d -p 5000:5000 --name containerPython --network redeContainers izabellefigueiredo/captura-python:v3
+# echo "Baixando imagem do Python..."
+# sudo docker pull eduardomiyasaki/captura-python-cliente:v3
+# echo "Instanciando imagem do Python..."
+# sudo docker run -d -p 5000:5000 --name containerPython --network redeContainers eduardomiyasaki/captura-python-cliente:v3
 
-# iniciando o container de Python (que depende do MySQL), caso os 5 segundos do MySQL não tenham sido suficientes, para garantir que todos os containers sejam criados completamente
-echo "aguardando instalações........"
-sleep 10
-sudo docker start containerPython
+# # iniciando o container de Python (que depende do MySQL), caso os 5 segundos do MySQL não tenham sido suficientes, para garantir que todos os containers sejam criados completamente
+# echo "aguardando instalações........"
+# sleep 10
+# sudo docker start containerPython
 

@@ -1,0 +1,10 @@
+Deixando o script Shell do cliente rodável
+
+sudo apt install dos2unix -y
+
+dos2unix Shell-Script-cliente.sh
+
+chmod +x Shell-Script.cliente.sh
+
+no Script de instação nosso precisa dar esse comando no bash para que fique acessível o novo ipv4 publico
+ssh-keygen -R ec2-44-194-151-184.compute-1.amazonaws.com
