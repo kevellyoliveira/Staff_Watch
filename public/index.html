@@ -5,10 +5,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="./css/index.css">
-
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="shortcut icon" href="./src/img/logoB.png" type="image/x-icon" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <title>Tela de Início | Staff Watch</title>
 </head>
@@ -25,7 +28,7 @@
         <span class="bar"></span>
       </button>
       <ul class="nav-links" role="menubar">
-        <li><a href="#Aplicacao" role="menuitem">Aplicação</a></li>
+        <li><a href="#Aplicacao" role="menuitem">Nosso Produto</a></li>
 
         <li><a href="#Beneficios" role="menuitem">Benefícios</a></li>
 
@@ -87,16 +90,16 @@
 
   </section>
 
-  <div class="linha" style="background-color: #001E42; width: 100%; height: 8px;"></div>
+  <div class="linha" style="background-color: #001E42; width: 100%; height: 0px;"></div>
 
   <section class="aplicacao" id="Aplicacao">
 
     <aside class="img"></aside>
 
     <article class="textos">
-      <h1>Aplicação</h1>
+      <h1>Nosso Produto</h1>
       <div class="texto1">
-        <p>Monitoramento de Hardware: A aplicação acompanha o uso de CPU, memória e temperatura em tempo real.</p>
+        <p>Monitoramento de Hardware: A aplicação acompanha o uso de REDE, MEMÓRIA, DISCO e CPU.</p>
       </div>
 
       <div class="texto2">
@@ -111,52 +114,112 @@
 
 
   <article class="beneficios" id="Beneficios">
-
-    <article class="article-h1">
-      <h1 class="h1">Benefícios</h1>
-    </article>
-
-    <article class="main-article">
-      <section class="card_one">
-        <p>Uso mais eficiente dos recursos de TI e do tempo dos funcionários</p>
+<div>
+  <article class="article-h1">
+  <h1 class="h1">Benefícios</h1>
+  </article>
+  <article class="main-article">
+    <section class="card_one">
+      <a href="#" class="footer-link" id="aviso"></a>
+      <i class="fa-solid fa-triangle-exclamation"></i>
+      <h2>Identifique problemas antes que aconteçam: </h2>
+      <p>Receba alertas proativos sobre possíveis falhas de hardware e evite interrupções inesperadas, garantindo a continuidade das suas operações.</p>
+    </section>
+    <section class="card_two">
+        <a href="#" class="footer-link" id="full"></a>
+        <i class="fa-solid fa-battery-full"></i>
+        <h2>Maximize a vida útil dos equipamentos:</h2>
+        <p> Nosso sistema ajuda a prolongar a vida útil de seus equipamentos ao monitorar o uso e o desgaste, permitindo manutenções planejadas e mais eficientes.
+        </p>
       </section>
-
-      <section class="card_two">
-        <p>Melhoria na produtividade </p>
-      </section>
-
       <section class="card_tree">
-        <p>Melhor alocação de ferramentas e tempo de trabalho</p>
+        <a href="#" class="footer-link" id="cima"></a>
+        <i class="fa-solid fa-arrow-up"></i>
+        <h2>Aumente a eficiência operacional: </h2>
+        <p>Com nosso sistema de monitoramento de hardware, você pode otimizar o uso de recursos, garantindo que seus equipamentos estejam sempre funcionando no melhor desempenho.
+        </p>
       </section>
     </article>
+</article>
 
-  </article>
+
+<article class="container_master" id="SobreNos">
+  <section class="container_one">
+    <h3>Sobre Nós</h3>
+    <p>A Staff Watch é uma empresa de tecnologia especializada em monitoramento de computadores que visa melhorar a
+      produtividade nas empresas.
+      <br><br>
+      Localizada em São Paulo, a Staff Watch está sempre acompanhando as inovações e tecnologias do mercado.
+      <br><br>
+      Nossos valores são inovação, qualidade e segurança.
+    </p>
+  </section>
+
+  <section class="container_two">
+    <img src="./src/img/logoA.png" alt="img_logo_principal" class="logo_principal" />
+  </section>
+
+</article>
+
+<div class="linha" style="background-color: #E7ECEF; width: 100%; height: 0px;"></div>
+
+<footer>
+  <div id="footer_content">
+    <div id="footer_contats">
+
+      <h1><img src="./src/img/logoB.png" alt="" class="logo_footer"></h1>
+      <p>É tudo sobre os seus sonhos</p>
+      <div id="footer_social_media"></div>
+      <a href="#" class="footer-link" id="envelope"></a>
+      <i class="fa-regular fa-envelope"></i>
+
+      <a href="#" class="footer-link" id="github"></a>
+      <i class="fa-brands fa-github"></i>
+
+      <a href="#" class="footer-link" id="linkedin"></a>
+      <i class="fa-brands fa-linkedin"></i>
 
 
-  <article class="container_master" id="SobreNos">
-    <section class="container_one">
-      <h3>Sobre Nós</h3>
-      <p>A Staff Watch é uma empresa de tecnologia especializada em monitoramento de computadores que visa melhorar a
-        produtividade nas empresas.
-        <br><br>
-        Localizada em São Paulo, a Staff Watch está sempre acompanhando as inovações e tecnologias do mercado.
-        <br><br>
-        Nossos valores são inovação, qualidade e segurança.
-      </p>
-    </section>
+    </div>
+    <ul class="footer-list">
+      <li>
+<h3>Blog</h3>
+      </li>
+      <li>
+        <a href="#Beneficios" class="footer-link">Benefícios</a>
+      </li>
+      <li>
+        <a href="#SobreNos" class="footer-link">Sobre Nós</a>
+      </li>
+    </ul>
+    <ul class="footer-list">
+      <li>
+<h3>Produto</h3>
+      </li>
+      <li>
+        <a href="#Aplicacao" class="footer-link">Nosso Produto</a>
+      </li>
+      <li>
+        <a href="#" class="footer-link"></a>
+      </li>
+      <li>
+        <a href="#" class="footer-link"></a>
+      </li>
+    </ul>
+    <div id="footer_subscribe">
+        <h3>Nos conheça</h3>
+        <p>
+          Entre com seu email para acompanhar nossa jornada:
+        </p>
+        <div id="input_group">
+          <input type="email" id="email">
+          <button>
+            <i class="fa-regular fa-envelope"></i>
+          </button>
+        </div>
+      </div>
+    </div>
 
-    <section class="container_two">
-      <img src="./src/img/logoA.png" alt="img_logo_principal" class="logo_principal" />
-    </section>
-
-  </article>
-
-  <div class="linha" style="background-color: #E7ECEF; width: 100%; height: 8px;"></div>
-
-  <footer class="footer">
-    <br>
-    <img src="./src/img/logob.png" alt="img_logo_principal" class="logo_principal" />
-    <p> Todos os direitos reservados.  <br><br>&copy; 2024 StaffWatch.</p>
   </footer>
 </body>
 
@@ -210,6 +273,3 @@
       navLinks.classList.toggle('active');
     });
   });
-
-
-</script>
