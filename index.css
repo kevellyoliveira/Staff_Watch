@@ -378,7 +378,7 @@ nav {
     /* Centraliza os itens na barra de navegação */
     width: 80%;
     margin-right: 100px;
-
+    font-family: "Inter", sans-serif;
     /* list-style: none; */
     /* text-transform: uppercase; */
     /* position: absolute; */
@@ -526,14 +526,11 @@ font-weight: 500;
 
 .beneficios {
     background-color: #001E42;
-    /* overflow-x: hidden; */
+    height: 100%;
+    width: 100%;
+    font-family: "Inter", sans-serif;
     justify-content: center;
     align-items: center;
-    height: 96.5%;
-    width: 50;
-    font-family: 'Inter';
-    /* Fonte padrão do sistema */
-
 }
 
 .article-h1 {
@@ -551,8 +548,9 @@ font-weight: 500;
 .h1 {
     color: #fff;
     font-family: "Inter", sans-serif;
-    font-weight: 200;
+    font-weight: 400;
     font-size: xx-large;
+    margin: auto;
 }
 
 .main-article {
@@ -573,6 +571,7 @@ font-weight: 500;
     font-size: x-large;
     text-align: center;
     width: 80%;
+    padding-left: 10%;
 }
 
 .card_one {
@@ -580,9 +579,10 @@ font-weight: 500;
     height: 355px;
     background-color: #fff;
     border-radius: 12px;
-    display: flex;
+    display: grid;
     align-items: center;
     justify-content: center;
+    text-align: center;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -591,9 +591,10 @@ font-weight: 500;
     height: 355px;
     background-color: #fff;
     border-radius: 12px;
-    display: flex;
+    display: grid;
     align-items: center;
     justify-content: center;
+    text-align: center;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -602,87 +603,11 @@ font-weight: 500;
     height: 355px;
     background-color: #fff;
     border-radius: 12px;
-    display: flex;
+    display: grid;
     align-items: center;
     justify-content: center;
+    text-align: center;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* resposividade */
-@media (max-width: 768px) {
-
-
-    .beneficios {
-        background-color: #001E42;
-        /* overflow-x: hidden; */
-        justify-content: center;
-        align-items: center;
-        height: 80%;
-        border: #E7ECEF 12px solid;
-        width: 98,5%;
-        font-family: 'Inter';
-        /* Fonte padrão do sistema */
-    
-    }
-    
-    .main-article {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .card_one {
-        width: 90%;
-        height: auto;
-        margin: 10px 0;
-    }
-
-    .card_two {
-        width: 90%;
-        height: auto;
-        margin: 10px 0;
-    }
-
-    .card_tree {
-        width: 90%;
-        height: auto;
-        margin: 10px 0;
-    }
-
-    .main-article p {
-        font-family: "Inter", sans-serif;
-        font-weight: 300;
-        font-size: large;
-        text-align: center;
-        width: 80%;
-    }
-
-}
-
-/* responsividade de celular */
-@media (min-width: 201px) and (max-width: 1024px) {
-
-    .main-article {
-        justify-content: center;
-    }
-
-    .card_one {
-        width: 45%;
-        height: auto;
-        margin: 10px;
-    }
-
-    .card_two {
-        width: 45%;
-        height: auto;
-        margin: 10px;
-    }
-
-    .card_tree {
-        width: 45%;
-        height: auto;
-        margin: 10px;
-    }
-
 }
 
 /* SOBRE NOS  */
@@ -794,9 +719,10 @@ font-weight: 500;
         object-fit: fill;
         width: 50%;
     }
+
 }
 
-/* FOOTER  */
+/* FOOTER */
 :root{
 --color-neutral-0: #0e0c0c;
 --color-neutral-10: #171717;
@@ -807,7 +733,8 @@ font-weight: 500;
 
 footer{
     width: 100%;
-color: var(--color-neutral-40);
+    color: var(--color-neutral-40);
+    font-family:"Inter", sans-serif;
 }
 
 #footer_content{
@@ -894,23 +821,25 @@ border-radius: 4px;
     opacity: 0.8;
 }
 
+.logo_footer{
+    width: 40%;
+    height: 40%;
+    }
 
-@media screen and(max-width:768px){
-    footer_content{
+/*@media only screen and(max-width:768px){
+    .footer_content{
+        display: block;
         grid-template-columns: repeat(2,ifr);
         gap: 2rem;
     }
 }
 
-@media screen and(max-width:426px){
-    footer_content{
+@media only screen and(max-width:426px){
+    .footer_content{
+        display: block;
         grid-template-columns: repeat(1,ifr);
         padding: 3rem 2rem;
     }
-}
+}*/
 
-.logo_footer{
-width: 30%;
-height: 30%;
-}
     
