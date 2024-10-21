@@ -33,10 +33,10 @@ echo "Instalando a imagem de Kotlin"
 sudo docker pull eduardomiyasaki/captura-kotlin-cliente:v1
 
 echo "Instanciando o container, com a imagem do DockerHub (Kotlin)"
-sudo docker run -d -p 8081:8081 --name containerkotlincliente eduardomiyasaki/captura-kotlin-cliente:v1
+sudo docker run -d -p 8081:8081 --name containerkotlincliente eduardomiyasaki/captura-kotlin-cliente:v2
 
 echo "Instalando a imagem de Python"
-sudo docker pull eduardomiyasaki/captura-python-cliente:v3
+sudo docker pull eduardomiyasaki/captura-python-cliente:v4
 
 echo "Instanciando o container, com a imagem do DockerHub (Python)"
-sudo docker run -d -p 5000:5000 --name containerpythoncliente eduardomiyasaki/captura-python-cliente:v3
+sudo docker run -d -p 5000:5000 --name containerpythoncliente eduardomiyasaki/captura-python-cliente:v4
