@@ -44,7 +44,7 @@ function cadastrar(req, res) {
 }
 
 
-// funcoes nao utilizadas =============================================================
+
 function listar(req, res) {
     funcionarioModel.listar().then(function (resultado) {
         if (resultado.length > 0) {
@@ -84,26 +84,6 @@ function listarPorUsuario(req, res) {
         );
 }
 
-function pesquisarmensagem(req, res) {
-    var mensagem = req.params.mensagem;
-
-    funcionarioModel.pesquisarmensagem(mensagem)
-        .then(
-            function (resultado) {
-                if (resultado.length > 0) {
-                    res.status(200).json(resultado);
-                } else {
-                    res.status(204).send("Nenhum resultado encontrado!");
-                }
-            }
-        ).catch(
-            function (erro) {
-                console.log(erro);
-                console.log("Houve um erro ao buscar os avisos: ", erro.sqlMessage);
-                res.status(500).json(erro.sqlMessage);
-            }
-        );
-}
 
 function editar(req, res) {
     var novamensagem = req.body.mensagem;
@@ -143,52 +123,12 @@ function deletar(req, res) {
         );
 }
 
-function curtir(req, res) {
-    var idPostagem = req.body.idPostagem;
-    var idUsuario = req.body.idUsuario;
 
-    funcionarioModel.curtir(idUsuario, idPostagem)
-        .then(
-            function (resultado) {
-                res.json(resultado);
-            }
-        )
-        .catch(
-            function (erro) {
-                console.log(erro);
-                console.log("Houve um erro ao realizar a curtida: ", erro.sqlMessage);
-                res.status(500).json(erro.sqlMessage);
-            }
-        );
-}
-
-function descurtir(req, res) {
-    var idPostagem = req.body.idPostagem;
-    var idUsuario = req.body.idUsuario;
-
-    funcionarioModel.descurtir(idUsuario, idPostagem)
-        .then(
-            function (resultado) {
-                res.json(resultado);
-            }
-        )
-        .catch(
-            function (erro) {
-                console.log(erro);
-                console.log("Houve um erro ao realizar a descurtida: ", erro.sqlMessage);
-                res.status(500).json(erro.sqlMessage);
-            }
-        );
-}
 
 module.exports = {
     listarPorUsuario,
-    pesquisarmensagem,
     editar,
     deletar,
     cadastrar,
     listar,
-    curtir,
-    descurtir
-
 }
