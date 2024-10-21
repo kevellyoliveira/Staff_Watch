@@ -13,4 +13,12 @@ router.post("/cadastrar", function (req, res) {
   maquinaController.cadastrar(req, res);
 })
 
+router.post("/componente", function (req, res) {
+  maquinaController.cadastrarComponente(req, res);
+})
+
+router.post("/remover", function (req, res) {
+  maquinaController.removerComponente(req, res);
+})
+
 module.exports = router;

@@ -36,8 +36,29 @@ function cadastrar(idEquipe, token, fkEmpresa) {
         });
 }
 
+function cadastrarComponente(nomeComponente, fkEmpresa) {
+
+  var instrucaoSql = `update empresa
+set ${nomeComponente} = 1
+where idEmpresa = ${fkEmpresa};`;
+
+  console.log("Executando a instrução SQL: \n" + instrucaoSql);
+  return database.executar(instrucaoSql);
+}
+
+function removerComponente(nomeComponente, fkEmpresa) {
+
+  var instrucaoSql = `delete from empresa where 
+set ${nomeComponente} = 1
+where idEmpresa = ${fkEmpresa};`;
+
+  console.log("Executando a instrução SQL: \n" + instrucaoSql);
+  return database.executar(instrucaoSql);
+}
+
 
 module.exports = {
   buscarUsuario,
-  cadastrar
+  cadastrar,
+  cadastrarComponente
 }

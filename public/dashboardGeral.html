@@ -28,6 +28,7 @@
                     <div id="menu">
                         <h4 onclick="window.location.href='pagina-operario.html'">Funcionários</h4>
                         <h4 onclick="window.location.href='pagina-maquina.html'">Dispositivos</h4>
+                        <h4 onclick="window.location.href='cadastroComponente.html'">Componentes</h4>
                     </div>
                 </div>
             </div>
@@ -97,6 +98,14 @@
             sessionStorage.setItem('equipeSelecionada', id);
             // Redireciona para a página da equipe
             window.location.href = 'dashboardEquipe.html';
+        }
+    }
+
+    function abrirMenu() {
+        if (document.getElementById("menu").style.display == "flex") {
+            document.getElementById("menu").style.display = "none";
+        } else {
+            document.getElementById("menu").style.display = "flex"
         }
     }
 
