@@ -46,7 +46,8 @@
         <section class="section-card">
             <div class="card open-modal">
                 <div class="up-card">
-                    <img src="./src/img/icons/editar.svg" alt="">
+                    <button id="editarBot" class="editar" onclick=editar()><img src="./src/img/icons/editar.svg"
+                            alt=""></button>
                     <img src="./src/img/icons/excluir.svg" alt="">
                 </div>
                 <div class="down-card">
@@ -186,7 +187,19 @@
             </div>
         </div>
     </div>
-    <div id="fade" class="hide"></div>
+    
+    <div id="modal2" class="hide">
+        <div class="modal-header2">
+            
+        </div>
+        <div class="modal-content2">
+            <div class="modal-user2">
+            </div>
+            <div class="modal-form2">
+            </div>
+        </div>
+    </div>
+    <div id="fade2" class="hide"></div>
 </body>
 
 </html>
@@ -199,7 +212,7 @@
             document.getElementById("menu").style.display = "flex"
         }
     }
-    
+
     function sair() {
         sessionStorage.clear()
         window.location = "index.html"
