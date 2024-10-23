@@ -16,10 +16,9 @@
 
     <dialog>
 
-    <h1>RAto</h1>
-
-    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quae maiores sequi eum dolorem laboriosam numquam fugit, deleniti explicabo architecto, impedit eligendi eaque itaque? Quidem dolores eos in eaque nulla perferendis.</p>
-
+    <div class="teste">
+        
+    </div>
     <button id="FecharModal">Fechar</button>
     </dialog>
 
@@ -37,17 +36,39 @@
 
 <script>
 
-    const modalAbrir = document.querySelector("button")
-    const modalFechar = document.querySelector("dialog button")
-    const modal = document.querySelector("dialog")
+    // Como manda o tutorial do youtube
 
-    modalAbrir.onclick = function () {
-        modal.showModal()
+    // const modalAbrir = document.querySelector("button")
+    // const modalFechar = document.querySelector("dialog button")
+    // const modal = document.querySelector("dialog")
+
+    // modalAbrir.onclick = function () {
+    //     modal.showModal()
         
-    }
+    // }
 
-    modalFechar.onclick = function () {
-        modal.close()
-    }
+    // modalFechar.onclick = function () {
+    //     modal.close()
+    // }
+
+
+    // tentando pelo ID
+
+
+    
+const modalAbrir = document.getElementById("AbrirModal");
+const modalFechar = document.getElementById("FecharModal");
+const modal = document.querySelector("dialog");
+
+
+modalAbrir.onclick = function () {
+    modal.showModal(); // Exibe o modal
+}
+
+
+modalFechar.onclick = function () {
+    modal.close(); // Fecha o modal
+}
+
    
 </script>
