@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/dashboardGeral.css">
+    <link rel="stylesheet" href="css/dashboardHist.css">
     <link rel="shortcut icon" href="./src/img/logoB.png" type="image/x-icon" />
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -38,52 +38,40 @@
             </div>
         </div>
     </header>
-
     <div class="corpo">
         <div class="menuLateral">
             <div class="itens">
-                <h4 id="0" class="slc" onclick="window.location.href='dashboardGeral.html'">Visão Geral</h4>
+                <h4 id="0" class="slc" onclick="window.location.href='dashboardEquipe.html'">Histórico</h4>
                 <h4 id="1" onclick="selecionarItem(this)">Equipe 1</h4>
                 <h4 id="2" onclick="selecionarItem(this)">Equipe 2</h4>
                 <h4 id="3" onclick="selecionarItem(this)">Equipe 3</h4>
                 <h4 id="4" onclick="selecionarItem(this)">Equipe 4</h4>
             </div>
         </div>
-
-        <div class="container">
-            <div class="conteudo">
-                <h1>Desempenho Geral do Hardware</h1>
-                <div class="elementos">
-                    <div class="elemento">
-                        <h4>CPU</h4>
-                        <div class="grafico">
-                            <canvas id="cpuChart"></canvas>
-                        </div>
-                    </div>
-                    <div class="elemento">
-                        <h4>Rede</h4>
-                        <div class="grafico">
-                            <canvas id="redeChart"></canvas>
-                        </div>
-                    </div>
-                    <div class="elemento">
-                        <h4>RAM</h4>
-                        <div class="grafico">
-                            <canvas id="ramChart"></canvas>
-                        </div>
-                    </div>
-                    <div class="elemento">
-                        <h4>Armazenamento</h4>
-                        <div class="grafico">
-                            <canvas id="armazenamentoChart"></canvas>
-                        </div>
-                    </div>
+        <div class="infos">
+            <div class="emcima">
+                <h1>Uso do Hardware</h1>
+                <select name="" id="">
+                    <option value=""></option>
+                    <option value=""></option>
+                    <option value=""></option>
+                    <option value=""></option>
+                </select>
+            </div>
+            <div class="embaixo">
+                <div class="esquerda">
+                    <div class="card"></div>
+                    <div class="card"></div>
+                    <div class="card"></div>
+                    <div class="card"></div>
                 </div>
+                <div class="direita"></div>
             </div>
         </div>
     </div>
-</body>
+    </body>
 
+    
 </html>
 
 <script>
