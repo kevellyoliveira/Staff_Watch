@@ -119,10 +119,6 @@ fkEquipe INT,
 CONSTRAINT fkEquipeComputador FOREIGN KEY(fkEquipe)
 REFERENCES equipe(idEquipe),
 
-fkFuncionario INT,
-CONSTRAINT fkFuncionarioComputador FOREIGN KEY (fkFuncionario)
-REFERENCES funcionario(idFuncionario),
-
 fkEmpresa INT,
 CONSTRAINT fkEmpresaComputador FOREIGN KEY(fkEmpresa)
 REFERENCES empresa(idEmpresa)
