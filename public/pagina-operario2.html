@@ -66,7 +66,7 @@
     }
 
     function atualizarFeed() {
-        fetch("/funcionarios/listar").then(function (resposta) {
+        fetch("/funcionarios/listar/").then(function (resposta) {
             if (resposta.ok) {
                 if (resposta.status == 204) {
                     var feed = document.getElementById("feed_container");
@@ -114,7 +114,7 @@
                         btnDeletar.className = "deletar"; // Classe do botão
                         btnDeletar.id = "btnDeletar_" + publicacao.idFuncionario; // ID único
                         btnDeletar.addEventListener('click', function () {
-                            deletar(publicacao.idFuncionario); // Função 'deletar' com ID do funcionário
+                            deletar(idDaVez); // Função 'deletar' com ID do funcionário
                         });
 
                         // Adicionando os botões ao container de botões
@@ -147,5 +147,26 @@
         // Redireciona o usuário para a página de edição com o ID do funcionário como parâmetro na URL
         window.location.href = `editarFuncionario.html?id=${idFuncionario}`;
     }
+
+    function deletar(idFuncionario) {
+    if (confirm("Tem a certeza de que deseja deletar este funcionário?")) {
+        fetch(`/funcionarios/deletar/${idFuncionario}`, {
+            method: "DELETE"
+        })
+        .then(resposta => {
+            if (resposta.ok) {
+                alert("Funcionário deletado com sucesso!");
+                atualizarFeed(); // Atualiza a lista após a exclusão
+            } else {
+                throw "Não foi possível deletar o funcionário.";
+            }
+        })
+        .catch(error => {
+            console.error(error);
+            alert("Ocorreu um erro ao tentar deletar o funcionário.");
+        });
+    }
+}
+
 
 </script>

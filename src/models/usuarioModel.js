@@ -67,21 +67,7 @@ function cadastrar(nomeEmp, cnpj, nomeRep, email, cargo, senha, token) {
                     console.log("Executando a instrução SQL para inserir o token:\n" + instrucaoSqlInserindoToken);
                     return database.executar(instrucaoSqlInserindoToken);
                 })
-                .then(() => {
-
-
-                    var idEmpresa = resultado[0].idEmpresa;
-
-                    var instrucaoSqlComponente = `insert into selecionadosParaMonitoramento values
-                                                    (0, ${idEmpresa}, 1),
-                                                    (0, ${idEmpresa}, 2),
-                                                    (0, ${idEmpresa}, 3),
-                                                    (0, ${idEmpresa}, 4),
-                                                    (0, ${idEmpresa}, 5);`;
-
-                    console.log("Executando a instrução SQL para cadastrar os atributos dos componentes: \n" + instrucaoSqlComponente);
-                    return database.executar(instrucaoSqlComponente);
-                })
+                
         })
         .catch((erro) => {
             console.error("Erro durante o cadastro:", erro);
@@ -89,23 +75,23 @@ function cadastrar(nomeEmp, cnpj, nomeRep, email, cargo, senha, token) {
         });
 }
 
-function cadastrarComponente(fkEmpresa) {
+// function cadastrarComponente(fkEmpresa) {
 
-    var instrucaoSqlComponente = `insert into selecionadosParaMonitoramento values
-    (0, ${fkEmpresa}, 1),
-    (0, ${fkEmpresa}, 2),
-    (0, ${fkEmpresa}, 3),
-    (0, ${fkEmpresa}, 4),
-    (0, ${fkEmpresa}, 5);`;
+//     var instrucaoSqlComponente = `insert into selecionadosParaMonitoramento values
+//     (0, ${fkEmpresa}, 1),
+//     (0, ${fkEmpresa}, 2),
+//     (0, ${fkEmpresa}, 3),
+//     (0, ${fkEmpresa}, 4),
+//     (0, ${fkEmpresa}, 5);`;
 
-    console.log("Executando a instrução SQL: \n" + instrucaoSqlComponente);
-    return database.executar(instrucaoSqlComponente);
-}
+//     console.log("Executando a instrução SQL: \n" + instrucaoSqlComponente);
+//     return database.executar(instrucaoSqlComponente);
+// }
 
 module.exports = {
     autenticar,
     cadastrar,
-    cadastrarComponente
+//    cadastrarComponente
     // consultar,
     // inserirPontos
 };

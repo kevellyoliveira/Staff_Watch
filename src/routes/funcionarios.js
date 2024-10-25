@@ -12,7 +12,7 @@ router.post("/cadastrar", function (req, res) {
 
 
 // rotas nao utilizadas  ==========================================================================================
-router.get("/listar", function (req, res) {
+router.get("/listar/:fkEmpresa", function (req, res) {
     funcionarioController.listar(req, res);
 });
 
@@ -28,7 +28,7 @@ router.put("/editar/:idFuncionario", function (req, res) {
     funcionarioController.editar(req, res);
 });
 
-router.delete("/deletar/:idAviso", function (req, res) {
+router.delete("/deletar/:idFuncionario", function (req, res) {
     funcionarioController.deletar(req, res);
 });
 
