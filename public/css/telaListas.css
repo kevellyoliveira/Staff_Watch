@@ -316,98 +316,26 @@ header {
     border-radius: 15PX;
   }
 
-  .mae2{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: "Inter";
-  }
-
-  .filho4{
-    background-color: #002148;
-    color: white;
-    justify-content: flex-end;
-    height:150px;
-    width: 300px;
-    margin: 10px;
-    border-radius: 15PX;
-    border-radius: 15PX;
-  }
-
-  .filho5{
-    background-color: #002148;
-    color: white;
-    justify-content: flex-end;
-    height:150px;
-    width: 300px;
-    margin: 10px;
-    border-radius: 15PX;
-    border-radius: 15PX;
-  }
-
-  .filho6{
-    background-color: #002148;
-    color: white;
-    justify-content: flex-end;
-    height:150px;
-    width: 300px;
-    margin: 10px;
-    border-radius: 15PX;
-    border-radius: 15PX;
-  }
-
-  .mae3{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: "Inter";
-  }
-
-  .filho7{
-    background-color: #002148;
-    color: white;
-    justify-content: flex-end;
-    height:150px;
-    width: 300px;
-    margin: 10px;
-    border-radius: 15PX;
-    border-radius: 15PX;
-  }
-
-  .filho8{
-    background-color: #002148;
-    color: white;
-    justify-content: flex-end;
-    height:150px;
-    width: 300px;
-    margin: 10px;
-    border-radius: 15PX;
-    border-radius: 15PX;
-  }
-
-  .filho9{
-    background-color: #002148;
-    color: white;
-    justify-content: flex-end;
-    height:150px;
-    width: 300px;
-    margin: 10px;
-    border-radius: 15PX;
-    border-radius: 15PX;
-  }
-
   .editar{
-    height: 10%;
-    width: 10%;
+    height: 30px;
+    width: 40px;
+    position: relative;
+    left: -40px;
+  }
+  .deletar{
+    width: 40px;
+    position: relative;
+    left: -20px;
+    top: 5px;
   }
 
   input{
     background-color: white;
-    height: 10%;
-    width: 15%;
+    height: 25%;
+    width: 20%;
     border: none;
     outline: none;
-    border-radius: 3%;
+    border-radius: 5px 0% 0% 5px;
     font-family: "Inter";
   }
 
@@ -415,8 +343,10 @@ header {
     background-color:#002147;
     color: white;
     border: none;
-    border-radius: 10%;
+    border-radius: 0% 10% 10% 0%;
     font-family: "Inter";
+    height: 25%;
+    width: 5%;
   }
 
   button :hover{
@@ -610,6 +540,122 @@ dialog::backdrop{
              #FecharModal3:hover {
                  background-color:#0e5ab1 ;
              }
+/*Funcionários*/
+
+@import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family:"Inter";
+}
+
+.label-captura {
+  display: flex;
+  justify-content: center;
+}
+
+.dash-right .avisos {
+  width: 100%;
+  color: rgb(216, 216, 216);
+  font-family: 'Barlow', 'Segoe UI', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.dash-right .avisos .container {
+  display: flex;
+  align-items: center;
+}
+
+.dash-right .avisos .container .div-form {
+  width: 95%;
+}
+
+.dash-right .avisos .container .div-form #form_postagem {
+  width: 95%;
+}
+
+.dash-right .avisos .div-form label {
+  width: 95%;
+}
+
+.dash-right .avisos .div-form input {
+  width: 95%;
+  border-radius: 5px;
+}
+
+.dash-right .avisos .div-form textarea {
+  width: 95%;
+  border: 3px solid #e6005a;
+  background-color: white;
+  border-radius: 5px;
+}
+
+.dash-right .avisos .div-form button {
+  cursor: pointer;
+  font-family: 'Barlow', 'Segoe UI', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  border: 0;
+  border-radius: 5px;
+  font-weight: 600;
+  font-size: 18px;
+  padding: 10px 15px;
+  color: white;
+  background-color: #e6005a;
+  width: 120px;
+}
+
+
+
+.publicacao {
+  display:grid;
+  align-content: center;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  margin-bottom: 30px;
+  background-color: #002147;
+  color: white;
+  width: 600px;
+  height: 80%;
+  padding: 20px;
+  text-align: center;
+  font-size: 22px;
+}
+
+.publicacao>*:not(:last-child) {
+  padding: 0 0 10px 0;
+}
+
+.div-results {
+  width: 100%;
+}
+.id{
+    position: relative;
+    left: -200px;
+    top: 20px;
+}
+
+.funcs{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.div-results .feed-container {
+    background-color: #212124;
+    border-radius: 5px;
+    margin-bottom: 80px;
+}
+
+.div-buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.div-buttons>* {
+  margin-left: 30px;
+}
 
              
 
