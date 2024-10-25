@@ -1,18 +1,20 @@
 CREATE DATABASE IF NOT EXISTS StaffWatch;
 USE StaffWatch;
+
 -- drop database staffwatch;
+
 
 CREATE TABLE IF NOT EXISTS componente(
 idComponente INT PRIMARY KEY AUTO_INCREMENT,
-nome VARCHAR(45) not null
+nome VARCHAR(45)
 );
 
 CREATE TABLE IF NOT EXISTS auxComponente (
 idAuxComponente INT PRIMARY KEY AUTO_INCREMENT,
-unidadeMedida varchar(45) not null,
-descricao varchar(255) not null,
+unidadeMedida varchar(45),
+descricao varchar(255),
 
-fkComponente INT not null,
+fkComponente INT,
 CONSTRAINT fkComponenteAuxComponente FOREIGN KEY(fkComponente)
 REFERENCES componente(idComponente)
 );
@@ -51,12 +53,28 @@ insert into auxComponente values
 
 CREATE TABLE IF NOT EXISTS empresa (
 idEmpresa INT PRIMARY KEY AUTO_INCREMENT,
-cnpj CHAR(18)  not null,
-nomeEmp VARCHAR(45) not null
+cnpj CHAR(18),
+nomeEmp VARCHAR(45)
 );
-
 insert into empresa (idEmpresa, cnpj, nomeEmp) values
 (default, "123456789123456789", "Falla");
+
+CREATE TABLE IF NOT EXISTS selecionadosParaMonitoramento (
+selecionado bit null,
+
+
+fkempresa int,
+constraint fkEmpresaSelecionadosParaMonitoramento foreign key(fkEmpresa)
+references empresa(idEmpresa),
+
+fkComponente int,
+constraint fkComponenteSelecionadosParaMonitoramento foreign key(fkComponente)
+references componente(idComponente),
+
+primary key (fkEmpresa, fkComponente)
+
+);
+
 
 CREATE TABLE IF NOT EXISTS token (
 idToken INT PRIMARY KEY AUTO_INCREMENT,
@@ -69,16 +87,19 @@ REFERENCES empresa(idEmpresa)
 
 CREATE TABLE IF NOT EXISTS equipe (
 idEquipe INT PRIMARY KEY AUTO_INCREMENT,
-nome VARCHAR(45), 
-setor VARCHAR(45)
+nome VARCHAR(45),
+setor VARCHAR(45),
+fkEmpresa int,
+constraint fkEmpresaEquipe foreign key(fkEmpresa)
+references empresa(idEmpresa)
 );
 
 insert into equipe values
-(default,"dos","desenvolvimento");
+(default,"dos","desenvolvimento", 1);
 
 CREATE TABLE IF NOT EXISTS cargo (
 idCargo INT PRIMARY KEY AUTO_INCREMENT,
-cargo VARCHAR(255)  not null
+cargo VARCHAR(255)
 );
 
 insert into cargo values
@@ -90,9 +111,9 @@ insert into cargo values
 
 CREATE TABLE IF NOT EXISTS funcionario (
 idFuncionario INT PRIMARY KEY AUTO_INCREMENT,
-nome VARCHAR(45)  not null,
-email VARCHAR(45) not null,
-senha VARCHAR(255) not null,
+nome VARCHAR(45),
+email VARCHAR(45),
+senha VARCHAR(255),
 status TINYINT(1) DEFAULT 1,
 
 fkEmpresa INT,
@@ -113,7 +134,6 @@ insert into funcionario (nome, email, senha, fkEmpresa, fkEquipe, fkCargo) value
 
 CREATE TABLE IF NOT EXISTS computador (
 idComputador INT PRIMARY KEY AUTO_INCREMENT,
-nome varchar(45),
 
 fkEquipe INT,
 CONSTRAINT fkEquipeComputador FOREIGN KEY(fkEquipe)
@@ -124,8 +144,15 @@ CONSTRAINT fkEmpresaComputador FOREIGN KEY(fkEmpresa)
 REFERENCES empresa(idEmpresa)
 );
 
+
+
+
 insert into computador values
-(default, "Máquina 1", 1, 1, 1);
+(default,1,1);
+
+
+
+
 
 CREATE TABLE IF NOT EXISTS captura(
 idCaptura int primary key auto_increment,
@@ -153,16 +180,3 @@ CONSTRAINT fkAlertaCaptura FOREIGN KEY(fkCaptura)
 REFERENCES captura(idCaptura)
 );
 
-select * from auxComponente;
-select * from funcionario;
-select * from captura;
-select * from auxComponente;
-select * from cargo;
-select * from empresa;
-select * from token;
-desc funcionario;
-select * from funcionario;
-select * from captura;
-select * from computador;
-
-desc captura;

@@ -15,6 +15,22 @@ var HOST_APP = process.env.APP_HOST;
 
 var app = express();
 
+// app.get('/maquinas/listarEquipe', async (req, res) => {
+//     try {
+//         // Simulação de chamada ao banco de dados
+//         const listaDeEquipes = await db.query("SELECT * FROM equipes"); // Substitua pela sua query
+//         if (listaDeEquipes.length === 0) {
+//             return res.status(204).send(); // Sem conteúdo
+//         }
+//         res.status(200).json(listaDeEquipes);
+//     } catch (error) {
+//         console.error("Erro ao listar equipes:", error);
+//         res.status(500).send("Erro interno do servidor");
+//     }
+// });
+
+
+
 var indexRouter = require("./src/routes/index");
 var usuarioRouter = require("./src/routes/usuarios");
 var funcionariosRouter = require("./src/routes/funcionarios");
