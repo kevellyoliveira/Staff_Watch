@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro | Staff Watch</title>
-    <link rel="stylesheet" href="./css/cadastroComponente.css">
+    <link rel="stylesheet" href="./css/cadastroEquipe.css">
     <link rel="shortcut icon" href="src/img/logoB.png" type="image/x-icon" />
 </head>
 
@@ -21,6 +21,10 @@
                     <h6 class="opcoesMenu associMenu" onclick="abrirMenu()">Associados <img src="src/img/icons/seta.png"
                             alt="icone menu vertical"></h6>
                     <h6 class="opcoesMenu" onclick="window.location.href='cadastroFuncionario.html'">Cadastrar</h6>
+                    <div id="menu">
+                        <h4 onclick="window.location.href='pagina-operario.html'">Funcionários</h4>
+                        <h4 onclick="window.location.href='pagina-maquina.html'">Dispositivos</h4> 
+                </div>
                 </div>
             </div>
         </div>
@@ -35,21 +39,21 @@
             <div class="logo">
                 <img src="src/img/logoB.png" alt="Logo Staff Watch">
             </div>
-            <p>Para se manter conectado entre</p>
+            <!-- <p>Para se manter conectado entre</p>
             <p>com suas informações pessoais</p>
-            <a href="login.html"><button class="botao-entrar"><b>Entrar</b></button></a>
+            <a href="login.html"><button class="botao-entrar"><b>Entrar</b></button></a> -->
         </article>
 
         <article class="sessao-cadastro">
             <div class="form-container">
-                <h1>Selecione o componente a ser cadastrado</h1>
+                <h1>Selecione a equipe a ser removida</h1>
                 <div class="input-wrapper">
                     <span id="alertCargo" class="msgAlerta"></span>
                     <select class="input-field slct" id="equipe_select">
                         <option value="#" selected disabled>Selecione a equipe</option>
                     </select>
                 </div>
-                <button class="botao-cadastrar" type="submit" onclick="">Atualizar</button>
+                <!-- <button class="botao-cadastrar" type="submit" onclick="">Atualizar</button> -->
                 <button class="botao-cadastrar" type="submit" onclick="removerEquipe()">Remover</button>
             </div>
         </article>
