@@ -3,6 +3,7 @@ USE StaffWatch;
 
 -- drop database staffwatch;
 
+
 CREATE TABLE IF NOT EXISTS componente(
 idComponente INT PRIMARY KEY AUTO_INCREMENT,
 nome VARCHAR(45)
@@ -53,26 +54,27 @@ insert into auxComponente values
 CREATE TABLE IF NOT EXISTS empresa (
 idEmpresa INT PRIMARY KEY AUTO_INCREMENT,
 cnpj CHAR(18),
-nomeEmp VARCHAR(45),
-fkRede int null,
-constraint fkRedeEmpresa foreign key(fkRede)
-references componente(idComponente),
-fkMemoria int null,
-constraint fkMemoriaEmpresa foreign key(fkMemoria)
-references componente(idComponente),
-fkDisco int null,
-constraint fkDiscoEmpresa foreign key(fkDisco)
-references componente(idComponente),
-fkCpu int null,
-constraint fkCpuEmpresa foreign key(fkCpu)
-references componente(idComponente),
-fkProcessos int null,
-constraint fkProcessosEmpresa foreign key(fkProcessos)
-references componente(idComponente)
+nomeEmp VARCHAR(45)
 );
-
 insert into empresa (idEmpresa, cnpj, nomeEmp) values
 (default, "123456789123456789", "Falla");
+
+CREATE TABLE IF NOT EXISTS selecionadosParaMonitoramento (
+selecionado bit null,
+
+
+fkempresa int,
+constraint fkEmpresaSelecionadosParaMonitoramento foreign key(fkEmpresa)
+references empresa(idEmpresa),
+
+fkComponente int,
+constraint fkComponenteSelecionadosParaMonitoramento foreign key(fkComponente)
+references componente(idComponente),
+
+primary key (fkEmpresa, fkComponente)
+
+);
+
 
 CREATE TABLE IF NOT EXISTS token (
 idToken INT PRIMARY KEY AUTO_INCREMENT,
@@ -175,16 +177,3 @@ CONSTRAINT fkAlertaCaptura FOREIGN KEY(fkCaptura)
 REFERENCES captura(idCaptura)
 );
 
-select * from auxComponente;
-select * from funcionario;
-select * from captura;
-select * from auxComponente;
-select * from cargo;
-select * from empresa;
-select * from token;
-desc funcionario;
-select * from funcionario;
-select * from captura;
-select * from computador;
-
-desc captura;

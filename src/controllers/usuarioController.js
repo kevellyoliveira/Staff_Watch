@@ -164,8 +164,35 @@ function gerarToken() {
 //     }
 // }
 
+function cadastrarComponente(req, res) {
+    // var nomeComponente = req.body.nomeComponenteServer;
+    var fkEmpresa = req.body.fkEmpresaServer;
+    
+  
+    // if (nomeComponente == undefined) {
+    //   res.status(400).send("nomeComponente está undefined!");}
+    if (fkEmpresa == undefined) {
+      res.status(400).send("fkEmpresa está undefined!");
+    }
+    else {
+        usuarioModel.cadastrarComponente(fkEmpresa, componente)
+          .then((resultado) => {
+            res.status(201).json(resultado);
+          }
+          ).catch((erro) => {
+            console.log(erro);
+            console.log(
+              "\nHouve um erro ao realizar o cadastro! Erro: ",
+              erro.sqlMessage
+            );
+            res.status(500).json(erro.sqlMessage);
+          });
+      }
+    }  
+
 module.exports = {
     autenticar,
-    cadastrar
+    cadastrar,
+    cadastrarComponente
     // consultar
 }
