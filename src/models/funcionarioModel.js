@@ -18,7 +18,7 @@ function cadastrar(nome, email, idEquipe, token, fkEmpresa) {
 
             // Inserção na tabela funcionário
             var instrucaoSqlFuncionario = `insert into funcionario (Nome, Email, fkEmpresa, fkEquipe, fkCargo) values
-("${nome}", "${email}", '${fkEmpresa}',' ${idEquipe}',4);`; 
+("${nome}", "${email}", '${fkEmpresa}',' ${idEquipe}',4);`;
 
             console.log("Executando a instrução SQL para inserir funcionário:\n" + instrucaoSqlFuncionario);
 
@@ -40,13 +40,11 @@ function cadastrar(nome, email, idEquipe, token, fkEmpresa) {
 function listar() {
     console.log("ACESSEI O AVISO  MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listar()");
     var instrucaoSql = `
-    select idPostagem, mensagem, fkUsuario, fkTema,
-    fkPersonagem, nickname,
-    titulo
-    from postagem
-    left join usuario on fkUsuario = idUsuario
-    left join tema on fkTema = idTema;
-    `;
+    select idFuncionario, nome, email,
+    status, fkEmpresa,
+    fkEquipe,fkCargo
+    from funcionario
+   `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
@@ -94,10 +92,10 @@ function listarPorUsuario(idUsuario) {
 }
 
 
-function editar(novaDescricao, idAviso) {
-    console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function editar(): ", novaDescricao, idAviso);
+function editar(idEquipe,nome,email,idFuncionario) {
+    console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function editar(): ");
     var instrucaoSql = `
-        UPDATE aviso SET descricao = '${novaDescricao}' WHERE id = ${idAviso};
+        UPDATE funcionario SET fkEquipe = '${idEquipe}', nome = '${nome}' , email = '${email}' WHERE idFuncionario = ${idFuncionario};
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);

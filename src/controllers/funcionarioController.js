@@ -86,10 +86,12 @@ function listarPorUsuario(req, res) {
 
 
 function editar(req, res) {
-    var novamensagem = req.body.mensagem;
-    var idAviso = req.params.idAviso;
+    var idFuncionario = req.params.idFuncionario;  // Obtido da URL
+    var idEquipe = req.body.idEquipe;  // Obtido do corpo da requisição
+    var nome = req.body.nome;
+    var email = req.body.email;
 
-    funcionarioModel.editar(novamensagem, idAviso)
+    funcionarioModel.editar(idEquipe,nome,email,idFuncionario)
         .then(
             function (resultado) {
                 res.json(resultado);
