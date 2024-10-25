@@ -12,7 +12,7 @@ router.post("/cadastrar", function (req, res) {
 
 
 // rotas nao utilizadas  ==========================================================================================
-router.get("/listar/:fkEmpresa", function (req, res) {
+router.get("/listar", function (req, res) {
     funcionarioController.listar(req, res);
 });
 
