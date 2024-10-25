@@ -67,7 +67,9 @@
     }
 
     function atualizarFeed() {
-        fetch("/funcionarios/listar/").then(function (resposta) {
+        var fkEmpresa = sessionStorage.getItem("ID_EMPRESA")
+        console.log(fkEmpresa)
+        fetch(`/funcionarios/listar/${fkEmpresa}`).then(function (resposta) {
             if (resposta.ok) {
                 if (resposta.status == 204) {
                     var feed = document.getElementById("feed_container");
