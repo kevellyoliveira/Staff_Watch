@@ -119,7 +119,7 @@ function removerEquipe(req, res) {
   }
 
    else {
-    maquinaModel.removerComponente(idEquipe)
+    maquinaModel.removerEquipe(idEquipe)
       .then((resultado) => {
         res.status(201).json(resultado);
       }

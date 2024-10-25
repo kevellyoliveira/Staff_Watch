@@ -98,10 +98,10 @@
             var equipeSlct = document.getElementById("equipe_select");
             var index = 0;
              resposta.forEach(function (equipe) {
-                // var equipe = resposta;
+                 var equipe = resposta[index];
                  var opt_equipe = document.createElement('option');
                  opt_equipe.value = equipe.idEquipe;
-                 opt_equipe.text = `Equipe ${equipe.nome} ${equipe.length + 1} -- ${equipe.setor}`;
+                 opt_equipe.text = `Equipe ${equipe.nome} ${equipe.idEquipe - 1} -- ${equipe.setor}`;
                  equipeSlct.add(opt_equipe);
                  index ++;
              });
@@ -140,7 +140,7 @@
     }
 
     function removerEquipe(req, res) {
-        var equipe = equipe_select.value;
+        var idEquipe = equipe_select.value;
         var idEmpresa = sessionStorage.ID_EMPRESA;
 
         fetch("maquinas/remover", {
@@ -149,8 +149,8 @@
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                fkEmpresaServer: idEmpresa,
-                componenteServer: componente,
+                // fkEmpresaServer: idEmpresa,
+                idEquipeServer: idEquipe,
             }),
         })
         .then(function (resposta) {
