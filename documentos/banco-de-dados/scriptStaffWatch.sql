@@ -135,20 +135,26 @@ insert into funcionario (nome, email, senha, fkEmpresa, fkEquipe, fkCargo) value
 CREATE TABLE IF NOT EXISTS computador (
 idComputador INT PRIMARY KEY AUTO_INCREMENT,
 
+ativo BOOLEAN DEFAULT FALSE,
+
 fkEquipe INT,
 CONSTRAINT fkEquipeComputador FOREIGN KEY(fkEquipe)
 REFERENCES equipe(idEquipe),
 
 fkEmpresa INT,
 CONSTRAINT fkEmpresaComputador FOREIGN KEY(fkEmpresa)
-REFERENCES empresa(idEmpresa)
+REFERENCES empresa(idEmpresa),
+
+fkFuncionario INT,
+CONSTRAINT fkFuncionarioComputador FOREIGN KEY(fkFuncionario)
+REFERENCES funcionario(idFuncionario)
 );
 
 
 
 
 insert into computador values
-(default,1,1);
+(default,TRUE,1,1,1);
 
 
 

@@ -13,6 +13,11 @@ router.post("/cadastrar", function (req, res) {
   maquinaController.cadastrar(req, res);
 })
 
+//atualiza a equipe que a máquina pertence
+router.put("/cadastrar", function (req, res) {
+  maquinaController.cadastrar(req, res);
+})
+
 router.get("/listarEquipe/:fkEmpresa", function (req, res) {
   maquinaController.listarEquipe(req, res);
 })
