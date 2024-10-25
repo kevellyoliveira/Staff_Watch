@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/dashboardGeral.css">
+    <link rel="stylesheet" href="css/dashboardHist.css">
     <link rel="shortcut icon" href="./src/img/logoB.png" type="image/x-icon" />
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -26,7 +26,7 @@
                             src="./src/img/icons/seta.png" alt="icone menu vertical"></h6>
                     <h6 class="opcoesMenu" onclick="window.location.href='cadastroFuncionario.html'">Cadastrar</h6>
                     <div id="menu">
-                        <h4 onclick="window.location.href='pagina-operario.html'">Funcionários</h4>
+                        <h4 onclick="window.location.href='pagina-operario2.html'">Funcionários</h4>
                         <h4 onclick="window.location.href='pagina-maquina.html'">Dispositivos</h4>
                         <h4 onclick="window.location.href='cadastroEquipe.html'">Equipe</h4>
                     </div>
@@ -38,11 +38,10 @@
             </div>
         </div>
     </header>
-
     <div class="corpo">
         <div class="menuLateral">
             <div class="itens">
-                <h4 id="0" class="slc" onclick="window.location.href='dashboardGeral.html'">Visão Geral</h4>
+                <h4 id="0" class="slc" onclick="window.location.href='dashboardEquipe.html'">Histórico</h4>
                 <h4 id="1" onclick="selecionarItem(this)">Equipe 1</h4>
                 <h4 id="2" onclick="selecionarItem(this)">Equipe 2</h4>
                 <h4 id="3" onclick="selecionarItem(this)">Equipe 3</h4>
@@ -50,41 +49,143 @@
                 <h4 onclick="window.location.href='novaEquipe.html'">Nova equipe</h4>
             </div>
         </div>
-
-        <div class="container">
-            <div class="conteudo">
-                <h1>Desempenho Geral do Hardware</h1>
-                <div class="elementos">
-                    <div class="elemento">
-                        <h4>CPU</h4>
-                        <div class="grafico">
-                            <canvas id="cpuChart"></canvas>
+        <div class="infos">
+            <!-- Parte superior das Informações-->
+            <div class="emcima">
+                <h1>Uso do Hardware</h1>
+                <select name="" id="">
+                    <option value="">No dia</option>
+                    <option value="">Na semana</option>
+                    <option value="">No mês</option>
+                    <option value="">Sempre</option>
+                </select>
+            </div>
+            <!-- Parte dos gráficos e alertas-->
+            <div class="embaixo">
+                <div class="esquerda">
+                    <div class="cima">
+                        <!--Cards dos comentarios-->
+                        <div class="card">
+                            <div class="cimaCard">
+                                <h1>CPU</h1>
+                            </div>
+                            <div class="baixoCard">
+                                <div class="left"> gráfico!!</div>
+                                <div class="right">
+                                    <div class="leftIndicador">
+                                        <div class="indicador">
+                                            <h2>Uso médio</h2>
+                                            <h1 style="color: green;">65%</h1>
+                                        </div>
+                                        <div class="indicador">
+                                            <h2>Picos de Uso</h2>
+                                            <h1 style="color: red;">12</h1>
+                                        </div>
+                                    </div>
+                                    <div class="rightIndicador">
+                                        <div class="indicador">
+                                            <h2>Processos <br> ativos</h2>
+                                            <h1 style="color: orange">30</h1>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="cimaCard">
+                                <h1>DISCO</h1>
+                            </div>
+                            <div class="baixoCard">
+                                <div class="left"> gráfico!!</div>
+                                <div class="right">
+                                    <div class="leftIndicador">
+                                        <div class="indicador">
+                                            <h2>Uso médio</h2>
+                                            <h1 style="color: green;">65%</h1>
+                                        </div>
+                                        <div class="indicador">
+                                            <h2>Picos de Uso</h2>
+                                            <h1 style="color: red;">12</h1>
+                                        </div>
+                                    </div>
+                                    <div class="rightIndicador">
+                                        <div class="indicador">
+                                            <h2>Processos <br> ativos</h2>
+                                            <h1 style="color: orange">30</h1>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="elemento">
-                        <h4>Rede</h4>
-                        <div class="grafico">
-                            <canvas id="redeChart"></canvas>
+                    <div class="baixo">
+                        <div class="card">
+                            <div class="cimaCard">
+                                <h1>RAM</h1>
+                            </div>
+                            <div class="baixoCard">
+                                <div class="left"> gráfico!!</div>
+                                <div class="right">
+                                    <div class="leftIndicador">
+                                        <div class="indicador">
+                                            <h2>Uso médio</h2>
+                                            <h1 style="color: green;">65%</h1>
+                                        </div>
+                                        <div class="indicador">
+                                            <h2>Picos de Uso</h2>
+                                            <h1 style="color: red;">12</h1>
+                                        </div>
+                                    </div>
+                                    <div class="rightIndicador">
+                                        <div class="indicador">
+                                            <h2>Processos <br> ativos</h2>
+                                            <h1 style="color: orange">30</h1>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="cimaCard">
+                                <h1>REDE</h1>
+                            </div>
+                            <div class="baixoCard">
+                                <div class="left"> gráfico!!</div>
+                                <div class="right">
+                                    <div class="leftIndicador">
+                                        <div class="indicador">
+                                            <h2>Uso médio</h2>
+                                            <h1 style="color: green;">65%</h1>
+                                        </div>
+                                        <div class="indicador">
+                                            <h2>Picos de Uso</h2>
+                                            <h1 style="color: red;">12</h1>
+                                        </div>
+                                    </div>
+                                    <div class="rightIndicador">
+                                        <div class="indicador">
+                                            <h2>Processos <br> ativos</h2>
+                                            <h1 style="color: orange">30</h1>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="elemento">
-                        <h4>RAM</h4>
-                        <div class="grafico">
-                            <canvas id="ramChart"></canvas>
-                        </div>
-                    </div>
-                    <div class="elemento">
-                        <h4>Armazenamento</h4>
-                        <div class="grafico">
-                            <canvas id="armazenamentoChart"></canvas>
-                        </div>
+                </div>
+                <div class="direita">
+                    <!--Alertas-->
+                    <h1>Alertas</h1>
+                    <div class="box">
+                        <b style="color: red;">Máquina1 (Equipe 1)</b> está com uso da <br> CPU acima da média <br> há 2 horas.
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</body>
+    </body>
 
+    
 </html>
 
 <script>

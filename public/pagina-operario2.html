@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Operário | Staff Watch</title>
+    <link rel="stylesheet" href="./css/telaListas.css">
+    <script src="js/script.js" defer></script>
+    <link rel="shortcut icon" href="./src/img/logoB.png" type="image/x-icon" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    <header>
+        <div class="opcoes">
+            <div class="esq">
+                <div class="logo">
+                    <img href="index.html" src="./src/img/logoB.png" alt="logo">
+                </div>
+                <div class="opcoesComponentes" id="itens">
+                    <h6 class="opcoesMenu" onclick="window.location.href='dashboardGeral.html'">Home</h6>
+                    <h6 class="opcoesMenu slct associMenu" onclick="abrirMenu()">Associados <img
+                            src="./src/img/icons/seta.png" alt="icone menu vertical"></h6>
+                    <h6 class="opcoesMenu" onclick="window.location.href='cadastroFuncionario.html'">Cadastrar</h6>
+                    <div id="menu">
+                        <h4 onclick="window.location.href='pagina-operario2.html'">Funcionários</h4>
+                        <h4 onclick="window.location.href='pagina-maquina.html'">Dispositivos</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="sair">
+                <h6 class="opcoesMenu sair" onclick="sair()"> Sair </h6>
+            </div>
+        </div>
+    </header>
+
+    <article class="title">
+        <h2>Funcionários</h2><input type="text" name="Pesquisar" id="pesquisar_input" required="required" autocomplete="off"
+        placeholder="Pesquisar funcionário"><button><i class="fa-solid fa-magnifying-glass"></i></button>
+    </article>
+    <br>
+
+    <div>
+        <div class="mae">
+            <div class="filho1">
+                <center>
+                    <br>
+                    <p><b>RF:</b> 23433454</p>
+                    <p><b>Nome:</b> José Antônio da Silva</p>
+                    
+                    <!-- Botão que abre o modal 1 -->
+                    <button id="AbrirModal1">Visualizar</button>
+                    <dialog id="dialog1" class="dialog">
+                        <div class="editMaquina">
+                            <p><b>Nome:</b> José Antônio da Silva</p>
+                            <p><b>Email:</b> Jose.Silva@email.com</p>
+                            <p><b>Equipe:</b> 1</p>
+                            <button id="FecharModal1">Ok</button>
+                        </div>
+                    </dialog>
+
+                    <!-- Botão que abre o modal 2 -->
+                    <button id="AbrirModal2"><i class="fa-solid fa-pen"></i></button>
+                    <dialog id="dialog2" class="dialog">
+                        <div class="editMaquina2">
+                            <h1>Alterar informações</h1>
+                            <input type="text" name="Nome" id="name_input" required="required" autocomplete="off"
+                            placeholder="Nome">
+                            <input type="email" name="Email" id="email_input" required="required" autocomplete="off"
+                            placeholder="Email">
+                            <input type="text" name="numEquipe" id="numEquipe_input" required="required" autocomplete="off"
+                            placeholder="ID da Equipe">
+                            <button id="FecharModal2">Confirmar</button>
+                        </div>
+                    </dialog>
+
+                    <!-- Botão que abre o modal 3 -->
+                    <button id="AbrirModal3"><i class="fa-solid fa-trash"></i></button>
+                    <dialog id="dialog3" class="dialog">
+                        <div class="editMaquina3">
+                            <h1>Deletar funcionario</h1>
+                            <p>Nome: José Antônio da Silva</p>
+                            <button id="FecharModal3">Confirmar</button>
+                            <button id="FecharModal3">sair</button>
+                        </div>
+                    </dialog>
+                </center>
+            </div>
+            <div class="filho2">
+                <center>
+                    <br>
+                    <p><b>RF:</b> 23433454</p>
+                    <p><b>Nome:</b> José Antônio da Silva</p>
+                    
+                    <!-- Botão que abre o modal 1 -->
+                    <button id="AbrirModal1">Visualizar</button>
+                    <dialog id="dialog1" class="dialog">
+                        <div class="editMaquina">
+                            <h1>ALTERAR NOME</h1>
+                            <p>Nome Atual: José Antônio da Silva</p>
+                            <span>Novo Nome:</span><input id="inputMudarFuncionario" type="text">
+                            <button id="FecharModal1">Confirmar</button>
+                        </div>
+                    </dialog>
+
+                    <!-- Botão que abre o modal 2 -->
+                    <button id="AbrirModal2"><i class="fa-solid fa-pen"></i></button>
+                    <dialog id="dialog2" class="dialog">
+                        <div class="editMaquina2">
+                            <h1>ALTERAR NOME</h1>
+                            <p>Nome Atual: José Antônio da Silva</p>
+                            <span>Novo Nome:</span><input id="inputMudarFuncionario2" type="text">
+                            <button id="FecharModal2">Confirmar</button>
+                        </div>
+                    </dialog>
+
+                    <!-- Botão que abre o modal 3 -->
+                    <button id="AbrirModal3"><i class="fa-solid fa-trash"></i></button>
+                    <dialog id="dialog3" class="dialog">
+                        <div class="editMaquina3">
+                            <h1>ALTERAR NOME</h1>
+                            <p>Nome Atual: José Antônio da Silva</p>
+                            <span>Novo Nome:</span><input id="inputMudarFuncionario3" type="text">
+                            <button id="FecharModal3">Confirmar</button>
+                        </div>
+                    </dialog>
+                </center>
+            </div>
+            <div class="filho3">
+                <center>
+                    <br>
+                    <p><b>RF:</b> 23433454</p>
+                    <p><b>Nome:</b> José Antônio da Silva</p>
+                    
+                    <!-- Botão que abre o modal 1 -->
+                    <button id="AbrirModal1">Visualizar</button>
+                    <dialog id="dialog1" class="dialog">
+                        <div class="editMaquina">
+                            <h1>ALTERAR NOME</h1>
+                            <p>Nome Atual: José Antônio da Silva</p>
+                            <span>Novo Nome:</span><input id="inputMudarFuncionario" type="text">
+                            <button id="FecharModal1">Confirmar</button>
+                        </div>
+                    </dialog>
+
+                    <!-- Botão que abre o modal 2 -->
+                    <button id="AbrirModal2"><i class="fa-solid fa-pen"></i></button>
+                    <dialog id="dialog2" class="dialog">
+                        <div class="editMaquina2">
+                            <h1>ALTERAR NOME</h1>
+                            <p>Nome Atual: José Antônio da Silva</p>
+                            <span>Novo Nome:</span><input id="inputMudarFuncionario2" type="text">
+                            <button id="FecharModal2">Confirmar</button>
+                        </div>
+                    </dialog>
+
+                    <!-- Botão que abre o modal 3 -->
+                    <button id="AbrirModal3"><i class="fa-solid fa-trash"></i></button>
+                    <dialog id="dialog3" class="dialog">
+                        <div class="editMaquina3">
+                            <h1>ALTERAR NOME</h1>
+                            <p>Nome Atual: José Antônio da Silva</p>
+                            <span>Novo Nome:</span><input id="inputMudarFuncionario3" type="text">
+                            <button id="FecharModal3">Confirmar</button>
+                        </div>
+                    </dialog>
+                </center>
+            </div>
+        </div>
+    </div>
+        <div class="mae2">
+        <div class="filho4">
+            <center>
+                <br>
+                <p><b>RF:</b> 23433454</p>
+
+                <p><b>Nome:</b> José Antônio da Silva</p>
+                <button id="AbrirModal">Visualizar</button>
+                <button id="AbrirModal2" onclick=editar() class="editar">
+                    <i class="fa-solid fa-pen"></i></button>
+                <button id="AbrirModal3" onclick=editar() class="editar">
+                        <i class="fa-solid fa-trash"></i></button>
+            </center>
+        </div>
+        <div class="filho5">
+            <center>
+                <br>
+                <p><b>RF:</b> 23433454</p>
+
+                <p><b>Nome:</b> José Antônio da Silva</p>
+                <button id="AbrirModal">Visualizar</button>
+                <button id="AbrirModal2" onclick=editar() class="editar">
+                    <i class="fa-solid fa-pen"></i></button>
+                <button id="AbrirModal3" onclick=editar() class="editar">
+                        <i class="fa-solid fa-trash"></i></button>
+            </center>
+        </div>
+        <div class="filho6">
+            <center>
+                <br>
+                <p><b>RF:</b> 23433454</p>
+
+                <p><b>Nome:</b> José Antônio da Silva</p>
+                <button id="AbrirModal1">Visualizar</button>
+                <button id="AbrirModal2" onclick=editar() class="editar">
+                    <i class="fa-solid fa-pen"></i></button>
+                <button id="AbrirModal3" onclick=editar() class="editar">
+                        <i class="fa-solid fa-trash"></i></button>
+            </center>
+        </div>
+        </div>
+        <div class="mae3">
+        <div class="filho7">
+            <center>
+                <br>
+                <p><b>RF:</b> 23433454</p>
+
+                <p><b>Nome:</b> José Antônio da Silva</p>
+                <button id="AbrirModal1">Visualizar</button>
+                <button id="AbrirModal2" onclick=editar() class="editar">
+                    <i class="fa-solid fa-pen"></i></button>
+                <button id="AbrirModal3" onclick=editar() class="editar">
+                        <i class="fa-solid fa-trash"></i></button>
+            </center>
+        </div>
+        <div class="filho8">
+            <center>
+                <br>
+                <p><b>RF:</b> 23433454</p>
+
+                <p><b>Nome:</b> José Antônio da Silva</p>
+                <button id="AbrirModal1">Visualizar</button>
+                <button id="AbrirModal2" onclick=editar() class="editar">
+                    <i class="fa-solid fa-pen"></i></button>
+                <button id="AbrirModal3" onclick=editar() class="editar">
+                        <i class="fa-solid fa-trash"></i></button>
+            </center>
+        </div>
+        <div class="filho9">
+            <center>
+                <br>
+                <p><b>RF:</b> 23433454</p>
+
+                <p><b>Nome:</b> José Antônio da Silva</p>
+                <button id="AbrirModal1">Visualizar</button>
+                <button id="AbrirModal2" onclick=editar() class="editar">
+                        <i class="fa-solid fa-pen"></i></button>
+                <button id="AbrirModal3" onclick=editar() class="editar">
+                            <i class="fa-solid fa-trash"></i></button>
+            </center>
+        </div>
+        </div>
+</body>
+
+</html>
+
+<script>
+    function abrirMenu() {
+        if (document.getElementById("menu").style.display == "flex") {
+            document.getElementById("menu").style.display = "none";
+        } else {
+            document.getElementById("menu").style.display = "flex"
+        }
+    }
+
+    function sair() {
+        sessionStorage.clear()
+        window.location = "index.html"
+    }
+
+ // Scripts para abrir e fechar os modais
+
+ document.getElementById("AbrirModal1").addEventListener("click", function() {
+            document.getElementById("dialog1").showModal();
+        });
+
+        document.getElementById("FecharModal1").addEventListener("click", function() {
+            document.getElementById("dialog1").close();
+        });
+
+        document.getElementById("AbrirModal2").addEventListener("click", function() {
+            document.getElementById("dialog2").showModal();
+        });
+
+        document.getElementById("FecharModal2").addEventListener("click", function() {
+            document.getElementById("dialog2").close();
+        });
+
+        document.getElementById("AbrirModal3").addEventListener("click", function() {
+            document.getElementById("dialog3").showModal();
+        });
+
+        document.getElementById("FecharModal3").addEventListener("click", function() {
+            document.getElementById("dialog3").close();
+        });
+</script>

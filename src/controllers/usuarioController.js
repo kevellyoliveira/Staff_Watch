@@ -103,7 +103,7 @@ function cadastrar(req, res) {
      <p>Atenciosamente,</p>
     <p><strong>Equipe Staff Watch</strong></p>`
                         })
-                            .then((resposta2) => console.log("Email enviado2"))
+                            .then((resposta) => console.log("Email enviado"))
                             .catch((resposta) => console.log('erro ao enviar email', resposta))
                          
                 }

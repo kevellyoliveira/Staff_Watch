@@ -275,65 +275,341 @@ header {
     margin-left: 15%;
 }
 
-#fade2{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
-    z-index: 5;
-}
-
-#modal2{
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    width: 65%;
-    height: auto;
-    background-color: #E7ECEF;
-    border-radius: 8px;
-    transform: translate(-50%, -50%);
-    z-index: 10;
-}
-
-#modal2,
-#fade2{
-    transition: 0.5s;
-    opacity: 1;
-    pointer-events: all;
-}
-
-#modal2.hide,
-#fade2.hide{
-    opacity: 0;
-    pointer-events: none;
-}
-
-.modal-content2{
+.mae{
     display: flex;
-    margin: 5%;
-    margin-top: 0;
-    font-size: 25px;
-}
-
-.modal-user2{
-    display: flex;
-    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    margin-left: 5%;
-}
+    font-family: "Inter";
+  }
 
-.modal-header2 figure img{
-    width: 10vw;
-    margin-left: 4.5%;
-}
+  .filho1{
+    background-color: #002148;
+    color: white;
+    justify-content: flex-start;
+    height:150px;
+    width: 300px;
+    margin: 10px;
+    border-radius: 15PX;
+    align-items: center;
+  }
 
-.modal-header2{
-    margin-bottom: 0;
-}
+  .filho2{
+    background-color : #002148;
+    color: white;
+    justify-content: center;
+    height: 150px;
+    width: 300px;
+    margin: 10px;
+    border-radius: 15PX;
+    border-radius: 15PX;
+    align-items: center;
+  }
 
-.modal-form2{
-    margin-left: 15%;
-}
+  .filho3{
+    background-color: #002148;
+    color: white;
+    justify-content: flex-end;
+    height:150px;
+    width: 300px;
+    margin: 10px;
+    border-radius: 15PX;
+    border-radius: 15PX;
+  }
+
+  .mae2{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Inter";
+  }
+
+  .filho4{
+    background-color: #002148;
+    color: white;
+    justify-content: flex-end;
+    height:150px;
+    width: 300px;
+    margin: 10px;
+    border-radius: 15PX;
+    border-radius: 15PX;
+  }
+
+  .filho5{
+    background-color: #002148;
+    color: white;
+    justify-content: flex-end;
+    height:150px;
+    width: 300px;
+    margin: 10px;
+    border-radius: 15PX;
+    border-radius: 15PX;
+  }
+
+  .filho6{
+    background-color: #002148;
+    color: white;
+    justify-content: flex-end;
+    height:150px;
+    width: 300px;
+    margin: 10px;
+    border-radius: 15PX;
+    border-radius: 15PX;
+  }
+
+  .mae3{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Inter";
+  }
+
+  .filho7{
+    background-color: #002148;
+    color: white;
+    justify-content: flex-end;
+    height:150px;
+    width: 300px;
+    margin: 10px;
+    border-radius: 15PX;
+    border-radius: 15PX;
+  }
+
+  .filho8{
+    background-color: #002148;
+    color: white;
+    justify-content: flex-end;
+    height:150px;
+    width: 300px;
+    margin: 10px;
+    border-radius: 15PX;
+    border-radius: 15PX;
+  }
+
+  .filho9{
+    background-color: #002148;
+    color: white;
+    justify-content: flex-end;
+    height:150px;
+    width: 300px;
+    margin: 10px;
+    border-radius: 15PX;
+    border-radius: 15PX;
+  }
+
+  .editar{
+    height: 10%;
+    width: 10%;
+  }
+
+  input{
+    background-color: white;
+    height: 10%;
+    width: 15%;
+    border: none;
+    outline: none;
+    border-radius: 3%;
+    font-family: "Inter";
+  }
+
+  button{
+    background-color:#002147;
+    color: white;
+    border: none;
+    border-radius: 10%;
+    font-family: "Inter";
+  }
+
+  button :hover{
+    box-shadow: 0px 0px 10px #8a8785;
+    transform: translate(0px, -5px);
+    transition:transform 0.5s;
+  }
+
+dialog::backdrop{
+
+   background-color: rgb(0 0 0/ .5);
+    }
+
+    .dialog {
+        border: none;
+        border-radius: .5rem;
+        box-shadow: 0 0 1em rgb(0 0 0 / .3);
+        width: 50%;
+        height: 400px;
+        padding: 0px;  
+    }
+
+    .editMaquina{
+        width: 100%;
+        height: 100%;
+        background-color: #002147;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 10px;
+        
+    }
+
+    .editMaquina h1{
+        font-size: 40px;
+        color: white;
+    }
+    
+    .editMaquina p{
+        font-size: 30px;
+        color: white;
+    }
+    .editMaquina button{
+        background-color: white; 
+        color: #002147; 
+        border: none;
+        padding: 10px 20px; 
+        border-radius: 15px; 
+        font-size: 16px; 
+        cursor: pointer; 
+        transition: background-color 0.3s ease; 
+    }
+    
+    #FecharModal:hover {
+        background-color: #0e5ab1;
+    }
+
+    #dialog2::backdrop{
+
+        background-color: rgb(0 0 0/ .5);
+         }
+     
+         #dialog2 {
+             border: none;
+             border-radius: .5rem;
+             box-shadow: 0 0 1em rgb(0 0 0 / .3);
+             width: 50%;
+             height: 400px;
+             padding: 0px;  
+         }
+     
+         .editMaquina2{
+             width: 100%;
+             height: 100%;
+             background-color:#002147;
+             display: flex;
+             align-items: center;
+             justify-content: center;
+             flex-direction: column;
+             gap: 10px;
+             
+         }
+     
+         .editMaquina2 h1{
+             font-size: 40px;
+             color: white;
+         }
+         
+         .editMaquina2 p{
+             font-size: 30px;
+             color: white;
+         }
+         
+         .editMaquina2 span{
+             font-size: 30px;
+             color: white;
+         }
+         
+         .editMaquina2 input{
+             width: 40%;
+             padding: 10px; 
+             border-radius: 15px; 
+             border: none;
+             background-color: white; 
+             color: white;
+             outline: none;
+             font-size: 16px;
+         }
+         
+         
+         .editMaquina2 button{
+             background-color: white; 
+             color: #002147; 
+             border: none;
+             padding: 10px 20px; 
+             border-radius: 15px; 
+             font-size: 16px; 
+             cursor: pointer;
+             transition: background-color 0.3s ease; 
+         }
+         
+         #FecharModal2:hover {
+             background-color:#0e5ab1;
+         }
+
+         #dialog3::backdrop{
+
+            background-color: rgb(0 0 0/ .5);
+             }
+         
+             #dialog3 {
+                 border: none;
+                 border-radius: .5rem;
+                 box-shadow: 0 0 1em rgb(0 0 0 / .3);
+                 width: 50%;
+                 height: 400px;
+                 padding: 0px;  
+             }
+         
+             .editMaquina3{
+                 width: 100%;
+                 height: 100%;
+                 background-color: #002147;
+                 display: flex;
+                 align-items: center;
+                 justify-content: center;
+                 flex-direction: column;
+                 gap: 10px;
+                 
+             }
+         
+             .editMaquina3 h1{
+                 font-size: 40px;
+                 color: white;
+             }
+             
+             .editMaquina3 p{
+                 font-size: 30px;
+                 color: white;
+             }
+             
+             .editMaquina3 span{
+                 font-size: 30px;
+                 color: white;
+             }
+             
+             .editMaquina3 input{
+                 width: 40%; 
+                 padding: 10px; 
+                 border-radius: 15px; 
+                 border: none; 
+                 background-color: #002147; 
+                 color: white; 
+                 outline: none;
+                 font-size: 16px; 
+             }
+             
+             
+             .editMaquina3 button{
+                 background-color: white; 
+                 color: #002147; 
+                 border: none; 
+                 padding: 10px 20px; 
+                 border-radius: 15px; 
+                 font-size: 16px; 
+                 cursor: pointer; 
+                 transition: background-color 0.3s ease; 
+             }
+             
+             #FecharModal3:hover {
+                 background-color:#0e5ab1 ;
+             }
+
+             
 

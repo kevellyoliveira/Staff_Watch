@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Teste modal | Staff Watch</title>
+    <link rel="stylesheet" href="./css/testeModal.css">
+    <script src="js/script.js" defer></script>
+    <link rel="shortcut icon" href="./src/img/logoB.png" type="image/x-icon" />
+</head>
+<body>
+
+
+    <button id="AbrirModal">Abrir Modal</button>
+
+    <dialog>
+
+    <div class="editFuncionario">
+
+        <h1>ALTERAR EQUIPE DA MÁQUINA</h1>
+        <p>Nome Atual: </p>
+        <span>Novo Nome:</span><input id="inputMudarFuncionario" type="text">
+        <button id="FecharModal">Confirmar</button>
+    </div>
+    
+    </dialog>
+
+
+
+<!-- AQUI VEM O CARD ESTÁTICO -->
+
+    
+    <!-- AGORA VEM O MODAL -->
+
+    
+    
+</body>
+</html>
+
+<script>
+
+    // Como manda o tutorial do youtube
+
+    // const modalAbrir = document.querySelector("button")
+    // const modalFechar = document.querySelector("dialog button")
+    // const modal = document.querySelector("dialog")
+
+    // modalAbrir.onclick = function () {
+    //     modal.showModal()
+        
+    // }
+
+    // modalFechar.onclick = function () {
+    //     modal.close()
+    // }
+
+
+    // tentando pelo ID
+
+
+    
+const modalAbrir = document.getElementById("AbrirModal");
+const modalFechar = document.getElementById("FecharModal");
+const modal = document.querySelector("dialog");
+
+
+modalAbrir.onclick = function () {
+    modal.showModal(); // Exibe o modal
+}
+
+
+modalFechar.onclick = function () {
+    modal.close(); // Fecha o modal
+}
+
+
+
+
+
+        var maquinaAntiga = "Máquina 1";
+        var maquinaNova = inputMudarFuncionario.value;
+        var idFuncionario = 1
+
+
+
+
+        function atualizarEquipe() {
+            fetch("maquinas/cadastrar", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                        // crie um atributo que recebe o valor recuperado aqui
+                        // Agora vá para o arquivo routes/usuario.js
+                        
+                        maquinaAntigaServer: maquinaAntiga,
+                        maquinaNovaServer: maquinaNova,
+                        fkFuncionarioServer: idFuncionario,
+
+                    }),
+            })
+            .then(function (resposta) {
+                        console.log("resposta: ", resposta);
+
+                        if (resposta.ok) {
+                            alert("Cadastro de máquina realizado com sucesso!");
+                            window.location.href = 'dashboardEquipe.html';
+                        } 
+                        else {
+                            alert('Erro no cadastro de máquina')
+                            console.log(`#ERRO: ${resposta}`)
+                        }
+                    })
+                    .catch(function (resposta) {
+                        console.log(`#ERRO: ${resposta}`);
+                    });
+                return false;
+
+        }
+        
+
+
+   
+       
+
+
+</script>

@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+body {
+    font-family: "Inter";
+}
+
+dialog::backdrop{
+
+/* Aqui personalizaremos a cor do fundo, quando o modal é aberto */
+
+background-color: rgb(0 0 0/ .5);
+
+}
+
+dialog {
+    border: none;
+    border-radius: .5rem;
+    box-shadow: 0 0 1em rgb(0 0 0 / .3);
+    width: 50%;
+    height: 400px;
+    padding: 0px;  
+}
+
+.editFuncionario{
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0 0 0 );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+}
+
+
+.editFuncionario h1{
+    font-size: 40px;
+    color: white;
+}
+
+.editFuncionario p{
+    font-size: 30px;
+    color: white;
+}
+
+.editFuncionario span{
+    font-size: 30px;
+    color: white;
+}
+
+.editFuncionario input{
+    width: 40%;
+    padding: 10px;
+    border-radius: 15px;
+    border: none;
+    background-color: #002147;
+    color: white;
+    outline: none;
+    font-size: 16px; 
+}
+
+
+.editFuncionario button{
+    background-color: #002147;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 15px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#FecharModal:hover {
+    background-color:#002147;
+}
