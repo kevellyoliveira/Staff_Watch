@@ -46,11 +46,12 @@ function cadastrar(req, res) {
 
 
 function listar(req, res) {
-    funcionarioModel.listar().then(function (resultado) {
+    const fkEmpresa = req.params.fkEmpresa; // Extrai o ID da empresa dos parâmetros da URL
+    funcionarioModel.listar(fkEmpresa).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
-            res.status(204).send("Nenhum resultado encontrado!")
+            res.status(204).send("Nenhum resultado encontrado!");
         }
     }).catch(function (erro) {
         console.log(erro);
@@ -58,6 +59,7 @@ function listar(req, res) {
         res.status(500).json(erro.sqlMessage);
     });
 }
+
 
 function listarPorUsuario(req, res) {
     var idUsuario = req.params.idUsuario;
