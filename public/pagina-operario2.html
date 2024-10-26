@@ -40,7 +40,7 @@
 
     <article class="title">
         <h2>Funcionários</h2><input type="text" name="Pesquisar" id="pesquisar_input" required="required" autocomplete="off"
-            placeholder="Pesquisar funcionário"><button><i class="fa-solid fa-magnifying-glass"></i></button>
+            placeholder="Pesquisar funcionário"><button onclick="listarPorUsuario()"><i class="fa-solid fa-magnifying-glass"></i></button>
     </article>
     <br>
     <br>
@@ -171,5 +171,73 @@
     }
 }
 
+function listarPorUsuario() {
+    const inputPesquisa = document.getElementById("pesquisar_input").value; // Pega o valor do input
+    const fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
+    console.log(fkEmpresa)
+
+    // Faz uma requisição à API, passando o termo de pesquisa
+    fetch(`/funcionarios/listar/${fkEmpresa}/${inputPesquisa}`).then(function (resposta) {
+        if (resposta.ok) {
+            if (resposta.status == 204) {
+                const feed = document.getElementById("feed_container");
+                feed.innerHTML = "Nenhum resultado encontrado.";
+                return;
+            }
+
+            resposta.json().then(function (resposta) {
+                const feed = document.getElementById("feed_container");
+                feed.innerHTML = ""; // Limpa o conteúdo atual do feed
+                
+                resposta.forEach((publicacao) => {
+                    const divPublicacao = document.createElement("div");
+                    const spanID = document.createElement("span");
+                    const spanTitulo = document.createElement("span");
+                    const spanNome = document.createElement("span");
+                    const divDescricao = document.createElement("div");
+                    const divButtons = document.createElement("div");
+                    const btnEditar = document.createElement("button");
+                    const btnDeletar = document.createElement("button");
+
+                    spanID.innerHTML = "<div class='id'> Id Funcionário: <b>" + publicacao.idFuncionario + "</b> </div> <br>";
+                    spanTitulo.innerHTML = "E-mail: <b>" + publicacao.email + "</b>";
+                    spanNome.innerHTML = "Nome: <b>" + publicacao.nome + "</b>";
+                    divDescricao.innerHTML = "Equipe: <b>" + publicacao.fkEquipe + "</b>";
+
+                    btnEditar.innerHTML = '<i class="fa-solid fa-pen"></i>';
+                    btnEditar.className = "editar";
+                    btnEditar.id = "AbrirModal2_" + publicacao.idFuncionario;
+                    btnEditar.addEventListener('click', function () {
+                        redirecionarParaEdicao(publicacao.idFuncionario);
+                    });
+
+                    btnDeletar.innerHTML = '<i class="fa-solid fa-trash"></i>';
+                    btnDeletar.className = "deletar";
+                    btnDeletar.id = "btnDeletar_" + publicacao.idFuncionario;
+                    btnDeletar.addEventListener('click', function () {
+                        deletar(publicacao.idFuncionario);
+                    });
+
+                    divButtons.className = "div-buttons";
+                    divButtons.appendChild(btnEditar);
+                    divButtons.appendChild(btnDeletar);
+
+                    divPublicacao.className = "publicacao";
+                    divPublicacao.appendChild(spanID);
+                    divPublicacao.appendChild(spanNome);
+                    divPublicacao.appendChild(spanTitulo);
+                    divPublicacao.appendChild(divDescricao);
+                    divPublicacao.appendChild(divButtons);
+
+                    feed.appendChild(divPublicacao);
+                });
+            });
+        } else {
+            console.error("Houve um erro na API.");
+        }
+    }).catch(function (erro) {
+        console.error("Erro na requisição:", erro);
+    });
+}
 
 </script>

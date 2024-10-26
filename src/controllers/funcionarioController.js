@@ -62,9 +62,10 @@ function listar(req, res) {
 
 
 function listarPorUsuario(req, res) {
-    var idUsuario = req.params.idUsuario;
+    const fkEmpresa = req.params.fkEmpresa;
+    var nomeFuncionario = req.params.inputPesquisa;
 
-    funcionarioModel.listarPorUsuario(idUsuario)
+    funcionarioModel.listarPorUsuario(fkEmpresa, nomeFuncionario)
         .then(
             function (resultado) {
                 if (resultado.length > 0) {

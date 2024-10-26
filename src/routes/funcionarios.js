@@ -16,7 +16,7 @@ router.get("/listar/:fkEmpresa", function (req, res) {
     funcionarioController.listar(req, res);
 });
 
-router.get("/listar/:idUsuario", function (req, res) {
+router.get("/listar/:fkEmpresa/:inputPesquisa", function (req, res) {
     funcionarioController.listarPorUsuario(req, res);
 });
 
