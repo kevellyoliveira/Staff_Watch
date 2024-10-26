@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/dashboardHist.css">
-    <link rel="shortcut icon" href="./src/img/logoB.png" type="image/x-icon" />
+    <link rel="stylesheet" href=".././css/dashboardHist.css">
+    <link rel="shortcut icon" href=".././src/img/logoB.png" type="image/x-icon" />
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -17,13 +17,13 @@
         <div class="opcoes">
             <div class="esq">
                 <div class="logo">
-                    <img href="index.html" src="./src/img/logoB.png" alt="logo">
+                    <img href="index.html" src=".././src/img/logoB.png" alt="logo">
                 </div>
 
                 <div class="opcoesComponentes" id="itens">
-                    <h6 class="opcoesMenu slct" onclick="window.location.href='dashboardGeral.html'">Home</h6>
+                    <h6 class="opcoesMenu slct" onclick="window.location.href='dashboardGeral-gti.html'">Home</h6>
                     <h6 class="opcoesMenu associMenu" onclick="abrirMenu()">Associados <img
-                            src="./src/img/icons/seta.png" alt="icone menu vertical"></h6>
+                            src=".././src/img/icons/seta.png" alt="icone menu vertical"></h6>
                     <h6 class="opcoesMenu" onclick="window.location.href='cadastroFuncionario.html'">Cadastrar</h6>
                     <div id="menu">
                         <h4 onclick="window.location.href='pagina-operario2.html'">Funcionários</h4>
@@ -41,18 +41,20 @@
     <div class="corpo">
         <div class="menuLateral">
             <div class="itens">
-                <h4 id="0" class="slc" onclick="window.location.href='dashboardEquipe.html'">Histórico</h4>
+                <h4 id="0" class="slc" onclick="window.location.href='dashboardEquipe-gti.html'">Histórico</h4>
                 <h4 id="1" onclick="selecionarItem(this)">Equipe 1</h4>
                 <h4 id="2" onclick="selecionarItem(this)">Equipe 2</h4>
                 <h4 id="3" onclick="selecionarItem(this)">Equipe 3</h4>
                 <h4 id="4" onclick="selecionarItem(this)">Equipe 4</h4>
-                <h4 onclick="window.location.href='novaEquipe.html'">Nova equipe</h4>
+                <h4 class="slc novaequipe" onclick="window.location.href='.././novaEquipe.html'">Nova equipe</h4>
             </div>
         </div>
         <div class="infos">
             <!-- Parte superior das Informações-->
             <div class="emcima">
-                <h1>Uso do Hardware</h1>
+
+                <h2>Uso do Hardware</h2>
+                
                 <select name="" id="">
                     <option value="">No dia</option>
                     <option value="">Na semana</option>
@@ -70,7 +72,10 @@
                                 <h1>CPU</h1>
                             </div>
                             <div class="baixoCard">
-                                <div class="left"> gráfico!!</div>
+                                <div class="left">
+                                    <img src=".././src/img/grafico.png" alt="">
+                                </div>
+                                
                                 <div class="right">
                                     <div class="leftIndicador">
                                         <div class="indicador">
@@ -96,7 +101,9 @@
                                 <h1>DISCO</h1>
                             </div>
                             <div class="baixoCard">
-                                <div class="left"> gráfico!!</div>
+                                <div class="left">
+                                    <img src=".././src/img/grafico.png" alt="">
+                                </div>
                                 <div class="right">
                                     <div class="leftIndicador">
                                         <div class="indicador">
@@ -124,7 +131,9 @@
                                 <h1>RAM</h1>
                             </div>
                             <div class="baixoCard">
-                                <div class="left"> gráfico!!</div>
+                                <div class="left">
+                                    <img src=".././src/img/grafico.png" alt="">
+                                </div>
                                 <div class="right">
                                     <div class="leftIndicador">
                                         <div class="indicador">
@@ -150,7 +159,9 @@
                                 <h1>REDE</h1>
                             </div>
                             <div class="baixoCard">
-                                <div class="left"> gráfico!!</div>
+                                <div class="left">
+                                    <img src=".././src/img/grafico.png" alt="">
+                                </div>
                                 <div class="right">
                                     <div class="leftIndicador">
                                         <div class="indicador">
@@ -196,12 +207,12 @@
         var id = elemento.id;  // Pega o ID da equipe clicada
         if (id == 0) {
             // Redireciona para dashboardGeral.html
-            window.location.href = "dashboardGeral.html";
+            window.location.href = "dashboardGeral-gti.html";
         } else {
             // Armazena o ID correto da equipe no sessionStorage
             sessionStorage.setItem('equipeSelecionada', id);
             // Redireciona para a página da equipe
-            window.location.href = 'dashboardEquipe.html';
+            window.location.href = 'dashboardEquipe-gti.html';
         }
     }
 
