@@ -44,7 +44,7 @@ function listar(fkEmpresa) {
     status, fkEmpresa,
     fkEquipe,fkCargo
     from funcionario
-    where fkEmpresa = ${fkEmpresa}
+    where fkEmpresa = ${fkEmpresa} AND status = 1
    `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
