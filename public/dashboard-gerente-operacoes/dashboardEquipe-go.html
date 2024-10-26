@@ -10,7 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 
-    <link rel="shortcut icon" href=".././src/imglogoB.png" type="image/x-icon" />
+    <link rel="shortcut icon" href=".././src/img/logoB.png" type="image/x-icon" />
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -27,8 +27,8 @@
 
                 <div class="opcoesComponentes" id="itens">
                     <h6 class="opcoesMenu slct" onclick="window.location.href='dashboardGeral-go.html'">Home</h6>
-                    <h6 class="opcoesMenu associMenu" onclick="abrirMenu()">Associados <img src=".././src/img/icons/seta.png"
-                            alt="icone menu vertical"></h6>
+                    <h6 class="opcoesMenu associMenu" onclick="abrirMenu()">Associados <img
+                            src=".././src/img/icons/seta.png" alt="icone menu vertical"></h6>
                     <h6 class="opcoesMenu" onclick="window.location.href='cadastroFuncionario.html'">Cadastrar</h6>
                     <div id="menu">
                         <h4 onclick="window.location.href='pagina-operario2.html'">Funcionários</h4>
@@ -47,8 +47,8 @@
     <div class="corpo">
         <div class="menuLateral">
             <div class="itens">
-                <h4 id="0" class="slc" onclick="window.location.href='dashboardGeral-go.html'">Histórico</h4>
-                <h4 id="1" onclick="selecionarItem(this)">Equipe 1</h4>
+                <h4 id="0" onclick="window.location.href='dashboardGeral-go.html'">Histórico</h4>
+                <h4 id="1" class="slc" onclick="selecionarItem(this)">Equipe 1</h4>
                 <h4 id="2" onclick="selecionarItem(this)">Equipe 2</h4>
                 <h4 id="3" onclick="selecionarItem(this)">Equipe 3</h4>
                 <h4 id="4" onclick="selecionarItem(this)">Equipe 4</h4>
@@ -70,23 +70,23 @@
 
                     <div class="down-card cima">
                         <div class="esqCard">
-                        <figure class="iconComp">
-                            <img src=".././src/img/icons/indicadoresMaquina/computadorAlerta.png" alt="">
-                        </figure>
-                    </div>
-
-                    <div class="dirCard">
-                        <div class="alertaMaquina">
-                            <figure> <img src=".././src/img/icons/alerta1.png"> </figure>
-                            <p> CPU acima da média (2 horas)</p>
+                            <figure class="iconFunc">
+                                <img src=".././src/img/icons/funcionarios/func-laranja.png" alt="">
+                            </figure>
                         </div>
-                    </div>
+
+                        <div class="dirCard">
+                            <div class="alertaMaquina">
+                                <figure> <img src=".././src/img/icons/alerta1.png"> </figure>
+                                <p> Tempo médio acima da média (9 min)</p>
+                            </div>
+                        </div>
 
                     </div>
                     <div class="down-card">
                         <div class="content-card">
-                            <p><b>ID:</b> 1234</p>
-                            <p><b>Nome:</b> Máquina XX</p>
+                            <p id="idFuncionario"><b>ID:</b> 1234</p>
+                            <p id="nomeFuncionario"> Lara Fernandes</p>
                         </div>
                         <div class="up-card">
                             <img src=".././src/img/icons/editar.svg" alt="">
@@ -101,83 +101,23 @@
 
                     <div class="down-card cima">
                         <div class="esqCard">
-                        <figure class="iconComp">
-                            <img src=".././src/img/icons/indicadoresMaquina/computadorEstavel.png" alt="">
-                        </figure>
-                    </div>
-
-                    <div class="dirCard">
-                        <!-- <div class="alertaMaquina">
-                            <figure> <img src=".././src/img/icons/alerta1.png"> </figure>
-                            <p> CPU acima da média (2 horas)</p>
-                        </div> -->
-                    </div>
-
-                    </div>
-                    <div class="down-card">
-                        <div class="content-card">
-                            <p><b>ID:</b> 1234</p>
-                            <p><b>Nome:</b> Máquina XX</p>
+                            <figure class="iconFunc">
+                                <img src=".././src/img/icons/funcionarios/func-verde.png" alt="">
+                            </figure>
                         </div>
-                        <div class="up-card">
-                            <img src=".././src/img/icons/editar.svg" alt="">
-                            <img src=".././src/img/icons/excluir.svg" alt="">
-                        </div>
-                    </div>
-                </div>
 
-
-                <div class="card open-modal">
-
-                    <div class="down-card cima">
-                        <div class="esqCard">
-                        <figure class="iconComp">
-                            <img src=".././src/img/icons/indicadoresMaquina/computadorCritico.png" alt="">
-                        </figure>
-                    </div>
-
-                    <div class="dirCard">
-                        <div class="alertaMaquina">
-                            <figure> <img src=".././src/img/icons/alerta2.png"> </figure>
-                            <p> CPU acima da média (8 horas)</p>
-                        </div>
-                    </div>
-
-                    </div>
-                    <div class="down-card">
-                        <div class="content-card">
-                            <p><b>ID:</b> 1234</p>
-                            <p><b>Nome:</b> Máquina XX</p>
-                        </div>
-                        <div class="up-card">
-                            <img src=".././src/img/icons/editar.svg" alt="">
-                            <img src=".././src/img/icons/excluir.svg" alt="">
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="card open-modal">
-
-                    <div class="down-card cima">
-                        <div class="esqCard">
-                        <figure class="iconComp">
-                            <img src=".././src/img/icons/indicadoresMaquina/computadorEstavel.png" alt="">
-                        </figure>
-                    </div>
-
-                    <div class="dirCard">
-                        <!-- <div class="alertaMaquina">
+                        <div class="dirCard">
+                            <!-- <div class="alertaMaquina">
                             <figure> <img src=".././src/img/icons/alerta1.png"> </figure>
                             <p> CPU acima da média (2 horas)</p>
                         </div> -->
-                    </div>
+                        </div>
 
                     </div>
                     <div class="down-card">
                         <div class="content-card">
-                            <p><b>ID:</b> 1234</p>
-                            <p><b>Nome:</b> Máquina XX</p>
+                            <p id="idFuncionario"><b>ID:</b> 1234</p>
+                            <p id="nomeFuncionario"> Lara Fernandes</p>
                         </div>
                         <div class="up-card">
                             <img src=".././src/img/icons/editar.svg" alt="">
@@ -191,23 +131,83 @@
 
                     <div class="down-card cima">
                         <div class="esqCard">
-                        <figure class="iconComp">
-                            <img src=".././src/img/icons/indicadoresMaquina/computadorEstavel.png" alt="">
-                        </figure>
-                    </div>
+                            <figure class="iconFunc">
+                                <img src=".././src/img/icons/funcionarios/func-vermelho.png" alt="">
+                            </figure>
+                        </div>
 
-                    <div class="dirCard">
-                        <!-- <div class="alertaMaquina">
+                        <div class="dirCard">
+                            <div class="alertaMaquina">
+                                <figure> <img src=".././src/img/icons/alerta2.png"> </figure>
+                                <p> CPU acima da média (8 horas)</p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="down-card">
+                        <div class="content-card">
+                            <p><b>ID:</b> 1234</p>
+                            <p> Pedro Almeida </p>
+                        </div>
+                        <div class="up-card">
+                            <img src=".././src/img/icons/editar.svg" alt="">
+                            <img src=".././src/img/icons/excluir.svg" alt="">
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card open-modal">
+
+                    <div class="down-card cima">
+                        <div class="esqCard">
+                            <figure class="iconFunc">
+                                <img src=".././src/img/icons/funcionarios/func-verde.png" alt="">
+                            </figure>
+                        </div>
+
+                        <div class="dirCard">
+                            <!-- <div class="alertaMaquina">
                             <figure> <img src=".././src/img/icons/alerta1.png"> </figure>
                             <p> CPU acima da média (2 horas)</p>
                         </div> -->
-                    </div>
+                        </div>
 
                     </div>
                     <div class="down-card">
                         <div class="content-card">
-                            <p><b>ID:</b> 1234</p>
-                            <p><b>Nome:</b> Máquina XX</p>
+                            <p id="idFuncionario"><b>ID:</b> 1234</p>
+                            <p id="nomeFuncionario"> Júlia Pereira</p>
+                        </div>
+                        <div class="up-card">
+                            <img src=".././src/img/icons/editar.svg" alt="">
+                            <img src=".././src/img/icons/excluir.svg" alt="">
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card open-modal">
+
+                    <div class="down-card cima">
+                        <div class="esqCard">
+                            <figure class="iconFunc">
+                                <img src=".././src/img/icons/funcionarios/func-verde.png" alt="">
+                            </figure>
+                        </div>
+
+                        <div class="dirCard">
+                            <!-- <div class="alertaMaquina">
+                            <figure> <img src=".././src/img/icons/alerta1.png"> </figure>
+                            <p> CPU acima da média (2 horas)</p>
+                        </div> -->
+                        </div>
+
+                    </div>
+                    <div class="down-card">
+                        <div class="content-card">
+                            <p id="idFuncionario"><b>ID:</b> 1234</p>
+                            <p id="nomeFuncionario"> Rafael Martins</p>
                         </div>
                         <div class="up-card">
                             <img src=".././src/img/icons/editar.svg" alt="">
@@ -220,23 +220,23 @@
 
                     <div class="down-card cima">
                         <div class="esqCard">
-                        <figure class="iconComp">
-                            <img src=".././src/img/icons/indicadoresMaquina/computadorAlerta.png" alt="">
-                        </figure>
-                    </div>
-
-                    <div class="dirCard">
-                        <div class="alertaMaquina">
-                            <figure> <img src=".././src/img/icons/alerta1.png"> </figure>
-                            <p> CPU acima da média (2 horas)</p>
+                            <figure class="iconFunc">
+                                <img src=".././src/img/icons/funcionarios/func-laranja.png" alt="">
+                            </figure>
                         </div>
-                    </div>
+
+                        <div class="dirCard">
+                            <div class="alertaMaquina">
+                                <figure> <img src=".././src/img/icons/alerta1.png"> </figure>
+                                <p> CPU acima da média (2 horas)</p>
+                            </div>
+                        </div>
 
                     </div>
                     <div class="down-card">
                         <div class="content-card">
-                            <p><b>ID:</b> 1234</p>
-                            <p><b>Nome:</b> Máquina XX</p>
+                            <p id="idFuncionario"><b>ID:</b> 1234</p>
+                            <p id="nomeFuncionario"> Caio Oliveira</p>
                         </div>
                         <div class="up-card">
                             <img src=".././src/img/icons/editar.svg" alt="">
@@ -246,7 +246,6 @@
                 </div>
 
 
-               
 
 
 
@@ -254,7 +253,8 @@
 
 
 
-                
+
+
 
             </section>
         </main>
@@ -268,7 +268,7 @@
 </html>
 <script>
 
-function selecionarItem(elemento) {
+    function selecionarItem(elemento) {
         var id = elemento.id;  // Pega o ID da equipe clicada
         if (id == 0) {
             // Redireciona para dashboardGeral.html

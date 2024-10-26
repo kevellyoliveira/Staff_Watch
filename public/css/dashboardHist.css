@@ -8,6 +8,11 @@
     font-weight: 500;
 }
 
+:root {
+    --verde: #3CF211; /* ou qualquer outro código de cor verde */
+}
+
+
 body {
     background-color: #e7ecef;
     height: auto;
@@ -193,7 +198,6 @@ header {
             font-size: 1rem;
         }
     }
-
     /*Parte com os gráficos e alertas*/
     & .embaixo {
         width: 100%;
@@ -247,14 +251,15 @@ header {
             & .box {
                 margin-top: 20px;
                 width: 90%;
-                height: 35%;
-                background-color: #6096ba;
-                border-radius: 20px;
-                text-align: center;
+                height: 6rem ;
+                background-color: #e7ecef;
+                border-radius: 15px;
+                /* text-align: center; */
                 display: flex;
                 flex-direction: column;
-                align-items: center;
                 justify-content: center;
+                padding: 3%;
+                cursor: pointer;
             }
         }
     }
@@ -314,7 +319,7 @@ header {
         }
 
         & .left img {
-            width: 85%;
+            width: 75%;
         }
 
         & .right {
@@ -334,7 +339,7 @@ header {
                     width: 95%;
                     height: 40%;
                     background-color: rgba(96, 150, 186, 0.8);
-                    border-radius: 20px;
+                    border-radius: 10px;
                 }
             }
 
@@ -350,7 +355,7 @@ header {
                     width: 86%;
                     height: 86%;
                     background-color: rgba(96, 150, 186, 0.8);
-                    border-radius: 20px;
+                    border-radius: 10px;
                 }
             }
 
@@ -411,7 +416,7 @@ header {
 }
 
 .tempoMedioChamadas {
-    color: green;
+    color: var(--verde);
 }
 
 .card.dir {
@@ -421,7 +426,6 @@ header {
 .embaixo .baixo.go.vai {
     display: flex;
     height: 40%;
-    /* background-color: #7fc4f1; */
     align-items: flex-start;
     padding-top: 2rem;
 }
@@ -502,6 +506,7 @@ header {
 .card:focus {
     transform: translateY(5px) scale(1.1);
     transition: transform 0.5s;
+    cursor: pointer;
 }
 
 .up-card {
@@ -549,8 +554,11 @@ header {
 .iconComp {
     width: 4.8rem;
 }
+.iconFunc {
+    width: 7.3rem;
+}
 
-.iconComp img {
+.iconComp img, .iconFunc img {
     width: 100%;
 }
 
