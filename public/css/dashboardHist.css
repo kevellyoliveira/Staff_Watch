@@ -276,6 +276,10 @@ header {
     gap: 1.5rem;
 }
 
+.alertasEquipes {
+    cursor: pointer;
+}
+
 /*Complemento Cards*/
 
 .card {
