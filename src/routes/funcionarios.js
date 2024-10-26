@@ -28,7 +28,7 @@ router.put("/editar/:idFuncionario", function (req, res) {
     funcionarioController.editar(req, res);
 });
 
-router.delete("/deletar/:idFuncionario", function (req, res) {
+router.put("/deletar/:idFuncionario", function (req, res) {
     funcionarioController.deletar(req, res);
 });
 

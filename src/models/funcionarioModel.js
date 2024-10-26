@@ -107,7 +107,7 @@ function deletar(idFuncionario) {
 
     );
     var instrucaoSql = `
-        DELETE FROM funcionario WHERE idFuncionario = ${idFuncionario};
+       UPDATE funcionario SET status = 2 WHERE idFuncionario = ${idFuncionario};
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
