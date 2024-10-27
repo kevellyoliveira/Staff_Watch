@@ -91,7 +91,7 @@
                     <span id="alertCargo" class="msgAlerta"></span>
                     <select class="input-field slct" id="cargo_select">
                         <option value="#" selected disabled> Selecione o seu cargo </option>
-                        <option value="1">Suporte de TI</option>
+                        <!-- <option value="1">Suporte de TI</option> -->
                         <option value="2">Gerente de Operações</option>
                         <option value="3">Gerente de TI</option>
                     </select>
@@ -136,6 +136,7 @@
     }
 
     function cadastrar(req, res) {
+        var idEmpresa = sessionStorage.ID_EMPRESA;
         let nomeEmp = nome_input.value;
         let cnpj = Number(cnpj_input.value);
         let nomeRep = nomeRepresentante_input.value;
@@ -219,7 +220,7 @@
 
             if (validacaoSenha == false) {
                 alertSenha.innerHTML += "Sua senha deve conter: letra maiúscula, minúscula, número e caracter especial!";
-            }
+            
             if ((nomeEmp.length <= 2) || (email.indexOf("@") == -1 || email.indexOf(".com") == -1) || (senha != confirmSenha)) {
                 if (nomeEmp.length <= 2) {
                    alertNome.innerHTML += "Insira um nome válido!";
@@ -231,6 +232,7 @@
                     alertConfirmSenha.innerHTML += "As senhas não são iguais!";
                 }
             }
+        }
 
             else { // passou em todas as validações!!
 
@@ -253,7 +255,7 @@
                         senhaServer: senha,
                     }),
                 })
-
+                
                     .then(function (resposta) {
                         console.log("resposta: ", resposta);
 
@@ -267,9 +269,41 @@
                     .catch(function (resposta) {
                         console.log(`#ERRO: ${resposta}`);
                     });
+                    return false
 
-                return false;
-            }
-        }
+                
+
+        //         fetch("usuarios/componentes", {
+        //     method: "POST",
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //     },
+        //     body: JSON.stringify({
+        //         // crie um atributo que recebe o valor recuperado aqui
+        //         // Agora vá para o arquivo routes/usuario.js
+        //         // nomeComponenteServer: nomeComponente,
+        //         fkEmpresaServer: idEmpresa,
+        //         componenteServer: componente,
+        //     }),
+        // })
+        //     .then(function (resposta) {
+        //         console.log("resposta: ", resposta);
+
+        //         if (resposta.ok) {
+        //             alert("Cadastro realizado com sucesso!");
+        //             window.location.href = 'login.html';
+        //         }
+        //         else {
+        //             alert('Email já cadastrado! Faça o seu login.')
+        //             console.log(`#ERRO: ${resposta}`)
+        //         }
+        //     })
+        //     .catch(function (resposta) {
+        //         console.log(`#ERRO: ${resposta}`);
+        //     });
+        // return false;
+    
+             }
+         }
     }
 </script>

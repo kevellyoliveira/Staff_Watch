@@ -9,11 +9,11 @@
     <script src="js/script.js" defer></script>
     <link rel="shortcut icon" href="./src/img/logoB.png" type="image/x-icon" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
-<body>
+<body onload="atualizarFeed()">
     <header>
         <div class="opcoes">
             <div class="esq">
@@ -28,6 +28,7 @@
                     <div id="menu">
                         <h4 onclick="window.location.href='pagina-operario2.html'">Funcionários</h4>
                         <h4 onclick="window.location.href='pagina-maquina.html'">Dispositivos</h4>
+                        <h4 onclick="window.location.href='cadastroEquipe.html'">Equipe</h4>
                     </div>
                 </div>
             </div>
@@ -39,220 +40,14 @@
 
     <article class="title">
         <h2>Funcionários</h2><input type="text" name="Pesquisar" id="pesquisar_input" required="required" autocomplete="off"
-        placeholder="Pesquisar funcionário"><button><i class="fa-solid fa-magnifying-glass"></i></button>
+            placeholder="Pesquisar funcionário"><button onclick="listarPorUsuario()"><i class="fa-solid fa-magnifying-glass"></i></button>
     </article>
     <br>
-
-    <div>
-        <div class="mae">
-            <div class="filho1">
-                <center>
-                    <br>
-                    <p><b>RF:</b> 23433454</p>
-                    <p><b>Nome:</b> José Antônio da Silva</p>
-                    
-                    <!-- Botão que abre o modal 1 -->
-                    <button id="AbrirModal1">Visualizar</button>
-                    <dialog id="dialog1" class="dialog">
-                        <div class="editMaquina">
-                            <p><b>Nome:</b> José Antônio da Silva</p>
-                            <p><b>Email:</b> Jose.Silva@email.com</p>
-                            <p><b>Equipe:</b> 1</p>
-                            <button id="FecharModal1">Ok</button>
-                        </div>
-                    </dialog>
-
-                    <!-- Botão que abre o modal 2 -->
-                    <button id="AbrirModal2"><i class="fa-solid fa-pen"></i></button>
-                    <dialog id="dialog2" class="dialog">
-                        <div class="editMaquina2">
-                            <h1>Alterar informações</h1>
-                            <input type="text" name="Nome" id="name_input" required="required" autocomplete="off"
-                            placeholder="Nome">
-                            <input type="email" name="Email" id="email_input" required="required" autocomplete="off"
-                            placeholder="Email">
-                            <input type="text" name="numEquipe" id="numEquipe_input" required="required" autocomplete="off"
-                            placeholder="ID da Equipe">
-                            <button id="FecharModal2">Confirmar</button>
-                        </div>
-                    </dialog>
-
-                    <!-- Botão que abre o modal 3 -->
-                    <button id="AbrirModal3"><i class="fa-solid fa-trash"></i></button>
-                    <dialog id="dialog3" class="dialog">
-                        <div class="editMaquina3">
-                            <h1>Deletar funcionario</h1>
-                            <p>Nome: José Antônio da Silva</p>
-                            <button id="FecharModal3">Confirmar</button>
-                            <button id="FecharModal3">sair</button>
-                        </div>
-                    </dialog>
-                </center>
-            </div>
-            <div class="filho2">
-                <center>
-                    <br>
-                    <p><b>RF:</b> 23433454</p>
-                    <p><b>Nome:</b> José Antônio da Silva</p>
-                    
-                    <!-- Botão que abre o modal 1 -->
-                    <button id="AbrirModal1">Visualizar</button>
-                    <dialog id="dialog1" class="dialog">
-                        <div class="editMaquina">
-                            <h1>ALTERAR NOME</h1>
-                            <p>Nome Atual: José Antônio da Silva</p>
-                            <span>Novo Nome:</span><input id="inputMudarFuncionario" type="text">
-                            <button id="FecharModal1">Confirmar</button>
-                        </div>
-                    </dialog>
-
-                    <!-- Botão que abre o modal 2 -->
-                    <button id="AbrirModal2"><i class="fa-solid fa-pen"></i></button>
-                    <dialog id="dialog2" class="dialog">
-                        <div class="editMaquina2">
-                            <h1>ALTERAR NOME</h1>
-                            <p>Nome Atual: José Antônio da Silva</p>
-                            <span>Novo Nome:</span><input id="inputMudarFuncionario2" type="text">
-                            <button id="FecharModal2">Confirmar</button>
-                        </div>
-                    </dialog>
-
-                    <!-- Botão que abre o modal 3 -->
-                    <button id="AbrirModal3"><i class="fa-solid fa-trash"></i></button>
-                    <dialog id="dialog3" class="dialog">
-                        <div class="editMaquina3">
-                            <h1>ALTERAR NOME</h1>
-                            <p>Nome Atual: José Antônio da Silva</p>
-                            <span>Novo Nome:</span><input id="inputMudarFuncionario3" type="text">
-                            <button id="FecharModal3">Confirmar</button>
-                        </div>
-                    </dialog>
-                </center>
-            </div>
-            <div class="filho3">
-                <center>
-                    <br>
-                    <p><b>RF:</b> 23433454</p>
-                    <p><b>Nome:</b> José Antônio da Silva</p>
-                    
-                    <!-- Botão que abre o modal 1 -->
-                    <button id="AbrirModal1">Visualizar</button>
-                    <dialog id="dialog1" class="dialog">
-                        <div class="editMaquina">
-                            <h1>ALTERAR NOME</h1>
-                            <p>Nome Atual: José Antônio da Silva</p>
-                            <span>Novo Nome:</span><input id="inputMudarFuncionario" type="text">
-                            <button id="FecharModal1">Confirmar</button>
-                        </div>
-                    </dialog>
-
-                    <!-- Botão que abre o modal 2 -->
-                    <button id="AbrirModal2"><i class="fa-solid fa-pen"></i></button>
-                    <dialog id="dialog2" class="dialog">
-                        <div class="editMaquina2">
-                            <h1>ALTERAR NOME</h1>
-                            <p>Nome Atual: José Antônio da Silva</p>
-                            <span>Novo Nome:</span><input id="inputMudarFuncionario2" type="text">
-                            <button id="FecharModal2">Confirmar</button>
-                        </div>
-                    </dialog>
-
-                    <!-- Botão que abre o modal 3 -->
-                    <button id="AbrirModal3"><i class="fa-solid fa-trash"></i></button>
-                    <dialog id="dialog3" class="dialog">
-                        <div class="editMaquina3">
-                            <h1>ALTERAR NOME</h1>
-                            <p>Nome Atual: José Antônio da Silva</p>
-                            <span>Novo Nome:</span><input id="inputMudarFuncionario3" type="text">
-                            <button id="FecharModal3">Confirmar</button>
-                        </div>
-                    </dialog>
-                </center>
-            </div>
-        </div>
+    <br>
+    <div class="funcs">
+        <div id="feed_container" class="feed-container"></div>
     </div>
-        <div class="mae2">
-        <div class="filho4">
-            <center>
-                <br>
-                <p><b>RF:</b> 23433454</p>
 
-                <p><b>Nome:</b> José Antônio da Silva</p>
-                <button id="AbrirModal">Visualizar</button>
-                <button id="AbrirModal2" onclick=editar() class="editar">
-                    <i class="fa-solid fa-pen"></i></button>
-                <button id="AbrirModal3" onclick=editar() class="editar">
-                        <i class="fa-solid fa-trash"></i></button>
-            </center>
-        </div>
-        <div class="filho5">
-            <center>
-                <br>
-                <p><b>RF:</b> 23433454</p>
-
-                <p><b>Nome:</b> José Antônio da Silva</p>
-                <button id="AbrirModal">Visualizar</button>
-                <button id="AbrirModal2" onclick=editar() class="editar">
-                    <i class="fa-solid fa-pen"></i></button>
-                <button id="AbrirModal3" onclick=editar() class="editar">
-                        <i class="fa-solid fa-trash"></i></button>
-            </center>
-        </div>
-        <div class="filho6">
-            <center>
-                <br>
-                <p><b>RF:</b> 23433454</p>
-
-                <p><b>Nome:</b> José Antônio da Silva</p>
-                <button id="AbrirModal1">Visualizar</button>
-                <button id="AbrirModal2" onclick=editar() class="editar">
-                    <i class="fa-solid fa-pen"></i></button>
-                <button id="AbrirModal3" onclick=editar() class="editar">
-                        <i class="fa-solid fa-trash"></i></button>
-            </center>
-        </div>
-        </div>
-        <div class="mae3">
-        <div class="filho7">
-            <center>
-                <br>
-                <p><b>RF:</b> 23433454</p>
-
-                <p><b>Nome:</b> José Antônio da Silva</p>
-                <button id="AbrirModal1">Visualizar</button>
-                <button id="AbrirModal2" onclick=editar() class="editar">
-                    <i class="fa-solid fa-pen"></i></button>
-                <button id="AbrirModal3" onclick=editar() class="editar">
-                        <i class="fa-solid fa-trash"></i></button>
-            </center>
-        </div>
-        <div class="filho8">
-            <center>
-                <br>
-                <p><b>RF:</b> 23433454</p>
-
-                <p><b>Nome:</b> José Antônio da Silva</p>
-                <button id="AbrirModal1">Visualizar</button>
-                <button id="AbrirModal2" onclick=editar() class="editar">
-                    <i class="fa-solid fa-pen"></i></button>
-                <button id="AbrirModal3" onclick=editar() class="editar">
-                        <i class="fa-solid fa-trash"></i></button>
-            </center>
-        </div>
-        <div class="filho9">
-            <center>
-                <br>
-                <p><b>RF:</b> 23433454</p>
-
-                <p><b>Nome:</b> José Antônio da Silva</p>
-                <button id="AbrirModal1">Visualizar</button>
-                <button id="AbrirModal2" onclick=editar() class="editar">
-                        <i class="fa-solid fa-pen"></i></button>
-                <button id="AbrirModal3" onclick=editar() class="editar">
-                            <i class="fa-solid fa-trash"></i></button>
-            </center>
-        </div>
-        </div>
 </body>
 
 </html>
@@ -271,29 +66,178 @@
         window.location = "index.html"
     }
 
- // Scripts para abrir e fechar os modais
+    function atualizarFeed() {
+        var fkEmpresa = sessionStorage.getItem("ID_EMPRESA")
+        console.log(fkEmpresa)
+        fetch(`/funcionarios/listar/${fkEmpresa}`).then(function (resposta) {
+            if (resposta.ok) {
+                if (resposta.status == 204) {
+                    var feed = document.getElementById("feed_container");
+                    var mensagem = document.createElement("span");
+                    mensagem.innerHTML = "Nenhum resultado encontrado.";
+                    feed.appendChild(mensagem);
+                    throw "Nenhum resultado encontrado!!";
+                }
 
- document.getElementById("AbrirModal1").addEventListener("click", function() {
-            document.getElementById("dialog1").showModal();
-        });
+                resposta.json().then(function (resposta) {
+                    console.log("Dados recebidos: ", JSON.stringify(resposta));
 
-        document.getElementById("FecharModal1").addEventListener("click", function() {
-            document.getElementById("dialog1").close();
-        });
+                    var feed = document.getElementById("feed_container");
+                    feed.innerHTML = ""; // Limpa o conteúdo atual do feed
+                    for (let i = 0; i < resposta.length; i++) {
+                        var publicacao = resposta[i];
 
-        document.getElementById("AbrirModal2").addEventListener("click", function() {
-            document.getElementById("dialog2").showModal();
-        });
+                        // Criando e manipulando elementos do HTML via JavaScript
+                        var divPublicacao = document.createElement("div");
+                        var spanID = document.createElement("span");
+                        var spanTitulo = document.createElement("span");
+                        var spanNome = document.createElement("span");
+                        var divDescricao = document.createElement("div");
+                        var divButtons = document.createElement("div");
+                        var btnEditar = document.createElement("button");
+                        var btnDeletar = document.createElement("button");
 
-        document.getElementById("FecharModal2").addEventListener("click", function() {
-            document.getElementById("dialog2").close();
-        });
+                        // Definindo conteúdo dos elementos
+                        spanID.innerHTML = "<div class='id'> Id Funcionário: <b>" + publicacao.idFuncionario + "</b> </div> <br>";
+                        spanTitulo.innerHTML = "E-mail: <b>" + publicacao.email+ "</b>";
+                        spanNome.innerHTML = "Nome: <b>" + publicacao.nome + "</b>";
+                        divDescricao.innerHTML = "Equipe: <b>" + publicacao.fkEquipe + "</b>";
 
-        document.getElementById("AbrirModal3").addEventListener("click", function() {
-            document.getElementById("dialog3").showModal();
-        });
+                        // Configurando o botão "Editar"
+                        btnEditar.innerHTML = '<i class="fa-solid fa-pen"></i>'; // Ícone do botão
+                        btnEditar.className = "editar"; // Classe do botão
+                        btnEditar.id = "AbrirModal2_" + publicacao.idFuncionario; // ID único baseado no ID do funcionário
+                        let idDaVez = publicacao.idFuncionario
+                        btnEditar.addEventListener('click', function () {
+                            redirecionarParaEdicao(idDaVez); // Função que redireciona para a página de edição
+                        });
 
-        document.getElementById("FecharModal3").addEventListener("click", function() {
-            document.getElementById("dialog3").close();
+                        // Configurando o botão "Deletar"
+                        btnDeletar.innerHTML = '<i class="fa-solid fa-trash"></i>'; // Ícone do botão
+                        btnDeletar.className = "deletar"; // Classe do botão
+                        btnDeletar.id = "btnDeletar_" + publicacao.idFuncionario; // ID único
+                        btnDeletar.addEventListener('click', function () {
+                            deletar(idDaVez); // Função 'deletar' com ID do funcionário
+                        });
+
+                        // Adicionando os botões ao container de botões
+                        divButtons.className = "div-buttons";
+                        divButtons.appendChild(btnEditar);
+                        divButtons.appendChild(btnDeletar);
+
+                        // Adicionando todos os elementos criados ao divPublicacao
+                        divPublicacao.className = "publicacao";
+                        divPublicacao.appendChild(spanID);
+                        divPublicacao.appendChild(spanNome);
+                        divPublicacao.appendChild(spanTitulo);
+                        divPublicacao.appendChild(divDescricao);
+                        divPublicacao.appendChild(divButtons);
+
+                        // Adicionando o card de publicacao ao feed
+                        feed.appendChild(divPublicacao);
+                    }
+
+                });
+            } else {
+                throw ('Houve um erro na API!');
+            }
+        }).catch(function (resposta) {
+            console.error(resposta);
         });
+    }
+
+    function redirecionarParaEdicao(idFuncionario) {
+        // Redireciona o usuário para a página de edição com o ID do funcionário como parâmetro na URL
+        window.location.href = `editarFuncionario.html?id=${idFuncionario}`;
+    }
+
+    function deletar(idFuncionario) {
+    if (confirm("Tem a certeza de que deseja deletar este funcionário?")) {
+        fetch(`/funcionarios/deletar/${idFuncionario}`, {
+            method: "PUT"
+        })
+        .then(resposta => {
+            if (resposta.ok) {
+                alert("Funcionário deletado com sucesso!");
+                atualizarFeed(); // Atualiza a lista após a exclusão
+            } else {
+                throw "Não foi possível deletar o funcionário.";
+            }
+        })
+        .catch(error => {
+            console.error(error);
+            alert("Ocorreu um erro ao tentar deletar o funcionário.");
+        });
+    }
+}
+
+function listarPorUsuario() {
+    const inputPesquisa = document.getElementById("pesquisar_input").value; // Pega o valor do input
+    const fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
+    console.log(fkEmpresa)
+
+    // Faz uma requisição à API, passando o termo de pesquisa
+    fetch(`/funcionarios/listar/${fkEmpresa}/${inputPesquisa}`).then(function (resposta) {
+        if (resposta.ok) {
+            if (resposta.status == 204) {
+                const feed = document.getElementById("feed_container");
+                feed.innerHTML = "Nenhum resultado encontrado.";
+                return;
+            }
+
+            resposta.json().then(function (resposta) {
+                const feed = document.getElementById("feed_container");
+                feed.innerHTML = ""; // Limpa o conteúdo atual do feed
+                
+                resposta.forEach((publicacao) => {
+                    const divPublicacao = document.createElement("div");
+                    const spanID = document.createElement("span");
+                    const spanTitulo = document.createElement("span");
+                    const spanNome = document.createElement("span");
+                    const divDescricao = document.createElement("div");
+                    const divButtons = document.createElement("div");
+                    const btnEditar = document.createElement("button");
+                    const btnDeletar = document.createElement("button");
+
+                    spanID.innerHTML = "<div class='id'> Id Funcionário: <b>" + publicacao.idFuncionario + "</b> </div> <br>";
+                    spanTitulo.innerHTML = "E-mail: <b>" + publicacao.email + "</b>";
+                    spanNome.innerHTML = "Nome: <b>" + publicacao.nome + "</b>";
+                    divDescricao.innerHTML = "Equipe: <b>" + publicacao.fkEquipe + "</b>";
+
+                    btnEditar.innerHTML = '<i class="fa-solid fa-pen"></i>';
+                    btnEditar.className = "editar";
+                    btnEditar.id = "AbrirModal2_" + publicacao.idFuncionario;
+                    btnEditar.addEventListener('click', function () {
+                        redirecionarParaEdicao(publicacao.idFuncionario);
+                    });
+
+                    btnDeletar.innerHTML = '<i class="fa-solid fa-trash"></i>';
+                    btnDeletar.className = "deletar";
+                    btnDeletar.id = "btnDeletar_" + publicacao.idFuncionario;
+                    btnDeletar.addEventListener('click', function () {
+                        deletar(publicacao.idFuncionario);
+                    });
+
+                    divButtons.className = "div-buttons";
+                    divButtons.appendChild(btnEditar);
+                    divButtons.appendChild(btnDeletar);
+
+                    divPublicacao.className = "publicacao";
+                    divPublicacao.appendChild(spanID);
+                    divPublicacao.appendChild(spanNome);
+                    divPublicacao.appendChild(spanTitulo);
+                    divPublicacao.appendChild(divDescricao);
+                    divPublicacao.appendChild(divButtons);
+
+                    feed.appendChild(divPublicacao);
+                });
+            });
+        } else {
+            console.error("Houve um erro na API.");
+        }
+    }).catch(function (erro) {
+        console.error("Erro na requisição:", erro);
+    });
+}
+
 </script>

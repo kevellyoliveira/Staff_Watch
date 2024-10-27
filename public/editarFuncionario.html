@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <link rel="shortcut icon" href="../assets/icon/favicon2.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AquaTech | Página Inicial</title>
+
+    
+    <link rel="stylesheet" href="./css/telaListas.css">
+    <!-- <script src="../js/sessao.js"></script> -->
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- <body onload="validarSessao()"> -->
+
+        <header>
+            <div class="opcoes">
+                <div class="esq">
+                    <div class="logo">
+                        <img href="index.html" src="./src/img/logoB.png" alt="logo">
+                    </div>
+                    <div class="opcoesComponentes" id="itens">
+                        <h6 class="opcoesMenu" onclick="window.location.href='dashboardGeral.html'">Home</h6>
+                        <h6 class="opcoesMenu slct associMenu" onclick="abrirMenu()">Associados <img
+                                src="./src/img/icons/seta.png" alt="icone menu vertical"></h6>
+                        <h6 class="opcoesMenu" onclick="window.location.href='cadastroFuncionario.html'">Cadastrar</h6>
+                        <div id="menu">
+                            <h4 onclick="window.location.href='pagina-operario2.html'">Funcionários</h4>
+                            <h4 onclick="window.location.href='pagina-maquina.html'">Dispositivos</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="sair">
+                    <h6 class="opcoesMenu sair" onclick="sair()"> Sair </h6>
+                </div>
+            </div>
+        </header>
+
+        <div class="dash-right">
+
+            <div class="avisos">
+                <div class="container">
+                    <h1>Editar um aviso</h1>
+                    <div class="div-form">
+                        <label>
+                            ID:
+                            <br>
+                            <input id="input_id" maxlength="100" type="text" placeholder="ID da Equipe" style="color: rgb(196, 196, 196) p">
+                        </label>
+                        <label>
+                            Autor:
+                            <br>
+                            <input id="input_nome" maxlength="100" type="text" placeholder="Nome do Funcionário" style="color: rgb(196, 196, 196)"
+                                >
+                        </label>
+                        <label>
+                            Título:
+                            <br>
+                            <input id="input_titulo" maxlength="100" type="text" placeholder="Email do funcionário" style="color: rgb(196, 196, 196)"
+                                >
+                        </label>
+                        <br>
+                        <button onclick="editar()">Editar</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script>
+   
+    function editar() {
+        let searchId = window.location.search.substring(4,window.location.search.length)
+
+        fetch(`/funcionarios/editar/${searchId}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            
+            body: JSON.stringify({
+                idFuncionario : searchId,
+                idEquipe : input_id.value,
+                nome: input_nome.value,
+                email: input_titulo.value
+            })
+        }).then(function (resposta) {
+
+            if (resposta.ok) {
+                window.alert("Post atualizado com sucesso pelo usuario de email: " + sessionStorage.getItem("EMAIL_USUARIO") + "!");
+                window.location = "/pagina-operario2.html"
+            } else if (resposta.status == 404) {
+                window.alert("Deu 404!");
+            } else {
+                throw ("Houve um erro ao tentar realizar a postagem! Código da resposta: " + resposta.status);
+            }
+        }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
+    }
+
+</script>

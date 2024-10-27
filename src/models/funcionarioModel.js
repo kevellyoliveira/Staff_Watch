@@ -18,7 +18,7 @@ function cadastrar(nome, email, idEquipe, token, fkEmpresa) {
 
             // Inserção na tabela funcionário
             var instrucaoSqlFuncionario = `insert into funcionario (Nome, Email, fkEmpresa, fkEquipe, fkCargo) values
-("${nome}", "${email}", '${fkEmpresa}',' ${idEquipe}',4);`; 
+("${nome}", "${email}", '${fkEmpresa}',' ${idEquipe}',4);`;
 
             console.log("Executando a instrução SQL para inserir funcionário:\n" + instrucaoSqlFuncionario);
 
@@ -37,16 +37,15 @@ function cadastrar(nome, email, idEquipe, token, fkEmpresa) {
 
 // funcoes nao utilizadas =======================================================================================
 
-function listar() {
+function listar(fkEmpresa) {
     console.log("ACESSEI O AVISO  MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listar()");
     var instrucaoSql = `
-    select idPostagem, mensagem, fkUsuario, fkTema,
-    fkPersonagem, nickname,
-    titulo
-    from postagem
-    left join usuario on fkUsuario = idUsuario
-    left join tema on fkTema = idTema;
-    `;
+    select idFuncionario, nome, email,
+    status, fkEmpresa,
+    fkEquipe,fkCargo
+    from funcionario
+    where fkEmpresa = ${fkEmpresa} AND status = 1
+   `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
@@ -72,41 +71,31 @@ function pesquisarDescricao(texto) {
     return database.executar(instrucaoSql);
 }
 
-function listarPorUsuario(idUsuario) {
+function listarPorUsuario(fkEmpresa , nomeFuncionario) {
     console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listarPorUsuario()");
     var instrucaoSql = `
-        SELECT 
-            a.id AS idAviso,
-            a.titulo,
-            a.descricao,
-            a.fk_usuario,
-            u.id AS idUsuario,
-            u.nome,
-            u.email,
-            u.senha
-        FROM aviso a
-            INNER JOIN usuario u
-                ON a.fk_usuario = u.id
-        WHERE u.id = ${idUsuario};
+        SELECT * FROM funcionario WHERE fkEmpresa = '${fkEmpresa}' AND nome LIKE CONCAT('%','${nomeFuncionario}', '%')
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
 
-function editar(novaDescricao, idAviso) {
-    console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function editar(): ", novaDescricao, idAviso);
+function editar(idEquipe,nome,email,idFuncionario) {
+    console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function editar(): ");
     var instrucaoSql = `
-        UPDATE aviso SET descricao = '${novaDescricao}' WHERE id = ${idAviso};
+        UPDATE funcionario SET fkEquipe = '${idEquipe}', nome = '${nome}' , email = '${email}' WHERE idFuncionario = ${idFuncionario};
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
-function deletar(idAviso) {
-    console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function deletar():", idAviso);
+function deletar(idFuncionario) {
+    console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function deletar():", idFuncionario
+
+    );
     var instrucaoSql = `
-        DELETE FROM aviso WHERE id = ${idAviso};
+       UPDATE funcionario SET status = 2 WHERE idFuncionario = ${idFuncionario};
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);

@@ -3,26 +3,26 @@ var database = require("../database/config")
 function autenticar(email, senha, token) {
     console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function entrar(): ", email, senha, token)
 
-    
+
     var instrucaoSql = `
-        SELECT idFuncionario, nome, email, fkEmpresa
+        SELECT idFuncionario, nome, email, fkEmpresa, fkCargo
         FROM funcionario WHERE email = '${email}' AND senha = MD5('${senha}');
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql)
 
-    
-        // .then((resultado) => {
-        //     var fkEmpresa = resultado[0].fkEmpresa
-        //     var instrucaoSqlValidarToken = `
-        //         SELECT idToken FROM token WHERE token = "${token}" and fkEmpresa = ${fkEmpresa};
-        //         `;
-        //         console.log("Executando a instrução SQL para obter o token da empresa:\n" + instrucaoSqlValidarToken);
-        //     return database.executar(instrucaoSqlValidarToken)
-        // }).catch((erro) => {
-        //     console.error("Erro durante a busca do token:", erro);
-        //     throw erro;
-        // });
+
+    // .then((resultado) => {
+    //     var fkEmpresa = resultado[0].fkEmpresa
+    //     var instrucaoSqlValidarToken = `
+    //         SELECT idToken FROM token WHERE token = "${token}" and fkEmpresa = ${fkEmpresa};
+    //         `;
+    //         console.log("Executando a instrução SQL para obter o token da empresa:\n" + instrucaoSqlValidarToken);
+    //     return database.executar(instrucaoSqlValidarToken)
+    // }).catch((erro) => {
+    //     console.error("Erro durante a busca do token:", erro);
+    //     throw erro;
+    // });
 }
 
 // Coloque os mesmos parâmetros aqui. Vá para a var instrucaoSql
@@ -66,7 +66,8 @@ function cadastrar(nomeEmp, cnpj, nomeRep, email, cargo, senha, token) {
                     `;
                     console.log("Executando a instrução SQL para inserir o token:\n" + instrucaoSqlInserindoToken);
                     return database.executar(instrucaoSqlInserindoToken);
-                });
+                })
+                
         })
         .catch((erro) => {
             console.error("Erro durante o cadastro:", erro);
@@ -74,9 +75,23 @@ function cadastrar(nomeEmp, cnpj, nomeRep, email, cargo, senha, token) {
         });
 }
 
+// function cadastrarComponente(fkEmpresa) {
+
+//     var instrucaoSqlComponente = `insert into selecionadosParaMonitoramento values
+//     (0, ${fkEmpresa}, 1),
+//     (0, ${fkEmpresa}, 2),
+//     (0, ${fkEmpresa}, 3),
+//     (0, ${fkEmpresa}, 4),
+//     (0, ${fkEmpresa}, 5);`;
+
+//     console.log("Executando a instrução SQL: \n" + instrucaoSqlComponente);
+//     return database.executar(instrucaoSqlComponente);
+// }
+
 module.exports = {
     autenticar,
     cadastrar,
+//    cadastrarComponente
     // consultar,
     // inserirPontos
 };

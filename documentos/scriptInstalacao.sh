@@ -40,30 +40,30 @@ echo "Verificando versão do MySql"
 mysql --version
 
 #Baixar Sql
-echo "Verificando se o MySql já está instalado"
-if [ $? = 0 ]; #se retorno for igual a 0
-then #entao,
-echo “Cliente possui mysql instalado!” 
-else #se nao,
-echo “Cliente não possui mysql instalado!”
-sudo apt install mysql-server -y 
-fi #fecha o if
+# echo "Verificando se o MySql já está instalado"
+# if [ $? = 0 ]; #se retorno for igual a 0
+# then #entao,
+# echo “Cliente possui mysql instalado!” 
+# else #se nao,
+# echo “Cliente não possui mysql instalado!”
+# sudo apt install mysql-server -y 
+# fi #fecha o if
 
 #Verificar versão Node
 echo "Verificando versão do Node"
 nodejs --version
 npm --version
 
-#Baixar Node
-echo "Verificando se o Node já está instalado"
-if [ $? = 0 ]; #se retorno for igual a 0
-then #entao,
-echo “Cliente possui Node instalado!” 
-else #se nao,
-echo “Cliente não possui Node instalado!”
-sudo apt install nodejs -y 
-sudo apt install npm -y
-fi #fecha o if
+# #Baixar Node
+# echo "Verificando se o Node já está instalado"
+# if [ $? = 0 ]; #se retorno for igual a 0
+# then #entao,
+# echo “Cliente possui Node instalado!” 
+# else #se nao,
+# echo “Cliente não possui Node instalado!”
+# sudo apt install nodejs -y 
+# sudo apt install npm -y
+# fi #fecha o if
 
 #Baixar Docker
 sudo apt install docker.io -y
@@ -75,9 +75,9 @@ sudo docker network create redeContainers
 sudo systemctl stop mysql
 
 echo "Baixando imagem do MySQL..."
-sudo docker pull eduardomiyasaki/bancodados_staff_watch:v2
+sudo docker pull eduardomiyasaki/bancodados_staff_watch:v3
 echo "Instanciando imagem do MySQL..."
-sudo docker run -d -p 3306:3306 --name containerMysql --network redeContainers eduardomiyasaki/bancodados_staff_watch:v2
+sudo docker run -d -p 3306:3306 --name containerMysql --network redeContainers eduardomiyasaki/bancodados_staff_watch:v3
 echo "aguardando instalações do MySQL........"
 sleep 5
 
@@ -88,9 +88,9 @@ sleep 5
 
 
 echo "Baixando imagem do site..."
-sudo docker pull eduardomiyasaki/site_staff_watch:v8
+sudo docker pull eduardomiyasaki/site_staff_watch:v9
 echo "Instanciando imagem do site..."
-sudo docker run -d -p 3333:3333 --name containerSite --network redeContainers eduardomiyasaki/site_staff_watch:v8
+sudo docker run -d -p 3333:3333 --name containerSite --network redeContainers eduardomiyasaki/site_staff_watch:v9
 
 
 # echo "Baixando imagem do Python..."

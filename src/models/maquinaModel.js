@@ -1,12 +1,13 @@
+const { cadastrarComponente } = require("../controllers/maquinaController");
 var database = require("../database/config");
 
-function buscarUsuario(idUsuario, idQuiz) {
+//  function buscarUsuario(idUsuario, idQuiz) {
 
-  var instrucaoSql = `SELECT * FROM pontuacao WHERE fkUsuario = ${idUsuario} and idQuiz = ${idQuiz};`;
+//    var instrucaoSql = `SELECT * FROM pontuacao WHERE fkUsuario = ${idUsuario} and idQuiz = ${idQuiz};`;
 
-  console.log("Executando a instrução SQL: \n" + instrucaoSql);
-  return database.executar(instrucaoSql);
-}
+//    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+//    return database.executar(instrucaoSql);
+//  }
 
 
 function cadastrar(idEquipe, token, fkEmpresa) {
@@ -36,21 +37,55 @@ function cadastrar(idEquipe, token, fkEmpresa) {
         });
 }
 
-function cadastrarComponente(nomeComponente, fkEmpresa) {
+function atualizar(idEquipe, token, fkEmpresa) {
 
-  var instrucaoSql = `update empresa
-set ${nomeComponente} = 1
-where idEmpresa = ${fkEmpresa};`;
+  // Validação do token
+  var validarToken = `SELECT token FROM Token WHERE token = "${token}" AND fkEmpresa = ${fkEmpresa};`;
+
+  console.log("Executando a instrução SQL: \n" + validarToken);
+  
+  // Executar a consulta de validação de token
+  return database.executar(validarToken)
+      .then((resultado) => {
+          if (resultado.length === 0) {
+              throw new Error("Token inválido ou não encontrado.");
+          }
+
+          // NÃO ESQUECER DE MUDAR AQUI
+          var instrucaoSqlFuncionario = `UPDATE VALUES (${idEquipe}, ${fkEmpresa});`;
+
+          console.log("Executando a instrução SQL para inserir computador:\n" + instrucaoSqlFuncionario);
+          
+          return database.executar(instrucaoSqlFuncionario);
+      })
+      .catch((erro) => {
+          console.error("Erro durante o cadastro:", erro);
+          throw erro; // Propaga o erro para ser tratado no nível superior
+      });
+}
+
+
+function listarEquipe(fkEmpresa) {
+
+  var instrucaoSql = `select idEquipe , nome, setor from equipe where fkEmpresa = ${fkEmpresa} 
+  order by setor desc;`;
 
   console.log("Executando a instrução SQL: \n" + instrucaoSql);
   return database.executar(instrucaoSql);
 }
 
-function removerComponente(nomeComponente, fkEmpresa) {
 
-  var instrucaoSql = `delete from empresa where 
-set ${nomeComponente} = 1
-where idEmpresa = ${fkEmpresa};`;
+function cadastrarEquipe(nomeEquipe, setorEquipe, fkEmpresa) {
+
+  var instrucaoSql = `insert into equipe (nome, setor, fkEmpresa) values ('${nomeEquipe}', '${setorEquipe}', ${fkEmpresa});`;
+
+  console.log("Executando a instrução SQL: \n" + instrucaoSql);
+  return database.executar(instrucaoSql);
+}
+
+function removerEquipe(idEquipe) {
+
+  var instrucaoSql = `delete from equipe where idEquipe = ${idEquipe};`;
 
   console.log("Executando a instrução SQL: \n" + instrucaoSql);
   return database.executar(instrucaoSql);
@@ -58,7 +93,10 @@ where idEmpresa = ${fkEmpresa};`;
 
 
 module.exports = {
-  buscarUsuario,
+  // buscarUsuario,
   cadastrar,
-  cadastrarComponente
+  atualizar,
+  cadastrarEquipe,
+  removerEquipe,
+  listarEquipe
 }

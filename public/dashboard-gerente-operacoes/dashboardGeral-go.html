@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/dashboardHist.css">
-    <link rel="shortcut icon" href="./src/img/logoB.png" type="image/x-icon" />
+    <link rel="stylesheet" href=".././css/dashboardHist.css">
+    <link rel="shortcut icon" href=".././src/img/logoB.png" type="image/x-icon" />
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -17,18 +17,18 @@
         <div class="opcoes">
             <div class="esq">
                 <div class="logo">
-                    <img href="index.html" src="./src/img/logoB.png" alt="logo">
+                    <img href="index.html" src=".././src/img/logoB.png" alt="logo">
                 </div>
 
                 <div class="opcoesComponentes" id="itens">
-                    <h6 class="opcoesMenu slct" onclick="window.location.href='dashboardGeral.html'">Home</h6>
+                    <h6 class="opcoesMenu slct" onclick="window.location.href='dashboardGeral-go.html'">Home</h6>
                     <h6 class="opcoesMenu associMenu" onclick="abrirMenu()">Associados <img
-                            src="./src/img/icons/seta.png" alt="icone menu vertical"></h6>
+                            src=".././src/img/icons/seta.png" alt="icone menu vertical"></h6>
                     <h6 class="opcoesMenu" onclick="window.location.href='cadastroFuncionario.html'">Cadastrar</h6>
                     <div id="menu">
                         <h4 onclick="window.location.href='pagina-operario2.html'">Funcionários</h4>
                         <h4 onclick="window.location.href='pagina-maquina.html'">Dispositivos</h4>
-                        <h4 onclick="window.location.href='cadastroComponente.html'">Componentes</h4>
+                        <h4 onclick="window.location.href='cadastroEquipe.html'">Equipe</h4>
                     </div>
                 </div>
             </div>
@@ -41,17 +41,20 @@
     <div class="corpo">
         <div class="menuLateral">
             <div class="itens">
-                <h4 id="0" class="slc" onclick="window.location.href='dashboardEquipe.html'">Histórico</h4>
+                <h4 id="0" class="slc" onclick="window.location.href='dashboardGeral-go.html'">Histórico</h4>
                 <h4 id="1" onclick="selecionarItem(this)">Equipe 1</h4>
                 <h4 id="2" onclick="selecionarItem(this)">Equipe 2</h4>
                 <h4 id="3" onclick="selecionarItem(this)">Equipe 3</h4>
                 <h4 id="4" onclick="selecionarItem(this)">Equipe 4</h4>
+                <h4 class="slc novaequipe" onclick="window.location.href='.././novaEquipe.html'">Nova equipe</h4>
             </div>
         </div>
         <div class="infos">
             <!-- Parte superior das Informações-->
             <div class="emcima">
-                <h1>Uso do Hardware</h1>
+
+                <h2> Indicadores Gerais</h2>
+
                 <select name="" id="">
                     <option value="">No dia</option>
                     <option value="">Na semana</option>
@@ -62,143 +65,94 @@
             <!-- Parte dos gráficos e alertas-->
             <div class="embaixo">
                 <div class="esquerda">
-                    <div class="cima">
+                    <div class="cima go">
                         <!--Cards dos comentarios-->
-                        <div class="card">
+                        <div class="card dir">
                             <div class="cimaCard">
-                                <h1>CPU</h1>
+                                <h1>Total de chamadas recebidas e atendidas</h1>
                             </div>
                             <div class="baixoCard">
-                                <div class="left"> gráfico!!</div>
-                                <div class="right">
-                                    <div class="leftIndicador">
-                                        <div class="indicador">
-                                            <h2>Uso médio</h2>
-                                            <h1 style="color: green;">65%</h1>
-                                        </div>
-                                        <div class="indicador">
-                                            <h2>Picos de Uso</h2>
-                                            <h1 style="color: red;">12</h1>
-                                        </div>
-                                    </div>
-                                    <div class="rightIndicador">
-                                        <div class="indicador">
-                                            <h2>Processos <br> ativos</h2>
-                                            <h1 style="color: orange">30</h1>
-                                        </div>
-                                    </div>
+                                <div class="left chamadas">
+                                    <img src=".././src/img/graficoChamadas.png" alt="">
                                 </div>
                             </div>
                         </div>
-                        <div class="card">
-                            <div class="cimaCard">
-                                <h1>DISCO</h1>
-                            </div>
-                            <div class="baixoCard">
-                                <div class="left"> gráfico!!</div>
-                                <div class="right">
-                                    <div class="leftIndicador">
-                                        <div class="indicador">
-                                            <h2>Uso médio</h2>
-                                            <h1 style="color: green;">65%</h1>
-                                        </div>
-                                        <div class="indicador">
-                                            <h2>Picos de Uso</h2>
-                                            <h1 style="color: red;">12</h1>
-                                        </div>
-                                    </div>
-                                    <div class="rightIndicador">
-                                        <div class="indicador">
-                                            <h2>Processos <br> ativos</h2>
-                                            <h1 style="color: orange">30</h1>
-                                        </div>
-                                    </div>
+
+                        <div class="card go">
+                                <div class="cimaCard">
+                                    <h1>Tempo médio de atendimento</h1>
                                 </div>
-                            </div>
+                                <div class="baixoCard">
+                                    <h3 id="tempoMedioChamadas" class="tempoMedioChamadas"> 5 minutos </h3>
+                                </div>
+                                <div class="legendas">
+                                    <h5 style="color: var(--verde);">Ideal</h5>
+                                    <h5 style="color: orange;">Demorado</h5>
+                                    <h5 style="color: red;">Muito demorado</h5>
+                                </div>
                         </div>
                     </div>
-                    <div class="baixo">
-                        <div class="card">
+
+                    <div class="baixo go vai">
+                        <div class="card go">
                             <div class="cimaCard">
-                                <h1>RAM</h1>
+                                <h1>Tempo médio de atendimento</h1>
                             </div>
                             <div class="baixoCard">
-                                <div class="left"> gráfico!!</div>
-                                <div class="right">
-                                    <div class="leftIndicador">
-                                        <div class="indicador">
-                                            <h2>Uso médio</h2>
-                                            <h1 style="color: green;">65%</h1>
-                                        </div>
-                                        <div class="indicador">
-                                            <h2>Picos de Uso</h2>
-                                            <h1 style="color: red;">12</h1>
-                                        </div>
-                                    </div>
-                                    <div class="rightIndicador">
-                                        <div class="indicador">
-                                            <h2>Processos <br> ativos</h2>
-                                            <h1 style="color: orange">30</h1>
-                                        </div>
-                                    </div>
-                                </div>
+                                <h4 id="tempoMedioChamadas"> dois minutos </h4>
                             </div>
                         </div>
-                        <div class="card">
+
+                        <div class="card go">
                             <div class="cimaCard">
-                                <h1>REDE</h1>
+                                <h1>Tempo médio de atendimento</h1>
                             </div>
                             <div class="baixoCard">
-                                <div class="left"> gráfico!!</div>
-                                <div class="right">
-                                    <div class="leftIndicador">
-                                        <div class="indicador">
-                                            <h2>Uso médio</h2>
-                                            <h1 style="color: green;">65%</h1>
-                                        </div>
-                                        <div class="indicador">
-                                            <h2>Picos de Uso</h2>
-                                            <h1 style="color: red;">12</h1>
-                                        </div>
-                                    </div>
-                                    <div class="rightIndicador">
-                                        <div class="indicador">
-                                            <h2>Processos <br> ativos</h2>
-                                            <h1 style="color: orange">30</h1>
-                                        </div>
-                                    </div>
-                                </div>
+                                <h4 id="tempoMedioChamadas"> dois minutos </h4>
                             </div>
                         </div>
+
+                        <div class="card go">
+                            <div class="cimaCard">
+                                <h1>Tempo médio de atendimento</h1>
+                            </div>
+                            <div class="baixoCard">
+                                <h5 id="tempoMedioChamadas"> dois minutos </h5>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
-                <div class="direita">
+                <div class="direita go">
                     <!--Alertas-->
-                    <h1>Alertas</h1>
-                    <div class="box">
-                        <b style="color: red;">Máquina1 (Equipe 1)</b> está com uso da <br> CPU acima da média <br> há 2 horas.
+                    <h1>Equipes em alerta</h1>
+                    <div class="equipesAlerta">
+                        <p class="alertasEquipes" id="alertaEquipe1" style="color: orange;" onclick="window.location.href='dashboardEquipe-go.html'" > Equipe 2 </p>
+                        <p class="alertasEquipes" id="alertaEquipe3" style="color: red;" onclick="window.location.href='dashboardEquipe-go.html'"> Equipe 3 </p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    </body>
+</body>
 
-    
+
 </html>
 
 <script>
+
+
 
     function selecionarItem(elemento) {
         var id = elemento.id;  // Pega o ID da equipe clicada
         if (id == 0) {
             // Redireciona para dashboardGeral.html
-            window.location.href = "dashboardGeral.html";
+            window.location.href = "dashboardGeral-go.html";
         } else {
             // Armazena o ID correto da equipe no sessionStorage
             sessionStorage.setItem('equipeSelecionada', id);
             // Redireciona para a página da equipe
-            window.location.href = 'dashboardEquipe.html';
+            window.location.href = 'dashboardEquipe-go.html';
         }
     }
 

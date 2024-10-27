@@ -46,11 +46,12 @@ function cadastrar(req, res) {
 
 
 function listar(req, res) {
-    funcionarioModel.listar().then(function (resultado) {
+    const fkEmpresa = req.params.fkEmpresa; // Extrai o ID da empresa dos parâmetros da URL
+    funcionarioModel.listar(fkEmpresa).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
-            res.status(204).send("Nenhum resultado encontrado!")
+            res.status(204).send("Nenhum resultado encontrado!");
         }
     }).catch(function (erro) {
         console.log(erro);
@@ -59,10 +60,12 @@ function listar(req, res) {
     });
 }
 
-function listarPorUsuario(req, res) {
-    var idUsuario = req.params.idUsuario;
 
-    funcionarioModel.listarPorUsuario(idUsuario)
+function listarPorUsuario(req, res) {
+    const fkEmpresa = req.params.fkEmpresa;
+    var nomeFuncionario = req.params.inputPesquisa;
+
+    funcionarioModel.listarPorUsuario(fkEmpresa, nomeFuncionario)
         .then(
             function (resultado) {
                 if (resultado.length > 0) {
@@ -86,10 +89,12 @@ function listarPorUsuario(req, res) {
 
 
 function editar(req, res) {
-    var novamensagem = req.body.mensagem;
-    var idAviso = req.params.idAviso;
+    var idFuncionario = req.params.idFuncionario;  // Obtido da URL
+    var idEquipe = req.body.idEquipe;  // Obtido do corpo da requisição
+    var nome = req.body.nome;
+    var email = req.body.email;
 
-    funcionarioModel.editar(novamensagem, idAviso)
+    funcionarioModel.editar(idEquipe,nome,email,idFuncionario)
         .then(
             function (resultado) {
                 res.json(resultado);
@@ -106,9 +111,9 @@ function editar(req, res) {
 }
 
 function deletar(req, res) {
-    var idAviso = req.params.idAviso;
+    var idFuncionario = req.params.idFuncionario;
 
-    funcionarioModel.deletar(idAviso)
+    funcionarioModel.deletar(idFuncionario)
         .then(
             function (resultado) {
                 res.json(resultado);

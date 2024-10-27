@@ -12,11 +12,11 @@ router.post("/cadastrar", function (req, res) {
 
 
 // rotas nao utilizadas  ==========================================================================================
-router.get("/listar", function (req, res) {
+router.get("/listar/:fkEmpresa", function (req, res) {
     funcionarioController.listar(req, res);
 });
 
-router.get("/listar/:idUsuario", function (req, res) {
+router.get("/listar/:fkEmpresa/:inputPesquisa", function (req, res) {
     funcionarioController.listarPorUsuario(req, res);
 });
 
@@ -24,11 +24,11 @@ router.get("/pesquisar/:mensagem", function (req, res) {
     funcionarioController.pesquisarmensagem(req, res);
 });
 
-router.put("/editar/:idAviso", function (req, res) {
+router.put("/editar/:idFuncionario", function (req, res) {
     funcionarioController.editar(req, res);
 });
 
-router.delete("/deletar/:idAviso", function (req, res) {
+router.put("/deletar/:idFuncionario", function (req, res) {
     funcionarioController.deletar(req, res);
 });
 

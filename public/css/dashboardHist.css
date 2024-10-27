@@ -8,6 +8,11 @@
     font-weight: 500;
 }
 
+:root {
+    --verde: #3CF211; /* ou qualquer outro código de cor verde */
+}
+
+
 body {
     background-color: #e7ecef;
     height: auto;
@@ -148,6 +153,11 @@ header {
     color: #6096ba;
 }
 
+.slc.novaequipe, .novaequipe {
+    color: #7fc4f1;
+
+}
+
 
 /* BODY  */
 
@@ -157,45 +167,51 @@ header {
     min-height: auto;
 }
 
-.menuLateral{
-    height: 86.8vh;
+.menuLateral {
+    min-height: 86.8vh;
 }
 
-.infos{
+.infos {
     width: 100%;
-    height: 86.8vh;
-/*Parte superior*/
-    & .emcima{
+    /* height: 86.8vh; */
+    height: auto;
+
+    /*Parte superior*/
+    & .emcima {
         width: 100%;
-        height: 15%;
-
+        height: 20%;
         display: flex;
-        justify-content: space-around;
+        justify-content: flex-start;
         align-items: center;
+        padding: 2rem 0 0 3rem;
+        font-size: 2rem;
+        gap: 5rem;
 
-        & select{
+        & select {
             width: 15%;
-            height: 40%;
+            height: 38%;
             background-color: #002148;
             color: #fff;
             border-radius: 20px;
             border: none;
             text-align: center;
+            font-size: 1rem;
         }
     }
-/*Parte com os gráficos e alertas*/
-    & .embaixo{
+    /*Parte com os gráficos e alertas*/
+    & .embaixo {
         width: 100%;
-        height: 85%;
-
+        height: 80%;
         display: flex;
         justify-content: space-between;
-/*Cards*/
-        & .esquerda{
+
+        /*Cards*/
+        & .esquerda {
             width: 75%;
             height: 100%;
 
-            & .cima, .baixo{
+            & .cima,
+            .baixo {
                 width: 100%;
                 height: 50%;
                 display: flex;
@@ -203,90 +219,135 @@ header {
                 align-items: center;
             }
 
-            & .card{
+            & .card {
                 width: 45%;
-                height: 90%;
+                height: 85%;
                 background-color: #002148;
                 border-radius: 20px;
             }
         }
-/*Alertas*/
-        & .direita{
+
+        .cima.go {
+            height: 60%;
+            align-items: flex-start;
+        }
+
+        /*Alertas*/
+        & .direita {
             width: 22%;
-            height: 100%;
+            height: 90%;
             background-color: #002148;
             border-radius: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
 
-            & h1{
+            & h1 {
                 margin-top: 20px;
                 color: white;
                 text-align: center;
             }
 
-            & .box{
+            & .box {
                 margin-top: 20px;
                 width: 90%;
-                height: 35%;
-                background-color: #6096ba;
-                border-radius: 20px;
-                text-align: center;
+                height: 6rem ;
+                background-color: #e7ecef;
+                border-radius: 15px;
+                /* text-align: center; */
                 display: flex;
                 flex-direction: column;
-                align-items: center;
                 justify-content: center;
+                padding: 3%;
+                cursor: pointer;
             }
         }
     }
 }
 
+.direita.go {
+    gap: 3rem;
+    font-size: 1rem;
+}
+.equipesAlerta {
+    display: flex;
+    font-size: 2rem;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.alertasEquipes {
+    cursor: pointer;
+}
+
 /*Complemento Cards*/
-.card{
-    & .cimaCard{
+
+.card {
+
+    & .cimaCard {
         width: 100%;
         height: 15%;
         display: flex;
         align-items: center;
-        & h1{
+
+        & h1 {
             font-size: 20px;
             padding-left: 20px;
             color: white;
         }
     }
 
-    & .baixoCard{
+    & .baixoCard {
         width: 100%;
         height: 85%;
         display: flex;
 
-        & .left{
+        & .left {
             height: 100%;
             width: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        & .right{
+        & .left.chamadas {
+            /* height: 100%; */
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        & .left.chamadas img {
+            width: 100%;
+        }
+
+        & .left img {
+            width: 75%;
+        }
+
+        & .right {
             height: 100%;
             width: 50%;
             display: flex;
 
-            & .leftIndicador{
+            & .leftIndicador {
                 height: 100%;
                 width: 50%;
                 display: flex;
                 flex-direction: column;
                 justify-content: space-evenly;
                 align-items: center;
-                
-                & .indicador{
+
+                & .indicador {
                     width: 95%;
                     height: 40%;
-                    background-color:rgba(96, 150, 186, 0.8);
-                    border-radius: 20px;
+                    background-color: rgba(96, 150, 186, 0.8);
+                    border-radius: 10px;
                 }
             }
-            & .rightIndicador{
+
+            & .rightIndicador {
                 height: 100%;
                 width: 50%;
                 display: flex;
@@ -294,30 +355,556 @@ header {
                 justify-content: space-evenly;
                 align-items: center;
 
-                & .indicador{
+                & .indicador {
                     width: 86%;
                     height: 86%;
-                    background-color:rgba(96, 150, 186, 0.8);
-                    border-radius: 20px;
+                    background-color: rgba(96, 150, 186, 0.8);
+                    border-radius: 10px;
                 }
             }
 
-            & .indicador{
+            & .indicador {
                 display: flex;
                 flex-direction: column;
                 justify-content: space-evenly;
             }
 
-            & h2{
+            & h2 {
                 margin-top: 5px;
                 font-size: 14px;
                 text-align: center;
                 color: white;
             }
-            & h1{
+
+            & h1 {
                 font-size: 25px;
                 text-align: center;
             }
         }
     }
+}
+
+.card.go, .card.dir {
+    margin: 0;
+    height: 100%;
+}
+
+
+.card.go {
+    /* max-height: 12rem;*/
+    max-width: 18rem;
+    text-align: center;
+    align-items: center;
+    padding: 1.5rem;
+    gap: 1.5rem;
+}
+.card.go h1 {
+    padding: 0;
+}
+
+.card.go .cimaCard {
+    width: 80%;
+    height: 30%;
+    font-size: 2rem;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.card.go .baixoCard {
+    width: 80%;
+    height: 70%;
+    font-size: 2rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.tempoMedioChamadas {
+    color: var(--verde);
+}
+
+.card.dir {
+    width: 25rem;
+}
+
+.embaixo .baixo.go.vai {
+    display: flex;
+    height: 40%;
+    align-items: flex-start;
+    padding-top: 2rem;
+}
+
+.baixo.go .card.go {
+    max-height: 90%;
+}
+
+
+.legendas {
+    display: flex;
+    width: 65%;
+    flex-direction: column;
+    align-items: center;
+    padding: .25rem 0;
+    border-radius: 20px;
+    gap: .25rem;
+    background-color: #e7ecef80;
+}
+
+.title {
+    color: #001E42;
+    display: flex;
+    padding: 2rem 0 0 3rem;
+    font-size: 2rem;
+}
+
+.main-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.up-card img {
+    width: 30px;
+    height: 30px;
+    margin: 5px 2.5px;
+}
+
+.down-card img {
+    width: 2rem;
+}
+
+.alertaMaquina p {
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.section-card {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 1%;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    margin: 2.5%;
+    padding: 0.75rem;
+    background-color: #001E42;
+    color: white;
+    border: 3px solid white;
+    border-radius: 12px;
+    box-shadow: 4px 5px 4px rgba(0, 0, 0, 0.25);
+    font-size: 20px;
+    transform: translateY(0) scale(1.0);
+    transition: transform 0.5s;
+    height: 12rem;
+    width: 22rem;
+    align-items: flex-start;
+    justify-content: space-around;
+}
+
+.card:hover,
+.card:focus {
+    transform: translateY(5px) scale(1.1);
+    transition: transform 0.5s;
+    cursor: pointer;
+}
+
+.up-card {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    width: 15%;
+}
+
+.up-card img {
+    width: 1.375rem;
+    margin: 5px 2.5px;
+}
+
+.down-card {
+    display: flex;
+    gap: 1.30rem;
+    justify-content: flex-start;
+    flex-direction: row;
+    width: 100%;
+    align-items: flex-end;
+}
+
+.down-card.cima {
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.esqCard {
+    width: 25%;
+}
+
+.dirCard {
+    width: 65%;
+}
+
+.alertaMaquina {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+}
+
+.iconComp {
+    width: 4.8rem;
+}
+.iconFunc {
+    width: 7.3rem;
+}
+
+.iconComp img, .iconFunc img {
+    width: 100%;
+}
+
+.down-card p {
+    margin: 0;
+}
+
+.down-card p b {
+    font-weight: bold;
+}
+
+.content-card {
+    width: 85%;
+}
+
+.content-card p {
+    gap: 1.2rem;
+}
+
+#fade {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 5;
+}
+
+/* #modal {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    width: 65%;
+    height: auto;
+    background-color: #E7ECEF;
+    border-radius: 8px;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+} */
+
+
+#modal,
+#fade {
+    transition: 0.5s;
+    opacity: 1;
+    pointer-events: all;
+}
+
+#modal.hide,
+#fade.hide {
+    opacity: 0;
+    pointer-events: none;
+}
+
+
+.modal-content {
+    display: flex;
+    margin: 0 0 5% 5%;
+    font-size: 25px;
+}
+
+.modal-user {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 5%;
+}
+
+.modal-user p {
+    margin: 10px 0;
+}
+
+.modal-header figure img {
+    width: 10vw;
+    margin-left: 4.5%;
+}
+
+.modal-header {
+    margin-bottom: 0;
+}
+
+.modal-form {
+    margin-left: 15%;
+}
+
+
+/* MODAL - DASHBOARD EQUIPE DO GERENTE DE OPERAÇÕES */
+
+#modal {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    width: 80%;
+    height: 70%;
+    background-color: #E7ECEF;
+    border-radius: 8px;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    overflow: hidden; /* Impedir o overflow */
+    align-items: flex-start;
+}
+
+.opcoesComponentes.menu {
+    font-size: 2.4rem;
+    padding-bottom: 2rem;
+    /* white-space: wrap; */
+}
+
+#dashCpu,
+#dashDisco,
+#dashRede,
+#dashMemoria,
+
+#dashChamadas,
+#dashAtendimento,
+#dashResolucao,
+#dashAbandono
+
+{
+    display: none;
+}
+
+#dashCpu{
+    display: grid;
+}
+
+#dashChamadas{
+    display: flex;
+}
+
+#dashDisco {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+}
+
+.containerModal {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: space-around;
+    padding: 2rem;
+    width: 100%;
+    height: 100%;
+}
+
+.aside {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    justify-content: space-between;
+    height: 85%;
+    padding: 1rem;
+    flex: 1;
+    width: 60%;
+    font-size: 4rem;
+}
+
+.bside {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    width: 40%;
+    flex-wrap: wrap;
+    height: 85%;
+    justify-content: space-around;
+    align-content: space-around;
+    gap: 5%;
+    padding: 1rem;
+}
+
+/* informações do aside */
+.dadosComponente {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+    height: 30%;
+}
+
+.infosComponente {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-around;
+    width: 100%;
+    gap: 6%;
+}
+
+.graficoComponente {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 58%;
+}
+
+.graficoComponente img {
+    height: 100%;
+    width: 100%;
+}
+
+.graficoChart {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    height: 40vh;
+    width: 100%;
+    /* width: 26rem; 
+    height: 14rem; */
+}
+
+.componente {
+    font-size: 3rem;
+}
+
+.nomeComponente {
+    font-size: 1.5rem;
+    color: #002148;
+}
+
+.monitoramento {
+    font-size: 1.4rem;
+    padding: 10px;
+}
+
+/* informações do bside */
+
+.dado {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+.dado h3,
+h2 {
+    padding: .5rem;
+    font-weight: 600;
+    /* white-space: nowrap; impede a quebra de linha */
+}
+
+.dado span {
+    font-weight: 400;
+}
+
+.dadoInfo {
+    font-size: 1.2rem;
+    width: 100%;
+}
+
+.btnSair {
+    display: flex;
+    justify-self: flex-end;
+    padding: 3% 3% 0 0;
+
+}
+
+.btnSair img{
+    width: 3.5rem;
+    transition: 0.4s;
+    cursor: pointer;
+}
+
+.btnSair img:hover {
+    transform: scale(1.15);
+}
+
+/* MODIFICAÇÕES MODAL DA PÁGINA DE EQUIPE DO GERENTE DE OPERAÇÕES */
+
+.opcoesComponentes.menu.go{
+    font-size: 2.4rem;
+    padding-bottom: 0;
+    text-align: center;
+    white-space: wrap;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.opcoesMenu.go{
+    width: 100%;
+}
+
+.containerModal.go {
+    padding: 2rem 0;
+}
+
+.filtro {
+    display: flex;
+    flex-direction: column;
+    background-color: #001E42;
+    font-size: 2rem;
+    color: #fff;
+    gap: 1.2rem;
+    padding: 1rem;
+    border-radius: 15px;
+}
+.tituloFiltro {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: .8rem;
+}
+
+.tituloFiltro img {
+    width: 15%;
+    height: 15%;
+}
+
+.bside.go {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    align-items: center;
+}
+
+.ladoDados {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 3.4rem;
+}
+
+.slctxt.gotxt {
+    font-weight: 600;
+    color: #6096ba;
+}
+.gotxt {
+    color: #fff;
+    font-weight: 400;
+    font-size: 1.8rem;
+    white-space: nowrap;
+}
+
+.dado.go span, .dadoInfo.go h2{
+    font-weight: 500;
 }
