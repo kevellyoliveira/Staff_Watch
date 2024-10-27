@@ -81,6 +81,7 @@ body {
     margin-right: 2%;
 }
 
+
 .manual-btn:hover {
     background-color: white;
 }
@@ -835,4 +836,19 @@ border-radius: 4px;
     width: 40%;
     height: 40%;
     }
+
+    #footer_contats a i {
+        color: white;
+        transition: color 0.3s ease;
+      }
+      
+     
+      #footer_contats a:hover i {
+        color: #cccccc; 
+      }
+
+
+
+
+
 
