@@ -37,6 +37,34 @@ function cadastrar(idEquipe, token, fkEmpresa) {
         });
 }
 
+function atualizar(idEquipe, token, fkEmpresa) {
+
+  // Validação do token
+  var validarToken = `SELECT token FROM Token WHERE token = "${token}" AND fkEmpresa = ${fkEmpresa};`;
+
+  console.log("Executando a instrução SQL: \n" + validarToken);
+  
+  // Executar a consulta de validação de token
+  return database.executar(validarToken)
+      .then((resultado) => {
+          if (resultado.length === 0) {
+              throw new Error("Token inválido ou não encontrado.");
+          }
+
+          // NÃO ESQUECER DE MUDAR AQUI
+          var instrucaoSqlFuncionario = `UPDATE VALUES (${idEquipe}, ${fkEmpresa});`;
+
+          console.log("Executando a instrução SQL para inserir computador:\n" + instrucaoSqlFuncionario);
+          
+          return database.executar(instrucaoSqlFuncionario);
+      })
+      .catch((erro) => {
+          console.error("Erro durante o cadastro:", erro);
+          throw erro; // Propaga o erro para ser tratado no nível superior
+      });
+}
+
+
 function listarEquipe(fkEmpresa) {
 
   var instrucaoSql = `select idEquipe , nome, setor from equipe where fkEmpresa = ${fkEmpresa} 
@@ -45,7 +73,6 @@ function listarEquipe(fkEmpresa) {
   console.log("Executando a instrução SQL: \n" + instrucaoSql);
   return database.executar(instrucaoSql);
 }
-
 
 
 function cadastrarEquipe(nomeEquipe, setorEquipe, fkEmpresa) {
@@ -68,6 +95,7 @@ function removerEquipe(idEquipe) {
 module.exports = {
   // buscarUsuario,
   cadastrar,
+  atualizar,
   cadastrarEquipe,
   removerEquipe,
   listarEquipe
