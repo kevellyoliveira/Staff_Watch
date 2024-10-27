@@ -56,8 +56,8 @@ idEmpresa INT PRIMARY KEY AUTO_INCREMENT,
 cnpj CHAR(18),
 nomeEmp VARCHAR(45)
 );
-insert into empresa (idEmpresa, cnpj, nomeEmp) values
-(default, "123456789123456789", "Falla");
+insert into empresa (cnpj, nomeEmp) values
+("123456789123456789", "Falla");
 
 CREATE TABLE IF NOT EXISTS selecionadosParaMonitoramento (
 selecionado bit null,
@@ -89,13 +89,16 @@ CREATE TABLE IF NOT EXISTS equipe (
 idEquipe INT PRIMARY KEY AUTO_INCREMENT,
 nome VARCHAR(45),
 setor VARCHAR(45),
-fkEmpresa int,
-constraint fkEmpresaEquipe foreign key(fkEmpresa)
-references empresa(idEmpresa)
+
+fkEmpresa INT,
+CONSTRAINT fkEmpresaEquipe FOREIGN KEY(fkEmpresa)
+REFERENCES empresa(idEmpresa)
 );
 
-insert into equipe values
-(default,"dos","desenvolvimento", 1);
+
+
+INSERT INTO equipe (nome, setor, fkEmpresa) VALUES
+("dos", "desenvolvimento", 1);
 
 CREATE TABLE IF NOT EXISTS cargo (
 idCargo INT PRIMARY KEY AUTO_INCREMENT,
@@ -114,7 +117,7 @@ idFuncionario INT PRIMARY KEY AUTO_INCREMENT,
 nome VARCHAR(45),
 email VARCHAR(45),
 senha VARCHAR(255),
-status TINYINT(1) DEFAULT 1,
+ativo BOOLEAN DEFAULT TRUE,
 
 fkEmpresa INT,
 CONSTRAINT fkEmpresaFuncionario FOREIGN KEY(fkEmpresa)
@@ -129,8 +132,8 @@ CONSTRAINT fkCargoFuncionario FOREIGN KEY(fkCargo)
 REFERENCES cargo(idCargo)
 );
 
-insert into funcionario (nome, email, senha, fkEmpresa, fkEquipe, fkCargo) values
-("Jeffinho", "Jeffinho.botafogo@gmail.com", MD5("123456"), 1, 1, 1);
+insert into funcionario (nome, email, senha, ativo ,fkEmpresa, fkEquipe, fkCargo) values
+("Jeffinho", "Jeffinho.botafogo@gmail.com", MD5("123456"),TRUE ,1, 1, 1);
 
 CREATE TABLE IF NOT EXISTS computador (
 idComputador INT PRIMARY KEY AUTO_INCREMENT,
