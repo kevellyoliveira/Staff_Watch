@@ -91,7 +91,7 @@
                     <span id="alertCargo" class="msgAlerta"></span>
                     <select class="input-field slct" id="cargo_select">
                         <option value="#" selected disabled> Selecione o seu cargo </option>
-                        <option value="1">Suporte de TI</option>
+                        <!-- <option value="1">Suporte de TI</option> -->
                         <option value="2">Gerente de Operações</option>
                         <option value="3">Gerente de TI</option>
                     </select>
@@ -220,7 +220,7 @@
 
             if (validacaoSenha == false) {
                 alertSenha.innerHTML += "Sua senha deve conter: letra maiúscula, minúscula, número e caracter especial!";
-            }
+            
             if ((nomeEmp.length <= 2) || (email.indexOf("@") == -1 || email.indexOf(".com") == -1) || (senha != confirmSenha)) {
                 if (nomeEmp.length <= 2) {
                    alertNome.innerHTML += "Insira um nome válido!";
@@ -232,6 +232,7 @@
                     alertConfirmSenha.innerHTML += "As senhas não são iguais!";
                 }
             }
+        }
 
             else { // passou em todas as validações!!
 

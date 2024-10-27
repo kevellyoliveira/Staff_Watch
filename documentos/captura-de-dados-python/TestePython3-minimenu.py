@@ -3,14 +3,16 @@ import time
 import mysql.connector
 import tkinter as tk
 from datetime import datetime
+import pytz
+
 
 #import os
 #import dotenv
 
 config = {
     'user': 'root',
-    'password': 'senha_segura',
-    'host': '44.194.151.184',
+    'password': '73917391',
+    'host': 'localhost',
     'database': 'StaffWatch'
 }
 
@@ -41,7 +43,8 @@ def menu_python():
             idComputador = input("Digite o id do computador que deseja monitorar: ")
             cursor = mydb.cursor()
             for i in range(15):
-                agora = datetime.now()
+                fuso_sao_paulo = pytz.timezone("America/Sao_Paulo")
+                agora = datetime.now(fuso_sao_paulo)
                 mem = psutil.virtual_memory()
                 print(f"\nUso de RAM: {mem.percent}% ({mem.used / (1024 ** 3):.2f} GB usado de {mem.total / (1024 ** 3):.2f} GB total)")
                 memUso = mem.used / (1024 ** 3)
@@ -133,7 +136,8 @@ def menu_python():
             
 def print_system_info():
     cursor = mydb.cursor()
-    agora = datetime.now()
+    fuso_sao_paulo = pytz.timezone("America/Sao_Paulo")
+    agora = datetime.now(fuso_sao_paulo)
     mem = psutil.virtual_memory()
     print(f"\nUso de RAM: {mem.percent}% ({mem.used / (1024 ** 3):.2f} GB usado de {mem.total / (1024 ** 3):.2f} GB total)")
     memUso = mem.used / (1024 ** 3)
