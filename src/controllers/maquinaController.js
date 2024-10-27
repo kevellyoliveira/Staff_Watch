@@ -46,6 +46,35 @@ function cadastrar(req, res) {
   }
 }
 
+function atualizar(req, res) {
+  var idEquipe = req.body.idEquipeServer;
+  var token = req.body.tokenServer;
+  var fkEmpresa = req.body.fkEmpresaServer;
+
+  if (idEquipe == undefined) {
+    res.status(400).send("idEquipe está undefined!")
+  } if (token == undefined) {
+    res.status(400).send("token está undefined!");
+  }if (fkEmpresa == undefined) {
+    res.status(400).send("fkEmpresa está undefined!");
+  }
+
+   else {
+    maquinaModel.cadastrar(idEquipe, token, fkEmpresa)
+      .then((resultado) => {
+        res.status(201).json(resultado);
+      }
+      ).catch((erro) => {
+        console.log(erro);
+        console.log(
+          "\nHouve um erro ao realizar o cadastro! Erro: ",
+          erro.sqlMessage
+        );
+        res.status(500).json(erro.sqlMessage);
+      });
+  }
+}
+
 function listarEquipe(req, res) {
   // var nomeComponente = req.body.nomeComponenteServer;
   var fkEmpresa = req.params.fkEmpresa;
@@ -137,6 +166,7 @@ function removerEquipe(req, res) {
 module.exports = {
   // buscarUsuario,
   cadastrar,
+  atualizar,
   cadastrarEquipe,
   removerEquipe,
   listarEquipe

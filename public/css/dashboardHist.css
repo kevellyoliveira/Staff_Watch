@@ -168,7 +168,7 @@ header {
 }
 
 .menuLateral {
-    height: 86.8vh;
+    min-height: 86.8vh;
 }
 
 .infos {
@@ -592,7 +592,7 @@ header {
     z-index: 5;
 }
 
-#modal {
+/* #modal {
     position: fixed;
     left: 50%;
     top: 50%;
@@ -602,7 +602,8 @@ header {
     border-radius: 8px;
     transform: translate(-50%, -50%);
     z-index: 10;
-}
+} */
+
 
 #modal,
 #fade {
@@ -620,8 +621,7 @@ header {
 
 .modal-content {
     display: flex;
-    margin: 5%;
-    margin-top: 0;
+    margin: 0 0 5% 5%;
     font-size: 25px;
 }
 
@@ -647,4 +647,264 @@ header {
 
 .modal-form {
     margin-left: 15%;
+}
+
+
+/* MODAL - DASHBOARD EQUIPE DO GERENTE DE OPERAÇÕES */
+
+#modal {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    width: 80%;
+    height: 70%;
+    background-color: #E7ECEF;
+    border-radius: 8px;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    overflow: hidden; /* Impedir o overflow */
+    align-items: flex-start;
+}
+
+.opcoesComponentes.menu {
+    font-size: 2.4rem;
+    padding-bottom: 2rem;
+    /* white-space: wrap; */
+}
+
+#dashCpu,
+#dashDisco,
+#dashRede,
+#dashMemoria,
+
+#dashChamadas,
+#dashAtendimento,
+#dashResolucao,
+#dashAbandono
+
+{
+    display: none;
+}
+
+#dashCpu{
+    display: grid;
+}
+
+#dashChamadas{
+    display: flex;
+}
+
+#dashDisco {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+}
+
+.containerModal {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: space-around;
+    padding: 2rem;
+    width: 100%;
+    height: 100%;
+}
+
+.aside {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    justify-content: space-between;
+    height: 85%;
+    padding: 1rem;
+    flex: 1;
+    width: 60%;
+    font-size: 4rem;
+}
+
+.bside {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    width: 40%;
+    flex-wrap: wrap;
+    height: 85%;
+    justify-content: space-around;
+    align-content: space-around;
+    gap: 5%;
+    padding: 1rem;
+}
+
+/* informações do aside */
+.dadosComponente {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+    height: 30%;
+}
+
+.infosComponente {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-around;
+    width: 100%;
+    gap: 6%;
+}
+
+.graficoComponente {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 58%;
+}
+
+.graficoComponente img {
+    height: 100%;
+    width: 100%;
+}
+
+.graficoChart {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    height: 40vh;
+    width: 100%;
+    /* width: 26rem; 
+    height: 14rem; */
+}
+
+.componente {
+    font-size: 3rem;
+}
+
+.nomeComponente {
+    font-size: 1.5rem;
+    color: #002148;
+}
+
+.monitoramento {
+    font-size: 1.4rem;
+    padding: 10px;
+}
+
+/* informações do bside */
+
+.dado {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+.dado h3,
+h2 {
+    padding: .5rem;
+    font-weight: 600;
+    /* white-space: nowrap; impede a quebra de linha */
+}
+
+.dado span {
+    font-weight: 400;
+}
+
+.dadoInfo {
+    font-size: 1.2rem;
+    width: 100%;
+}
+
+.btnSair {
+    display: flex;
+    justify-self: flex-end;
+    padding: 3% 3% 0 0;
+
+}
+
+.btnSair img{
+    width: 3.5rem;
+    transition: 0.4s;
+    cursor: pointer;
+}
+
+.btnSair img:hover {
+    transform: scale(1.15);
+}
+
+/* MODIFICAÇÕES MODAL DA PÁGINA DE EQUIPE DO GERENTE DE OPERAÇÕES */
+
+.opcoesComponentes.menu.go{
+    font-size: 2.4rem;
+    padding-bottom: 0;
+    text-align: center;
+    white-space: wrap;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.opcoesMenu.go{
+    width: 100%;
+}
+
+.containerModal.go {
+    padding: 2rem 0;
+}
+
+.filtro {
+    display: flex;
+    flex-direction: column;
+    background-color: #001E42;
+    font-size: 2rem;
+    color: #fff;
+    gap: 1.2rem;
+    padding: 1rem;
+    border-radius: 15px;
+}
+.tituloFiltro {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: .8rem;
+}
+
+.tituloFiltro img {
+    width: 15%;
+    height: 15%;
+}
+
+.bside.go {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    align-items: center;
+}
+
+.ladoDados {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 3.4rem;
+}
+
+.slctxt.gotxt {
+    font-weight: 600;
+    color: #6096ba;
+}
+.gotxt {
+    color: #fff;
+    font-weight: 400;
+    font-size: 1.8rem;
+    white-space: nowrap;
+}
+
+.dado.go span, .dadoInfo.go h2{
+    font-weight: 500;
 }

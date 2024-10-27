@@ -14,7 +14,7 @@ router.post("/cadastrar", function (req, res) {
 })
 
 //atualiza a equipe que a máquina pertence
-router.put("/cadastrar", function (req, res) {
+router.put("/atualizar", function (req, res) {
   maquinaController.cadastrar(req, res);
 })
 
