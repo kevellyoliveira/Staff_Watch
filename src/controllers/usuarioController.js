@@ -19,6 +19,7 @@ function autenticar(req, res) {
     var email = req.body.emailServer;
     var senha = req.body.senhaServer;
     var token = req.body.tokenServer;
+    
 
     usuarioModel.autenticar(email, senha, token)
         .then(
@@ -34,6 +35,7 @@ function autenticar(req, res) {
                         email: resultadoAutenticar[0].email,
                         nome: resultadoAutenticar[0].nome,
                         fkEmpresa: resultadoAutenticar[0].fkEmpresa,
+                        fkCargo: resultadoAutenticar[0].fkCargo,
                     });
 
                 } else if (resultadoAutenticar.length == 0) {

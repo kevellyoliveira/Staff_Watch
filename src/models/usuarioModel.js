@@ -5,7 +5,7 @@ function autenticar(email, senha, token) {
 
 
     var instrucaoSql = `
-        SELECT idFuncionario, nome, email, fkEmpresa
+        SELECT idFuncionario, nome, email, fkEmpresa, fkCargo
         FROM funcionario WHERE email = '${email}' AND senha = MD5('${senha}');
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
