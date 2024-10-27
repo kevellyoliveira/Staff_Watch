@@ -117,7 +117,7 @@ idFuncionario INT PRIMARY KEY AUTO_INCREMENT,
 nome VARCHAR(45),
 email VARCHAR(45),
 senha VARCHAR(255),
-ativo BOOLEAN DEFAULT TRUE,
+status TINYINT(1) DEFAULT 1,
 
 fkEmpresa INT,
 CONSTRAINT fkEmpresaFuncionario FOREIGN KEY(fkEmpresa)
