@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href=".././css/dashboardHist.css">
-    <script src="js/script.js" defer></script>
+    <script src=".././js/script.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
@@ -27,8 +27,8 @@
 
                 <div class="opcoesComponentes" id="itens">
                     <h6 class="opcoesMenu slct" onclick="window.location.href='dashboardGeral-gti.html'">Home</h6>
-                    <h6 class="opcoesMenu associMenu" onclick="abrirMenu()">Associados <img src=".././src/img/icons/seta.png"
-                            alt="icone menu vertical"></h6>
+                    <h6 class="opcoesMenu associMenu" onclick="abrirMenu()">Associados <img
+                            src=".././src/img/icons/seta.png" alt="icone menu vertical"></h6>
                     <h6 class="opcoesMenu" onclick="window.location.href='cadastroFuncionario.html'">Cadastrar</h6>
                     <div id="menu">
                         <h4 onclick="window.location.href='pagina-operario2.html'">Funcionários</h4>
@@ -66,21 +66,21 @@
 
             <section class="section-card">
 
-                <div class="card open-modal">
+                <div class="card open-modal" onclick="alterarComponente('dashCpu')">
 
                     <div class="down-card cima">
                         <div class="esqCard">
-                        <figure class="iconComp">
-                            <img src=".././src/img/icons/indicadoresMaquina/computadorAlerta.png" alt="">
-                        </figure>
-                    </div>
-
-                    <div class="dirCard">
-                        <div class="alertaMaquina">
-                            <figure> <img src=".././src/img/icons/alerta1.png"> </figure>
-                            <p> CPU acima da média (2 horas)</p>
+                            <figure class="iconComp">
+                                <img src=".././src/img/icons/indicadoresMaquina/computadorAlerta.png" alt="">
+                            </figure>
                         </div>
-                    </div>
+
+                        <div class="dirCard">
+                            <div class="alertaMaquina">
+                                <figure> <img src=".././src/img/icons/alerta1.png"> </figure>
+                                <p> CPU acima da média (2 horas)</p>
+                            </div>
+                        </div>
 
                     </div>
                     <div class="down-card">
@@ -97,81 +97,21 @@
 
 
 
-                <div class="card open-modal">
+                <div class="card open-modal" onclick="alterarComponente('dashCpu')">
 
                     <div class="down-card cima">
                         <div class="esqCard">
-                        <figure class="iconComp">
-                            <img src=".././src/img/icons/indicadoresMaquina/computadorEstavel.png" alt="">
-                        </figure>
-                    </div>
-
-                    <div class="dirCard">
-                        <!-- <div class="alertaMaquina">
-                            <figure> <img src=".././src/img/icons/alerta1.png"> </figure>
-                            <p> CPU acima da média (2 horas)</p>
-                        </div> -->
-                    </div>
-
-                    </div>
-                    <div class="down-card">
-                        <div class="content-card">
-                            <p><b>ID:</b> 1234</p>
-                            <p><b>Nome:</b> Máquina XX</p>
+                            <figure class="iconComp">
+                                <img src=".././src/img/icons/indicadoresMaquina/computadorEstavel.png" alt="">
+                            </figure>
                         </div>
-                        <div class="up-card">
-                            <img src=".././src/img/icons/editar.svg" alt="">
-                            <img src=".././src/img/icons/excluir.svg" alt="">
-                        </div>
-                    </div>
-                </div>
 
-
-                <div class="card open-modal">
-
-                    <div class="down-card cima">
-                        <div class="esqCard">
-                        <figure class="iconComp">
-                            <img src=".././src/img/icons/indicadoresMaquina/computadorCritico.png" alt="">
-                        </figure>
-                    </div>
-
-                    <div class="dirCard">
-                        <div class="alertaMaquina">
-                            <figure> <img src=".././src/img/icons/alerta2.png"> </figure>
-                            <p> CPU acima da média (8 horas)</p>
-                        </div>
-                    </div>
-
-                    </div>
-                    <div class="down-card">
-                        <div class="content-card">
-                            <p><b>ID:</b> 1234</p>
-                            <p><b>Nome:</b> Máquina XX</p>
-                        </div>
-                        <div class="up-card">
-                            <img src=".././src/img/icons/editar.svg" alt="">
-                            <img src=".././src/img/icons/excluir.svg" alt="">
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="card open-modal">
-
-                    <div class="down-card cima">
-                        <div class="esqCard">
-                        <figure class="iconComp">
-                            <img src=".././src/img/icons/indicadoresMaquina/computadorEstavel.png" alt="">
-                        </figure>
-                    </div>
-
-                    <div class="dirCard">
-                        <!-- <div class="alertaMaquina">
+                        <div class="dirCard">
+                            <!-- <div class="alertaMaquina">
                             <figure> <img src=".././src/img/icons/alerta1.png"> </figure>
                             <p> CPU acima da média (2 horas)</p>
                         </div> -->
-                    </div>
+                        </div>
 
                     </div>
                     <div class="down-card">
@@ -187,21 +127,51 @@
                 </div>
 
 
-                <div class="card open-modal">
+                <div class="card open-modal" onclick="alterarComponente('dashCpu')">
 
                     <div class="down-card cima">
                         <div class="esqCard">
-                        <figure class="iconComp">
-                            <img src=".././src/img/icons/indicadoresMaquina/computadorEstavel.png" alt="">
-                        </figure>
-                    </div>
+                            <figure class="iconComp">
+                                <img src=".././src/img/icons/indicadoresMaquina/computadorCritico.png" alt="">
+                            </figure>
+                        </div>
 
-                    <div class="dirCard">
-                        <!-- <div class="alertaMaquina">
+                        <div class="dirCard">
+                            <div class="alertaMaquina">
+                                <figure> <img src=".././src/img/icons/alerta2.png"> </figure>
+                                <p> CPU acima da média (8 horas)</p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="down-card">
+                        <div class="content-card">
+                            <p><b>ID:</b> 1234</p>
+                            <p><b>Nome:</b> Máquina XX</p>
+                        </div>
+                        <div class="up-card">
+                            <img src=".././src/img/icons/editar.svg" alt="">
+                            <img src=".././src/img/icons/excluir.svg" alt="">
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card open-modal" onclick="alterarComponente('dashCpu')">
+
+                    <div class="down-card cima">
+                        <div class="esqCard">
+                            <figure class="iconComp">
+                                <img src=".././src/img/icons/indicadoresMaquina/computadorEstavel.png" alt="">
+                            </figure>
+                        </div>
+
+                        <div class="dirCard">
+                            <!-- <div class="alertaMaquina">
                             <figure> <img src=".././src/img/icons/alerta1.png"> </figure>
                             <p> CPU acima da média (2 horas)</p>
                         </div> -->
-                    </div>
+                        </div>
 
                     </div>
                     <div class="down-card">
@@ -216,21 +186,22 @@
                     </div>
                 </div>
 
-                <div class="card open-modal">
+
+                <div class="card open-modal" onclick="alterarComponente('dashCpu')">
 
                     <div class="down-card cima">
                         <div class="esqCard">
-                        <figure class="iconComp">
-                            <img src=".././src/img/icons/indicadoresMaquina/computadorAlerta.png" alt="">
-                        </figure>
-                    </div>
+                            <figure class="iconComp">
+                                <img src=".././src/img/icons/indicadoresMaquina/computadorEstavel.png" alt="">
+                            </figure>
+                        </div>
 
-                    <div class="dirCard">
-                        <div class="alertaMaquina">
+                        <div class="dirCard">
+                            <!-- <div class="alertaMaquina">
                             <figure> <img src=".././src/img/icons/alerta1.png"> </figure>
                             <p> CPU acima da média (2 horas)</p>
+                        </div> -->
                         </div>
-                    </div>
 
                     </div>
                     <div class="down-card">
@@ -245,21 +216,204 @@
                     </div>
                 </div>
 
+                <div class="card open-modal" onclick="alterarComponente('dashCpu')" >
 
-               
+                    <div class="down-card cima">
+                        <div class="esqCard">
+                            <figure class="iconComp">
+                                <img src=".././src/img/icons/indicadoresMaquina/computadorAlerta.png" alt="">
+                            </figure>
+                        </div>
 
+                        <div class="dirCard">
+                            <div class="alertaMaquina">
+                                <figure> <img src=".././src/img/icons/alerta1.png"> </figure>
+                                <p> CPU acima da média (2 horas)</p>
+                            </div>
+                        </div>
 
-
-
-
-
-
-                
+                    </div>
+                    <div class="down-card">
+                        <div class="content-card">
+                            <p><b>ID:</b> 1234</p>
+                            <p><b>Nome:</b> Máquina XX</p>
+                        </div>
+                        <div class="up-card">
+                            <img src=".././src/img/icons/editar.svg" alt="">
+                            <img src=".././src/img/icons/excluir.svg" alt="">
+                        </div>
+                    </div>
+                </div>
 
             </section>
         </main>
 
+        <!--  MODAL  -->
+        <div id="fade" class="hide"></div>
+        <div id="modal" class="hide">
+            <div class="btnSair">
+                <img src=".././src/img/icons/fechar.svg" alt="ícone para sair do modal">
+            </div>
+            <div class="modal-content">
+                <div class="containerModal">
+                    <div class="opcoesComponentes menu" id="itens">
+                        <h6 class="opcoesMenu" id="cpu" onclick="alterarComponente('dashCpu')"> CPU </h6>
+                        <h6 class="opcoesMenu" id="disco" onclick="alterarComponente('dashDisco')"> Disco </h6>
+                        <h6 class="opcoesMenu" id="rede" onclick="alterarComponente('dashRede')"> Rede </h6>
+                        <h6 class="opcoesMenu" id="memoria" onclick="alterarComponente('dashMemoria')"> Memória
+                        </h6>
+                    </div>
 
+                    <div class="aside">
+                        <div class="dadosComponente">
+                            <div class="infosComponente">
+                                <!-- <h6 class="componente" id="idComponente"> CPU </h6> -->
+                                <h6 class="nomeComponente" id="idNomeComponente"> nome do componente </h6>
+                            </div>
+
+                            <h5 class="monitoramento" id="idMonitoramentoGrafico"> Utilização: </h5>
+                        </div>
+
+                        <div class="graficoComponente">
+                            <div class="graficoChart">
+                                <canvas id="myChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="dashCpu" class="bside">
+                        <div class="dado">
+                            <h3> Utilização: </h3>
+                            <div class="dadoInfo">
+                                <h2> <span id="cpuUtilizacao"> 100% </span> </h2>
+                            </div>
+                        </div>
+                        <div class="dado">
+                            <h3> Velocidade: </h3>
+                            <div class="dadoInfo">
+                                <h2> <span id="cpuVelocidade"> 2,09 GHz </span> </h2>
+                            </div>
+                        </div>
+                        <div class="dado">
+                            <h3> Threads: </h3>
+                            <div class="dadoInfo">
+                                <h2> <span id="cpuThreads"> 2400 </span> </h2>
+                            </div>
+                        </div>
+                        <div class="dado">
+                            <h3> Processos: </h3>
+                            <div class="dadoInfo">
+                                <h2> <span id="cpuProcessos"> 140 </span> </h2>
+                            </div>
+                        </div>
+                        <div class="dado">
+                            <h3> Identificadores: </h3>
+                            <div class="dadoInfo">
+                                <h2> <span id="cpuIdentificadores"> 82750 </span> </h2>
+                            </div>
+                        </div>
+                        <div class="dado">
+                            <h3> Tempo de atividade:</h3>
+                            <div class="dadoInfo">
+                                <h2> <span id="cpuTempoDeAtividade"> 0:08:17:42 </span> </h2>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div id="dashDisco" class="bside">
+                        <div class="dado">
+                            <h3> Utilização: </h3>
+                            <div class="dadoInfo">
+                                <h2> <span id="discoUtilizacao"> 100% </span> </h2>
+                            </div>
+                        </div>
+
+                        <div class="dado">
+                            <h3> Tempo de resposta: </h3>
+                            <div class="dadoInfo">
+                                <h2> <span id="discoResposta"> 0,1 ms </span> </h2>
+                            </div>
+                        </div>
+
+                        <div class="dado">
+                            <h3> Velocidade de leitura: </h3>
+                            <div class="dadoInfo">
+                                <h2> <span id="discoLeitura"> 90,8 KB/s </span> </h2>
+                            </div>
+                        </div>
+
+                        <div class="dado">
+                            <h3> Velocidade de gravação: </h3>
+                            <div class="dadoInfo">
+                                <h2> <span id="discoGravacao"> 130,2 KB/s </span> </h2>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="dashRede" class="bside">
+                        <div class="dado">
+                            <h3> Enviar: </h3>
+                            <div class="dadoInfo">
+                                <h2> <span id="redeEnviar"> 120,2 KB/s </span> </h2>
+                            </div>
+                        </div>
+
+                        <div class="dado">
+                            <h3> Receber: </h3>
+                            <div class="dadoInfo">
+                                <h2> <span id="redeReceber"> 390,1 KB/s </span> </h2>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="dashMemoria" class="bside">
+
+                        <div class="dado">
+                            <h3> Utilização: </h3>
+                            <div class="dadoInfo">
+                                <h2> <span id="memoriaUtilizacao"> 44% </span> </h2>
+                            </div>
+                        </div>
+
+                        <div class="dado">
+                            <h3> Disponível: </h3>
+                            <div class="dadoInfo">
+                                <h2> <span id="memoriaDisponivel"> 8,9 GB </span> </h2>
+                            </div>
+                        </div>
+
+                        <div class="dado">
+                            <h3> Confirmado: </h3>
+                            <div class="dadoInfo">
+                                <h2> <span id="memoriaConfirmado"> 10,1/22,7 GB </span> </h2>
+                            </div>
+                        </div>
+
+                        <div class="dado">
+                            <h3> Cache: </h3>
+                            <div class="dadoInfo">
+                                <h2> <span id="memoriaCache"> 4,6 GB </span> </h2>
+                            </div>
+                        </div>
+
+                        <div class="dado">
+                            <h3> Reserva paginável: </h3>
+                            <div class="dadoInfo">
+                                <h2> <span id="memoriaPaginavel"> 580 MB </span> </h2>
+                            </div>
+                        </div>
+
+                        <div class="dado">
+                            <h3> Reserva não paginável: </h3>
+                            <div class="dadoInfo">
+                                <h2> <span id="memoriaNaoPaginavel"> 460 MB </span> </h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 
@@ -268,7 +422,7 @@
 </html>
 <script>
 
-function selecionarItem(elemento) {
+    function selecionarItem(elemento) {
         var id = elemento.id;  // Pega o ID da equipe clicada
         if (id == 0) {
             // Redireciona para dashboardGeral.html
@@ -294,7 +448,7 @@ function selecionarItem(elemento) {
         window.location = "index.html"
     }
 
-function abrirMenu() {
+    function abrirMenu() {
         if (document.getElementById("menu").style.display == "flex") {
             document.getElementById("menu").style.display = "none";
         } else {

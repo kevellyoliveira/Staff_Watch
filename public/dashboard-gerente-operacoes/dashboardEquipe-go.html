@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href=".././css/dashboardHist.css">
-    <script src="js/script.js" defer></script>
+    <script src=".././js/script.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
@@ -17,7 +17,7 @@
     <title>Dashboard | Staff Watch</title>
 </head>
 
-<body>
+<body onload="alterarFuncionario('dashChamadas')">
     <header>
         <div class="opcoes">
             <div class="esq">
@@ -66,7 +66,37 @@
 
             <section class="section-card">
 
-                <div class="card open-modal">
+
+                <div class="card open-modal onclick=" alterarFuncionario('dashChamadas')">
+
+                    <div class="down-card cima">
+                        <div class="esqCard">
+                            <figure class="iconFunc">
+                                <img src=".././src/img/icons/funcionarios/func-vermelho.png" alt="">
+                            </figure>
+                        </div>
+
+                        <div class="dirCard">
+                            <div class="alertaMaquina">
+                                <figure> <img src=".././src/img/icons/alerta2.png"> </figure>
+                                <p> Tempo de ligação acima da média (16 min)</p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="down-card">
+                        <div class="content-card">
+                            <p><b>ID:</b> 1234</p>
+                            <p> Pedro Almeida </p>
+                        </div>
+                        <div class="up-card">
+                            <img src=".././src/img/icons/editar.svg" alt="">
+                            <img src=".././src/img/icons/excluir.svg" alt="">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card open-modal onclick=" alterarFuncionario('dashChamadas')"">
 
                     <div class="down-card cima">
                         <div class="esqCard">
@@ -78,7 +108,7 @@
                         <div class="dirCard">
                             <div class="alertaMaquina">
                                 <figure> <img src=".././src/img/icons/alerta1.png"> </figure>
-                                <p> Tempo médio acima da média (9 min)</p>
+                                <p> Tempo de ligação acima da média (9 min)</p>
                             </div>
                         </div>
 
@@ -95,9 +125,65 @@
                     </div>
                 </div>
 
+                <div class="card open-modal onclick=" alterarFuncionario('dashChamadas')">
 
+                    <div class="down-card cima">
+                        <div class="esqCard">
+                            <figure class="iconFunc">
+                                <img src=".././src/img/icons/funcionarios/func-laranja.png" alt="">
+                            </figure>
+                        </div>
 
-                <div class="card open-modal">
+                        <div class="dirCard">
+                            <div class="alertaMaquina">
+                                <figure> <img src=".././src/img/icons/alerta1.png"> </figure>
+                                <p> Tempo de ligação acima da média (9 min)</p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="down-card">
+                        <div class="content-card">
+                            <p id="idFuncionario"><b>ID:</b> 1234</p>
+                            <p id="nomeFuncionario"> Caio Oliveira</p>
+                        </div>
+                        <div class="up-card">
+                            <img src=".././src/img/icons/editar.svg" alt="">
+                            <img src=".././src/img/icons/excluir.svg" alt="">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card open-modal onclick=" alterarFuncionario('dashChamadas')">
+
+                    <div class="down-card cima">
+                        <div class="esqCard">
+                            <figure class="iconFunc">
+                                <img src=".././src/img/icons/funcionarios/func-laranja.png" alt="">
+                            </figure>
+                        </div>
+
+                        <div class="dirCard">
+                            <div class="alertaMaquina">
+                                <figure> <img src=".././src/img/icons/alerta1.png"> </figure>
+                                <p> Tempo de ligação acima da média (10 min)</p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="down-card">
+                        <div class="content-card">
+                            <p id="idFuncionario"><b>ID:</b> 1234</p>
+                            <p id="nomeFuncionario"> Caio Oliveira</p>
+                        </div>
+                        <div class="up-card">
+                            <img src=".././src/img/icons/editar.svg" alt="">
+                            <img src=".././src/img/icons/excluir.svg" alt="">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card open-modal onclick=" alterarFuncionario('dashChamadas')">
 
                     <div class="down-card cima">
                         <div class="esqCard">
@@ -109,7 +195,7 @@
                         <div class="dirCard">
                             <!-- <div class="alertaMaquina">
                             <figure> <img src=".././src/img/icons/alerta1.png"> </figure>
-                            <p> CPU acima da média (2 horas)</p>
+                            <p> Tempo de ligação acima da média (9 min)</p>
                         </div> -->
                         </div>
 
@@ -127,37 +213,7 @@
                 </div>
 
 
-                <div class="card open-modal">
-
-                    <div class="down-card cima">
-                        <div class="esqCard">
-                            <figure class="iconFunc">
-                                <img src=".././src/img/icons/funcionarios/func-vermelho.png" alt="">
-                            </figure>
-                        </div>
-
-                        <div class="dirCard">
-                            <div class="alertaMaquina">
-                                <figure> <img src=".././src/img/icons/alerta2.png"> </figure>
-                                <p> CPU acima da média (8 horas)</p>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="down-card">
-                        <div class="content-card">
-                            <p><b>ID:</b> 1234</p>
-                            <p> Pedro Almeida </p>
-                        </div>
-                        <div class="up-card">
-                            <img src=".././src/img/icons/editar.svg" alt="">
-                            <img src=".././src/img/icons/excluir.svg" alt="">
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="card open-modal">
+                <div class="card open-modal onclick=" alterarFuncionario('dashChamadas')">
 
                     <div class="down-card cima">
                         <div class="esqCard">
@@ -169,7 +225,7 @@
                         <div class="dirCard">
                             <!-- <div class="alertaMaquina">
                             <figure> <img src=".././src/img/icons/alerta1.png"> </figure>
-                            <p> CPU acima da média (2 horas)</p>
+                            <p> Tempo de ligação acima da média (9 min)</p>
                         </div> -->
                         </div>
 
@@ -187,7 +243,7 @@
                 </div>
 
 
-                <div class="card open-modal">
+                <div class="card open-modal onclick=" alterarFuncionario('dashChamadas')">
 
                     <div class="down-card cima">
                         <div class="esqCard">
@@ -199,7 +255,7 @@
                         <div class="dirCard">
                             <!-- <div class="alertaMaquina">
                             <figure> <img src=".././src/img/icons/alerta1.png"> </figure>
-                            <p> CPU acima da média (2 horas)</p>
+                            <p> Tempo de ligação acima da média (9 min)</p>
                         </div> -->
                         </div>
 
@@ -215,28 +271,27 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="card open-modal">
+                <div class="card open-modal onclick=" alterarFuncionario('dashChamadas')">
 
                     <div class="down-card cima">
                         <div class="esqCard">
                             <figure class="iconFunc">
-                                <img src=".././src/img/icons/funcionarios/func-laranja.png" alt="">
+                                <img src=".././src/img/icons/funcionarios/func-verde.png" alt="">
                             </figure>
                         </div>
 
                         <div class="dirCard">
-                            <div class="alertaMaquina">
-                                <figure> <img src=".././src/img/icons/alerta1.png"> </figure>
-                                <p> CPU acima da média (2 horas)</p>
-                            </div>
+                            <!-- <div class="alertaMaquina">
+                            <figure> <img src=".././src/img/icons/alerta1.png"> </figure>
+                            <p> Tempo de ligação acima da média (9 min)</p>
+                        </div> -->
                         </div>
 
                     </div>
                     <div class="down-card">
                         <div class="content-card">
                             <p id="idFuncionario"><b>ID:</b> 1234</p>
-                            <p id="nomeFuncionario"> Caio Oliveira</p>
+                            <p id="nomeFuncionario"> Júlia Pereira</p>
                         </div>
                         <div class="up-card">
                             <img src=".././src/img/icons/editar.svg" alt="">
@@ -244,25 +299,197 @@
                         </div>
                     </div>
                 </div>
+                <div class="card open-modal onclick=" alterarFuncionario('dashChamadas')">
 
+                    <div class="down-card cima">
+                        <div class="esqCard">
+                            <figure class="iconFunc">
+                                <img src=".././src/img/icons/funcionarios/func-verde.png" alt="">
+                            </figure>
+                        </div>
 
+                        <div class="dirCard">
+                            <!-- <div class="alertaMaquina">
+                            <figure> <img src=".././src/img/icons/alerta1.png"> </figure>
+                            <p> Tempo de ligação acima da média (9 min)</p>
+                        </div> -->
+                        </div>
 
-
-
-
-
-
-
-
-
-
+                    </div>
+                    <div class="down-card">
+                        <div class="content-card">
+                            <p id="idFuncionario"><b>ID:</b> 1234</p>
+                            <p id="nomeFuncionario"> Júlia Pereira</p>
+                        </div>
+                        <div class="up-card">
+                            <img src=".././src/img/icons/editar.svg" alt="">
+                            <img src=".././src/img/icons/excluir.svg" alt="">
+                        </div>
+                    </div>
+                </div>
             </section>
+
+
+            <!-- MODAL -->
+            <div id="fade" class="hide"></div>
+            <div id="modal" class="hide">
+                <div class="btnSair">
+                    <img src=".././src/img/icons/fechar.svg" alt="ícone para sair do modal">
+                </div>
+                <div class="modal-content">
+                    <div class="containerModal go">
+                        <div class="opcoesComponentes menu go" id="itens">
+                            <h6 class="opcoesMenu go" id="chamadas" onclick="alterarFuncionario('dashChamadas')">
+                                Chamadas atendidas X recebidas </h6>
+                            <h6 class="opcoesMenu go" id="atendimento" onclick="alterarFuncionario('dashAtendimento')">
+                                Tempo médio de atendimento </h6>
+                            <h6 class="opcoesMenu go" id="resolucao" onclick="alterarFuncionario('dashResolucao')"> Taxa
+                                de resolução no Primeiro Contato </h6>
+                            <h6 class="opcoesMenu go" id="abandono" onclick="alterarFuncionario('dashAbandono')"> Taxa
+                                de Abandono </h6>
+                        </div>
+
+                        <div class="aside">
+                            <div class="dadosComponente">
+                                <div class="infosComponente">
+                                    <!-- <h6 class="componente" id="idComponente"> CPU </h6> -->
+                                    <!-- <h6 class="nomeComponente" id="idNomeComponente"> nome do componente </h6> -->
+                                </div>
+
+                                <h5 class="monitoramento" id="idMonitoramentoGrafico"> Utilização: </h5>
+                            </div>
+
+                            <div class="graficoComponente">
+                                <div class="graficoChart">
+                                    <canvas id="myChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="dashChamadas" class="bside go">
+
+                            <div class="ladoDados">
+                                <div class="dado go">
+                                    <h3> Recebidos: </h3>
+                                    <div class="dadoInfo go">
+                                        <h2> <span id="chamadasRecebidas"> 30 </span> chamadas </h2>
+                                    </div>
+                                </div>
+                                <div class="dado go">
+                                    <h3> Atendidas: </h3>
+                                    <div class="dadoInfo go">
+                                        <h2 style="color: orange;"> <span id="chamadasAtendidas"> 25 </span> chamadas
+                                        </h2>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="filtro">
+                                <div class="tituloFiltro">
+                                    <img src="../src/img/icons/seta.png" alt="">
+                                    <h4 class="gotxt"> Filtrar</h4>
+                                </div>
+                                <h4 class="slctxt gotxt">Sempre</h4>
+                                <h4 class="gotxt">No dia</h4>
+                                <h4 class="gotxt">Na semana</h4>
+                                <h4 class="gotxt">No mês</h4>
+                            </div>
+
+                        </div>
+
+                        <div id="dashAtendimento" class="bside go">
+                            <div class="ladoDados">
+                                <div class="dado go">
+                                    <h3> Recebidos: </h3>
+                                    <div class="dadoInfo go">
+                                        <h2> <span id="chamadasRecebidas"> 30 </span> chamadas </h2>
+                                    </div>
+                                </div>
+
+                                <div class="dado go">
+                                    <h3> Atendidas: </h3>
+                                    <div class="dadoInfo go">
+                                        <h2 style="color: orange;"> <span id="chamadasAtendidas"> 25 </span> chamadas
+                                        </h2>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="filtro">
+                                <div class="tituloFiltro">
+                                    <img src="../src/img/icons/seta.png">
+                                    <h4 class="gotxt"> Filtrar</h4>
+                                </div>
+                                <h4 class="slctxt gotxt">Sempre</h4>
+                                <h4 class="gotxt"> No dia</h4>
+                                <h4 class="gotxt"> Na semana</h4>
+                                <h4 class="gotxt"> No mês</h4>
+                            </div>
+                        </div>
+
+                        <div id="dashResolucao" class="bside go">
+                            <div class="ladoDados">
+                                <div class="dado go">
+                                    <h3> Recebidos: </h3>
+                                    <div class="dadoInfo go">
+                                        <h2> <span id="chamadasRecebidas"> 30 </span> chamadas </h2>
+                                    </div>
+                                </div>
+                                <div class="dado go">
+                                    <h3> Atendidas: </h3>
+                                    <div class="dadoInfo go">
+                                        <h2 style="color: orange;"> <span id="chamadasAtendidas"> 25 </span>
+                                            chamadas </h2>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="filtro">
+                                <div class="tituloFiltro">
+                                    <img src="../src/img/icons/seta.png">
+                                    <h4 class="gotxt"> Filtrar</h4>
+
+                                </div>
+                                <h4 class="slctxt gotxt">Sempre</h4>
+                                <h4 class="gotxt">No dia</h4>
+                                <h4 class="gotxt">Na semana</h4>
+                                <h4 class="gotxt">No mês</h4>
+                            </div>
+                        </div>
+
+                    <div id="dashAbandono" class="bside go">
+                        <div class="ladoDados">
+                            <div class="dado go">
+                                <h3> Recebidos: </h3>
+                                <div class="dadoInfo go">
+                                    <h2> <span id="chamadasRecebidas"> 30 </span> chamadas </h2>
+                                </div>
+                            </div>
+                            <div class="dado go">
+                                <h3> Atendidas: </h3>
+                                <div class="dadoInfo go">
+                                    <h2 style="color: orange;"> <span id="chamadasAtendidas"> 25 </span>
+                                        chamadas </h2>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="filtro">
+                            <div class="tituloFiltro">
+                                <img src="../src/img/icons/seta.png">
+                                <h4 class="gotxt"> Filtrar</h4>
+                            </div>
+                            <h4 class="slctxt gotxt">Sempre</h4>
+                            <h4 class="gotxt">No dia</h4>
+                            <h4 class="gotxt">Na semana</h4>
+                            <h4 class="gotxt">No mês</h4>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
         </main>
-
-
     </div>
-
-
 </body>
 
 </html>
@@ -317,7 +544,7 @@
     // função para carregar a dashboard da equipe com o ID especificado
     function carregarDashboard(id) {
         console.log("Carregando dashboard da equipe com ID:", id);
-        // Exemplo: alterarComponente(id);
+        // Exemplo: alterarFuncionario(id);
     }
 
     function selecionarItem(elemento) {
@@ -335,7 +562,7 @@
 
     }
     // lembrar de chamar essa funcao pra exibir os graficos dinamicos
-    //         alterarComponente("dashCpu");
+    //         alterarFuncionario("dashChamadas");
     //          Chama a função que recarrega a dashboard para a equipe selecionada
     // carregarDashboard(elemento.id);
 
@@ -452,53 +679,33 @@
 
     // essa função serve pra mudar as métricas na tela de acordo com o componente selecionado no header
     // quando o item for selecionado, a div correspondente aparece e as outras são escondidas.
-    function alterarComponente(componenteId) {
-        const dashComponentes = ["dashCpu", "dashDisco", "dashRede", "dashMemoria"];
+    // Função para alterar o componente visualizado de acordo com o item selecionado
+    function alterarFuncionario(componenteId) {
+        const dashFuncionario = ["dashChamadas", "dashAtendimento", "dashResolucao", "dashAbandono"];
         const componentes = {
-            "dashCpu": "CPU",
-            "dashDisco": "Disco",
-            "dashRede": "Rede",
-            "dashMemoria": "Memória"
+            "dashChamadas": "Chamadas",
+            "dashAtendimento": "Atendimento",
+            "dashResolucao": "Resolucao",
+            "dashAbandono": "Memória"
         };
 
-        const nomeComponentes = {
-            "dashCpu": "12th Gen Intel(R) Core(TM) i5-1235U",
-            "dashDisco": "Samsung MZVLQ512HBLU-00B",
-            "dashRede": "Intel(R) Wireless-AC 9560 160MHz",
-            "dashMemoria": "Armazenamento total: 8,00 GB"
-        };
-
-        // esconde a div de todos todos os componentes
-        dashComponentes.forEach(id => {
+        // Esconde todas as divs dos componentes
+        dashFuncionario.forEach(id => {
             document.getElementById(id).style.display = "none";
         });
 
-        dashComponentes.forEach(id => {
-            document.getElementById(id).style.fontWeight = (id === componenteId) ? "700" : "500";
-        });
-
-        // mostra a div componente selecionado através do id
-        console.log("id obtido: ", componenteId)
-        document.getElementById(componenteId).style.display = "grid";
-
-        // mostra o componente e a especificação dele no aside, de acordo as informações do objeto
-        // document.getElementById("idComponente").innerHTML = componentes[componenteId];
-        document.getElementById("idNomeComponente").innerHTML = nomeComponentes[componenteId];
-
-
-        // 1- o forEach passa por todos os elementos e tira o dash do nome de cada um, e fica somente com o nome do elemento
-        // exemplo: dashDisco --> Disco
-
-        // 2- transforma em lower case, pra que fique com o id identico de cada opcao do menu
-        // exemplo: Disco -->
-
-        // 3- verifica se o id que ele está é igual ao id do componente selecionado pelo usuário. se for, a font weight fica em 700(negrito), senão, fica em 500
-        dashComponentes.forEach(id => {
+        // Mostra o componente selecionado através do id e define o peso da fonte para o item do menu
+        document.getElementById(componenteId).style.display = "flex";
+        dashFuncionario.forEach(id => {
             const elemento = document.getElementById(id.replace("dash", "").toLowerCase());
-            elemento.style.fontWeight = (id === componenteId) ? "700" : "500";
+            if (elemento) {
+                elemento.style.color = (id === componenteId) ? "#6096ba" : "#000";
+            }
         });
-    }
 
+        // Mostra a informação do componente selecionado no aside
+        document.getElementById("idComponente").innerHTML = componentes[componenteId];
+    }
 
     //============================================ gráfico estático  para simulação ==================================================================
 
@@ -518,7 +725,7 @@
     }
 
     // Configuração do gráfico CPU
-    const cpuChart = new Chart(document.getElementById('cpuChart'), {
+    const chamadasChart = new Chart(document.getElementById('chamadasChart'), {
         type: 'bar',
         data: {
             labels: semanas,
@@ -541,7 +748,7 @@
     });
 
     // Configuração do gráfico RAM
-    const ramChart = new Chart(document.getElementById('ramChart'), {
+    const atendimentoChart = new Chart(document.getElementById('atendimentoChart'), {
         type: 'bar',
         data: {
             labels: semanas,
@@ -563,13 +770,13 @@
         }
     });
 
-    // Configuração do gráfico Rede
-    const redeChart = new Chart(document.getElementById('redeChart'), {
+    // Configuração do gráfico Resolucao
+    const resolucaoChart = new Chart(document.getElementById('resolucaoChart'), {
         type: 'bar',
         data: {
             labels: semanas,
             datasets: [{
-                label: 'Média de Uso da Rede (Mbps)',
+                label: 'Média de Uso da Resolucao (Mbps)',
                 data: [gerarValoresAleatorios(100, 1000), gerarValoresAleatorios(100, 1000), gerarValoresAleatorios(100, 1000)],
                 backgroundColor: 'rgba(255, 206, 86, 0.6)',
                 borderColor: 'rgba(255, 206, 86, 1)',
@@ -586,7 +793,7 @@
     });
 
     // Configuração do gráfico Armazenamento
-    const armazenamentoChart = new Chart(document.getElementById('armazenamentoChart'), {
+    const abandonoChart = new Chart(document.getElementById('abandonoChart'), {
         type: 'bar',
         data: {
             labels: semanas,
@@ -610,10 +817,10 @@
 
     // Atualização automática dos gráficos a cada 10 segundos
     setInterval(() => {
-        atualizarDados(cpuChart);
-        atualizarDados(ramChart);
-        atualizarDados(redeChart);
-        atualizarDados(armazenamentoChart);
+        atualizarDados(chamadasChart);
+        atualizarDados(atendimentoChart);
+        atualizarDados(resolucaoChart);
+        atualizarDados(abandonoChart);
     }, 10000);
 
 </script>
