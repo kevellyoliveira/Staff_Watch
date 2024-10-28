@@ -65,6 +65,18 @@ function atualizar(idEquipe, token, fkEmpresa) {
 }
 
 
+function deletar(idComputador) {
+  console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function deletar():", idComputador
+
+  );
+  var instrucaoSql = `
+     UPDATE computador SET status = 2 WHERE idComputador = ${idComputador};
+  `;
+  console.log("Executando a instrução SQL: \n" + instrucaoSql);
+  return database.executar(instrucaoSql);
+}
+
+
 function listarEquipe(fkEmpresa) {
 
   var instrucaoSql = `select idEquipe , nome, setor from equipe where fkEmpresa = ${fkEmpresa} 
@@ -129,6 +141,7 @@ module.exports = {
   listar,
   cadastrar,
   atualizar,
+  deletar,
   cadastrarEquipe,
   removerEquipe,
   listarEquipe,

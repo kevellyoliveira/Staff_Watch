@@ -23,6 +23,11 @@ router.get("/listar/:fkEmpresa", function (req, res) {
   maquinaController.listar(req, res);
 });
 
+// desativa a máquina
+router.put("/deletar/:idComputador", function (req, res) {
+  maquinaController.deletar(req, res);
+});
+
 
 router.get("/listarEquipe/:fkEmpresa", function (req, res) {
   maquinaController.listarEquipe(req, res);

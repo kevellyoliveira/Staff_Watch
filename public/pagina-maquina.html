@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="./css/telaListas.css">
     <script src="./js/script.js"></script>
     <link rel="shortcut icon" href="./src/img/logoB.png" type="image/x-icon" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 </head>
 
@@ -288,7 +291,7 @@
                             var status = "Em atividade"
                         }
 
-                        if (publicacao.status == 0) {
+                        if (publicacao.status == 2) {
                             var status = "Inativo"
                         }
 
@@ -301,9 +304,9 @@
                         if (publicacao.status == 1) {
                             divDescricao.innerHTML = "Status: <b style='color: green;'>" + status + "</b>";
 
-                        }
+                        } 
 
-                        if (publicacao.status == 0) {
+                        if (publicacao.status == 2) {
                             divDescricao.innerHTML = "Status: <b style='color: red;'>" + status + "</b>";
 
                         }
@@ -311,8 +314,8 @@
                         // Configurando o botão "Editar"
                         btnEditar.innerHTML = '<i class="fa-solid fa-pen"></i>'; // Ícone do botão
                         btnEditar.className = "editar"; // Classe do botão
-                        btnEditar.id = "AbrirModal2_" + publicacao.idFuncionario; // ID único baseado no ID do funcionário
-                        let idDaVez = publicacao.idFuncionario
+                        btnEditar.id = "AbrirModal2_" + publicacao.idComputador; // ID único baseado no ID do funcionário
+                        let idDaVez = publicacao.idComputador
                         btnEditar.addEventListener('click', function () {
                             redirecionarParaEdicao(idDaVez); // Função que redireciona para a página de edição
                         });
@@ -320,7 +323,7 @@
                         // Configurando o botão "Deletar"
                         btnDeletar.innerHTML = '<i class="fa-solid fa-trash"></i>'; // Ícone do botão
                         btnDeletar.className = "deletar"; // Classe do botão
-                        btnDeletar.id = "btnDeletar_" + publicacao.idFuncionario; // ID único
+                        btnDeletar.id = "btnDeletar_" + publicacao.idComputador; // ID único
                         btnDeletar.addEventListener('click', function () {
                             deletar(idDaVez); // Função 'deletar' com ID do funcionário
                         });
@@ -349,5 +352,37 @@
         }).catch(function (resposta) {
             console.error(resposta);
         });
+
+
+
+        function redirecionarParaEdicao(idComputador) {
+        // Redireciona o usuário para a página de edição com o ID do funcionário como parâmetro na URL
+        window.location.href = `editarFuncionario.html?id=${idComputador}`;
+    }
+
+
+
+        function deletar(idComputador) {
+    if (confirm("Tem a certeza de que deseja deletar este funcionário?")) {
+        fetch(`/maquinas/deletar/${idComputador}`, {
+            method: "PUT"
+        })
+        .then(resposta => {
+            if (resposta.ok) {
+                alert("Máquina desativada com sucesso!");
+                atualizarFeed(); // Atualiza a lista após a exclusão
+            } else {
+                throw "Não foi possível desativar a maquina";
+            }
+        })
+        .catch(error => {
+            console.error(error);
+            alert("Ocorreu um erro ao tentar deletar a maquina");
+        });
+    }
+}
+
+
+
     }
 </script>

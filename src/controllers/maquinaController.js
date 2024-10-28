@@ -77,6 +77,27 @@ function atualizar(req, res) {
   }
 }
 
+function deletar(req, res) {
+  var idComputador = req.params.idComputador;
+
+  maquinaModel.deletar(idComputador)
+      .then(
+          function (resultado) {
+              res.json(resultado);
+          }
+      )
+      .catch(
+          function (erro) {
+              console.log(erro);
+              console.log("Houve um erro ao deletar o post: ", erro.sqlMessage);
+              res.status(500).json(erro.sqlMessage);
+          }
+      );
+}
+
+
+
+
 function listarEquipe(req, res) {
   // var nomeComponente = req.body.nomeComponenteServer;
   var fkEmpresa = req.params.fkEmpresa;
@@ -251,6 +272,7 @@ module.exports = {
   // buscarUsuario,
   cadastrar,
   atualizar,
+  deletar,
   cadastrarEquipe,
   removerEquipe,
   listarEquipe,
