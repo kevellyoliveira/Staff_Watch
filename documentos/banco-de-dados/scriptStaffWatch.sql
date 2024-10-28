@@ -56,8 +56,8 @@ idEmpresa INT PRIMARY KEY AUTO_INCREMENT,
 cnpj CHAR(18),
 nomeEmp VARCHAR(45)
 );
-insert into empresa (cnpj, nomeEmp) values
-("123456789123456789", "Falla");
+insert into empresa (idEmpresa, cnpj, nomeEmp) values
+(default, "123456789123456789", "Falla");
 
 CREATE TABLE IF NOT EXISTS selecionadosParaMonitoramento (
 selecionado bit null,
@@ -89,16 +89,13 @@ CREATE TABLE IF NOT EXISTS equipe (
 idEquipe INT PRIMARY KEY AUTO_INCREMENT,
 nome VARCHAR(45),
 setor VARCHAR(45),
-
-fkEmpresa INT,
-CONSTRAINT fkEmpresaEquipe FOREIGN KEY(fkEmpresa)
-REFERENCES empresa(idEmpresa)
+fkEmpresa int,
+constraint fkEmpresaEquipe foreign key(fkEmpresa)
+references empresa(idEmpresa)
 );
 
-
-
-INSERT INTO equipe (nome, setor, fkEmpresa) VALUES
-("dos", "desenvolvimento", 1);
+insert into equipe values
+(default,"dos","desenvolvimento", 1);
 
 CREATE TABLE IF NOT EXISTS cargo (
 idCargo INT PRIMARY KEY AUTO_INCREMENT,
@@ -132,13 +129,13 @@ CONSTRAINT fkCargoFuncionario FOREIGN KEY(fkCargo)
 REFERENCES cargo(idCargo)
 );
 
-insert into funcionario (nome, email, senha,status ,fkEmpresa, fkEquipe, fkCargo) values
-("Jeffinho", "Jeffinho.botafogo@gmail.com", MD5("123456"),1 ,1, 1, 1);
+insert into funcionario (nome, email, senha, fkEmpresa, fkEquipe, fkCargo) values
+("Jeffinho", "Jeffinho.botafogo@gmail.com", MD5("123456"), 1, 1, 1);
 
 CREATE TABLE IF NOT EXISTS computador (
 idComputador INT PRIMARY KEY AUTO_INCREMENT,
 
-status TINYINT(1) DEFAULT 1,
+status INT DEFAULT 1,
 
 fkEquipe INT,
 CONSTRAINT fkEquipeComputador FOREIGN KEY(fkEquipe)
@@ -189,27 +186,9 @@ CONSTRAINT fkAlertaCaptura FOREIGN KEY(fkCaptura)
 REFERENCES captura(idCaptura)
 );
 
+select idFuncionario, nome, email, status, fkEmpresa, fkEquipe, fkCargo from funcionario;
+    
+select * from token;
+select * from funcionario;
 
-CREATE OR REPLACE VIEW view_computador_funcionario_equipe AS
-SELECT 
-    computador.idComputador,
-    computador.status,
-    computador.fkEquipe,
-    computador.fkEmpresa,
-    computador.fkFuncionario,
-    funcionario.nome AS nomeFuncionario,
-    equipe.nome AS nomeEquipe
-FROM computador
-JOIN funcionario ON computador.fkFuncionario = funcionario.idFuncionario
-JOIN equipe ON computador.fkEquipe = equipe.idEquipe;
-
-SELECT 
-    idComputador,
-    status,
-    fkEquipe,
-    fkEmpresa,
-    fkFuncionario,
-    nomeFuncionario,
-    nomeEquipe
-FROM view_computador_funcionario_equipe;
-
+UPDATE funcionario set status = 1 WHERE idFuncionario = 3;
