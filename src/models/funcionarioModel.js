@@ -5,7 +5,7 @@ function cadastrar(nome, email, idEquipe, token, fkEmpresa) {
     console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. function cadastrar()")
 
     // Validação do token
-    var validarToken = `SELECT token FROM Token WHERE token = "${token}" AND fkEmpresa = ${fkEmpresa};`;
+    var validarToken = `SELECT token FROM token WHERE token = "${token}" AND fkEmpresa = ${fkEmpresa};`;
 
     console.log("Executando a instrução SQL: \n" + validarToken);
 

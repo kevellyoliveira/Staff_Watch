@@ -10,8 +10,8 @@ import pytz
 
 config = {
     'user': 'root',
-    'password': '73917391',
-    'host': 'localhost',
+    'password': 'senha_segura',
+    'host': '44.194.151.184',
     'database': 'StaffWatch'
 }
 

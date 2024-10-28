@@ -341,7 +341,7 @@ header {
 
                 & .indicador {
                     width: 95%;
-                    height: 40%;
+                    /* height: 40%; */
                     background-color: rgba(96, 150, 186, 0.8);
                     border-radius: 10px;
                 }
@@ -370,7 +370,7 @@ header {
             }
 
             & h2 {
-                margin-top: 5px;
+                /* margin-top: 5px; */
                 font-size: 14px;
                 text-align: center;
                 color: white;
@@ -808,7 +808,7 @@ header {
 
 .dado h3,
 h2 {
-    padding: .5rem;
+    padding: .4rem;
     font-weight: 600;
     /* white-space: nowrap; impede a quebra de linha */
 }

@@ -61,7 +61,7 @@ function cadastrar(nomeEmp, cnpj, nomeRep, email, cargo, senha, token) {
                 .then(() => {
                     // Após inserir o funcionário, agora inserimos o token
                     var instrucaoSqlInserindoToken = `
-                        INSERT INTO Token (token, fkEmpresa) 
+                        INSERT INTO token (token, fkEmpresa) 
                         VALUES ('${token}', '${idEmpresa}');
                     `;
                     console.log("Executando a instrução SQL para inserir o token:\n" + instrucaoSqlInserindoToken);
