@@ -96,6 +96,25 @@ function deletar(req, res) {
 }
 
 
+function atualizarMaquina(req, res) {
+  var idComputador = req.params.idComputador;
+
+  maquinaModel.atualizarMaquina(idComputador)
+      .then(
+          function (resultado) {
+              res.json(resultado);
+          }
+      )
+      .catch(
+          function (erro) {
+              console.log(erro);
+              console.log("Houve um erro ao deletar o post: ", erro.sqlMessage);
+              res.status(500).json(erro.sqlMessage);
+          }
+      );
+}
+
+
 
 
 function listarEquipe(req, res) {
@@ -273,6 +292,7 @@ module.exports = {
   cadastrar,
   atualizar,
   deletar,
+  atualizarMaquina,
   cadastrarEquipe,
   removerEquipe,
   listarEquipe,

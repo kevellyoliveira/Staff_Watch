@@ -28,6 +28,11 @@ router.put("/deletar/:idComputador", function (req, res) {
   maquinaController.deletar(req, res);
 });
 
+// atualizar status da maquina
+router.put("/atualizarMaquina/:idComputador", function (req, res) {
+  maquinaController.atualizarMaquina(req, res);
+});
+
 
 router.get("/listarEquipe/:fkEmpresa", function (req, res) {
   maquinaController.listarEquipe(req, res);

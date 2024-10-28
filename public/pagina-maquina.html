@@ -317,7 +317,7 @@
                         btnEditar.id = "AbrirModal2_" + publicacao.idComputador; // ID único baseado no ID do funcionário
                         let idDaVez = publicacao.idComputador
                         btnEditar.addEventListener('click', function () {
-                            redirecionarParaEdicao(idDaVez); // Função que redireciona para a página de edição
+                            atualizarMaquina(idDaVez); // Função que redireciona para a página de edição
                         });
 
                         // Configurando o botão "Deletar"
@@ -355,15 +355,31 @@
 
 
 
-        function redirecionarParaEdicao(idComputador) {
+        function atualizarMaquina(idComputador) {
         // Redireciona o usuário para a página de edição com o ID do funcionário como parâmetro na URL
-        window.location.href = `editarFuncionario.html?id=${idComputador}`;
+        if (confirm("Tem a certeza de que deseja reativar esta máquina?")) {
+        fetch(`/maquinas/atualizarMaquina/${idComputador}`, {
+            method: "PUT"
+        })
+        .then(resposta => {
+            if (resposta.ok) {
+                alert("Máquina reativada com sucesso!");
+                atualizarFeed(); // Atualiza a lista após a exclusão
+            } else {
+                throw "Não foi possível reaativar a maquina";
+            }
+        })
+        .catch(error => {
+            console.error(error);
+            alert("Ocorreu um erro ao tentar reativar a maquina");
+        });
+    }
     }
 
 
 
         function deletar(idComputador) {
-    if (confirm("Tem a certeza de que deseja deletar este funcionário?")) {
+    if (confirm("Tem a certeza de que deseja desativar esta máquina?")) {
         fetch(`/maquinas/deletar/${idComputador}`, {
             method: "PUT"
         })
