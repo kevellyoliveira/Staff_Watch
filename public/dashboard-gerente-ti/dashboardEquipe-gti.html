@@ -45,8 +45,8 @@
         </div>
     </header>
     <div class="corpo">
-        <div class="menuLateral">
-            <div class="itens">
+        <div id="menuLateral" class="menuLateral">
+            <div id="equipes" class="itens">
                 <h4 id="0" onclick="window.location.href='dashboardGeral-gti.html'">Histórico</h4>
                 <h4 id="1" class="slc" onclick="selecionarItem(this)">Equipe 1</h4>
                 <h4 id="2" onclick="selecionarItem(this)">Equipe 2</h4>
@@ -477,6 +477,54 @@
 
 </html>
 <script>
+
+function listarEquipe() {
+
+var fkEmpresa = sessionStorage.ID_EMPRESA;
+
+fetch(`/maquinas/listarEquipe:${fkempresa}`)
+body: JSON.stringify({
+    fkEmpresaServer: fkEmpresa,
+})
+    .then(function (resposta) {
+        if (resposta.ok) {
+            if (resposta.status == 204) {
+                var equipeSlct = document.getElementById("equipe");
+                var mensagem = document.createElement("h4");
+                console.log("não foi")
+                mensagem.text = `Nenhuma equipe adicionada até o momento`;
+                equipeSlct.appendChild(mensagem);
+                throw "Nenhum resultado encontrado";
+            }
+
+
+            resposta.json().then(function (resposta) {
+
+
+                var equipeSlct = document.getElementById("equipes")
+                for (var index = 0; index < resposta.length; index++) {
+                    var equipe = resposta[index];
+
+                    var opt_equipe = document.createElement('div');
+                    // var nome_usuario = document.createElement("span");
+                    // var span_musica = document.createElement('span');
+
+                    opt_equipe.value = equipe.idEquipe;
+                    opt_equipe.text = `Equipe - ${equipe.idEquipe}`;
+                    // div_Funcionario.className = "card_funcionario";
+
+                    // div_Funcionario.appendChild(nome_usuario);
+                    // div_Funcionario.appendChild(span_musica);
+                    equipeSlct.add(opt_equipe);
+
+
+                }
+            })
+        }
+    })
+}
+
+
 
     function selecionarItem(elemento) {
         var id = elemento.id;  // Pega o ID da equipe clicada

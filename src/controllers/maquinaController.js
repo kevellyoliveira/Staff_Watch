@@ -165,6 +165,69 @@ function removerEquipe(req, res) {
   }
 }
 
+function atualizarEquipe(req, res) {
+  // var nomeComponente = req.body.nomeComponenteServer;
+  var idEquipe = req.body.idEquipeServer;
+  var nomeEquipe = req.body.nomeEquipeServer;
+  var setorEquipe = req.body.setorEquipeServer;
+  var fkEmpresa = req.body.fkEmpresaServer;
+
+  // if (nomeComponente == undefined) {
+  //   res.status(400).send("nomeComponente está undefined!");}
+  if (nomeEquipe == undefined) {
+    res.status(400).send("nomeEquipe está undefined!");
+  }if (setorEquipe == undefined) {
+    res.status(400).send("setorEquipe está undefined!");
+  }if (fkEmpresa == undefined) {
+    res.status(400).send("fkEmpresa está undefined!");
+  } if (idEquipe == undefined) {
+    res.status(400).send("idEquipe está undefined!");
+  }
+
+
+   else {
+    maquinaModel.atualizarEquipe(nomeEquipe, setorEquipe, fkEmpresa, idEquipe)
+      .then((resultado) => {
+        res.status(201).json(resultado);
+      }
+      ).catch((erro) => {
+        console.log(erro);
+        console.log(
+          "\nHouve um erro ao realizar o cadastro! Erro: ",
+          erro.sqlMessage
+        );
+        res.status(500).json(erro.sqlMessage);
+      });
+  }
+}
+
+function removerEquipe(req, res) {
+  // var nomeComponente = req.body.nomeComponenteServer;
+  var idEquipe = req.body.idEquipeServer;
+  
+
+  // if (nomeComponente == undefined) {
+  //   res.status(400).send("nomeComponente está undefined!");}
+  if (idEquipe == undefined) {
+    res.status(400).send("idEquipe está undefined!");
+  }
+
+   else {
+    maquinaModel.removerEquipe(idEquipe)
+      .then((resultado) => {
+        res.status(201).json(resultado);
+      }
+      ).catch((erro) => {
+        console.log(erro);
+        console.log(
+          "\nHouve um erro ao realizar o cadastro! Erro: ",
+          erro.sqlMessage
+        );
+        res.status(500).json(erro.sqlMessage);
+      });
+  }
+}
+
 
 
 
@@ -191,5 +254,6 @@ module.exports = {
   cadastrarEquipe,
   removerEquipe,
   listarEquipe,
-  listar
+  listar,
+  atualizarEquipe
 }

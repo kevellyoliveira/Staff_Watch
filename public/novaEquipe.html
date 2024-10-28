@@ -110,7 +110,7 @@
 
 <script>
 
-    
+    var fkCargo = sessionStorage.FK_CARGO;
 
     function abrirMenu() {
         if (document.getElementById("menu").style.display == "flex") {
@@ -199,8 +199,11 @@
 
                 if (resposta.ok) {
                     alert("Cadastro realizado com sucesso!");
-                    window.location.href = 'dashboardGeral.html';
-                }
+                    if(fkCargo == 3){
+                        window.location.href = "/dashboard-gerente-ti/dashboardGeral-gti.html";
+                    } else if (fkCargo == 2){
+                        window.location.href = "/dashboard-gerente-operacoes/dashboardGeral-go.html";
+                    }                }
                 else {
                     alert('Erro bizarro')
                     console.log(`#ERRO: ${resposta}`)
@@ -237,8 +240,13 @@
                 console.log("resposta: ", resposta);
 
                 if (resposta.ok) {
-                    alert("Cadastro realizado com sucesso!");
-                    window.location.href = 'dashboardGeral.html';
+                    alert("Remoção realizada com sucesso!");
+                    if(fkCargo == 3){
+                        window.location.href = "/dashboard-gerente-ti/dashboardGeral-gti.html";
+                    } else if (fkCargo == 2){
+                        window.location.href = "/dashboard-gerente-operacoes/dashboardGeral-go.html";
+                    }
+                    
                 }
                 else {
                     alert('Erro bizarro')

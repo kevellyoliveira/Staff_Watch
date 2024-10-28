@@ -37,4 +37,9 @@ router.post("/remover", function (req, res) {
   maquinaController.removerEquipe(req, res);
 })
 
+router.post("/atualizarEquipe", function (req, res) {
+  maquinaController.atualizarEquipe(req, res);
+})
+
+
 module.exports = router;
