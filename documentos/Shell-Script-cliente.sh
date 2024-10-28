@@ -30,7 +30,7 @@ fi
 sudo apt install docker.io -y
 
 echo "Instalando a imagem de Kotlin"
-sudo docker pull eduardomiyasaki/captura-kotlin-cliente:v1
+sudo docker pull eduardomiyasaki/captura-kotlin-cliente:v2
 
 echo "Instanciando o container, com a imagem do DockerHub (Kotlin)"
 sudo docker run -d -p 8081:8081 --name containerkotlincliente eduardomiyasaki/captura-kotlin-cliente:v2
