@@ -11,7 +11,7 @@
 
 </head>
 
-<body>
+<body onload="atualizarFeed()">
     <header>
         <div class="opcoes">
             <div class="esq">
@@ -45,7 +45,12 @@
             Dispositivos
         </h2>
     </article>
-    <main class="main-section">
+
+    <div class="funcs">
+        <div id="feed_container" class="feed-container"></div>
+    </div>
+
+    <!-- <main class="main-section">
         <section class="section-card">
             <div class="card open-modal">
                 <div class="up-card">
@@ -214,7 +219,7 @@
             </div>
         </div>
     </div>
-    <div id="fade" class="hide"></div>
+    <div id="fade" class="hide"></div> -->
 </body>
 </html>
 
@@ -230,5 +235,108 @@
     function sair() {
         sessionStorage.clear()
         window.location = "index.html"
+    }
+
+
+
+    function atualizarFeed() {
+        var fkEmpresa = sessionStorage.getItem("ID_EMPRESA")
+        console.log(fkEmpresa)
+        fetch(`/maquinas/listar/${fkEmpresa}`).then(function (resposta) {
+            if (resposta.ok) {
+                if (resposta.status == 204) {
+                    var feed = document.getElementById("feed_container");
+                    var mensagem = document.createElement("span");
+                    mensagem.innerHTML = "Nenhum resultado encontrado.";
+                    feed.appendChild(mensagem);
+                    throw "Nenhum resultado encontrado!!";
+                }
+
+                resposta.json().then(function (resposta) {
+                    console.log("Dados recebidos: ", JSON.stringify(resposta));
+
+                    var feed = document.getElementById("feed_container");
+                    feed.innerHTML = ""; // Limpa o conteúdo atual do feed
+                    for (let i = 0; i < resposta.length; i++) {
+                        var publicacao = resposta[i];
+
+                        // Criando e manipulando elementos do HTML via JavaScript
+                        var divPublicacao = document.createElement("div");
+                        var spanID = document.createElement("span");
+                        var spanTitulo = document.createElement("span");
+                        var spanNome = document.createElement("span");
+                        var divDescricao = document.createElement("div");
+
+
+                        var divButtons = document.createElement("div");
+                        var btnEditar = document.createElement("button");
+                        var btnDeletar = document.createElement("button");
+
+
+                        if (publicacao.status == 1) {
+                            var status = "Em atividade"
+                        }
+
+                        if (publicacao.status == 0) {
+                            var status = "Inativo"
+                        }
+
+                        // Definindo conteúdo dos elementos
+                        spanID.innerHTML = "<div class='id'> Id Máquina: <b>" + publicacao.idComputador + "</b> </div> <br>";
+                        spanTitulo.innerHTML = "Equipe: <b>" + publicacao.nomeEquipe+ "</b>";
+                        spanNome.innerHTML = "Funcionario: <b>" + publicacao.nomeFuncionario + "</b>";
+                        // divDescricao.innerHTML = "Status: <b>" + status + "</b>";
+
+                        if (publicacao.status == 1) {
+                            divDescricao.innerHTML = "Status: <b style='color: green;'>" + status + "</b>";
+
+                        }
+
+                        if (publicacao.status == 0) {
+                            divDescricao.innerHTML = "Status: <b style='color: red;'>" + status + "</b>";
+
+                        }
+
+                        // Configurando o botão "Editar"
+                        btnEditar.innerHTML = '<i class="fa-solid fa-pen"></i>'; // Ícone do botão
+                        btnEditar.className = "editar"; // Classe do botão
+                        btnEditar.id = "AbrirModal2_" + publicacao.idFuncionario; // ID único baseado no ID do funcionário
+                        let idDaVez = publicacao.idFuncionario
+                        btnEditar.addEventListener('click', function () {
+                            redirecionarParaEdicao(idDaVez); // Função que redireciona para a página de edição
+                        });
+
+                        // Configurando o botão "Deletar"
+                        btnDeletar.innerHTML = '<i class="fa-solid fa-trash"></i>'; // Ícone do botão
+                        btnDeletar.className = "deletar"; // Classe do botão
+                        btnDeletar.id = "btnDeletar_" + publicacao.idFuncionario; // ID único
+                        btnDeletar.addEventListener('click', function () {
+                            deletar(idDaVez); // Função 'deletar' com ID do funcionário
+                        });
+
+                        // Adicionando os botões ao container de botões
+                        divButtons.className = "div-buttons";
+                        divButtons.appendChild(btnEditar);
+                        divButtons.appendChild(btnDeletar);
+
+                        // Adicionando todos os elementos criados ao divPublicacao
+                        divPublicacao.className = "publicacao";
+                        divPublicacao.appendChild(spanID);
+                        divPublicacao.appendChild(spanNome);
+                        divPublicacao.appendChild(spanTitulo);
+                        divPublicacao.appendChild(divDescricao);
+                        divPublicacao.appendChild(divButtons);
+
+                        // Adicionando o card de publicacao ao feed
+                        feed.appendChild(divPublicacao);
+                    }
+
+                });
+            } else {
+                throw ('Houve um erro na API!');
+            }
+        }).catch(function (resposta) {
+            console.error(resposta);
+        });
     }
 </script>

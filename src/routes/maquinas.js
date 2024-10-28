@@ -18,6 +18,12 @@ router.put("/atualizar", function (req, res) {
   maquinaController.cadastrar(req, res);
 })
 
+// lista todos os funcionários da empresa
+router.get("/listar/:fkEmpresa", function (req, res) {
+  maquinaController.listar(req, res);
+});
+
+
 router.get("/listarEquipe/:fkEmpresa", function (req, res) {
   maquinaController.listarEquipe(req, res);
 })
