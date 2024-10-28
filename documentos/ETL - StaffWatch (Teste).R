@@ -46,12 +46,15 @@ data_to_db <- data_processed %>%
          dados_mb = valor_megabytes,
          computador = fkComputador)
 
+data_to_db$data_captura
+View(data_to_db)
+data_to_db$data_captura
 # Inserir os dados linha por linha no banco de dados
 for (i in 1:nrow(data_to_db)) {
   query_insert <- sprintf("INSERT INTO grafico_trafego_rede (data_captura, dados_mb, computador) VALUES ('%s', %f, %d)",
                           data_to_db$data_captura[i],
                           data_to_db$dados_mb[i],
-                          data_to_db$computador[i])
+                          1)
   dbSendQuery(con, query_insert)
 }
 
