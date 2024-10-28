@@ -138,7 +138,7 @@ insert into funcionario (nome, email, senha,status ,fkEmpresa, fkEquipe, fkCargo
 CREATE TABLE IF NOT EXISTS computador (
 idComputador INT PRIMARY KEY AUTO_INCREMENT,
 
-ativo BOOLEAN DEFAULT FALSE,
+status TINYINT(1) DEFAULT 1,
 
 fkEquipe INT,
 CONSTRAINT fkEquipeComputador FOREIGN KEY(fkEquipe)
