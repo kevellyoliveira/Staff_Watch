@@ -1,6 +1,5 @@
 CREATE DATABASE IF NOT EXISTS StaffWatch;
 USE StaffWatch;
-
 -- drop database staffwatch;
 
 
@@ -59,21 +58,16 @@ nomeEmp VARCHAR(45)
 insert into empresa (cnpj, nomeEmp) values
 ("123456789123456789", "Falla");
 
-CREATE TABLE IF NOT EXISTS selecionadosParaMonitoramento (
-selecionado bit null,
-
-
-fkempresa int,
-constraint fkEmpresaSelecionadosParaMonitoramento foreign key(fkEmpresa)
-references empresa(idEmpresa),
-
-fkComponente int,
-constraint fkComponenteSelecionadosParaMonitoramento foreign key(fkComponente)
-references componente(idComponente),
-
-primary key (fkEmpresa, fkComponente)
-
-);
+-- CREATE TABLE IF NOT EXISTS selecionadosParaMonitoramento (
+-- selecionado bit null,
+-- fkempresa int,
+-- constraint fkEmpresaSelecionadosParaMonitoramento foreign key(fkEmpresa)
+-- references empresa(idEmpresa),
+-- fkComponente int,
+-- constraint fkComponenteSelecionadosParaMonitoramento foreign key(fkComponente)
+-- references componente(idComponente),
+-- primary key (fkEmpresa, fkComponente)
+-- );
 
 
 CREATE TABLE IF NOT EXISTS token (
