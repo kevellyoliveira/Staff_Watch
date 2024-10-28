@@ -117,10 +117,10 @@
                         sessionStorage.ID_EMPRESA = json.fkEmpresa;
                         sessionStorage.FK_CARGO = json.fkCargo;
                         if(json.fkCargo == 3){
-                            window.location.href = "dashboardGeral-gti.html";
+                            window.location.href = "/dashboard-gerente-ti/dashboardGeral-gti.html";
                             console.log(`idUser: ${ID_USUARIO}\n email: ${NOME_USUARIO}\n nome: ${NOME_USUARIO}\n idEmpresa: ${ID_EMPRESA}\n fkCargo: ${FK_CARGO}`)
                         } else if (json.fkCargo == 2){
-                            window.location.href = "dashboardGeral-go.html";
+                            window.location.href = "/dashboard-gerente-operacoes/dashboardGeral-go.html";
                             console.log(`idUser: ${ID_USUARIO}\n email: ${NOME_USUARIO}\n nome: ${NOME_USUARIO}\n idEmpresa: ${ID_EMPRESA}\n fkCargo: ${FK_CARGO}`)
                         }
                         
