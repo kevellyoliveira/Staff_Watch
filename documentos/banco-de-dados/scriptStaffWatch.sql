@@ -189,3 +189,27 @@ CONSTRAINT fkAlertaCaptura FOREIGN KEY(fkCaptura)
 REFERENCES captura(idCaptura)
 );
 
+
+CREATE OR REPLACE VIEW view_computador_funcionario_equipe AS
+SELECT 
+    computador.idComputador,
+    computador.status,
+    computador.fkEquipe,
+    computador.fkEmpresa,
+    computador.fkFuncionario,
+    funcionario.nome AS nomeFuncionario,
+    equipe.nome AS nomeEquipe
+FROM computador
+JOIN funcionario ON computador.fkFuncionario = funcionario.idFuncionario
+JOIN equipe ON computador.fkEquipe = equipe.idEquipe;
+
+SELECT 
+    idComputador,
+    status,
+    fkEquipe,
+    fkEmpresa,
+    fkFuncionario,
+    nomeFuncionario,
+    nomeEquipe
+FROM view_computador_funcionario_equipe;
+

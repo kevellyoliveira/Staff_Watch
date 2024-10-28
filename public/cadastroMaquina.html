@@ -58,6 +58,12 @@
                     </div>
                 </div>
 
+                <span id="alertFuncionario" class="msgAlerta"></span>
+                <div class="input-field">
+                    <input type="text" name="Funcionario" id="funcionario_input" required="required" autocomplete="off"
+                        placeholder="ID do funcionário" oninput="exibirLegenda(this)">
+                </div>
+
                 <span id="alertToken" class="msgAlerta"></span>
                 <div class="input-field token">
                     <input type="text" name="Token" id="token_input" required="required" autocomplete="off"
@@ -130,6 +136,7 @@
     function cadastrar(req, res) {
         let idEquipe = equipe_input.value;
         let token = token_input.value;
+        let idFuncionario = funcionario_input.value;
         var idEmpresa = sessionStorage.ID_EMPRESA;
         console.log("id empresa: ", idEmpresa);
         
@@ -137,6 +144,7 @@
 
         alertToken.innerHTML = '';
         alertEquipe.innerHTML = '';
+        alertFuncionario.innerHTML = '';
 
         // let formulario = document.getElementById('formulario');
         // tira o padrão de apagar o cosnteúdo da tela quando clicar em enviar o formulário
@@ -163,6 +171,7 @@
                         // crie um atributo que recebe o valor recuperado aqui
                         // Agora vá para o arquivo routes/usuario.js
                         idEquipeServer: idEquipe,
+                        idFuncionarioServer: idFuncionario,
                         tokenServer: token,
                         fkEmpresaServer: idEmpresa,
                     }),
@@ -172,7 +181,7 @@
 
                         if (resposta.ok) {
                             alert("Cadastro realizado com sucesso!");
-                            window.location.href = 'dashboardEquipe.html';
+                            window.location.href = 'dashboardEquipe-gti.html';
                         } 
                         else {
                             alert('Erro bizarro')

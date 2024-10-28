@@ -19,6 +19,7 @@ var maquinaModel = require("../models/maquinaModel");
 // essa é a função de cadastrar novas máquinas em uma equipe;
 function cadastrar(req, res) {
   var idEquipe = req.body.idEquipeServer;
+  var idFuncionario = req.body.idFuncionarioServer;
   var token = req.body.tokenServer;
   var fkEmpresa = req.body.fkEmpresaServer;
 
@@ -31,7 +32,7 @@ function cadastrar(req, res) {
   }
 
    else {
-    maquinaModel.cadastrar(idEquipe, token, fkEmpresa)
+    maquinaModel.cadastrar(idEquipe, idFuncionario, token, fkEmpresa)
       .then((resultado) => {
         res.status(201).json(resultado);
       }
@@ -48,6 +49,7 @@ function cadastrar(req, res) {
 
 function atualizar(req, res) {
   var idEquipe = req.body.idEquipeServer;
+  
   var token = req.body.tokenServer;
   var fkEmpresa = req.body.fkEmpresaServer;
 

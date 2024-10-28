@@ -10,7 +10,7 @@ var database = require("../database/config");
 //  }
 
 
-function cadastrar(idEquipe, token, fkEmpresa) {
+function cadastrar(idEquipe, idFuncionario, token, fkEmpresa) {
 
     // Validação do token
     var validarToken = `SELECT token FROM token WHERE token = "${token}" AND fkEmpresa = ${fkEmpresa};`;
@@ -25,7 +25,7 @@ function cadastrar(idEquipe, token, fkEmpresa) {
             }
 
             // Inserção na tabela computador
-            var instrucaoSqlFuncionario = `INSERT INTO computador (fkEquipe, fkEmpresa) VALUES (${idEquipe}, ${fkEmpresa});`;
+            var instrucaoSqlFuncionario = `INSERT INTO computador (status, fkEquipe, fkEmpresa, fkFuncionario) VALUES (default, ${idEquipe}, ${fkEmpresa}, ${idFuncionario});`;
 
             console.log("Executando a instrução SQL para inserir computador:\n" + instrucaoSqlFuncionario);
             
