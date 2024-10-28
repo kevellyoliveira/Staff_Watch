@@ -13,7 +13,7 @@ var database = require("../database/config");
 function cadastrar(idEquipe, token, fkEmpresa) {
 
     // Validação do token
-    var validarToken = `SELECT token FROM Token WHERE token = "${token}" AND fkEmpresa = ${fkEmpresa};`;
+    var validarToken = `SELECT token FROM token WHERE token = "${token}" AND fkEmpresa = ${fkEmpresa};`;
 
     console.log("Executando a instrução SQL: \n" + validarToken);
     

@@ -132,8 +132,8 @@ CONSTRAINT fkCargoFuncionario FOREIGN KEY(fkCargo)
 REFERENCES cargo(idCargo)
 );
 
-insert into funcionario (nome, email, senha, ativo ,fkEmpresa, fkEquipe, fkCargo) values
-("Jeffinho", "Jeffinho.botafogo@gmail.com", MD5("123456"),TRUE ,1, 1, 1);
+insert into funcionario (nome, email, senha,status ,fkEmpresa, fkEquipe, fkCargo) values
+("Jeffinho", "Jeffinho.botafogo@gmail.com", MD5("123456"),1 ,1, 1, 1);
 
 CREATE TABLE IF NOT EXISTS computador (
 idComputador INT PRIMARY KEY AUTO_INCREMENT,
