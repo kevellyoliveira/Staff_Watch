@@ -132,6 +132,15 @@
         window.location = "index.html"
     }
 
+    var fkCargo= sessionStorage.FK_CARGO;
+
+    function levarParaDashboard() {
+        if (fkCargo == 3) {
+            window.location.href = "/dashboard-gerente-ti/dashboardGeral-gti.html";
+        } else if (fkCargo == 2) {
+            window.location.href = "/dashboard-gerente-operacoes/dashboardGeral-go.html";
+        }
+    }
 
     function cadastrar(req, res) {
         let idEquipe = equipe_input.value;

@@ -298,6 +298,19 @@ h1 {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adiciona uma sombra suave */
 }
 
+.slct1 {
+    width: calc(100% - 0px);
+    padding: 7px;
+    height: 40px;
+    border: 2.5px solid #002148;
+    background: transparent;
+    border-radius: 5px;
+    outline: none;
+    justify-content: center;
+    color: #002148;
+    font-size: 1em;
+}
+
 /* Define que as duas partes ocupam metade da largura da div principal */
 .esqr, .dire {
     flex: 1; /* Cada uma ocupa 50% do espaço */

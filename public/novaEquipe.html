@@ -1,111 +1,125 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro | Staff Watch</title>
-    <link rel="stylesheet" href="./css/cadastroEquipe.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" />
+    <link rel="stylesheet" href="css/cadastroMaquina.css">
+    <!-- <link rel="stylesheet" href="css/cadastroEquipe.css"> -->
     <link rel="shortcut icon" href="src/img/logoB.png" type="image/x-icon" />
 
+
+    <title>Cadastrar | Staff Watch</title>
 </head>
 
-<body onload="">
+<body>
     <header>
         <div class="opcoes">
             <div class="esq">
-                <div class="logoHeader">
+                <div class="logo">
                     <img href="index.html" src="src/img/logoB.png" alt="logo">
                 </div>
 
                 <div class="opcoesComponentes" id="itens">
-                    <h6 class="opcoesMenu" onclick="window.location.href='dashboardGeral.html'">Home</h6>
-                    <h6 class="opcoesMenu associMenu"  onclick="abrirMenu()">Associados <img src="src/img/icons/seta.png"
-                            alt="icone menu vertical"></h6>
-                    <h6 class="opcoesMenu " onclick="window.location.href='cadastroFuncionario.html'">Cadastrar</h6>
+                    <h6 class="opcoesMenu" onclick="levarParaDashboard()">Home</h6>
+                    <h6 class="opcoesMenu associMenu" onclick="abrirMenu()">Associados <img
+                            src="src/img/icons/seta.png" alt="icone menu vertical"></h6>
+                    <h6 class="opcoesMenu slct" onclick="window.location.href='cadastroFuncionario.html'">Cadastrar
+                    </h6>
                     <div id="menu">
                         <h4 onclick="window.location.href='pagina-operario2.html'">Funcionários</h4>
-                        <h4 onclick="window.location.href='pagina-maquina.html'">Dispositivos</h4> 
+                        <h4 onclick="window.location.href='pagina-maquina.html'">Dispositivos</h4>
+                        <h4 onclick="window.location.href='cadastroEquipe.html'">Equipe</h4>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="sair">
-            <h6 class="opcoesMenu sair" onclick="sair()"> Sair </h6>
-        </div>
+            <div class="sair">
+                <h6 class="opcoesMenu sair" onclick="sair()"> Sair </h6>
+            </div>
         </div>
     </header>
+
     <!-- Início do corpo da página -->
 
     <section class="sessao-inicial">
-        <!-- Seção que agrupa o conteúdo visual e o formulário de cadastro -->
-
-        <article class="bloco-SW">
-            <!-- Bloco que contém a logo e o botão para acesso -->
-
-            <div class="logo">
-                <!-- Contêiner para a imagem da logo -->
-
-                <img src="src/img/logoB.png" alt="Logo Staff Watch">
-                <!-- Imagem da logo com o caminho especificado e texto alternativo para acessibilidade -->
-            </div>
-
-            <!-- <p>Para se manter conectado entre</p>
-            <p>com suas informações pessoais</p>
-             Parágrafos que fornecem uma mensagem de introdução 
-
-            <a href="login.html"><button class="botao-entrar"><b>Entrar</b></button></a> -->
-            <!-- Botão para entrar na página, estilizado com a classe `botao-entrar` e com o texto em negrito -->
-        </article>
 
         <article class="sessao-cadastro">
+
             <div class="form-container">
-                <h1>Selecione a equipe a ser cadastrada</h1>
 
-                <!-- <div class="input-wrapper">
-                    <span id="alertToken" class="msgAlerta"></span>
-                    <span class="token-span pholder">Token de Acesso</span>
-                    <div class="input-field">
-                        <input type="text" name="Token" id="token_input" required="required" autocomplete="off"
-                            placeholder="Token de acesso" oninput="exibirLegenda(this)">
-                    </div>
-                </div> -->
+                <h1>Cadastrar Equipe</h1>
 
-
-
-                <div class="input-field">
+                <div class="input-wrapper">
                     <span id="alertEquipe" class="msgAlerta"></span>
-                    <input type="text" placeholder="Nome da equipe" id="equipe_input">
+                    <!-- <span class="nome-span pholder">Equipe </span> -->
+                    <div class="input-field">
+                        <span id="alertEquipe" class="msgAlerta"></span>
+                        <input type="text" placeholder="Nome da equipe" id="equipe_input">
+                    </div>
+    
+                   
                 </div>
 
+                <span id="alertFuncionario" class="msgAlerta"></span>
                 <div class="input-field">
                     <span id="alertSetor" class="msgAlerta"></span>
                     <input type="text" placeholder="Setor da equipe" id="setor_input">
                 </div>
 
-                <!-- <div class="input-wrapper">
-                    <span id="alertSenha" class="msgAlerta"></span>
-                    <span class="senha-span pholder">Sua senha</span>
-                    <div class="input-field">
-                        <input type="password" name="Senha" id="senha_input" required="required" autocomplete="off"
-                            placeholder="Sua senha" oninput="exibirLegenda(this)">
-                    </div>
+                <!-- <span id="alertToken" class="msgAlerta"></span>
+                <div class="input-field token">
+                    <input type="text" name="Token" id="token_input" required="required" autocomplete="off"
+                        placeholder="Token de permissão" oninput="exibirLegenda(this)">
                 </div> -->
 
-                <!-- <div class="input-wrapper">
-                    <span id="alertConfirmSenha" class="msgAlerta"></span>
-                    <span class="confirmSenha-span pholder">Confirmar Senha</span>
-                    <div class="input-field">
-                        <input type="password" name="Confirmar Senha" id="confirmSenha_input" required="required"
-                            autocomplete="off" placeholder="Confirmar Senha" oninput="exibirLegenda(this)">
-                    </div>
+                <!-- <div class="input-field">
+                    <input type="text" name="Modelo" id="modelo_input" required="required" autocomplete="off"
+                        placeholder="Modelo (desktop, laptop...)">
+                </div>
+
+                <div class="input-field">
+                    <input type="text" name="Cpu" id="cpu_input" required="required" autocomplete="off"
+                        placeholder="Modelo da CPU">
+                </div>
+
+                <div class="input-field">
+                    <input type="text" name="Ram" id="ram_input" required="required" autocomplete="off"
+                        placeholder="Memória RAM (GB)">
+                </div>
+
+                <div class="input-field">
+                    <input type="text" name="Armazenamento" id="armazenamento_input" required="required" autocomplete="off"
+                        placeholder="Armazenamento (GB)">
+                </div>
+
+                <div class="input-field">
+                    <input type="text" name="SistemaOperacional" id="sistemaOperacional_input" required="required" autocomplete="off"
+                        placeholder="Sistema Operacional">
                 </div> -->
-                <button class="botao-cadastrar" type="submit" onclick="cadastrarEquipe()">Cadastrar</button>
-                
+
+
+                <button class="botao-cadastrar" type="submit" onclick="cadastrar()">Cadastrar</button>
             </div>
         </article>
-    </section>
-</body>
 
+        <article class="bloco-SW">
+            <div class="logoE">
+                <img src="src/img/logoB.png" alt="Logo Staff Watch">
+            </div>
+        </article>
+        <div class="alternarCadastro">
+            <div class="esqr">
+                <h3 onclick="window.location.href='novaEquipe.html'">Cadastrar</h3>
+            </div>
+            <div class="dire">
+                <h3 onclick="window.location.href='cadastroEquipe.html'">Remover</h3>
+            </div>
+        </div>
+    </section>
+
+</body>
 </html>
 
 <script>
@@ -257,6 +271,14 @@
                 console.log(`#ERRO: ${resposta}`);
             });
         return false;
+    }
+    function levarParaDashboard() {
+        if(fkCargo == 3){
+                        window.location.href = "/dashboard-gerente-ti/dashboardGeral-gti.html";
+                    } else if (fkCargo == 2){
+                        window.location.href = "/dashboard-gerente-operacoes/dashboardGeral-go.html";
+                    }
+
     }
 
 </script>

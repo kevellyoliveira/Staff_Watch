@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro | Staff Watch</title>
+    <title>Editar | Staff Watch</title>
 
 
     <link rel="stylesheet" href="./css/telaListas.css">
@@ -114,6 +114,8 @@
             console.log(`#ERRO: ${resposta}`);
         });
     }
+
+    var fkCargo= sessionStorage.FK_CARGO;
 
     function levarParaDashboard() {
         if (fkCargo == 3) {

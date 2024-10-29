@@ -1,185 +1,223 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+<!<!DOCTYPE html>
+    <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro | Staff Watch</title>
-    <link rel="stylesheet" href="./css/cadastroEquipe.css">
-    <link rel="shortcut icon" href="src/img/logoB.png" type="image/x-icon" />
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" />
+        <link rel="stylesheet" href="css/cadastroFuncionario.css">
+        <!-- <link rel="stylesheet" href="css/cadastroEquipe.css"> -->
+        <link rel="shortcut icon" href="src/img/logoB.png" type="image/x-icon" />
 
-<body>
-    <header>
-        <div class="opcoes">
-            <div class="esq">
-                <div class="logoHeader">
-                    <img href="index.html" src="src/img/logoB.png" alt="logo">
+
+        <title>Cadastro | Staff Watch</title>
+    </head>
+
+    <body>
+        <header>
+            <div class="opcoes">
+                <div class="esq">
+                    <div class="logo">
+                        <img href="index.html" src="src/img/logoB.png" alt="logo">
+                    </div>
+
+                    <div class="opcoesComponentes" id="itens">
+                        <h6 class="opcoesMenu" onclick="levarParaDashboard()">Home</h6>
+                        <h6 class="opcoesMenu associMenu" onclick="abrirMenu()">Associados <img
+                                src="src/img/icons/seta.png" alt="icone menu vertical"></h6>
+                        <h6 class="opcoesMenu slct" onclick="window.location.href='cadastroFuncionario.html'">Cadastrar
+                        </h6>
+                        <div id="menu">
+                            <h4 onclick="window.location.href='pagina-operario2.html'">Funcionários</h4>
+                            <h4 onclick="window.location.href='pagina-maquina.html'">Dispositivos</h4>
+                            <h4 onclick="window.location.href='cadastroEquipe.html'">Equipe</h4>
+                        </div>
+                    </div>
                 </div>
-                <div class="opcoesComponentes" id="itens">
-                    <h6 class="opcoesMenu" onclick="levarParaDashboard()">Home</h6>
-                    <h6 class="opcoesMenu associMenu" onclick="abrirMenu()">Associados <img src="src/img/icons/seta.png"
-                            alt="icone menu vertical"></h6>
-                    <h6 class="opcoesMenu" onclick="window.location.href='cadastroFuncionario.html'">Cadastrar</h6>
-                    <div id="menu">
-                        <h4 onclick="window.location.href='pagina-operario2.html'">Funcionários</h4>
-                        <h4 onclick="window.location.href='pagina-maquina.html'">Dispositivos</h4> 
+                <div class="sair">
+                    <h6 class="opcoesMenu sair" onclick="sair()"> Sair </h6>
                 </div>
+            </div>  
+        </header>
+
+        <!-- Início do corpo da página -->
+
+        <section class="sessao-inicial">
+            <article class="bloco-SW">
+                <div class="logoE">
+                    <img src="src/img/logoB.png" alt="Logo Staff Watch">
+                </div>
+            </article>
+            <div class="alternarCadastro">
+                <div class="esqr">
+                    <h3 onclick="window.location.href='novaEquipe.html'">Cadastrar</h3>
+                </div>
+                <div class="dire">
+                    <h3 onclick="window.location.href='cadastroEquipe.html'">Remover</h3>
                 </div>
             </div>
-        </div>
-        <div class="sair">
-            <h6 class="opcoesMenu sair" onclick="sair()"> Sair </h6>
-        </div>
-    </header>
 
-    <!-- Início do corpo da página -->
-    <section class="sessao-inicial">
-        <article class="bloco-SW">
-            <div class="logo">
-                <img src="src/img/logoB.png" alt="Logo Staff Watch">
-            </div>
-            <!-- <p>Para se manter conectado entre</p>
-            <p>com suas informações pessoais</p>
-            <a href="login.html"><button class="botao-entrar"><b>Entrar</b></button></a> -->
-        </article>
+            <article class="sessao-cadastro">
 
-        <article class="sessao-cadastro">
-            <div class="form-container">
-                <h1>Selecione a equipe a ser removida</h1>
-                <div class="input-wrapper">
-                    <span id="alertCargo" class="msgAlerta"></span>
-                    <select class="input-field slct" id="equipe_select">
-                        <option value="#" selected disabled>Selecione a equipe</option>
-                    </select>
+                <div class="form-container">
+
+                    <h1>Remover Equipe</h1>
+
+                    <!-- <span id="alertNome" class="msgAlerta"></span>
+                <div class="input-field">
+                    <input type="text" name="Nome" id="name_input" required="required" autocomplete="off"
+                        placeholder="Nome">
                 </div>
-                <!-- <button class="botao-cadastrar" type="submit" onclick="">Atualizar</button> -->
-                <button class="botao-cadastrar" type="submit" onclick="removerEquipe()">Remover</button>
-            </div>
-        </article>
-    </section>
-</body>
 
-<script>
-    
+                <span id="alertEmail" class="msgAlerta"></span>
+                <div class="input-field">
+                    <input type="email" name="Email" id="email_input" required="required" autocomplete="off"
+                        placeholder="Email">
+                </div> -->
 
-    window.onload = function () {
-        listarEquipe();
-    };
+                    <!-- <div class="input-field">
+                    <input type="text" name="idMaquina" id="idMaquina_input" required="required" autocomplete="off"
+                        placeholder="ID da Máquina">
+                </div> -->
+                    <div class="input-field">
+                        <span id="alertEquipe" class="msgAlerta"></span>
+                        <select class="input-field slct1" id="equipe_select">
+                            <option value="#" selected disabled>Selecione a equipe</option>
+                        </select>
+                    </div>
+                    <br>
+                    <br>
+                    <br>
+                    <!-- <button class="botao-cadastrar" type="submit" onclick="">Atualizar</button> -->
+                    <button class="botao-cadastrar" type="submit" onclick="removerEquipe()">Remover</button>
+                </div>
+            </article>
+        </section>
+    </body>
 
-    function abrirMenu() {
-        var menu = document.getElementById("menu");
-        menu.style.display = menu.style.display == "flex" ? "none" : "flex";
-    }
 
-    function sair() {
-        sessionStorage.clear();
-        window.location = "index.html";
-    }
+    <script>
 
-    function listarEquipe() {
-        var fkEmpresa = sessionStorage.ID_EMPRESA;
-        fetch(`/maquinas/listarEquipe/${fkEmpresa}`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            }
-        })
-        .then(function (resposta) {
-            if (resposta.ok) {
-                if (resposta.status == 204) {
-                    var equipeSlct = document.getElementById("equipe_select");
-                    var mensagem = document.createElement("option");
-                    mensagem.text = `Nenhuma equipe adicionada até o momento`;
-                    equipeSlct.add(mensagem);
-                    throw "Nenhum resultado encontrado";
+        var fkCargo = sessionStorage.FK_CARGO;
+
+        window.onload = function () {
+            listarEquipe();
+        };
+
+        function abrirMenu() {
+            var menu = document.getElementById("menu");
+            menu.style.display = menu.style.display == "flex" ? "none" : "flex";
+        }
+
+        function sair() {
+            sessionStorage.clear();
+            window.location = "index.html";
+        }
+
+        function listarEquipe() {
+            var fkEmpresa = sessionStorage.ID_EMPRESA;
+            fetch(`/maquinas/listarEquipe/${fkEmpresa}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
                 }
-                return resposta.json();
-            }
-        })
-        .then(function (resposta) {
-            console.log(resposta)
-            var equipeSlct = document.getElementById("equipe_select");
-            var index = 0;
-             resposta.forEach(function (equipe) {
-                 var equipe = resposta[index];
-                 var opt_equipe = document.createElement('option');
-                 opt_equipe.value = equipe.idEquipe;
-                 opt_equipe.text = `Equipe ${equipe.nome} ${equipe.idEquipe - 1} -- ${equipe.setor}`;
-                 equipeSlct.add(opt_equipe);
-                 index ++;
-             });
-        })
-        .catch(function (erro) {
-            console.log(erro);
-        });
-    }
-
-    function cadastrarEquipe(req, res) {
-        var equipe = equipe_select.value;
-        var idEmpresa = sessionStorage.ID_EMPRESA;
-
-        fetch("maquinas/cadastrarEquipe", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                fkEmpresaServer: idEmpresa,
-                componenteServer: componente,
-            }),
-        })
-        .then(function (resposta) {
-            if (resposta.ok) {
-                alert("Cadastro realizado com sucesso!");
-                if(fkCargo == 3){
-                        window.location.href = "/dashboard-gerente-ti/dashboardGeral-gti.html";
-                    } else if (fkCargo == 2){
-                        window.location.href = "/dashboard-gerente-operacoes/dashboardGeral-go.html";
+            })
+                .then(function (resposta) {
+                    if (resposta.ok) {
+                        if (resposta.status == 204) {
+                            var equipeSlct = document.getElementById("equipe_select");
+                            var mensagem = document.createElement("option");
+                            mensagem.text = `Nenhuma equipe adicionada até o momento`;
+                            equipeSlct.add(mensagem);
+                            throw "Nenhum resultado encontrado";
+                        }
+                        return resposta.json();
                     }
-            } else {
-                alert('Erro bizarro');
-            }
-        })
-        .catch(function (resposta) {
-            console.log(`#ERRO: ${resposta}`);
-        });
-        return false;
-    }
+                })
+                .then(function (resposta) {
+                    console.log(resposta)
+                    var equipeSlct = document.getElementById("equipe_select");
+                    var index = 0;
+                    resposta.forEach(function (equipe) {
+                        var equipe = resposta[index];
+                        var opt_equipe = document.createElement('option');
+                        opt_equipe.value = equipe.idEquipe;
+                        opt_equipe.text = `Equipe ${equipe.nome} ${equipe.idEquipe - 1} -- ${equipe.setor}`;
+                        equipeSlct.add(opt_equipe);
+                        index++;
+                    });
+                })
+                .catch(function (erro) {
+                    console.log(erro);
+                });
+        }
 
-    function removerEquipe(req, res) {
-        var idEquipe = equipe_select.value;
-        var idEmpresa = sessionStorage.ID_EMPRESA;
+        function cadastrarEquipe(req, res) {
+            var equipe = equipe_select.value;
+            var idEmpresa = sessionStorage.ID_EMPRESA;
 
-        fetch("maquinas/remover", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                // fkEmpresaServer: idEmpresa,
-                idEquipeServer: idEquipe,
-            }),
-        })
-        .then(function (resposta) {
-            if (resposta.ok) {
-                alert("Equipe removida com sucesso!");
-                if(fkCargo == 3){
-                        window.location.href = "/dashboard-gerente-ti/dashboardGeral-gti.html";
-                    } else if (fkCargo == 2){
-                        window.location.href = "/dashboard-gerente-operacoes/dashboardGeral-go.html";
-                    }            
-                } else {
-                alert('Erro bizarro');
-            }
-        })
-        .catch(function (resposta) {
-            console.log(`#ERRO: ${resposta}`);
-        });
-        return false;
-    }
+            fetch("maquinas/cadastrarEquipe", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    fkEmpresaServer: idEmpresa,
+                    componenteServer: componente,
+                }),
+            })
+                .then(function (resposta) {
+                    if (resposta.ok) {
+                        alert("Cadastro realizado com sucesso!");
+                        if (fkCargo == 3) {
+                            window.location.href = "/dashboard-gerente-ti/dashboardGeral-gti.html";
+                        } else if (fkCargo == 2) {
+                            window.location.href = "/dashboard-gerente-operacoes/dashboardGeral-go.html";
+                        }
+                    } else {
+                        alert('Erro bizarro');
+                    }
+                })
+                .catch(function (resposta) {
+                    console.log(`#ERRO: ${resposta}`);
+                });
+            return false;
+        }
 
-    function levarParaDashboard() {
+        function removerEquipe(req, res) {
+            var idEquipe = equipe_select.value;
+            var idEmpresa = sessionStorage.ID_EMPRESA;
+
+            fetch("maquinas/remover", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    // fkEmpresaServer: idEmpresa,
+                    idEquipeServer: idEquipe,
+                }),
+            })
+                .then(function (resposta) {
+                    if (resposta.ok) {
+                        alert("Equipe removida com sucesso!");
+                        if (fkCargo == 3) {
+                            window.location.href = "/dashboard-gerente-ti/dashboardGeral-gti.html";
+                        } else if (fkCargo == 2) {
+                            window.location.href = "/dashboard-gerente-operacoes/dashboardGeral-go.html";
+                        }
+                    } else {
+                        alert('Erro bizarro');
+                    }
+                })
+                .catch(function (resposta) {
+                    console.log(`#ERRO: ${resposta}`);
+                });
+            return false;
+        }
+
+        function levarParaDashboard() {
         if(fkCargo == 3){
                         window.location.href = "/dashboard-gerente-ti/dashboardGeral-gti.html";
                     } else if (fkCargo == 2){
@@ -187,6 +225,7 @@
                     }
 
     }
-</script>
+        
+    </script>
 
-</html>
+    </html>
