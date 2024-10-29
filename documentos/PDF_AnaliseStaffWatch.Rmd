@@ -1,0 +1,67 @@
+---
+title: "Relatório StaffWatch"
+author: "Equipe Staff Watch"
+date: "2024-10-29"
+output: pdf_document
+---
+
+# Introdução
+
+Este relatório apresenta uma análise do tráfego de rede capturado por diversos computadores monitorados, incluindo o volume de dados enviados e recebidos ao longo do tempo.
+
+```{r setup, include=FALSE}
+# Configurações iniciais e carregamento de pacotes
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+library(RMySQL)
+library(dplyr)
+library(ggplot2)
+library(reshape2)
+library(knitr)
+library(kableExtra)
+
+# Conectar ao banco de dados
+con <- dbConnect(MySQL(), user='root', password='Crfsruan1', dbname='StaffWatch', host='localhost')
+
+
+# Consultar os dados de captura de rede
+query <- "SELECT ca.dataCaptura, 
+       ac.unidadeMedida AS tipo_rede, 
+       ca.captura AS valor_bytes,
+       ca.fkComputador
+FROM captura ca
+INNER JOIN auxComponente ac ON ca.fkAuxComponente = ac.idAuxComponente
+WHERE ac.unidadeMedida IN ('redeEnvio', 'redeRecebidos')
+ORDER BY ca.fkComputador, ca.dataCaptura;"
+
+data_raw <- dbGetQuery(con, query)
+
+
+# Exibir a tabela dos dados extraídos com formatação
+kable(data_raw, format = "latex", booktabs = TRUE, caption = "Dados do Sistema") %>%
+  kable_styling(latex_options = "striped", full_width = FALSE)
+
+
+# Transformar os dados
+data_processed <- data_raw %>%
+  mutate(valor_bytes = as.numeric(valor_bytes), # Converter para numérico
+         valor_megabytes = valor_bytes / (1024^2)) # Convertendo bytes para MB
+
+
+# Análise descritiva do gráfico
+cat("Este gráfico exibe o tráfego de rede de cada computador monitorado, \nmostrando o volume de dados enviados e recebidos ao longo do tempo. \nA visualização ajuda a entender melhor a utilização da rede em cada máquina, o que permite identificar padrões de consumo e variações importantes.\n\n")
+
+
+# Criar gráfico de tráfego de rede por computador
+ggplot(data_processed, aes(x = dataCaptura, y = valor_megabytes, color = as.factor(fkComputador))) +
+  geom_line() +
+  geom_point() +
+  labs(title = "Tráfego de Rede por Computador",
+       x = "Data de Captura",
+       y = "Dados em MB",
+       color = "Computador") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+# Encerrar a conexão com o banco de dados
+dbDisconnect(con)
