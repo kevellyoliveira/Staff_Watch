@@ -19,7 +19,7 @@
                 </div>
 
                 <div class="opcoesComponentes" id="itens">
-                    <h6 class="opcoesMenu" onclick="window.location.href='dashboardGeral.html'">Home</h6>
+                    <h6 class="opcoesMenu" onclick="levarParaDashboard()">Home</h6>
                     <h6 class="opcoesMenu associMenu"  onclick="abrirMenu()">Associados <img src="src/img/icons/seta.png"
                             alt="icone menu vertical"></h6>
                     <h6 class="opcoesMenu " onclick="window.location.href='cadastroFuncionario.html'">Cadastrar</h6>
@@ -257,6 +257,14 @@
                 console.log(`#ERRO: ${resposta}`);
             });
         return false;
+    }
+    function levarParaDashboard() {
+        if(fkCargo == 3){
+                        window.location.href = "/dashboard-gerente-ti/dashboardGeral-gti.html";
+                    } else if (fkCargo == 2){
+                        window.location.href = "/dashboard-gerente-operacoes/dashboardGeral-go.html";
+                    }
+
     }
 
 </script>
