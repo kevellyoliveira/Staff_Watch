@@ -7,7 +7,7 @@ output: pdf_document
 
 # Introdução
 
-Este relatório apresenta uma análise do tráfego de rede capturado por diversos computadores monitorados, incluindo o volume de dados enviados e recebidos ao longo do tempo.
+# Este relatório apresenta uma análise do tráfego de rede capturado por diversos computadores monitorados, incluindo o volume de dados enviados e recebidos ao longo do tempo.
 
 ```{r setup, include=FALSE}
 # Configurações iniciais e carregamento de pacotes

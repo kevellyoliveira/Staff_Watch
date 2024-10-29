@@ -24,16 +24,11 @@
 
                 <div class="opcoesComponentes" id="itens">
                     <h6 class="opcoesMenu" onclick="levarParaDashboard()">Home</h6>
-<<<<<<< HEAD
-                    <h6 class="opcoesMenu associMenu" onclick="abrirMenu()">Associados <img
-                            src="src/img/icons/seta.png" alt="icone menu vertical"></h6>
-                    <h6 class="opcoesMenu slct" onclick="window.location.href='cadastroFuncionario.html'">Cadastrar
-                    </h6>
-=======
+
                     <h6 class="opcoesMenu associMenu"  onclick="abrirMenu()">Associados <img src="src/img/icons/seta.png"
                             alt="icone menu vertical"></h6>
-                    <h6 class="opcoesMenu " onclick="window.location.href='cadastroFuncionario.html'">Cadastrar</h6>
->>>>>>> 7c932d847c38b503c80b37b1c8484cc6b05b3a98
+                    <h6 class="opcoesMenu " onclick="window.location.href='/cadastroFuncionario.html'">Cadastrar</h6>
+
                     <div id="menu">
                         <h4 onclick="window.location.href='pagina-operario2.html'">Funcionários</h4>
                         <h4 onclick="window.location.href='pagina-maquina.html'">Dispositivos</h4>
@@ -220,12 +215,12 @@
                 if (resposta.ok) {
                     alert("Cadastro realizado com sucesso!");
                     if(fkCargo == 3){
-                        window.location.href = "/dashboard-gerente-ti/dashboardGeral-gti.html";
+                        window.location.href = "/dashboardGeral-gti.html";
                     } else if (fkCargo == 2){
-                        window.location.href = "/dashboard-gerente-operacoes/dashboardGeral-go.html";
+                        window.location.href = "/dashboardGeral-go.html";
                     }                }
                 else {
-                    alert('Erro bizarro')
+                    alert('Erro')
                     console.log(`#ERRO: ${resposta}`)
                 }
             })
@@ -262,14 +257,14 @@
                 if (resposta.ok) {
                     alert("Remoção realizada com sucesso!");
                     if(fkCargo == 3){
-                        window.location.href = "/dashboard-gerente-ti/dashboardGeral-gti.html";
+                        window.location.href = "/dashboardGeral-gti.html";
                     } else if (fkCargo == 2){
-                        window.location.href = "/dashboard-gerente-operacoes/dashboardGeral-go.html";
+                        window.location.href = "/dashboardGeral-go.html";
                     }
                     
                 }
                 else {
-                    alert('Erro bizarro')
+                    alert('Erro')
                     console.log(`#ERRO: ${resposta}`)
                 }
             })
@@ -280,9 +275,9 @@
     }
     function levarParaDashboard() {
         if(fkCargo == 3){
-                        window.location.href = "/dashboard-gerente-ti/dashboardGeral-gti.html";
+                        window.location.href = "dashboardGeral-gti.html";
                     } else if (fkCargo == 2){
-                        window.location.href = "/dashboard-gerente-operacoes/dashboardGeral-go.html";
+                        window.location.href = "/dashboardGeral-go.html";
                     }
 
     }

@@ -101,9 +101,9 @@
             if (resposta.ok) {
                 window.alert("Post atualizado com sucesso pelo usuario de email: " + sessionStorage.getItem("EMAIL_USUARIO") + "!");
                 if (fkCargo == 3) {
-                    window.location.href = "/dashboard-gerente-ti/dashboardGeral-gti.html";
+                    window.location.href = "/dashboardGeral-gti.html";
                 } else if (fkCargo == 2) {
-                    window.location.href = "/dashboard-gerente-operacoes/dashboardGeral-go.html";
+                    window.location.href = "/dashboardGeral-go.html";
                 }
             } else if (resposta.status == 404) {
                 window.alert("Deu 404!");
@@ -119,9 +119,9 @@
 
     function levarParaDashboard() {
         if (fkCargo == 3) {
-            window.location.href = "/dashboard-gerente-ti/dashboardGeral-gti.html";
+            window.location.href = "/dashboardGeral-gti.html";
         } else if (fkCargo == 2) {
-            window.location.href = "/dashboard-gerente-operacoes/dashboardGeral-go.html";
+            window.location.href = "/dashboardGeral-go.html";
         }
     }
 </script>

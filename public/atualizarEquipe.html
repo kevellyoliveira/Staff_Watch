@@ -148,12 +148,12 @@
             if (resposta.ok) {
                 alert("Equipe removida com sucesso!");
                 if(fkCargo == 3){
-                        window.location.href = "/dashboard-gerente-ti/dashboardGeral-gti.html";
+                        window.location.href = "/dashboardGeral-gti.html";
                     } else if (fkCargo == 2){
-                        window.location.href = "/dashboard-gerente-operacoes/dashboardGeral-go.html";
+                        window.location.href = "/dashboardGeral-go.html";
                     }
             } else {
-                alert('Erro bizarro');
+                alert('Erro');
             }
         })
         .catch(function (resposta) {
