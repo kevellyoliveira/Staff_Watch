@@ -75,9 +75,9 @@ sudo docker network create redeContainers
 sudo systemctl stop mysql
 
 echo "Baixando imagem do MySQL..."
-sudo docker pull eduardomiyasaki/bancodados_staff_watch:v6
+sudo docker pull eduardomiyasaki/bancodados_staff_watch:v7
 echo "Instanciando imagem do MySQL..."
-sudo docker run -d -p 3306:3306 --name containerMysql --network redeContainers eduardomiyasaki/bancodados_staff_watch:v6
+sudo docker run -d -p 3306:3306 --name containerMysql --network redeContainers eduardomiyasaki/bancodados_staff_watch:v7
 echo "aguardando instalações do MySQL........"
 sleep 5
 
@@ -88,9 +88,9 @@ sleep 5
 
 
 echo "Baixando imagem do site..."
-sudo docker pull eduardomiyasaki/site_staff_watch:v10
+sudo docker pull eduardomiyasaki/site_staff_watch:v14
 echo "Instanciando imagem do site..."
-sudo docker run -d -p 3333:3333 --name containerSite --network redeContainers eduardomiyasaki/site_staff_watch:v10
+sudo docker run -d -p 3333:3333 --name containerSite --network redeContainers eduardomiyasaki/site_staff_watch:v14
 
 
 # echo "Baixando imagem do Python..."

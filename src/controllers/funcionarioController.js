@@ -5,13 +5,12 @@ function cadastrar(req, res) {
     let nome = req.body.nomeServer
     let email = req.body.emailServer
     let idEquipe = req.body.idEquipeServer
-    let token = req.body.tokenServer
+    // let token = req.body.tokenServer
     var fkEmpresa = req.body.fkEmpresaServer;
 
     console.log(`idEquipe: ${idEquipe} \n
         nome: ${nome} \n
         email: ${email} \n
-        token: ${token} \n
         fkEmpresa: ${fkEmpresa}
         `)
 
@@ -21,13 +20,11 @@ function cadastrar(req, res) {
         res.status(400).send("O email está indefinido!");
     } else if (idEquipe == undefined) {
         res.status(403).send("O idEquipe está indefinido!");
-    }  else if (token == undefined) {
-        res.status(403).send("O token está indefinido!");
     } else if (fkEmpresa == undefined) {
         res.status(403).send("O fkEmpresa está indefinido!");
-    } 
+    }
     else {
-        funcionarioModel.cadastrar(nome, email, idEquipe, token, fkEmpresa)
+        funcionarioModel.cadastrar(nome, email, idEquipe, fkEmpresa)
             .then(
                 function (resultado) {
                     res.json(resultado);
@@ -94,7 +91,7 @@ function editar(req, res) {
     var nome = req.body.nome;
     var email = req.body.email;
 
-    funcionarioModel.editar(idEquipe,nome,email,idFuncionario)
+    funcionarioModel.editar(idEquipe, nome, email, idFuncionario)
         .then(
             function (resultado) {
                 res.json(resultado);

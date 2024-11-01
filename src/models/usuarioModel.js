@@ -1,7 +1,7 @@
 var database = require("../database/config")
 
-function autenticar(email, senha, token) {
-    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function entrar(): ", email, senha, token)
+function autenticar(email, senha) {
+    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function entrar(): ", email, senha)
 
 
     var instrucaoSql = `
@@ -26,7 +26,7 @@ function autenticar(email, senha, token) {
 }
 
 // Coloque os mesmos parâmetros aqui. Vá para a var instrucaoSql
-function cadastrar(nomeEmp, cnpj, nomeRep, email, cargo, senha, token) {
+function cadastrar(nomeEmp, cnpj, nomeRep, email, cargo, senha) {
     console.log("Iniciando o processo de cadastro:\n", nomeEmp, cnpj, nomeRep, email, cargo, senha);
 
     // Query para inserir os dados da empresa
@@ -58,16 +58,6 @@ function cadastrar(nomeEmp, cnpj, nomeRep, email, cargo, senha, token) {
             `;
             console.log("Executando a instrução SQL para funcionário:\n" + instrucaoSqlFuncionario);
             return database.executar(instrucaoSqlFuncionario)
-                .then(() => {
-                    // Após inserir o funcionário, agora inserimos o token
-                    var instrucaoSqlInserindoToken = `
-                        INSERT INTO token (token, fkEmpresa) 
-                        VALUES ('${token}', '${idEmpresa}');
-                    `;
-                    console.log("Executando a instrução SQL para inserir o token:\n" + instrucaoSqlInserindoToken);
-                    return database.executar(instrucaoSqlInserindoToken);
-                })
-                
         })
         .catch((erro) => {
             console.error("Erro durante o cadastro:", erro);

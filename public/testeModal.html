@@ -106,12 +106,7 @@
             if (idFuncionario == "") {
                 alertEquipe.innerHTML += "Preencha o campo com o ID da equipe da máquina! <br>";
             }
-            if (maquinaAntiga == "") {
-                alertToken.innerHTML += "Preencha o campo com o seu token de acesso!<br>";
-            }
-            if (maquinaNova == "") {
-                alertToken.innerHTML += "Preencha o campo com o seu token de acesso!<br>";
-            }
+        
         } else {// passou em todas as validações!!
 
             fetch("maquinas/atualizar", {

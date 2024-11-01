@@ -18,10 +18,10 @@ const transport = nodemailer.createTransport({
 function autenticar(req, res) {
     var email = req.body.emailServer;
     var senha = req.body.senhaServer;
-    var token = req.body.tokenServer;
+   // var token = req.body.tokenServer;
     
 
-    usuarioModel.autenticar(email, senha, token)
+    usuarioModel.autenticar(email, senha)
         .then(
             function (resultadoAutenticar) {
                 console.log(`\nResultados encontrados: ${resultadoAutenticar.length}`);
@@ -61,7 +61,7 @@ function cadastrar(req, res) {
     var cargo = req.body.cargoServer;
     var email = req.body.emailServer;
     var senha = req.body.senhaServer;
-    var token = req.body.tokenServer;
+   // var token = req.body.tokenServer;
 
     // Faça as validações dos valores
     if (nomeEmp == undefined) {
@@ -78,9 +78,9 @@ function cadastrar(req, res) {
         res.status(400).send("Seu senha está undefined!");
     } else {
 
-        token = gerarToken()
+       // token = gerarToken()
         // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
-        usuarioModel.cadastrar(nomeEmp, cnpj, nomeRep, email, cargo, senha,token)
+        usuarioModel.cadastrar(nomeEmp, cnpj, nomeRep, email, cargo, senha)
             .then(
                 function (resultado) {
                     res.json(resultado);
@@ -122,14 +122,14 @@ function cadastrar(req, res) {
     }
 }
 
-function gerarToken() {
-    const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let token = '';
-    for (let i = 0; i < 6; i++) {
-        token += caracteres.charAt(Math.floor(Math.random() * caracteres.length));
-    }
-    return token
-}
+// function gerarToken() {
+//     const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+//     let token = '';
+//     for (let i = 0; i < 6; i++) {
+//         token += caracteres.charAt(Math.floor(Math.random() * caracteres.length));
+//     }
+//     return token
+// }
 // function consultar(req, res) {
 //     // Crie uma variável que vá recuperar os valores do arquivo quiz1.html
 //     var pontos = req.body.pontosServer;

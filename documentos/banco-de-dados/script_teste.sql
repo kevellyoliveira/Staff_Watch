@@ -14,14 +14,14 @@ NomeRep VARCHAR(45)
 insert into Empresa values
 (default, "123456789123456789", "Falla", "aristeu.futuro@gmail.com", MD5("senha123"), "Aristeu");
 
-CREATE TABLE IF NOT EXISTS Token (
-idToken INT PRIMARY KEY AUTO_INCREMENT,
-Token VARCHAR(45),
+-- CREATE TABLE IF NOT EXISTS Token (
+-- idToken INT PRIMARY KEY AUTO_INCREMENT,
+-- Token VARCHAR(45),
 
-fkEmpresa INT,
-CONSTRAINT fkEmpresaToken FOREIGN KEY(fkEmpresa)
-REFERENCES Empresa(idEmpresa)
-);
+-- fkEmpresa INT,
+-- CONSTRAINT fkEmpresaToken FOREIGN KEY(fkEmpresa)
+-- REFERENCES Empresa(idEmpresa)
+-- );
 
 CREATE TABLE IF NOT EXISTS Equipe (
 idEquipe INT PRIMARY KEY AUTO_INCREMENT,

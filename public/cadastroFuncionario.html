@@ -84,11 +84,11 @@
                         placeholder="ID da Equipe">
                 </div>
 
-                <span id="alertToken" class="msgAlerta"></span>
+                <!-- <span id="alertToken" class="msgAlerta"></span>
                 <div class="input-field token">
                     <input type="text" name="Token" id="token_input" required="required" autocomplete="off"
                         placeholder="Token de permissão" oninput="exibirLegenda(this)">
-                </div>
+                </div> -->
 
                 <button class="botao-cadastrar" type="submit" onclick="cadastrar()">Cadastrar</button>
             </div>
@@ -133,7 +133,7 @@ function levarParaDashboard() {
         let nome = name_input.value;
         let email = email_input.value;
         let idEquipe = numEquipe_input.value;
-        let token = token_input.value;
+       // let token = token_input.value;
 
         // var fkEmpresa = sessionStorage.ID_EMPRESA;
         // var fkGerente = sessionStorage.ID_USUARIO;
@@ -141,7 +141,7 @@ function levarParaDashboard() {
 
         alertEmail.innerHTML = '';
         alertNome.innerHTML = '';
-        alertToken.innerHTML = '';
+        //alertToken.innerHTML = '';
         alertEquipe.innerHTML = '';
 
         // let formulario = document.getElementById('formulario');
@@ -149,15 +149,13 @@ function levarParaDashboard() {
         event.preventDefault();
 
         // validação das inputs
-        let validacaoVazio = idEquipe == "" || token == '' || nome == "" || email == '';
+        let validacaoVazio = idEquipe == ""  || nome == "" || email == '';
 
         if (validacaoVazio) {
             if (idEquipe == "") {
                 alertEquipe.innerHTML += "Preencha o campo com o ID da equipe do funcionário! <br>";
             }
-            if (token == "") {
-                alertToken.innerHTML += "Preencha o campo com o seu token de acesso!<br>";
-            } if (nome == "") {
+             if (nome == "") {
                 alertEquipe.innerHTML += "Preencha o campo com o nome do funcionário! <br>";
             } if (email == "") {
                 alertEquipe.innerHTML += "Preencha o campo com o email do fun cionário!<br>";
@@ -167,7 +165,6 @@ function levarParaDashboard() {
             console.log(`idEquipe: ${idEquipe} \n
             nome: ${nome} \n
             email: ${email} \n
-            token: ${token} \n
             fkGerente: ${fkGerente} \n
             fkEmpresa: ${fkEmpresa} \n`)
 
@@ -180,7 +177,6 @@ function levarParaDashboard() {
                     // crie um atributo que recebe o valor recuperado aqui
                     // Agora vá para o arquivo routes/usuario.js
                     idEquipeServer: idEquipe,
-                    tokenServer: token,
                     nomeServer: nome,
                     emailServer: email,
                     fkEmpresaServer: fkEmpresa,

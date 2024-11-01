@@ -1,20 +1,9 @@
 var database = require("../database/config");
 // funcoes utilizadas =======================================================================================
 
-function cadastrar(nome, email, idEquipe, token, fkEmpresa) {
+function cadastrar(nome, email, idEquipe,fkEmpresa) {
     console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. function cadastrar()")
 
-    // Validação do token
-    var validarToken = `SELECT token FROM token WHERE token = "${token}" AND fkEmpresa = ${fkEmpresa};`;
-
-    console.log("Executando a instrução SQL: \n" + validarToken);
-
-    // Executar a consulta de validação de token
-    return database.executar(validarToken)
-        .then((resultado) => {
-            if (resultado.length === 0) {
-                throw new Error("Token inválido ou não encontrado.");
-            }
 
             // Inserção na tabela funcionário
             var instrucaoSqlFuncionario = `insert into funcionario (Nome, Email, fkEmpresa, fkEquipe, fkCargo) values
@@ -22,8 +11,7 @@ function cadastrar(nome, email, idEquipe, token, fkEmpresa) {
 
             console.log("Executando a instrução SQL para inserir funcionário:\n" + instrucaoSqlFuncionario);
 
-            return database.executar(instrucaoSqlFuncionario);
-        })
+            return database.executar(instrucaoSqlFuncionario)
         .catch((erro) => {
             console.error("Erro durante o cadastro:", erro);
             throw erro; // Propaga o erro para ser tratado no nível superior

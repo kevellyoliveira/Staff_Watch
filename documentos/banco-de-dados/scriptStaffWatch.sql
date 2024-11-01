@@ -70,14 +70,14 @@ insert into empresa (idEmpresa, cnpj, nomeEmp) values
 -- );
 
 
-CREATE TABLE IF NOT EXISTS token (
-idToken INT PRIMARY KEY AUTO_INCREMENT,
-token VARCHAR(255),
+-- CREATE TABLE IF NOT EXISTS token (
+-- idToken INT PRIMARY KEY AUTO_INCREMENT,
+-- token VARCHAR(255),
 
-fkEmpresa INT,
-CONSTRAINT fkEmpresaToken FOREIGN KEY(fkEmpresa)
-REFERENCES empresa(idEmpresa)
-);
+-- fkEmpresa INT,
+-- CONSTRAINT fkEmpresaToken FOREIGN KEY(fkEmpresa)
+-- REFERENCES empresa(idEmpresa)
+-- );
 
 CREATE TABLE IF NOT EXISTS equipe (
 idEquipe INT PRIMARY KEY AUTO_INCREMENT,
@@ -204,7 +204,7 @@ FROM view_computador_funcionario_equipe;
 
 select idFuncionario, nome, email, status, fkEmpresa, fkEquipe, fkCargo from funcionario;
     
-select * from token;
+-- select * from token;
 select * from funcionario;
 
 UPDATE funcionario set status = 1 WHERE idFuncionario = 3;

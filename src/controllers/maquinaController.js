@@ -20,19 +20,16 @@ var maquinaModel = require("../models/maquinaModel");
 function cadastrar(req, res) {
   var idEquipe = req.body.idEquipeServer;
   var idFuncionario = req.body.idFuncionarioServer;
-  var token = req.body.tokenServer;
   var fkEmpresa = req.body.fkEmpresaServer;
 
   if (idEquipe == undefined) {
     res.status(400).send("idEquipe está undefined!")
-  } if (token == undefined) {
-    res.status(400).send("token está undefined!");
-  }if (fkEmpresa == undefined) {
+  } if (fkEmpresa == undefined) {
     res.status(400).send("fkEmpresa está undefined!");
   }
 
    else {
-    maquinaModel.cadastrar(idEquipe, idFuncionario, token, fkEmpresa)
+    maquinaModel.cadastrar(idEquipe, idFuncionario, fkEmpresa)
       .then((resultado) => {
         res.status(201).json(resultado);
       }
@@ -50,19 +47,17 @@ function cadastrar(req, res) {
 function atualizar(req, res) {
   var idEquipe = req.body.idEquipeServer;
   
-  var token = req.body.tokenServer;
+  //var token = req.body.tokenServer;
   var fkEmpresa = req.body.fkEmpresaServer;
 
   if (idEquipe == undefined) {
     res.status(400).send("idEquipe está undefined!")
-  } if (token == undefined) {
-    res.status(400).send("token está undefined!");
-  }if (fkEmpresa == undefined) {
+  } if (fkEmpresa == undefined) {
     res.status(400).send("fkEmpresa está undefined!");
   }
 
    else {
-    maquinaModel.cadastrar(idEquipe, token, fkEmpresa)
+    maquinaModel.cadastrar(idEquipe, fkEmpresa)
       .then((resultado) => {
         res.status(201).json(resultado);
       }

@@ -1,27 +1,23 @@
-# Usamos uma imagem oficial do Node.js como base, sempre pegando a versão mais recente
-FROM node:18-alpine
+# Usamos uma imagem oficial do Node.js baseada em Ubuntu (node:18 já inclui npm)
+FROM node:18
 
 # Define o diretório de trabalho dentro do contêiner
-
-RUN apk add --no-cache git
-
 WORKDIR /usr/app
 
-# Clona o repositório do GitHub onde está o código da aplicação
-RUN git clone https://github.com/kevellyoliveira/Staff_Watch.git
+# Instala o Git para permitir o clone do repositório
+RUN apt-get update && apt-get install -y git
 
-# Muda para o diretório onde está o código da aplicação web dentro do projeto clonado
+# Clona o repositório diretamente para /usr/app
+RUN git clone https://github.com/kevellyoliveira/Staff_Watch.git .
 
-WORKDIR /usr/app/Staff_Watch
+# Verifica se o npm está disponível (para confirmar que o Node.js e npm estão configurados)
+RUN node -v && npm -v
 
 # Instala as dependências do Node.js definidas no package.json
-
 RUN npm install
-# Expõe a porta desenvolvimento:3333 ou produção:8080 ou 80 do contêiner, que será usada para acessar a aplicação pela web
 
+# Expõe a porta da aplicação
 EXPOSE 3333
 
 # Definindo o comando que será executado quando o contêiner iniciar
-# Neste caso, ele executa "npm start" para iniciar a aplicação Node.js
-
-CMD ["npm" ,"start"]
+CMD ["npm", "start"]

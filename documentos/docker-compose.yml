@@ -1,0 +1,27 @@
+mysql:
+    container_name: containerMysql
+    image: eduardomiyasaki/bancodados_staff_watch:v8
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: senha_segura
+#    volumes:
+ #     - ./init-scripts:/docker-entrypoint-initdb.d
+    ports:
+      - "3306:3306"
+app:
+    container_name: containerSite
+    image: eduardomiyasaki/site_staff_watch:v14  # Imagem base do Node.js
+    volumes:
+      - ./app:/app  # Mapeia a pasta local para o contêiner
+    ports:
+      - "3333:3333"  # Mapeia a porta do contêiner para o host
+    depends_on:
+      - mysql  # Garante que o MySQL esteja ativo antes do Node.js
+    environment:
+      DB_HOST: localhost
+      DB_USER: root
+      DB_PASSWORD: senha_segura
+      DB_NAME: StaffWatch
+
+volumes:
+  mysql_data:

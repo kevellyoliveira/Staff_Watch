@@ -76,14 +76,14 @@ primary key (fkEmpresa, fkComponente)
 );
 
 
-CREATE TABLE IF NOT EXISTS token (
-idToken INT PRIMARY KEY AUTO_INCREMENT,
-token VARCHAR(255),
+-- CREATE TABLE IF NOT EXISTS token (
+-- idToken INT PRIMARY KEY AUTO_INCREMENT,
+-- token VARCHAR(255),
 
-fkEmpresa INT,
-CONSTRAINT fkEmpresaToken FOREIGN KEY(fkEmpresa)
-REFERENCES empresa(idEmpresa)
-);
+-- fkEmpresa INT,
+-- CONSTRAINT fkEmpresaToken FOREIGN KEY(fkEmpresa)
+-- REFERENCES empresa(idEmpresa)
+-- );
 
 CREATE TABLE IF NOT EXISTS equipe (
 idEquipe INT PRIMARY KEY AUTO_INCREMENT,
