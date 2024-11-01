@@ -88,9 +88,9 @@ sleep 5
 
 
 echo "Baixando imagem do site..."
-sudo docker pull eduardomiyasaki/site_staff_watch:v9
+sudo docker pull eduardomiyasaki/site_staff_watch:v10
 echo "Instanciando imagem do site..."
-sudo docker run -d -p 3333:3333 --name containerSite --network redeContainers eduardomiyasaki/site_staff_watch:v9
+sudo docker run -d -p 3333:3333 --name containerSite --network redeContainers eduardomiyasaki/site_staff_watch:v10
 
 
 # echo "Baixando imagem do Python..."
