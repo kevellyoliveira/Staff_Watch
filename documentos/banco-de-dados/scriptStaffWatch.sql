@@ -1,6 +1,7 @@
 CREATE DATABASE IF NOT EXISTS StaffWatch;
 USE StaffWatch;
--- drop database staffwatch;
+
+-- DROP DATABASE Staffwatch;
 
 
 CREATE TABLE IF NOT EXISTS componente(
@@ -55,29 +56,10 @@ idEmpresa INT PRIMARY KEY AUTO_INCREMENT,
 cnpj CHAR(18),
 nomeEmp VARCHAR(45)
 );
+
 insert into empresa (idEmpresa, cnpj, nomeEmp) values
 (default, "123456789123456789", "Falla");
 
--- CREATE TABLE IF NOT EXISTS selecionadosParaMonitoramento (
--- selecionado bit null,
--- fkempresa int,
--- constraint fkEmpresaSelecionadosParaMonitoramento foreign key(fkEmpresa)
--- references empresa(idEmpresa),
--- fkComponente int,
--- constraint fkComponenteSelecionadosParaMonitoramento foreign key(fkComponente)
--- references componente(idComponente),
--- primary key (fkEmpresa, fkComponente)
--- );
-
-
--- CREATE TABLE IF NOT EXISTS token (
--- idToken INT PRIMARY KEY AUTO_INCREMENT,
--- token VARCHAR(255),
-
--- fkEmpresa INT,
--- CONSTRAINT fkEmpresaToken FOREIGN KEY(fkEmpresa)
--- REFERENCES empresa(idEmpresa)
--- );
 
 CREATE TABLE IF NOT EXISTS equipe (
 idEquipe INT PRIMARY KEY AUTO_INCREMENT,
@@ -144,19 +126,12 @@ CONSTRAINT fkFuncionarioComputador FOREIGN KEY(fkFuncionario)
 REFERENCES funcionario(idFuncionario)
 );
 
-
-
-
 insert into computador values
 (default,TRUE,1,1,1);
 
-
-
-
-
 CREATE TABLE IF NOT EXISTS captura(
 idCaptura int primary key auto_increment,
-captura long,
+captura BIGINT,
 dataCaptura DATETIME,
 
 fkComponente INT,
@@ -207,4 +182,4 @@ select idFuncionario, nome, email, status, fkEmpresa, fkEquipe, fkCargo from fun
 -- select * from token;
 select * from funcionario;
 
-UPDATE funcionario set status = 1 WHERE idFuncionario = 3;
+
