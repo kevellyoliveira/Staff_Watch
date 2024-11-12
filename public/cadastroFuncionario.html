@@ -28,7 +28,7 @@
                     <h6 class="opcoesMenu slct" onclick="window.location.href='cadastroFuncionario.html'">Cadastrar</h6>
                     <div id="menu">
                         <h4 onclick="window.location.href='pagina-operario2.html'">Funcionários</h4>
-                        <h4 onclick="window.location.href='pagina-maquina.html'">Dispositivos</h4>
+                        <h4 onclick="window.location.href='pagina-maquina.html'">Máquinas</h4>
                         <h4 onclick="window.location.href='cadastroEquipe.html'">Equipe</h4>
                     </div>
                 </div>
@@ -49,7 +49,7 @@
         </article>
         <div class="alternarCadastro">
             <div class="esqr">
-                <h3 onclick="window.location.href='cadastroMaquina.html'">Computador</h3>
+                <h3 onclick="window.location.href='cadastroMaquina.html'">Máquina</h3>
             </div>
             <div class="dire">
                 <h3 onclick="window.location.href='cadastroFuncionario.html'">Funcionário</h3>
@@ -72,6 +72,12 @@
                 <div class="input-field">
                     <input type="email" name="Email" id="email_input" required="required" autocomplete="off"
                         placeholder="Email">
+                </div>
+
+                <span id="alertTelefone" class="msgTelefone"></span>
+                <div class="input-field">
+                    <input type="text" name="Telefone" id="telefone_input" required="required" autocomplete="off"
+                        placeholder="Telefone">
                 </div>
 
                 <!-- <div class="input-field">
@@ -132,6 +138,7 @@ function levarParaDashboard() {
     function cadastrar(req, res) {
         let nome = name_input.value;
         let email = email_input.value;
+        let telefone = telefone_input.value
         let idEquipe = numEquipe_input.value;
        // let token = token_input.value;
 
@@ -141,6 +148,7 @@ function levarParaDashboard() {
 
         alertEmail.innerHTML = '';
         alertNome.innerHTML = '';
+        alertTelefone.innerHTML = '';
         //alertToken.innerHTML = '';
         alertEquipe.innerHTML = '';
 
@@ -149,7 +157,7 @@ function levarParaDashboard() {
         event.preventDefault();
 
         // validação das inputs
-        let validacaoVazio = idEquipe == ""  || nome == "" || email == '';
+        let validacaoVazio = idEquipe == ""  || nome == "" || email == ''|| telefone == '';
 
         if (validacaoVazio) {
             if (idEquipe == "") {
@@ -158,13 +166,16 @@ function levarParaDashboard() {
              if (nome == "") {
                 alertEquipe.innerHTML += "Preencha o campo com o nome do funcionário! <br>";
             } if (email == "") {
-                alertEquipe.innerHTML += "Preencha o campo com o email do fun cionário!<br>";
+                alertEquipe.innerHTML += "Preencha o campo com o email do funcionário!<br>";
+            } if (telefone == "") {
+                alertTelefone.innerHTML += "Preencha o campo com o telefone do funcionário!<br>";
             }
         } else { // passou em todas as validações!!
 
             console.log(`idEquipe: ${idEquipe} \n
             nome: ${nome} \n
             email: ${email} \n
+            telefone: ${telefone} \n 
             fkGerente: ${fkGerente} \n
             fkEmpresa: ${fkEmpresa} \n`)
 
@@ -179,6 +190,7 @@ function levarParaDashboard() {
                     idEquipeServer: idEquipe,
                     nomeServer: nome,
                     emailServer: email,
+                    telefoneServer: telefone,
                     fkEmpresaServer: fkEmpresa,
                     fkGerenteServer: fkGerente
                 }),

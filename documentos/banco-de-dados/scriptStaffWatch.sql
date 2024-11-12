@@ -89,6 +89,7 @@ CREATE TABLE IF NOT EXISTS funcionario (
 idFuncionario INT PRIMARY KEY AUTO_INCREMENT,
 nome VARCHAR(45),
 email VARCHAR(45),
+telefone VARCHAR(25)
 senha VARCHAR(255),
 status TINYINT(1) DEFAULT 1,
 
