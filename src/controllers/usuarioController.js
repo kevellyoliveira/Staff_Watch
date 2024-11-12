@@ -18,8 +18,8 @@ const transport = nodemailer.createTransport({
 function autenticar(req, res) {
     var email = req.body.emailServer;
     var senha = req.body.senhaServer;
-   // var token = req.body.tokenServer;
-    
+    // var token = req.body.tokenServer;
+
 
     usuarioModel.autenticar(email, senha)
         .then(
@@ -61,7 +61,7 @@ function cadastrar(req, res) {
     var cargo = req.body.cargoServer;
     var email = req.body.emailServer;
     var senha = req.body.senhaServer;
-   // var token = req.body.tokenServer;
+    // var token = req.body.tokenServer;
 
     // Faça as validações dos valores
     if (nomeEmp == undefined) {
@@ -78,7 +78,7 @@ function cadastrar(req, res) {
         res.status(400).send("Seu senha está undefined!");
     } else {
 
-       // token = gerarToken()
+        // token = gerarToken()
         // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
         usuarioModel.cadastrar(nomeEmp, cnpj, nomeRep, email, cargo, senha)
             .then(
@@ -87,11 +87,11 @@ function cadastrar(req, res) {
 
                     slack = 'https://join.slack.com/t/sptech-vd51973/shared_invite/zt-2r4gyat4x-xaaEqqxCL4wAW3LqqjSgPw'
 
-                        transport.sendMail({
-                            from: '"Staff Watch" <equipestaffwatch@gmail.com>',
-                            to: email,
-                            subject: "Negociação serviço Staff Watch",
-                            html: ` <p>Prezado(a) ${nomeRep},</p>
+                    transport.sendMail({
+                        from: '"Staff Watch" <equipestaffwatch@gmail.com>',
+                        to: email,
+                        subject: "Negociação serviço Staff Watch",
+                        html: ` <p>Prezado(a) ${nomeRep},</p>
                             <p>Espero que esta mensagem o(a) encontre bem.</p>
 
     <p>A <strong>Staff Watch</strong> oferece um software robusto de monitoramento de atividades em tempo real, relatórios personalizados e análises detalhadas de desempenho, permitindo uma gestão mais eficaz de equipes e operações de atendimento ao cliente. Nosso objetivo é contribuir para a melhoria contínua da performance e a tomada de decisões mais estratégicas no seu call center.</p>
@@ -104,10 +104,10 @@ function cadastrar(req, res) {
     
      <p>Atenciosamente,</p>
     <p><strong>Equipe Staff Watch</strong></p>`
-                        })
-                            .then((resposta) => console.log("Email enviado"))
-                            .catch((resposta) => console.log('erro ao enviar email', resposta))
-                         
+                    })
+                        .then((resposta) => console.log("Email enviado"))
+                        .catch((resposta) => console.log('erro ao enviar email', resposta))
+
                 }
             ).catch(
                 function (erro) {
@@ -121,6 +121,34 @@ function cadastrar(req, res) {
             );
     }
 }
+
+async function contato(req, res) {
+    var email = req.body.email;  // Extrai o e-mail do corpo da requisição
+
+    try {
+        // Usa o 'await' para aguardar o envio do e-mail
+        await transport.sendMail({
+            from: '"Staff Watch" <equipestaffwatch@gmail.com>',
+            to: email,
+            subject: "Negociação serviço Staff Watch",
+            html: `
+                <p>Prezado(a) Cliente,</p>
+                <p>Espero que esta mensagem o(a) encontre bem.</p>
+                <p>A <strong>Staff Watch</strong> oferece um software robusto de monitoramento de atividades em tempo real...</p>
+                <p>Atenciosamente,</p>
+                <p><strong>Equipe Staff Watch</strong></p>
+            `
+        });
+
+        console.log("Email enviado com sucesso");
+        res.status(200).json({ message: "Email enviado com sucesso!" });
+    } catch (error) {
+        console.error("Erro ao enviar o email:", error);
+        res.status(500).json({ message: "Erro ao enviar o email" });
+    }
+}
+
+
 
 // function gerarToken() {
 //     const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -169,32 +197,33 @@ function cadastrar(req, res) {
 function cadastrarComponente(req, res) {
     // var nomeComponente = req.body.nomeComponenteServer;
     var fkEmpresa = req.body.fkEmpresaServer;
-    
-  
+
+
     // if (nomeComponente == undefined) {
     //   res.status(400).send("nomeComponente está undefined!");}
     if (fkEmpresa == undefined) {
-      res.status(400).send("fkEmpresa está undefined!");
+        res.status(400).send("fkEmpresa está undefined!");
     }
     else {
         usuarioModel.cadastrarComponente(fkEmpresa, componente)
-          .then((resultado) => {
-            res.status(201).json(resultado);
-          }
-          ).catch((erro) => {
-            console.log(erro);
-            console.log(
-              "\nHouve um erro ao realizar o cadastro! Erro: ",
-              erro.sqlMessage
-            );
-            res.status(500).json(erro.sqlMessage);
-          });
-      }
-    }  
+            .then((resultado) => {
+                res.status(201).json(resultado);
+            }
+            ).catch((erro) => {
+                console.log(erro);
+                console.log(
+                    "\nHouve um erro ao realizar o cadastro! Erro: ",
+                    erro.sqlMessage
+                );
+                res.status(500).json(erro.sqlMessage);
+            });
+    }
+}
 
 module.exports = {
     autenticar,
     cadastrar,
-    cadastrarComponente
+    cadastrarComponente,
+    contato
     // consultar
 }

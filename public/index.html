@@ -157,7 +157,12 @@
     <form class="form">
       <!-- input container  -->
       <div class="input-container">
-        <input type="email" name="" placeholder=" " class="input-field" id="email-input" autocomplete="off" required />
+        <!-- <input type="email" name="" placeholder=" " class="input-field" id="email-input" autocomplete="off" required /> -->
+        <form onsubmit="contato(event)">
+          <input type="email" id="email-input" placeholder="Insira seu email" required>
+          <button type="submit">Enviar</button>
+      </form>
+      
         <!-- input label - which will animate while focus on input  -->
         <label for="email-input">Email</label>
         <!-- email icon - font-awesome -->
@@ -172,7 +177,7 @@
           <p>Email cadastrado com sucesso!</p>
         </span>
       </div>
-      <button class="submit-btn" id="contato" onclick="contato()">Enviar</button>
+      <!-- <button class="submit-btn" id="contato" onclick="contato()">Enviar</button> -->
     </form>
     </div>
 
@@ -262,7 +267,7 @@
     let inputValue = e.target;
     console.log(inputValue.validity);
     if (inputValue.validity.typeMismatch || inputValue.validity.valueMissing) {
-      inputValue.setCustomValidity(" ");
+     // inputValue.setCustomValidity(" ");
       invalidMsg.classList.add("active");
       successMsg.classList.remove("active");
       this.classList.add("invalid");
@@ -335,3 +340,25 @@
       navLinks.classList.toggle('active');
     });
   });
+
+  function contato(event) {
+    event.preventDefault();
+
+    const email = document.getElementById("email-input");
+
+    // Remove qualquer erro personalizado antes de validar
+;
+    fetch("/usuarios/contato", {
+        method: "POST",
+        headers: { 
+            "Content-Type": "application/json" 
+        },
+        body: JSON.stringify({ email: email })
+    })
+    .then((res) => res.json())
+    .then((data) => console.log("Email enviado com sucesso!", data))
+    .catch((error) => console.error("Erro ao enviar email:", error));
+}
+
+ 
+</script>
