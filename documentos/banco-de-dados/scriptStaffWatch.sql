@@ -89,7 +89,7 @@ CREATE TABLE IF NOT EXISTS funcionario (
 idFuncionario INT PRIMARY KEY AUTO_INCREMENT,
 nome VARCHAR(45),
 email VARCHAR(45),
-telefone VARCHAR(25)
+telefone VARCHAR(25),
 senha VARCHAR(255),
 status TINYINT(1) DEFAULT 1,
 
@@ -106,8 +106,8 @@ CONSTRAINT fkCargoFuncionario FOREIGN KEY(fkCargo)
 REFERENCES cargo(idCargo)
 );
 
-insert into funcionario (nome, email, senha, fkEmpresa, fkEquipe, fkCargo) values
-("Jeffinho", "Jeffinho.botafogo@gmail.com", MD5("123456"), 1, 1, 1);
+insert into funcionario (nome, email, telefone, senha, fkEmpresa, fkEquipe, fkCargo) values
+("Jeffinho", "Jeffinho.botafogo@gmail.com", "11 956836220" , MD5("123456"), 1, 1, 1);
 
 CREATE TABLE IF NOT EXISTS computador (
 idComputador INT PRIMARY KEY AUTO_INCREMENT,
