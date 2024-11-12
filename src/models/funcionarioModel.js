@@ -1,13 +1,13 @@
 var database = require("../database/config");
 // funcoes utilizadas =======================================================================================
 
-function cadastrar(nome, email, idEquipe,fkEmpresa) {
+function cadastrar(nome, email, telefone, idEquipe,fkEmpresa) {
     console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. function cadastrar()")
 
 
             // Inserção na tabela funcionário
-            var instrucaoSqlFuncionario = `insert into funcionario (Nome, Email, fkEmpresa, fkEquipe, fkCargo) values
-("${nome}", "${email}", '${fkEmpresa}',' ${idEquipe}',4);`;
+            var instrucaoSqlFuncionario = `insert into funcionario (Nome, Email, Telefone, fkEmpresa, fkEquipe, fkCargo) values
+("${nome}", "${email}", "${telefone}", '${fkEmpresa}',' ${idEquipe}',4);`;
 
             console.log("Executando a instrução SQL para inserir funcionário:\n" + instrucaoSqlFuncionario);
 
