@@ -122,12 +122,28 @@ function cadastrar(req, res) {
     }
 }
 
-async function contato(req, res) {
+ async function contato(req, res) {
+    const nodemailer = require('nodemailer')
+
+const transport = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    auth: {
+        user: 'equipestaffwatch@gmail.com',
+        pass: 'tbmccgwpeugvdwqj',
+    }
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("contato").addEventListener("click", contato);
+});
+
     var email = req.body.email;  // Extrai o e-mail do corpo da requisição
 
     try {
         // Usa o 'await' para aguardar o envio do e-mail
-        await transport.sendMail({
+       await transport.sendMail({
             from: '"Staff Watch" <equipestaffwatch@gmail.com>',
             to: email,
             subject: "Negociação serviço Staff Watch",

@@ -157,11 +157,11 @@
     <form class="form">
       <!-- input container  -->
       <div class="input-container">
-        <!-- <input type="email" name="" placeholder=" " class="input-field" id="email-input" autocomplete="off" required /> -->
-        <form onsubmit="contato(event)">
+        <input type="email" name="" placeholder=" " class="input-field" id="email-input" autocomplete="off" required />
+        <!-- <form onsubmit="contato(event)">
           <input type="email" id="email-input" placeholder="Insira seu email" required>
           <button type="submit">Enviar</button>
-      </form>
+      </form> -->
       
         <!-- input label - which will animate while focus on input  -->
         <label for="email-input">Email</label>
@@ -177,7 +177,7 @@
           <p>Email cadastrado com sucesso!</p>
         </span>
       </div>
-      <!-- <button class="submit-btn" id="contato" onclick="contato()">Enviar</button> -->
+      <button class="submit-btn" id="contato" type="submit" onclick="contato(event)">Enviar</button>
     </form>
     </div>
 
@@ -342,9 +342,11 @@
   });
 
   function contato(event) {
+
+    
     event.preventDefault();
 
-    const email = document.getElementById("email-input");
+    var email = document.getElementById("email-input");
 
     // Remove qualquer erro personalizado antes de validar
 ;
@@ -353,7 +355,7 @@
         headers: { 
             "Content-Type": "application/json" 
         },
-        body: JSON.stringify({ email: email })
+        body: JSON.stringify({ email: email.value })
     })
     .then((res) => res.json())
     .then((data) => console.log("Email enviado com sucesso!", data))
