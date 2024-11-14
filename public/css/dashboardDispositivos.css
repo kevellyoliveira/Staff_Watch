@@ -183,7 +183,6 @@ header {
     min-height: 86.8vh;
 }
 
-
 /* ====================================================================================================================== */
 
 
@@ -196,7 +195,7 @@ header {
     justify-content: flex-start;
     flex-direction: column;
     align-items: center;
-    padding: 2rem 0 0 3rem;
+    padding: 2rem 0;
     font-size: 1.6rem;
     gap: 1rem;
     color: #001E42;
@@ -211,7 +210,7 @@ header {
     height: 35vh;
     justify-content: center;
     align-items: center;
-    background-color: #a3b4bfa4;
+    /* background-color: #a3b4bfa4; */
 }
 
 /*Parte com os gráficos e alertas*/
@@ -427,7 +426,7 @@ header {
     font-weight: 700;
 }
 
-.section-card {
+.sectioncard {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -448,7 +447,7 @@ header {
     font-size: 20px;
     transform: translateY(0) scale(1.0);
     transition: transform 0.5s;
-    height: 12rem;
+    height: 13rem;
     width: 22rem;
     align-items: flex-start;
     justify-content: space-around;

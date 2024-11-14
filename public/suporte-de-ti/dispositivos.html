@@ -5,16 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href=".././css/dashboardDispositivos.css">
-    <script src="./js/script.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- script do modal -->
+    <script src=".././js/script.js" defer></script>
+
+    <!-- script do chartJs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <link rel="shortcut icon" href=".././src/img/logoB.png" type="image/x-icon" />
 
     <title>Dispositivos | Staff Watch</title>
 </head>
 
-<body>
+<body onload="atualizarFeed()">
     <header>
         <div class="opcoes">
             <div class="esq">
@@ -49,13 +53,13 @@
                 <h4> Quantidade de alertas por componente em cada equipe </h4>
                 <div class="grafico">
                     <!-- <img src=".././src/img/grafico.png" alt=""> -->
-                    <canvas id="graficoEquipe" width="400" height="200"></canvas>
+                    <canvas id="graficoEquipe" width="600"></canvas>
                 </div>
             </section>
 
-            <section class="section-card">
+            <section class="sectioncard" id="sectioncard">
 
-                <div class="card open-modal" onclick="alterarComponente('dashCpu')">
+                <!-- <div class="card open-modal" onclick="alterarComponente('dashCpu')">
 
                     <div class="down-card cima">
                         <div class="esqCard">
@@ -94,10 +98,7 @@
                         </div>
 
                         <div class="dirCard">
-                            <!-- <div class="alertaMaquina">
-                            <figure> <img src=".././src/img/icons/alerta1.png"> </figure>
-                            <p> CPU acima da média (2 horas)</p>
-                        </div> -->
+                        </div>
                         </div>
 
                     </div>
@@ -152,10 +153,8 @@
                         </div>
 
                         <div class="dirCard">
-                            <!-- <div class="alertaMaquina">
-                            <figure> <img src=".././src/img/icons/alerta1.png"> </figure>
-                            <p> CPU acima da média (2 horas)</p>
-                        </div> -->
+                            
+                        </div> 
                         </div>
 
                     </div>
@@ -181,10 +180,8 @@
                         </div>
 
                         <div class="dirCard">
-                            <!-- <div class="alertaMaquina">
-                            <figure> <img src=".././src/img/icons/alerta1.png"> </figure>
-                            <p> CPU acima da média (2 horas)</p>
-                        </div> -->
+                            
+                        </div> 
                         </div>
 
                     </div>
@@ -227,7 +224,7 @@
                             <img src=".././src/img/icons/excluir.svg" alt="">
                         </div>
                     </div>
-                </div>
+                </div> -->
             </section>
         </main>
 
@@ -410,39 +407,282 @@
 </body>
 
 </html>
-<!-- script do modal -->
-<script src=".././js/script.js" defer></script>
-
-<!-- script do chartJs -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-
 <script>
+// ============= FUNÇÃO DE ATUALIZAR O FEED - LISTAR MÁQUINAS
+
+function atualizarFeed() {
+        var fkEmpresa = sessionStorage.getItem("ID_EMPRESA")
+        console.log(fkEmpresa)
+        fetch(`/maquinas/listar/${fkEmpresa}`).then(function (resposta) {
+            if (resposta.ok) {
+                if (resposta.status == 204) {
+                    var feed = document.getElementById("sectioncard");
+                    var mensagem = document.createElement("span");
+                    mensagem.innerHTML = "Nenhum resultado encontrado.";
+                    feed.appendChild(mensagem);
+                    throw "Nenhum resultado encontrado!!";
+                }
+
+                resposta.json().then(function (resposta) {
+                    console.log("Dados recebidos: ", JSON.stringify(resposta));
+
+                    var feed = document.getElementById("sectioncard");
+                    feed.innerHTML = ""; // Limpa o conteúdo atual do feed
+                    for (let i = 0; i < resposta.length; i++) {
+                        var publicacao = resposta[i];
+
+                        // atualizando para os valores do usuario
+                        var idComputador = resposta[i].idComputador
+                        var status = Number(resposta[i].status);
+                        var fkEquipe = resposta[i].fkEquipe;
+                        var fkFuncionario = resposta[i].fkFuncionario;
+                        var nomeFuncionario = resposta[i].nomeFuncionario;
+
+                        // definindo o status em texto de acordo com a fk
+                        if (status == 1) {
+                            status = "Em atividade"
+                        }
+                        else if (status == 2) {
+                            status = "Inativo"
+                        }
+
+                        feed.innerHTML += `<div class="card open-modal" onclick="alterarComponente('dashCpu')">
+                    <div class="down-card cima">
+                        <div class="esqCard">
+                            <figure class="iconComp">
+                                <img src=".././src/img/icons/indicadoresMaquina/computadorAlerta.png" alt="">
+                            </figure>
+                        </div>
+
+                        <div class="dirCard">
+                            <div class="alertaMaquina">
+                                <figure> <img src=".././src/img/icons/alerta1.png"> </figure>
+                                <p> CPU acima da média (2 horas)</p>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="down-card">
+                        <div class="content-card">
+                            <p><b>ID:</b> ${idComputador}</p>       
+                            <p><b>Equipe:</b> ${fkEquipe}</p>
+                            <p><b>Funcionário:</b> ${nomeFuncionario}</p>
+                            <p><b>Status:</b> ${status}</p>
+                        </div>
+                        <div class="up-card">
+                            <img src=".././src/img/icons/editar.svg" onclick="atualizarMaquina(${idComputador})">
+                            <img src=".././src/img/icons/excluir.svg" onclick="deletar(${idComputador})">
+                        </div>
+                    </div>
+                </div>`;
+
+                        // // Definindo conteúdo dos elementos
+                        // spanID.innerHTML = "<div class='id'> Id Máquina: <b>" + publicacao.idComputador + "</b> </div> <br>";
+                        // spanTitulo.innerHTML = "Equipe: <b>" + publicacao.nomeEquipe + "</b>";
+                        // spanNome.innerHTML = "Funcionario: <b>" + publicacao.nomeFuncionario + "</b>";
+                        // // divDescricao.innerHTML = "Status: <b>" + status + "</b>";
+
+                        // if (publicacao.status == 1) {
+                        //     divDescricao.innerHTML = "Status: <b style='color: #F6FF53  ;'>" + status + "</b>";
+
+                        // }
+
+                        // if (publicacao.status == 2) {
+                        //     divDescricao.innerHTML = "Status: <b style='color: #FFA700;'>" + status + "</b>";
+
+                        // }
+
+                        // // Configurando o botão "Editar"
+                        // btnEditar.innerHTML = '<i class="fa-solid fa-pen"></i>'; // Ícone do botão
+                        // btnEditar.className = "editar"; // Classe do botão
+                        // btnEditar.id = "AbrirModal2_" + publicacao.idComputador; // ID único baseado no ID do funcionário
+                        // let idDaVez = publicacao.idComputador
+                        // btnEditar.addEventListener('click', function () {
+                        //     atualizarMaquina(idDaVez); // Função que redireciona para a página de edição
+                        // });
+
+                        // // Configurando o botão "Deletar"
+                        // btnDeletar.innerHTML = '<i class="fa-solid fa-trash"></i>'; // Ícone do botão
+                        // btnDeletar.className = "deletar"; // Classe do botão
+                        // btnDeletar.id = "btnDeletar_" + publicacao.idComputador; // ID único
+                        // btnDeletar.addEventListener('click', function () {
+                        //     deletar(idDaVez); // Função 'deletar' com ID do funcionário
+                        // });
+
+                        // // Adicionando os botões ao container de botões
+                        // divButtons.className = "div-buttons";
+                        // divButtons.appendChild(btnEditar);
+                        // divButtons.appendChild(btnDeletar);
+
+                        // // Adicionando todos os elementos criados ao divPublicacao
+                        // divPublicacao.className = "publicacao";
+                        // divPublicacao.appendChild(spanID);
+                        // divPublicacao.appendChild(spanNome);
+                        // divPublicacao.appendChild(spanTitulo);
+                        // divPublicacao.appendChild(divDescricao);
+                        // divPublicacao.appendChild(divButtons);
+
+                        // // Adicionando o card de publicacao ao feed
+                        // feed.appendChild(divPublicacao);
+                    }
+
+                });
+            } else {
+                throw ('Houve um erro na API!');
+            }
+        }).catch(function (resposta) {
+            console.error(resposta);
+        });
+    }
+
+// ============================================================================================================
+
+
+
+// ============ SIMULAÇÃO DO GRÁFICO DA PARTE SUPERIOR DA TELA ==============================================
+    
+        // Gerar valores aleatórios entre 2 e 19
+        document.addEventListener('DOMContentLoaded', function () {
+        function getRandomValues() {
+            return [Math.floor(Math.random() * 18) + 2, Math.floor(Math.random() * 18) + 2, Math.floor(Math.random() * 18) + 2, Math.floor(Math.random() * 18) + 2];
+        }
+
+        const data = {
+            labels: ['Equipe 1', 'Equipe 2', 'Equipe 3', 'Equipe 4'],
+            datasets: [
+                {
+                    label: 'CPU',
+                    data: getRandomValues(),
+                    backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Rede',
+                    data: getRandomValues(),
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'RAM',
+                    data: getRandomValues(),
+                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Disco',
+                    data: getRandomValues(),
+                    backgroundColor: 'rgba(153, 102, 255, 0.6)',
+                    borderColor: 'rgba(153, 102, 255, 1)',
+                    borderWidth: 1
+                }
+            ]
+        };
+
+        const config = {
+            type: 'bar',
+            data: data,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top', // Posição da legenda à esquerda
+                        align: 'center',  // Centraliza a legenda verticalmente
+                    }
+                },
+                scales: {
+                    x: {
+                        stacked: false
+                    },
+                    y: {
+                        beginAtZero: true,
+                        max: 20
+                    }
+                }
+            }
+        };
+
+        new Chart(
+            document.getElementById('graficoEquipe'),
+            config
+        );
+    });
+
+    // funcoes do card da equipe: editar e remover máquina
+
+    function atualizarMaquina(idComputador) {
+            // Redireciona o usuário para a página de edição com o ID do funcionário como parâmetro na URL
+            if (confirm("Tem a certeza de que deseja reativar esta máquina?")) {
+                fetch(`/maquinas/atualizarMaquina/${idComputador}`, {
+                    method: "PUT"
+                })
+                    .then(resposta => {
+                        if (resposta.ok) {
+                            alert("Máquina reativada com sucesso!");
+                            atualizarFeed(); // Atualiza a lista após a exclusão
+                        } else {
+                            throw "Não foi possível reaativar a maquina";
+                        }
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        alert("Ocorreu um erro ao tentar reativar a maquina");
+                    });
+            }
+            atualizarFeed()
+        }
+
+        function deletar(idComputador) {
+            if (confirm("Tem a certeza de que deseja desativar esta máquina?")) {
+                fetch(`/maquinas/deletar/${idComputador}`, {
+                    method: "PUT"
+                })
+                    .then(resposta => {
+                        if (resposta.ok) {
+                            alert("Máquina desativada com sucesso!");
+                            atualizarFeed(); // Atualiza a lista após a exclusão
+                        } else {
+                            throw "Não foi possível desativar a maquina";
+                        }
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        alert("Ocorreu um erro ao tentar deletar a maquina");
+                    });
+            }
+            atualizarFeed()
+        }
+
+
+
 
     function sair() {
         sessionStorage.clear()
-        window.location = "index.html"
+        window.location = "../index.html"
     }
 
     // função para alterar a equipe selecionada no menu lateral
-    window.onload = function () {
-        var equipeSelecionada = sessionStorage.getItem('equipeSelecionada');  // Recupera o ID da equipe
+    // window.onload = function () {
+    //     var equipeSelecionada = sessionStorage.getItem('equipeSelecionada');  // Recupera o ID da equipe
 
-        if (equipeSelecionada) {
-            var item = document.getElementById(equipeSelecionada);  // Seleciona o item da equipe
+    //     if (equipeSelecionada) {
+    //         var item = document.getElementById(equipeSelecionada);  // Seleciona o item da equipe
 
-            if (item) {
-                // Remove a classe 'slc' de todos os itens e aplica ao selecionado
-                var itens = document.querySelectorAll('.menuLateral .itens h4');
-                itens.forEach(function (el) {
-                    el.classList.remove('slc');
-                });
+    //         if (item) {
+    //             // Remove a classe 'slc' de todos os itens e aplica ao selecionado
+    //             var itens = document.querySelectorAll('.menuLateral .itens h4');
+    //             itens.forEach(function (el) {
+    //                 el.classList.remove('slc');
+    //             });
 
-                // Adiciona a classe 'slc' ao item selecionado
-                item.classList.add('slc');
-            }
-        }
-    };
+    //             // Adiciona a classe 'slc' ao item selecionado
+    //             item.classList.add('slc');
+    //         }
+    //     }
+    // };
 
     // função para carregar a dashboard da equipe com o ID especificado
     function carregarDashboard(id) {
@@ -470,7 +710,7 @@
     // carregarDashboard(elemento.id);
 
     // ==========  FUNÇÕES DO MODAL  ================================================================================================================================================
-
+    // função pra fechar o modal quando clicar4 no botão de X
     document.getElementById('fade').addEventListener('click', function () {
         document.getElementById('fade').classList.add('hide');
         document.getElementById('modal').classList.add('hide');
@@ -537,33 +777,33 @@
 
         // enviando alerta para o slack caso o dado seja alerta (teste, não vai ser usado assim depois)
 
-        if (dadoPublic > 90) {
+        // if (dadoPublic > 90) {
 
-            // const axios = require('axios/dist/node/axios.cjs');
-            // var qs = requer('qs');
+        //     // const axios = require('axios/dist/node/axios.cjs');
+        //     // var qs = requer('qs');
 
-            var mensagemAlerta = "A máquina 1 está com o uso da CPU alto!"
+        //     var mensagemAlerta = "A máquina 1 está com o uso da CPU alto!"
 
-            var dados = new URLSearchParams();
-            dados.append('payload', `{"channel": "#alertas", "username": "incoming-webhook", "text": "${mensagemAlerta}", "icon_emoji": ":ghost:"}`);
+        //     var dados = new URLSearchParams();
+        //     dados.append('payload', `{"channel": "#alertas", "username": "incoming-webhook", "text": "${mensagemAlerta}", "icon_emoji": ":ghost:"}`);
 
-            var configuração = {
-                method: 'post',
-                url: 'https://hooks.slack.com/services/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',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                data: dados
-            };
+        //     var configuração = {
+        //         method: 'post',
+        //         url: 'https://hooks.slack.com/services/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',
+        //         headers: {
+        //             'Content-Type': 'application/x-www-form-urlencoded'
+        //         },
+        //         data: dados
+        //     };
 
-            axios(configuração)
-                .then(function (response) {
-                    console.log("Notificação enviada com sucesso:", response.data);
-                })
-                .catch(function (error) {
-                    console.error("Erro ao enviar notificação:", error.response ? error.response.data : error.message);
-                });
-        }
+        //     axios(configuração)
+        //         .then(function (response) {
+        //             console.log("Notificação enviada com sucesso:", response.data);
+        //         })
+        //         .catch(function (error) {
+        //             console.error("Erro ao enviar notificação:", error.response ? error.response.data : error.message);
+        //         });
+        // }
     }, 2000);
     // FIM DO GRÁFICO EM TEMPO REAL ==================================================================================
 
@@ -737,78 +977,4 @@
         atualizarDados(redeChart);
         atualizarDados(armazenamentoChart);
     }, 10000);
-
-
-    // ============ SIMULAÇÃO DO GRÁFICO DA PARTE SUPERIOR DA TELA ==============================================
-
-// Definindo as equipes e as cores para o gráfico
-const equipes = ['Equipe A', 'Equipe B', 'Equipe C', 'Equipe D'];
-const colors = {
-    cpu: 'rgba(255, 99, 132, 0.7)',
-    rede: 'rgba(54, 162, 235, 0.7)',
-    ram: 'rgba(255, 206, 86, 0.7)',
-    disco: 'rgba(75, 192, 192, 0.7)'
-};
-
-// Função para gerar valores aleatórios entre 2 e 19
-function getRandomValues() {
-    return Math.floor(Math.random() * 18) + 2;
-}
-
-// Configuração dos dados do gráfico
-const data = {
-    labels: equipes,
-    datasets: [
-        {
-            label: 'CPU',
-            data: equipes.map(() => getRandomValues()),
-            backgroundColor: colors.cpu,
-        },
-        {
-            label: 'Rede',
-            data: equipes.map(() => getRandomValues()),
-            backgroundColor: colors.rede,
-        },
-        {
-            label: 'RAM',
-            data: equipes.map(() => getRandomValues()),
-            backgroundColor: colors.ram,
-        },
-        {
-            label: 'Disco',
-            data: equipes.map(() => getRandomValues()),
-            backgroundColor: colors.disco,
-        }
-    ]
-};
-
-// Configuração do gráfico
-const config = {
-    type: 'bar',
-    data: data,
-    options: {
-        responsive: true,
-        plugins: {
-            legend: {
-                position: 'top',
-            }
-        },
-        scales: {
-            y: {
-                beginAtZero: true,
-                max: 20 // Define o máximo do eixo Y
-            }
-        }
-    }
-};
-
-// Renderiza o gráfico
-const gEquipe = document.getElementById('graficoEquipe').getContext('2d');
-
-// Certifique-se de que o canvas foi encontrado e então renderize o gráfico
-if (gEquipe) {
-    new Chart(gEquipe, config);
-} else {
-    console.error("Não foi possível encontrar o canvas com id 'graficoEquipe'.");
-}
 </script>
