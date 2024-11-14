@@ -106,6 +106,9 @@ CONSTRAINT fkCargoFuncionario FOREIGN KEY(fkCargo)
 REFERENCES cargo(idCargo)
 );
 
+
+
+
 insert into funcionario (nome, email, telefone, senha, fkEmpresa, fkEquipe, fkCargo) values
 ("Jeffinho", "Jeffinho.botafogo@gmail.com", "11 956836220" , MD5("123456"), 1, 1, 1);
 
@@ -167,22 +170,7 @@ SELECT
     equipe.nome AS nomeEquipe
 FROM computador
 JOIN funcionario ON computador.fkFuncionario = funcionario.idFuncionario
-JOIN equipe ON computador.fkEquipe = equipe.idEquipe where funcionario.fkCargo = 4;
- 
-
-insert into funcionario (nome, email, telefone, fkEmpresa, fkEquipe, fkCargo) values
-("Ana Clara", "anaclara@gmail.com", "11956782736", 2, 1, 4),
-("Júlio Cesar", "julio@gmail.com", "11956781234", 2, 1, 4),
-("Beatriz Angola", "bea@gmail.com", "11951234736", 2, 1, 4),
-("Sérgio Lucas", "sergio@gmail.com", "11990082736", 2, 1, 4);
-
-insert into computador (fkEquipe, fkEmpresa, fkFuncionario) values
-(1, 2, 3),
-(1, 2, 4),
-(1, 2, 5),
-(1, 2, 6);
-
-
+JOIN equipe ON computador.fkEquipe = equipe.idEquipe;
 SELECT 
     idComputador,
     status,
@@ -196,6 +184,30 @@ FROM view_computador_funcionario_equipe;
 select idFuncionario, nome, email, status, fkEmpresa, fkEquipe, fkCargo from funcionario;
     
 -- select * from token;
-select * from funcionario where fkCargo = 4;
+select * from funcionario;
+
+
+CREATE TABLE IF NOT EXISTS modelo (
+idModelo INT PRIMARY KEY AUTO_INCREMENT,
+nome varchar(255),
+fkComputador int,
+CONSTRAINT fkmodeloComputador FOREIGN KEY(fkComputador)
+REFERENCES computador(idComputador),
+fkEmpresa INT,
+CONSTRAINT fkmodeloEmpresa FOREIGN KEY(fkEmpresa)
+REFERENCES empresa(idEmpresa),
+fkComponente int,
+CONSTRAINT fkmodeloComponente FOREIGN KEY(fkComponente)
+REFERENCES componente (idComponente),
+fkFuncionario INT,
+CONSTRAINT fkmodeloFuncionario FOREIGN KEY(fkFuncionario)
+REFERENCES funcionario(idFuncionario)
+);
+
+
+desc modelo;
+
+select fkComputador, fkEquipe, modelo.nome as modelo, funcionario.nome from modelo join funcionario on modelo.fkFuncionario = funcionario.idFuncionario where funcionario.fkEmpresa = 1;
+
 
 
