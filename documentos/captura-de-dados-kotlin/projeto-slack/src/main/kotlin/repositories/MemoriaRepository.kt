@@ -8,7 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate
 class MemoriaRepository {
     lateinit var jdbcTemplate: JdbcTemplate
 
-    private val slackWebhookUrl = "https://hooks.slack.com/services/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"
+    private val slackWebhookUrl = "https://hooks.slack.com/services/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"
 
 
     fun configurar() {
@@ -22,15 +22,15 @@ class MemoriaRepository {
     }
 
     fun listarMemoriaUso(): List<Int> {
-        return jdbcTemplate.queryForList("SELECT captura FROM Captura WHERE fkComponente == 2 AND fkAuxComponente ==6 AND captura >= 15000000", Int::class.java)
+        return jdbcTemplate.queryForList("SELECT captura FROM Captura WHERE fkComponente = 2 AND fkAuxComponente = 6 AND captura >= 15000000", Int::class.java)
     }
 
     fun listarMemoriaTotal(): List<Int> {
-        return jdbcTemplate.queryForList("SELECT captura FROM Captura WHERE fkComponente == 2 AND fkAuxComponente ==7 AND captura >= 15000000", Int::class.java)
+        return jdbcTemplate.queryForList("SELECT captura FROM Captura WHERE fkComponente = 2 AND fkAuxComponente = 7 AND captura >= 15000000", Int::class.java)
     }
 
     fun listarMemoriaPorcent(): List<Int> {
-        return jdbcTemplate.queryForList("SELECT captura FROM Captura WHERE fkComponente == 2 AND fkAuxComponente ==8 AND captura >= 80", Int::class.java)
+        return jdbcTemplate.queryForList("SELECT captura FROM Captura WHERE fkComponente = 2 AND fkAuxComponente = 8 AND captura >= 80", Int::class.java)
     }
 
 

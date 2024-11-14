@@ -8,7 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate
 class RedeRepository {
     lateinit var jdbcTemplate: JdbcTemplate
 
-    private val slackWebhookUrl = "https://hooks.slack.com/services/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"
+    private val slackWebhookUrl = "https://hooks.slack.com/services/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"
 
 
     fun configurar() {
@@ -22,19 +22,19 @@ class RedeRepository {
     }
 
     fun listarRedeRecebidos(): List<Int> {
-        return jdbcTemplate.queryForList("SELECT captura FROM Captura WHERE fkComponente == 1 AND fkAuxComponente ==13 AND captura >= 100", Int::class.java)
+        return jdbcTemplate.queryForList("SELECT captura FROM Captura WHERE fkComponente = 1 AND fkAuxComponente = 13 AND captura >= 100", Int::class.java)
     }
 
     fun listarRedeEnviados(): List<Int> {
-        return jdbcTemplate.queryForList("SELECT captura FROM Captura WHERE fkComponente == 1 AND fkAuxComponente ==14 AND captura >= 100", Int::class.java)
+        return jdbcTemplate.queryForList("SELECT captura FROM Captura WHERE fkComponente = 1 AND fkAuxComponente = 14 AND captura >= 100", Int::class.java)
     }
 
     fun listarPacoteEnviados(): List<Int> {
-        return jdbcTemplate.queryForList("SELECT captura FROM Captura WHERE fkComponente == 1 AND fkAuxComponente ==15 AND captura >= 100", Int::class.java)
+        return jdbcTemplate.queryForList("SELECT captura FROM Captura WHERE fkComponente = 1 AND fkAuxComponente = 15 AND captura >= 100", Int::class.java)
     }
 
     fun listarPacoteRecebido(): List<Int> {
-        return jdbcTemplate.queryForList("SELECT captura FROM Captura WHERE fkComponente == 1 AND fkAuxComponente ==16 AND captura >= 100", Int::class.java)
+        return jdbcTemplate.queryForList("SELECT captura FROM Captura WHERE fkComponente = 1 AND fkAuxComponente = 16 AND captura >= 100", Int::class.java)
     }
 
 

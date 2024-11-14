@@ -16,5 +16,5 @@ class ComponentesRepository {
         jdbcTemplate = JdbcTemplate(dataSource)
     }
 
-    fun listarComponentes():List<>
+ //   fun listarComponentes():List<>
 }
