@@ -3,6 +3,7 @@ import time
 import mysql.connector
 from datetime import datetime
 import pytz
+from cpuinfo import get_cpu_info
 
 
 #import os
@@ -10,8 +11,8 @@ import pytz
 
 config = {
     'user': 'root',
-    'password': 'senha_segura',
-    'host': '44.194.151.184',
+    'password': '#Gf47722899846',
+    'host': 'localhost',
     'database': 'StaffWatch'
 }
 
@@ -24,13 +25,26 @@ try:
 except mysql.connector.Error as err:
     print(f'Erro: {err}')
 
-
+def insere_modelo_cpu():
+    cursor = mydb.cursor()
+    cpu_info = get_cpu_info()
+    modelo_cpu = cpu_info['brand_raw']
+    print("Modelo da CPU:", modelo_cpu)
+    
+    add_modelo_cpu = ("""INSERT INTO modelo
+                         (nome, fkComponente, fkEmpresa, fkFuncionario, fkComputador)
+                         VALUES (%s, %s, %s, %s, %s)""")
+    data_modelo_cpu = (modelo_cpu, 4, 1, 1, 1)  # Ajuste os valores das FKs conforme necessário
+    cursor.execute(add_modelo_cpu, data_modelo_cpu)
+    mydb.commit()
+    print("Registro inserido - modelo da CPU")
 
             
 def print_system_info():
     cursor = mydb.cursor()
     fuso_sao_paulo = pytz.timezone("America/Sao_Paulo")
     agora = datetime.now(fuso_sao_paulo)
+    
     mem = psutil.virtual_memory()
     print(f"\nUso de RAM: {mem.percent}% ({mem.used / (1024 ** 3):.2f} GB usado de {mem.total / (1024 ** 3):.2f} GB total)")
     memUso = mem.used / (1024 ** 3)
@@ -143,5 +157,6 @@ def monitor_system(interval=5):
 
 
 if __name__ == "__main__":
+    insere_modelo_cpu() 
     print_system_info()
     #monitor_system()

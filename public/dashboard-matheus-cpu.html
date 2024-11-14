@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="./css/dashboard-matheus-cpu.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+</head>
+
+<body onload="enderecoLinhas()">
+
+    <header>
+        <div class="opcoes">
+            <div class="esq">
+                <div class="logo">
+                    <img href="index.html" src="./src/img/logoB.png" alt="logo">
+                </div>
+
+                <div class="opcoesComponentes" id="itens">
+                    <h6 class="opcoesMenu associMenu"  onclick="window.location.href='pagina-maquina.html'">Dispositivos </h6>
+                    <!-- <h6 class="opcoesMenu" onclick="window.location.href='cadastroFuncionario.html'">Cadastrar</h6> -->
+                    
+                </div>
+            </div>
+
+            <div class="sair">
+                <h6 class="opcoesMenu sair" onclick="sair()"> Sair </h6>
+            </div>
+        </div>
+    </header>
+
+
+    <div class="corpo">
+        <div class="menuLateral">
+
+            <h1 class="ola"> Olá, <span id="b_usuario">usuário </span>! </h1>  
+
+            <div class="itens">
+                <!-- <h4 id="0" class="slc" onclick="window.location.href='dashboardGeral-go.html'">Histórico</h4> -->
+                <h4 style="text-decoration: underline;" id="1" onclick="window.location.href='dashboard-matheus-cpu.html'">CPU</h4>
+                <h4 id="2"  onclick="window.location.href='dashboard-matheus-ram.html'">RAM</h4>
+                <h4 id="3" onclick="window.location.href='dashboard-matheus-rede.html'">REDE</h4>
+                <h4 id="4"  onclick="window.location.href='dashboard-matheus-disco.html'">DISCO</h4>
+                <!-- <h4 class="slc novaequipe" onclick="window.location.href='./novaEquipe.html'">Nova equipe</h4> -->
+            </div>
+        </div>
+        <div class="infos">
+            <!-- Parte superior das Informações-->
+            <div class="emcima">
+
+                <span> Página de monitoramento de CPU!</span> 
+
+
+            </div>
+
+
+
+            <div class="embaixo">
+              <!--Esquerda embaixo  -->
+              <div class="esquerda">
+                  <!-- Tabela à  esquerda -->
+                  <div class="card grande">
+                    <div class="monitoramento">
+                        <div class="monitoramento-card">
+                            <div class="info-monit">
+                                <table id="minhaTabela" class="display">
+                                    <thead>
+                                        <tr>
+                                            <th>Maquina</th>
+                                            <th>Equipe</th>
+                                            <th>Modelo</th>
+                                            <th>Quantidade de Alertas</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbody_corpo_tabela">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+          
+                  <!-- Dois gráficos menores ao lado direito -->
+                  <div class="direitaCards">
+                      <div class="card pequeno">
+                          
+                      </div>
+                      <div class="card pequeno">
+                          
+                      </div>
+                  </div>
+              </div>
+          
+              <!-- Alertas à direita -->
+              <div class="direita">
+                  <h1 style="color: white;">Alertas</h1>
+                  <div class="box">
+                      <p><b style="color: red;"></b></p>
+                  </div>
+                  <div class="box">
+                      <p><b style="color: orange;"></b></p>
+                  </div>
+              </div>
+          </div>
+          
+        </div>
+    </div>
+</body>
+
+</html>
+
+
+
+<script>
+
+function enderecoLinhas() {
+
+let fkEmpresa = sessionStorage.getItem("ID_EMPRESA")
+
+console.log(fkEmpresa)
+
+// let id = 1
+
+fetch(`/enderecos/listarEnderecos/${fkEmpresa}`).then(function (resposta) {
+
+    if (resposta.ok) {
+        if (resposta.status == 204) {
+            throw "Nenhum resultado encontrado!!";
+        }
+
+        resposta.json().then(function (resposta) {
+        console.log("Dados recebidos: ", JSON.stringify(resposta));
+
+        console.log(resposta)
+
+        const bodyTabela = document.getElementById('tbody_corpo_tabela')
+
+        let enderecoPerigo = 0;
+
+            for (let i = 0; i < resposta.length; i++) {
+                
+                let linha = document.createElement('tr');
+                // linha.dataset.idEndereco = resposta[i].id;
+                // linha.dataset.nomeEndereco = resposta[i].nome;
+
+                bodyTabela.appendChild(linha)
+                    
+                let linhaAtual = resposta[i];
+
+                let conteudoMaquina = linhaAtual.fkComputador; 
+                
+                let celMaquina = document.createElement('td');
+                celMaquina.textContent = conteudoMaquina;
+                linha.appendChild(celMaquina);
+
+                let conteudoFuncionario = linhaAtual.nome;
+                
+                let celFuncionario = document.createElement('td');
+                celFuncionario.textContent = `${conteudoFuncionario}`
+                linha.appendChild(celFuncionario);
+
+                let conteudoModelo = linhaAtual.modelo;
+                
+                let celModelo = document.createElement('td');
+                celModelo.textContent = `${conteudoModelo}`
+                linha.appendChild(celModelo);
+            
+
+            }
+
+            
+            // script do objeto 
+                $(document).ready(function () {
+                    $('#minhaTabela').DataTable({
+                        dom: '<"custom-header"lf>rt<"custom-footer"ip>',
+                        pageLength: 5,
+                        lengthMenu: [5, 10, 25, 50, 100],
+                        language: {
+                            info: 'Páginas _PAGE_ de _PAGES_',
+                            infoEmpty: 'Nenhum registro disponível',
+                            infoFiltered: '(filtrado de _MAX_ registros totais)',
+                            lengthMenu: '_MENU_ Registros por páginas',
+                            zeroRecords: 'Nada encontrado',
+                            search: "",  // Desativa o label do input de busca
+                            searchPlaceholder: "Digite para buscar...",  // Placeholder do input de busca
+                            paginate: {
+                                previous: "Anterior",
+                                next: "Próximo"
+                            }
+                        },
+                    });
+                });
+            });
+    } else {
+        throw ('Houve um erro na API!');
+    }
+}).catch(function (resposta) {
+    console.error(resposta);
+    // finalizarAguardar();
+});
+}
+
+
+
+</script>
