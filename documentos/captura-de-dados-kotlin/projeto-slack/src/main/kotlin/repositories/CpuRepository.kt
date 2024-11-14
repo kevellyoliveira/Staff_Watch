@@ -2,12 +2,14 @@ package repositories
 
 import com.slack.api.Slack
 import com.slack.api.webhook.Payload
+import org.apache.commons.dbcp2.BasicDataSource
+import org.springframework.jdbc.core.JdbcTemplate
 
 class CpuRepository {
 
         lateinit var jdbcTemplate: JdbcTemplate
 
-        private val slackWebhookUrl = "https://hooks.slack.com/services/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"
+        private val slackWebhookUrl = "https://hooks.slack.com/services/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"
 
 
         fun configurar() {
@@ -21,7 +23,7 @@ class CpuRepository {
         }
 
         fun listarCpuPorcent(): List<Int> {
-            return jdbcTemplate.queryForList("SELECT captura FROM Captura WHERE fkComponente == 4 AND fkAuxComponente == 12 AND captura >= 85", Int::class.java)
+            return jdbcTemplate.queryForList("SELECT captura FROM Captura WHERE fkComponente = 4 AND fkAuxComponente = 12 AND captura >= 85", Int::class.java)
         }
 
         fun verificarDispararCpu() {
@@ -29,6 +31,7 @@ class CpuRepository {
 
             if (dados.isNotEmpty()) {
                 enviarMensagemSlack("Alerta: Um dado de porcentagem de CPU excedeu o valor de 85% ${dados}")
+                println("Dado enviado ao slack")
             }
         }
 
