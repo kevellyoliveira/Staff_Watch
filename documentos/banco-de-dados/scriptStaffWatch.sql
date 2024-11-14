@@ -204,6 +204,22 @@ CONSTRAINT fkmodeloFuncionario FOREIGN KEY(fkFuncionario)
 REFERENCES funcionario(idFuncionario)
 );
 
+CREATE TABLE IF NOT EXISTS chamada(
+idChamada int primary key auto_increment,
+chamadaRecebida int,
+chamadaAtendida int,
+chamadaPerdida int,
+tempoChamada int,
+tempoEspera int,
+
+fkFuncionario INT,
+CONSTRAINT funcionarioChamada FOREIGN KEY(fkFuncionario)
+REFERENCES funcionario(idFuncionario),
+
+fkEmpresa INT,
+CONSTRAINT empresaChamada FOREIGN KEY(fkEmpresa)
+REFERENCES empresa(idEmpresa)
+);
 
 desc modelo;
 
