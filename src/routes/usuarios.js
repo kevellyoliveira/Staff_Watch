@@ -16,6 +16,10 @@ router.post("/componentes", function (req, res) {
     usuarioController.cadastrarComponente(req, res);
 });
 
+router.post("/contato", function (req, res) {
+    usuarioController.contato(req, res);
+});
+
 // router.post("/consultar", function (req, res) {
 //     usuarioController.consultar(req, res);
 // });

@@ -154,25 +154,26 @@
   <article class="contact_us" id="contate_nos">
     <h3>Junte-se a nós</h3>
     <h4>Cadastre seu email e nós entraremos em contato</h4>
-    <form class="form">
-      <!-- input container  -->
+    <form class="form" onsubmit="contato(event)">
+     
       <div class="input-container">
         <input type="email" name="" placeholder=" " class="input-field" id="email-input" autocomplete="off" required />
-        <!-- input label - which will animate while focus on input  -->
+       
+      
         <label for="email-input">Email</label>
-        <!-- email icon - font-awesome -->
+        
         <i id="email-icon" class="fa-regular fa-envelope"></i>
         <span class="toast-msg" id="invalid-toast">
           <i class="fa-solid fa-circle-exclamation"></i>
           <p>Insira um email válido!</p>
         </span>
-        <!-- email successfuly submit message  -->
+        
         <span class="toast-msg success" id="success-toast">
           <i class="fa-solid fa-check"></i>
           <p>Email cadastrado com sucesso!</p>
         </span>
       </div>
-      <button class="submit-btn" id="contato" onclick="contato()">Enviar</button>
+      <button class="submit-btn"  type="submit" >Enviar</button>
     </form>
     </div>
 
@@ -249,6 +250,32 @@
 
 <script>
 
+function contato(event) {
+
+    
+event.preventDefault();
+
+var email = document.getElementById("email-input");
+// var email2 = email-input.value
+var email2 = email.value;
+
+
+// Remove qualquer erro personalizado antes de validar
+;
+fetch("/usuarios/contato", {
+    method: "POST",
+    headers: { 
+        "Content-Type": "application/json" 
+    },
+    body: JSON.stringify({ 
+      emailServer2: email2
+      }),
+})
+.then((res) => res.json())
+.then((data) => console.log("Email enviado com sucesso!", data))
+.catch((error) => console.error("Erro ao enviar email:", error));
+}
+
   // funcões do campo de email pra entrar em contato
   const emailInput = document.getElementById("email-input");
   const invalidMsg = document.getElementById("invalid-toast");
@@ -262,7 +289,7 @@
     let inputValue = e.target;
     console.log(inputValue.validity);
     if (inputValue.validity.typeMismatch || inputValue.validity.valueMissing) {
-      inputValue.setCustomValidity(" ");
+     // inputValue.setCustomValidity(" ");
       invalidMsg.classList.add("active");
       successMsg.classList.remove("active");
       this.classList.add("invalid");
@@ -335,3 +362,8 @@
       navLinks.classList.toggle('active');
     });
   });
+
+  
+
+ 
+</script>
