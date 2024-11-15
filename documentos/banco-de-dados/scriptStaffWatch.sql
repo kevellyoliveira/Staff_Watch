@@ -167,7 +167,7 @@ SELECT
     equipe.nome AS nomeEquipe
 FROM computador
 JOIN funcionario ON computador.fkFuncionario = funcionario.idFuncionario
-JOIN equipe ON computador.fkEquipe = equipe.idEquipe where funcionario.fkCargo = 4;
+JOIN equipe ON computador.fkEquipe = equipe.idEquipe where funcionario.fkCargo = 4 order by status;
  
 
 insert into funcionario (nome, email, telefone, fkEmpresa, fkEquipe, fkCargo) values
@@ -194,8 +194,6 @@ SELECT
 FROM view_computador_funcionario_equipe;
 
 select idFuncionario, nome, email, status, fkEmpresa, fkEquipe, fkCargo from funcionario;
-    
 -- select * from token;
-select * from funcionario where fkCargo = 4;
 
 
