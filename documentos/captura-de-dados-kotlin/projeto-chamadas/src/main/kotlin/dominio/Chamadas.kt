@@ -2,11 +2,14 @@ package dominio
 
 class Chamadas {
 
-    var chamadasRecebidas: Int = 0;
-    var chamadasAtendidas: Int = 0;
-    var chamadasPerdidas: Int = 0;
-    var tempoChamadas: Int = 0;
-    var esperaChamadas: Int = 0;
-    var eficienciaChamada: Int = 0;
+    var chamadaRecebida: Int = 0;
+    var chamadaAtendida: Int = 0;
+    var chamadaPerdida: Int = 0;
+    var tempoChamada: Int = 0;
+    var tempoEspera: Int = 0;
+    var eficienciaChamada: Double = 0.0;
+    var fkFuncionario: Int = 0;
+    var fkEmpresa: Int = 0;
+
 
 }
