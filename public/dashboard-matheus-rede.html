@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/dashboard-matheus-cpu.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="opcoes">
+            <div class="esq">
+                <div class="logo">
+                    <img href="index.html" src="./src/img/logoB.png" alt="logo">
+                </div>
+
+                <div class="opcoesComponentes" id="itens">
+                    <h6 class="opcoesMenu associMenu"  onclick="window.location.href='pagina-maquina.html'">Dispositivos </h6>
+                    <!-- <h6 class="opcoesMenu" onclick="window.location.href='cadastroFuncionario.html'">Cadastrar</h6> -->
+                    
+                </div>
+            </div>
+
+            <div class="sair">
+                <h6 class="opcoesMenu sair" onclick="sair()"> Sair </h6>
+            </div>
+        </div>
+    </header>
+
+
+    <div class="corpo">
+        <div class="menuLateral">
+
+            <h1 class="ola"> Olá, <span id="b_usuario">usuário </span>! </h1>  
+
+            <div class="itens">
+                <!-- <h4 id="0" class="slc" onclick="window.location.href='dashboardGeral-go.html'">Histórico</h4> -->
+                <h4 id="1" onclick="window.location.href='dashboard-matheus-cpu.html'">CPU</h4>
+                <h4 id="2"  onclick="window.location.href='dashboard-matheus-ram.html'">RAM</h4>
+                <h4 style="text-decoration: underline;" id="3" onclick="window.location.href='dashboard-matheus-rede.html'">REDE</h4>
+                <h4 id="4"  onclick="window.location.href='dashboard-matheus-disco.html'">DISCO</h4>
+                <!-- <h4 class="slc novaequipe" onclick="window.location.href='./novaEquipe.html'">Nova equipe</h4> -->
+            </div>
+        </div>
+        <div class="infos">
+            <!-- Parte superior das Informações-->
+            <div class="emcima">
+
+                <span> Página de monitoramento de REDE!</span> 
+
+
+            </div>
+
+
+
+            <div class="embaixo">
+              <!--Esquerda embaixo  -->
+              <div class="esquerda">
+                  <!-- Gráfico maior à esquerda -->
+                  <div class="card grande">
+                      <div class="cimaCard">
+                          <canvas class="grafico-grande" id="myChartGrande"></canvas>
+                      </div>
+                  </div>
+          
+                  <!-- Dois gráficos menores ao lado direito -->
+                  <div class="direitaCards">
+                      <div class="card pequeno">
+                          
+                      </div>
+                      <div class="card pequeno">
+                          
+                      </div>
+                  </div>
+              </div>
+          
+              <!-- Alertas à direita -->
+              <div class="direita">
+                  <h1 style="color: white;">Alertas</h1>
+                  <div class="box">
+                      <p><b style="color: red;"></b></p>
+                  </div>
+                  <div class="box">
+                      <p><b style="color: orange;"></b></p>
+                  </div>
+              </div>
+          </div>
+          
+        </div>
+    </div>
+</body>
+
+</html>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+
+
+    Chart.defaults.color = 'white';
+   
+   const ctx = document.getElementById('myChartGrande');
+
+new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+    datasets: [{
+      label: '# of Votes',
+      data: [12, 1, 3, 5, 2, 3],
+      borderWidth: 1,
+      borderColor: "white",
+      backgroundColor: 'white',
+    }]
+  },
+  options: {
+    scales: {
+      y: {
+        beginAtZero: true
+      }
+    }
+  }
+});
+
+
+
+
+    
+
+</script>

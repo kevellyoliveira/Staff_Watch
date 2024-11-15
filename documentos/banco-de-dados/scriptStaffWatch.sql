@@ -106,6 +106,9 @@ CONSTRAINT fkCargoFuncionario FOREIGN KEY(fkCargo)
 REFERENCES cargo(idCargo)
 );
 
+
+
+
 insert into funcionario (nome, email, telefone, senha, fkEmpresa, fkEquipe, fkCargo) values
 ("Jeffinho", "Jeffinho.botafogo@gmail.com", "11 956836220" , MD5("123456"), 1, 1, 1);
 
@@ -195,5 +198,46 @@ FROM view_computador_funcionario_equipe;
 
 select idFuncionario, nome, email, status, fkEmpresa, fkEquipe, fkCargo from funcionario;
 -- select * from token;
+select * from funcionario;
+
+
+CREATE TABLE IF NOT EXISTS modelo (
+idModelo INT PRIMARY KEY AUTO_INCREMENT,
+nome varchar(255),
+fkComputador int,
+CONSTRAINT fkmodeloComputador FOREIGN KEY(fkComputador)
+REFERENCES computador(idComputador),
+fkEmpresa INT,
+CONSTRAINT fkmodeloEmpresa FOREIGN KEY(fkEmpresa)
+REFERENCES empresa(idEmpresa),
+fkComponente int,
+CONSTRAINT fkmodeloComponente FOREIGN KEY(fkComponente)
+REFERENCES componente (idComponente),
+fkFuncionario INT,
+CONSTRAINT fkmodeloFuncionario FOREIGN KEY(fkFuncionario)
+REFERENCES funcionario(idFuncionario)
+);
+
+CREATE TABLE IF NOT EXISTS chamada(
+idChamada int primary key auto_increment,
+chamadaRecebida int,
+chamadaAtendida int,
+chamadaPerdida int,
+tempoChamada int,
+tempoEspera int,
+
+fkFuncionario INT,
+CONSTRAINT funcionarioChamada FOREIGN KEY(fkFuncionario)
+REFERENCES funcionario(idFuncionario),
+
+fkEmpresa INT,
+CONSTRAINT empresaChamada FOREIGN KEY(fkEmpresa)
+REFERENCES empresa(idEmpresa)
+);
+
+desc modelo;
+
+select fkComputador, fkEquipe, modelo.nome as modelo, funcionario.nome from modelo join funcionario on modelo.fkFuncionario = funcionario.idFuncionario where funcionario.fkEmpresa = 1;
+
 
 
