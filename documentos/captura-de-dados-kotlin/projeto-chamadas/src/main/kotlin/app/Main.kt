@@ -10,7 +10,7 @@ open class Main {
         @JvmStatic
         fun main(args: Array<String>) {
 
-            val host = "172.31.91.14" // IP do servidor Asterisk
+            val host = "172.17.0.1" // IP do servidor Asterisk
             val port = 5038 // Porta padrão da AMI
             val username = "eduardo" // Usuário configurado na AMI
             val password = "senhaSegura123" // Senha configurada na AMI
