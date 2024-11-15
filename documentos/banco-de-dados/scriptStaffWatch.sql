@@ -173,18 +173,20 @@ JOIN funcionario ON computador.fkFuncionario = funcionario.idFuncionario
 JOIN equipe ON computador.fkEquipe = equipe.idEquipe where funcionario.fkCargo = 4 order by status;
  
 
+ insert into funcionario values
+ (default, "teste", "teste@gmail.com", "11956782706", MD5("Aa1!"), 1,1, null, 1);
+
 insert into funcionario (nome, email, telefone, fkEmpresa, fkEquipe, fkCargo) values
-("Ana Clara", "anaclara@gmail.com", "11956782736", 2, 1, 4),
-("Júlio Cesar", "julio@gmail.com", "11956781234", 2, 1, 4),
-("Beatriz Angola", "bea@gmail.com", "11951234736", 2, 1, 4),
-("Sérgio Lucas", "sergio@gmail.com", "11990082736", 2, 1, 4);
+("Ana Clara", "anaclara@gmail.com", "11956782736", 1, 1, 4),
+("Júlio Cesar", "julio@gmail.com", "11956781234", 1, 1, 4),
+("Beatriz Angola", "bea@gmail.com", "11951234736", 1, 1, 4),
+("Sérgio Lucas", "sergio@gmail.com", "11990082736", 1, 1, 4);
 
 insert into computador (fkEquipe, fkEmpresa, fkFuncionario) values
-(1, 2, 3),
-(1, 2, 4),
-(1, 2, 5),
-(1, 2, 6);
-
+(1, 1, 3),
+(1, 1, 4),
+(1, 1, 5),
+(1, 1, 6);
 
 SELECT 
     idComputador,
@@ -236,6 +238,9 @@ REFERENCES empresa(idEmpresa)
 );
 
 desc modelo;
+
+show tables;
+select * from captura limit 5;
 
 select fkComputador, fkEquipe, modelo.nome as modelo, funcionario.nome from modelo join funcionario on modelo.fkFuncionario = funcionario.idFuncionario where funcionario.fkEmpresa = 1;
 

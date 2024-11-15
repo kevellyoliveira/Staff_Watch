@@ -182,12 +182,12 @@
                             </div>
                         </div>
                         <div class="dado">
-                            <h3> Velocidade: </h3>
+                            <h3> Média de uso: </h3>
                             <div class="dadoInfo">
-                                <h2> <span id="cpuVelocidade"> 2,09 GHz </span> </h2>
+                                <h2> <span id="cpuVelocidade"> 25% </span> </h2>
                             </div>
                         </div>
-                        <div class="dado">
+                        <!-- <div class="dado">
                             <h3> Threads: </h3>
                             <div class="dadoInfo">
                                 <h2> <span id="cpuThreads"> 2400 </span> </h2>
@@ -210,8 +210,7 @@
                             <div class="dadoInfo">
                                 <h2> <span id="cpuTempoDeAtividade"> 0:08:17:42 </span> </h2>
                             </div>
-                        </div>
-
+                        </div> -->
                     </div>
 
                     <div id="dashDisco" class="bside">
@@ -222,47 +221,48 @@
                             </div>
                         </div>
 
+
                         <div class="dado">
-                            <h3> Tempo de resposta: </h3>
+                            <h3> Média de uso: </h3>
                             <div class="dadoInfo">
-                                <h2> <span id="discoResposta"> 0,1 ms </span> </h2>
+                                <h2> <span id="discoLeitura"> 77% </span> </h2>
                             </div>
                         </div>
 
                         <div class="dado">
-                            <h3> Velocidade de leitura: </h3>
+                            <h3> Tempo médio de resposta: </h3>
                             <div class="dadoInfo">
-                                <h2> <span id="discoLeitura"> 90,8 KB/s </span> </h2>
+                                <h2> <span id="discoResposta"> 2,1 ms </span> </h2>
                             </div>
                         </div>
-
+                        <!-- 
                         <div class="dado">
                             <h3> Velocidade de gravação: </h3>
                             <div class="dadoInfo">
                                 <h2> <span id="discoGravacao"> 130,2 KB/s </span> </h2>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
 
                     <div id="dashRede" class="bside">
                         <div class="dado">
-                            <h3> Dados <br>Enviados: </h3>
+                            <h3> Pacotes Enviados: </h3>
                             <div class="dadoInfo">
-                                <h2> <span id="redeEnviar"> 120,2 MB/s </span> </h2>
+                                <h2> <span id="redeEnviar"> 120 </span> </h2>
                             </div>
                         </div>
 
                         <div class="dado">
-                            <h3> Dados Recebidos: </h3>
+                            <h3> Pacotes Recebidos: </h3>
                             <div class="dadoInfo">
-                                <h2> <span id="redeReceber"> 390,1 MB/s </span> </h2>
+                                <h2> <span id="redeReceber"> 390 </span> </h2>
                             </div>
                         </div>
 
                         <div class="dado">
-                            <h3> Dados Perdidos: </h3>
+                            <h3> Pacotes Perdidos: </h3>
                             <div class="dadoInfo">
-                                <h2> <span id="redePerdido"> 10,1 MB/s </span> </h2>
+                                <h2> <span id="redePerdido"> 103 </span> </h2>
                             </div>
                         </div>
 
@@ -279,13 +279,13 @@
                         </div>
 
                         <div class="dado">
-                            <h3> Disponível: </h3>
+                            <h3> Média de uso: </h3>
                             <div class="dadoInfo">
-                                <h2> <span id="memoriaDisponivel"> 8,9 GB </span> </h2>
+                                <h2> <span id="memoriaDisponivel"> 34% </span> </h2>
                             </div>
                         </div>
 
-                        <div class="dado">
+                        <!-- <div class="dado">
                             <h3> Confirmado: </h3>
                             <div class="dadoInfo">
                                 <h2> <span id="memoriaConfirmado"> 10,1/22,7 GB </span> </h2>
@@ -311,15 +311,15 @@
                             <div class="dadoInfo">
                                 <h2> <span id="memoriaNaoPaginavel"> 460 MB </span> </h2>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- script do modal -->
-    <!-- <script src=".././js/script.js"></script> -->
 </body>
+<!-- script do modal -->
+<script src=".././js/script.js"></script>
 <!-- script do chartJs -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -327,13 +327,14 @@
 </html>
 
 <script>
-
+    let editarAlgo = false
     // ==========  FUNÇÕES DO MODAL  ================================================================================================================================================
     // função pra fechar o modal quando clicar4 no botão de X e na parte de fora do modal
     document.getElementById('fade').addEventListener('click', function () {
         document.getElementById('fade').classList.add('hide');
         document.getElementById('modal').classList.add('hide');
     });
+
 
     document.querySelector('.btnSair').addEventListener('click', function () {
         document.getElementById('fade').classList.add('hide');
@@ -354,8 +355,9 @@
         fade.classList.toggle("hide");
     };
 
+
     // =================================================================================================================
-    
+
     // =============== FUNÇÕES DE GRÁFICOS ========================================================================================
 
     // essa função serve pra mudar as métricas na tela de acordo com o componente selecionado no header
@@ -400,6 +402,9 @@
 
         // Mostra a div do componente selecionado
         const selectedComponent = document.getElementById(componenteId);
+        if (editarAlgo) {
+            stop
+        }
         console.log("Componente a ser exibido: ", selectedComponent);
         if (selectedComponent) {
             selectedComponent.style.display = "grid"; // Garante que o componente é mostrado
@@ -415,6 +420,7 @@
         } else {
             console.log("Elemento 'idNomeComponente' não encontrado.");
         }
+
     }
 
 
@@ -423,7 +429,7 @@
 
     function atualizarFeed() {
         var fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
-        console.log(fkEmpresa);
+        // console.log(fkEmpresa);
         fetch(`/maquinas/listar/${fkEmpresa}`)
             .then(function (resposta) {
                 if (resposta.ok) {
@@ -441,7 +447,7 @@
                 }
             })
             .then(function (resposta) {
-                console.log("Dados recebidos: ", JSON.stringify(resposta));
+                // console.log("Dados recebidos: ", JSON.stringify(resposta));
 
                 var feed = document.getElementById("sectioncard");
                 feed.innerHTML = ""; // Limpa o conteúdo atual do feed
@@ -466,7 +472,7 @@
                             <img src=".././src/img/icons/indicadoresMaquina/computadorEstavel.png" alt="">
                         </figure>
                     </div>
-                    <div class="dirCard"></div>
+                    <div class="dirCard" id="maquina${publicacao.idComputador}"></div>
                 </div>
                 <div class="down-card">
                     <div class="content-card">
@@ -475,7 +481,7 @@
                         <p><b>Funcionário:</b> ${publicacao.nomeFuncionario}</p>
                         <p><b>Status:</b> ${status}</p>
                     </div>
-                    <div class="up-card">
+                    <div id="editar" class="up-card">
                         <img src=".././src/img/icons/editar.svg" onclick="atualizarMaquina(${publicacao.idComputador})">
                         <img src=".././src/img/icons/excluir.svg" onclick="deletar(${publicacao.idComputador})">
                     </div>
@@ -569,8 +575,11 @@
     // funcoes do card da equipe: editar e remover máquina
 
     function atualizarMaquina(idComputador) {
+        editarAlgo = true
         // Redireciona o usuário para a página de edição com o ID do funcionário como parâmetro na URL
         if (confirm("Tem a certeza de que deseja reativar esta máquina?")) {
+            // window.location.href = "dispositivos.html"
+
             fetch(`/maquinas/atualizarMaquina/${idComputador}`, {
                 method: "PUT"
             })
@@ -590,6 +599,7 @@
     }
 
     function deletar(idComputador) {
+        editarAlgo = true
         if (confirm("Tem a certeza de que deseja desativar esta máquina?")) {
             fetch(`/maquinas/deletar/${idComputador}`, {
                 method: "PUT"
