@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Operário | Staff Watch</title>
+    <link rel="stylesheet" href="./css/dashboard-eduardo.css">
+    <script src="js/script.js" defer></script>
+    <link rel="shortcut icon" href="./src/img/logoB.png" type="image/x-icon" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    <header>
+        <div class="opcoes">
+            <div class="esq">
+                <div class="logo">
+                    <img href="index.html" src="./src/img/logoB.png" alt="logo">
+                </div>
+                <div class="opcoesComponentes" id="itens">
+                    <h6 class="opcoesMenu" onclick="levarParaDashboard()">Home</h6>
+                    <h6 class="opcoesMenu slct associMenu" onclick="abrirMenu()">Associados <img
+                            src="./src/img/icons/seta.png" alt="icone menu vertical"></h6>
+                    <h6 class="opcoesMenu" onclick="window.location.href='cadastroFuncionario.html'">Cadastrar</h6>
+                    <div id="menu">
+                        <h4 onclick="window.location.href='pagina-operario2.html'">Funcionários</h4>
+                        <h4 onclick="window.location.href='pagina-maquina.html'">Dispositivos</h4>
+                        <h4 onclick="window.location.href='cadastroEquipe.html'">Equipe</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="sair">
+                <h6 class="opcoesMenu sair" onclick="sair()"> Sair </h6>
+            </div>
+        </div>
+    </header>
+    <div class="menuLateral">
+        <div class="itens">
+            <h4 id="0" class="historico" onclick="window.location.href='dashboardGeral-go.html'">Histórico</h4> <!-- Histórico Fixo -->
+            
+            <!-- As equipes serão carregadas dinamicamente aqui -->
+            
+            <h4 class="slc novaequipe" onclick="window.location.href='./novaEquipe.html'">Nova equipe</h4> <!-- Nova equipe Fixa -->
+        </div>
+    </div>
+
+    <article class="title">
+        <h2>Monitoramento da equipe</h2><input type="text" name="Pesquisar" id="pesquisar_input" required="required"
+            autocomplete="off" placeholder="Pesquisar funcionário"><button onclick="listarPorUsuario()"><i
+                class="fa-solid fa-magnifying-glass"></i></button>
+    </article>
+    <br>
+    <br>
+    <div class="funcs">
+        <div id="feed_container" class="feed-container"></div>
+    </div>
+
+
+</body>
+
+</html>
+
+<script>
+    function abrirMenu() {
+        if (document.getElementById("menu").style.display == "flex") {
+            document.getElementById("menu").style.display = "none";
+        } else {
+            document.getElementById("menu").style.display = "flex"
+        }
+    }
+
+    var fkCargo = sessionStorage.FK_CARGO;
+
+    function sair() {
+        sessionStorage.clear()
+        window.location = "index.html"
+    }
+
+    function atualizarFeedEquipe() {
+        // var fkEmpresa = sessionStorage.getItem("ID_EMPRESA")
+        // var fkEquipe = sessionStorage.getItem("ID_EQUIPE")
+
+        //console.log(fkEmpresa)
+        //console.log(fkEquipe)
+
+        fetch(`/funcionarios/listarEquipe/${2}/${1}`).then(function (resposta) {
+            if (resposta.ok) {
+                if (resposta.status == 204) {
+                    var feed = document.getElementById("feed_container");
+                    var mensagem = document.createElement("span");
+                    mensagem.innerHTML = "Nenhum resultado encontrado.";
+                    feed.appendChild(mensagem);
+                    throw "Nenhum resultado encontrado!!";
+                }
+
+                resposta.json().then(function (resposta) {
+                    console.log("Dados recebidos: ", JSON.stringify(resposta));
+
+                    var feed = document.getElementById("feed_container");
+                    feed.innerHTML = ""; // Limpa o conteúdo atual do feed
+                    for (let i = 0; i < resposta.length; i++) {
+                        var publicacao = resposta[i];
+
+                        // Criando e manipulando elementos do HTML via JavaScript
+                        var divPublicacao = document.createElement("div");
+                        var spanID = document.createElement("span");
+                        var spanTitulo = document.createElement("span");
+                        var spanNome = document.createElement("span");
+                        var divDescricao = document.createElement("div");
+                        var divButtons = document.createElement("div");
+                        var btnEditar = document.createElement("button");
+                        var btnDeletar = document.createElement("button");
+
+                        // Definindo conteúdo dos elementos
+                        spanID.innerHTML = "<div class='id'> Id Funcionário: <b>" + publicacao.idFuncionario + "</b> </div> <br>";
+                        spanTitulo.innerHTML = "E-mail: <b>" + publicacao.email + "</b>";
+                        spanNome.innerHTML = "Nome: <b>" + publicacao.nome + "</b>";
+                        divDescricao.innerHTML = "Equipe: <b>" + publicacao.fkEquipe + "</b>";
+
+                        // Configurando o botão "Editar"
+                        btnEditar.innerHTML = '<i class="fa-solid fa-pen"></i>'; // Ícone do botão
+                        btnEditar.className = "editar"; // Classe do botão
+                        btnEditar.id = "AbrirModal2_" + publicacao.idFuncionario; // ID único baseado no ID do funcionário
+                        let idDaVez = publicacao.idFuncionario
+                        btnEditar.addEventListener('click', function () {
+                            redirecionarParaEdicao(idDaVez); // Função que redireciona para a página de edição
+                        });
+
+                        // Configurando o botão "Deletar"
+                        btnDeletar.innerHTML = '<i class="fa-solid fa-trash"></i>'; // Ícone do botão
+                        btnDeletar.className = "deletar"; // Classe do botão
+                        btnDeletar.id = "btnDeletar_" + publicacao.idFuncionario; // ID único
+                        btnDeletar.addEventListener('click', function () {
+                            deletar(idDaVez); // Função 'deletar' com ID do funcionário
+                        });
+
+                        // Adicionando os botões ao container de botões
+                        divButtons.className = "div-buttons";
+                        divButtons.appendChild(btnEditar);
+                        divButtons.appendChild(btnDeletar);
+
+                        // Adicionando todos os elementos criados ao divPublicacao
+                        divPublicacao.className = "publicacao";
+                        divPublicacao.appendChild(spanID);
+                        divPublicacao.appendChild(spanNome);
+                        divPublicacao.appendChild(spanTitulo);
+                        divPublicacao.appendChild(divDescricao);
+                        divPublicacao.appendChild(divButtons);
+
+                        // Adicionando o card de publicacao ao feed
+                        feed.appendChild(divPublicacao);
+                    }
+
+                });
+            } else {
+                throw ('Houve um erro na API!');
+            }
+        }).catch(function (resposta) {
+            console.error(resposta);
+        });
+    }
+
+    function levarParaDashboard() {
+        if (fkCargo == 3) {
+            window.location.href = "/dashboardGeral-gti.html";
+        } else if (fkCargo == 2) {
+            window.location.href = "/dashboardGeral-go.html";
+        }
+
+    }
+
+    function redirecionarParaEdicao(idFuncionario) {
+        // Redireciona o usuário para a página de edição com o ID do funcionário como parâmetro na URL
+        window.location.href = `editarFuncionario.html?id=${idFuncionario}`;
+    }
+
+    function deletar(idFuncionario) {
+        if (confirm("Tem a certeza de que deseja deletar este funcionário?")) {
+            fetch(`/funcionarios/deletar/${idFuncionario}`, {
+                method: "PUT"
+            })
+                .then(resposta => {
+                    if (resposta.ok) {
+                        alert("Funcionário deletado com sucesso!");
+                        atualizarFeed(); // Atualiza a lista após a exclusão
+                    } else {
+                        throw "Não foi possível deletar o funcionário.";
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                    alert("Ocorreu um erro ao tentar deletar o funcionário.");
+                });
+        }
+    }
+
+    function listarPorUsuario() {
+        const inputPesquisa = document.getElementById("pesquisar_input").value; // Pega o valor do input
+        const fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
+        console.log(fkEmpresa)
+
+        // Faz uma requisição à API, passando o termo de pesquisa
+        fetch(`/funcionarios/listar/${fkEmpresa}/${inputPesquisa}`).then(function (resposta) {
+            if (resposta.ok) {
+                if (resposta.status == 204) {
+                    const feed = document.getElementById("feed_container");
+                    feed.innerHTML = "Nenhum resultado encontrado.";
+                    return;
+                }
+
+                resposta.json().then(function (resposta) {
+                    const feed = document.getElementById("feed_container");
+                    feed.innerHTML = ""; // Limpa o conteúdo atual do feed
+
+                    resposta.forEach((publicacao) => {
+                        const divPublicacao = document.createElement("div");
+                        const spanID = document.createElement("span");
+                        const spanTitulo = document.createElement("span");
+                        const spanNome = document.createElement("span");
+                        const divDescricao = document.createElement("div");
+                        const divButtons = document.createElement("div");
+                        const btnEditar = document.createElement("button");
+                        const btnDeletar = document.createElement("button");
+
+                        spanID.innerHTML = "<div class='id'> Id Funcionário: <b>" + publicacao.idFuncionario + "</b> </div> <br>";
+                        spanTitulo.innerHTML = "E-mail: <b>" + publicacao.email + "</b>";
+                        spanNome.innerHTML = "Nome: <b>" + publicacao.nome + "</b>";
+                        divDescricao.innerHTML = "Equipe: <b>" + publicacao.fkEquipe + "</b>";
+
+                        btnEditar.innerHTML = '<i class="fa-solid fa-pen"></i>';
+                        btnEditar.className = "editar";
+                        btnEditar.id = "AbrirModal2_" + publicacao.idFuncionario;
+                        btnEditar.addEventListener('click', function () {
+                            redirecionarParaEdicao(publicacao.idFuncionario);
+                        });
+
+                        btnDeletar.innerHTML = '<i class="fa-solid fa-trash"></i>';
+                        btnDeletar.className = "deletar";
+                        btnDeletar.id = "btnDeletar_" + publicacao.idFuncionario;
+                        btnDeletar.addEventListener('click', function () {
+                            deletar(publicacao.idFuncionario);
+                        });
+
+                        divButtons.className = "div-buttons";
+                        divButtons.appendChild(btnEditar);
+                        divButtons.appendChild(btnDeletar);
+
+                        divPublicacao.className = "publicacao";
+                        divPublicacao.appendChild(spanID);
+                        divPublicacao.appendChild(spanNome);
+                        divPublicacao.appendChild(spanTitulo);
+                        divPublicacao.appendChild(divDescricao);
+                        divPublicacao.appendChild(divButtons);
+
+                        feed.appendChild(divPublicacao);
+                    });
+                });
+            } else {
+                console.error("Houve um erro na API.");
+            }
+        }).catch(function (erro) {
+            console.error("Erro na requisição:", erro);
+        });
+    }
+
+    function listarEquipes() {
+    const fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
+
+    fetch(`funcionarios/listarEquipes/${fkEmpresa}`)
+        .then(function (resposta) {
+            if (resposta.ok) {
+                return resposta.json(); // Se a resposta for ok, tenta converter para JSON
+            } else {
+                console.error("Erro ao carregar equipes, status:", resposta.status);
+                return []; // Se não retornar sucesso, retorna um array vazio
+            }
+        })
+        .then(function (dados) {
+            // Verificando se dados está correto
+            console.log("Equipes carregadas:", dados);
+
+            const menuLateral = document.querySelector(".menuLateral .itens");
+
+            // Limpa o conteúdo atual do menu (exceto os itens fixos)
+            const historicoItem = document.querySelector(".historico"); // Seleciona o item Histórico pela classe
+            const novaEquipeItem = document.querySelector(".novaequipe"); // Seleciona o item Nova Equipe pela classe
+
+            // Re-adiciona o item "Histórico" de volta
+            menuLateral.innerHTML = ''; // Limpa a lista para evitar duplicação
+
+            // Adiciona o Histórico novamente
+            menuLateral.appendChild(historicoItem); 
+
+            // Adiciona as equipes (se houver)
+            if (dados && dados.length > 0) {
+                dados.forEach(function (equipe) {
+                    const h4 = document.createElement("h4");
+                    h4.textContent = equipe.nome;  // O nome da equipe
+                    h4.onclick = function () {
+                        selecionarItem(equipe.id);  // Quando clicar, chama a função de seleção
+                    };
+                    menuLateral.appendChild(h4); // Adiciona a equipe ao menu
+                });
+            } else {
+                // Se não houver equipes, exibe uma mensagem
+                const noTeamsMessage = document.createElement("h4");
+                noTeamsMessage.textContent = "Nenhuma equipe encontrada.";
+                menuLateral.appendChild(noTeamsMessage);
+            }
+
+            // Re-adiciona a opção "Nova equipe"
+            menuLateral.appendChild(novaEquipeItem);
+        })
+        .catch(function (erro) {
+            console.error("Erro ao carregar as equipes:", erro);
+        });
+}
+
+window.onload = function() {
+    listarEquipes();  // Chama a função para listar as equipes
+    atualizarFeedEquipe();  // Chama a função para atualizar o feed da equipe
+};
+
+
+ window.onload = function() {
+     listarEquipes();  // Chama a função para listar as equipes
+     atualizarFeedEquipe();  // Chama a função para atualizar o feed da equipe
+ };
+
+document.addEventListener('DOMContentLoaded', function() {
+    listarEquipes();  // Chama a função para listar as equipes
+    atualizarFeedEquipe();  // Chama a função para atualizar o feed da equipe
+});
+
+
+
+</script>

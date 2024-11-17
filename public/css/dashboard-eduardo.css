@@ -1,0 +1,1637 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+
+.funcs{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+/* Configuração para os cards */
+#feed_container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Sempre 2 colunas */
+    gap: 16px; /* Espaçamento entre os cards */
+    padding: 16px;
+    width: 100%; /* Garante que o container ocupe toda a largura */
+    max-width: 1200px; /* Opcional: limite para o tamanho do container */
+    margin: 0 auto; /* Centraliza o container na tela */
+}
+
+/* Estilo de cada card */
+.publicacao {
+    background-color: #f4f4f4; /* Fundo claro */
+    border: 1px solid #ddd; /* Borda cinza */
+    border-radius: 8px; /* Bordas arredondadas */
+    padding: 16px; /* Espaço interno */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra */
+    box-sizing: border-box; /* Inclui borda e padding no tamanho total */
+    display: flex;
+    flex-direction: column; /* Organiza o conteúdo em coluna */
+    justify-content: space-between; /* Espaça o conteúdo interno */
+    align-items: flex-start;
+}
+
+
+.div-results .feed-container {
+    background-color: #212124;
+    border-radius: 5px;
+    margin-bottom: 80px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter';
+    font-weight: 500;
+}
+
+:root {
+    --verde: #3CF211; /* ou qualquer outro código de cor verde */
+}
+
+
+body {
+    background-color: #e7ecef;
+    height: auto;
+}
+
+/* HEADER */
+
+header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    height: auto;
+    background-color: #002148;
+    color: #fff;
+}
+
+.esq {
+    display: flex;
+    width: 70%;
+    height: 100%;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 0 0 1.75rem;
+}
+
+.opcoes {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 6rem;
+    font-size: 2.2rem;
+    width: 100%;
+}
+
+.opcoes a {
+    text-decoration: none;
+    color: #000;
+}
+
+.logo {
+    display: flex;
+    width: 10%;
+    padding: 1.5rem 0;
+}
+
+.logo img {
+    width: 90%;
+    cursor: pointer;
+}
+
+.opcoesComponentes {
+    display: flex;
+    width: 70%;
+    justify-content: space-evenly;
+    white-space: nowrap;
+    position: relative;
+}
+
+.opcoesComponentes img {
+    width: 15px;
+}
+
+.opcoesMenu {
+    cursor: pointer;
+    font-weight: 300;
+}
+
+.opcoesMenu.slct {
+    font-weight: 600;
+}
+
+#menu {
+    display: none;
+    flex-direction: column;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #002048b6;
+    position: absolute;
+    margin-top: 3.92rem;
+    left: 16rem;
+    padding: 0.5rem;
+    z-index: 10;
+}
+
+.opcoesComponentes h6:hover {
+    transform: scale(1.05);
+}
+
+.opcoesComponentes h6 {
+    transition: 0.4s;
+}
+
+#menu h4 {
+    margin: 0;
+    padding: .7rem;
+    cursor: pointer;
+}
+
+.sair {
+    display: flex;
+    padding: 0 1.5rem;
+    cursor: pointer;
+    transition: 0.4s;
+}
+
+.sair h6:hover {
+    color: #C43302;
+}
+
+/* MENU LATERAL */
+.menuLateral {
+    display: flex;
+    flex-direction: column;
+    background-color: #002148;
+    color: #fff;
+    width: 12%;
+    min-height: 100%;
+    position: relative;
+}
+
+.itens {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    font-size: 1.3rem;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 4.5rem;
+
+}
+
+.itens h4 {
+    cursor: pointer;
+}
+
+.slc {
+    color: #6096ba;
+}
+
+.slc.novaequipe, .novaequipe {
+    color: #7fc4f1;
+
+}
+
+
+/* BODY  */
+
+.corpo {
+    display: flex;
+    width: 99vw;
+    min-height: auto;
+}
+
+.menuLateral {
+    min-height: 86.8vh;
+}
+
+.infos {
+    width: 100%;
+    /* height: 86.8vh; */
+    height: auto;
+
+    /*Parte superior*/
+    & .emcima {
+        width: 100%;
+        height: 20%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 2rem 0 0 3rem;
+        font-size: 2rem;
+        gap: 5rem;
+
+        & select {
+            width: 15%;
+            height: 38%;
+            background-color: #002148;
+            color: #fff;
+            border-radius: 20px;
+            border: none;
+            text-align: center;
+            font-size: 1rem;
+        }
+    }
+    /*Parte com os gráficos e alertas*/
+    & .embaixo {
+        width: 100%;
+        height: 80%;
+        display: flex;
+        justify-content: space-between;
+
+        /*Cards*/
+        & .esquerda {
+            width: 75%;
+            height: 100%;
+
+            & .cima,
+            .baixo {
+                width: 100%;
+                height: 50%;
+                display: flex;
+                justify-content: space-evenly;
+                align-items: center;
+            }
+
+            & .card {
+                width: 45%;
+                height: 85%;
+                background-color: #002148;
+                border-radius: 20px;
+            }
+        }
+
+        .cima.go {
+            height: 60%;
+            align-items: flex-start;
+        }
+
+        /*Alertas*/
+        & .direita {
+            width: 22%;
+            height: 90%;
+            background-color: #002148;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            & h1 {
+                margin-top: 20px;
+                color: white;
+                text-align: center;
+            }
+
+            & .box {
+                margin-top: 20px;
+                width: 90%;
+                height: 6rem ;
+                background-color: #e7ecef;
+                border-radius: 15px;
+                /* text-align: center; */
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                padding: 3%;
+                cursor: pointer;
+            }
+        }
+    }
+}
+
+.direita.go {
+    gap: 3rem;
+    font-size: 1rem;
+}
+.equipesAlerta {
+    display: flex;
+    font-size: 2rem;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.alertasEquipes {
+    cursor: pointer;
+}
+
+/*Complemento Cards*/
+
+.card {
+
+    & .cimaCard {
+        width: 100%;
+        height: 15%;
+        display: flex;
+        align-items: center;
+
+        & h1 {
+            font-size: 20px;
+            padding-left: 20px;
+            color: white;
+        }
+    }
+
+    & .baixoCard {
+        width: 100%;
+        height: 85%;
+        display: flex;
+
+        & .left {
+            height: 100%;
+            width: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        & .left.chamadas {
+            /* height: 100%; */
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        & .left.chamadas img {
+            width: 100%;
+        }
+
+        & .left img {
+            width: 75%;
+        }
+
+        & .right {
+            height: 100%;
+            width: 50%;
+            display: flex;
+
+            & .leftIndicador {
+                height: 100%;
+                width: 50%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-evenly;
+                align-items: center;
+
+                & .indicador {
+                    width: 95%;
+                    /* height: 40%; */
+                    background-color: rgba(96, 150, 186, 0.8);
+                    border-radius: 10px;
+                }
+            }
+
+            & .rightIndicador {
+                height: 100%;
+                width: 50%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-evenly;
+                align-items: center;
+
+                & .indicador {
+                    width: 86%;
+                    height: 86%;
+                    background-color: rgba(96, 150, 186, 0.8);
+                    border-radius: 10px;
+                }
+            }
+
+            & .indicador {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-evenly;
+            }
+
+            & h2 {
+                /* margin-top: 5px; */
+                font-size: 14px;
+                text-align: center;
+                color: white;
+            }
+
+            & h1 {
+                font-size: 25px;
+                text-align: center;
+            }
+        }
+    }
+}
+
+.card.go, .card.dir {
+    margin: 0;
+    height: 100%;
+}
+
+
+.card.go {
+    /* max-height: 12rem;*/
+    max-width: 18rem;
+    text-align: center;
+    align-items: center;
+    padding: 1.5rem;
+    gap: 1.5rem;
+}
+.card.go h1 {
+    padding: 0;
+}
+
+.card.go .cimaCard {
+    width: 80%;
+    height: 30%;
+    font-size: 2rem;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.card.go .baixoCard {
+    width: 80%;
+    height: 70%;
+    font-size: 2rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.tempoMedioChamadas {
+    color: var(--verde);
+}
+
+.card.dir {
+    width: 25rem;
+}
+
+.embaixo .baixo.go.vai {
+    display: flex;
+    height: 40%;
+    align-items: flex-start;
+    padding-top: 2rem;
+}
+
+.baixo.go .card.go {
+    max-height: 90%;
+}
+
+
+.legendas {
+    display: flex;
+    width: 65%;
+    flex-direction: column;
+    align-items: center;
+    padding: .25rem 0;
+    border-radius: 20px;
+    gap: .25rem;
+    background-color: #000;
+}
+
+.legendas2 {
+    display: flex;
+    width: 40%;
+    
+    align-items: center;
+    justify-content: center;
+    padding: .25rem 0;
+    border-radius: 20px;
+    color: white;
+    gap: .25rem;
+    background-color: #001E42;
+}
+
+.title {
+    color: #001E42;
+    display: flex;
+    padding: 2rem 0 0 3rem;
+    font-size: 2rem;
+}
+
+.main-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.up-card img {
+    width: 30px;
+    height: 30px;
+    margin: 5px 2.5px;
+}
+
+.down-card img {
+    width: 2rem;
+}
+
+.alertaMaquina p {
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.section-card {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 1%;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    margin: 2.5%;
+    padding: 0.75rem;
+    background-color: #001E42;
+    color: white;
+    border: 3px solid white;
+    border-radius: 12px;
+    box-shadow: 4px 5px 4px rgba(0, 0, 0, 0.25);
+    font-size: 20px;
+    transform: translateY(0) scale(1.0);
+    transition: transform 0.5s;
+    height: 12rem;
+    width: 22rem;
+    align-items: flex-start;
+    justify-content: space-around;
+}
+
+.card:hover,
+.card:focus {
+    transform: translateY(5px) scale(1.1);
+    transition: transform 0.5s;
+    cursor: pointer;
+}
+
+.up-card {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    width: 15%;
+}
+
+.up-card img {
+    width: 1.375rem;
+    margin: 5px 2.5px;
+}
+
+.down-card {
+    display: flex;
+    gap: 1.30rem;
+    justify-content: flex-start;
+    flex-direction: row;
+    width: 100%;
+    align-items: flex-end;
+}
+
+.down-card.cima {
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.esqCard {
+    width: 25%;
+}
+
+.dirCard {
+    width: 65%;
+}
+
+.alertaMaquina {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+}
+
+.iconComp {
+    width: 4.8rem;
+}
+.iconFunc {
+    width: 7.3rem;
+}
+
+.iconComp img, .iconFunc img {
+    width: 100%;
+}
+
+.down-card p {
+    margin: 0;
+}
+
+.down-card p b {
+    font-weight: bold;
+}
+
+.content-card {
+    width: 85%;
+}
+
+.content-card p {
+    gap: 1.2rem;
+}
+
+#fade {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 5;
+}
+
+/* #modal {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    width: 65%;
+    height: auto;
+    background-color: #E7ECEF;
+    border-radius: 8px;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+} */
+
+
+#modal,
+#fade {
+    transition: 0.5s;
+    opacity: 1;
+    pointer-events: all;
+}
+
+#modal.hide,
+#fade.hide {
+    opacity: 0;
+    pointer-events: none;
+}
+
+
+.modal-content {
+    display: flex;
+    margin: 0 0 5% 5%;
+    font-size: 25px;
+}
+
+.modal-user {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 5%;
+}
+
+.modal-user p {
+    margin: 10px 0;
+}
+
+.modal-header figure img {
+    width: 10vw;
+    margin-left: 4.5%;
+}
+
+.modal-header {
+    margin-bottom: 0;
+}
+
+.modal-form {
+    margin-left: 15%;
+}
+
+
+/* MODAL - DASHBOARD EQUIPE DO GERENTE DE OPERAÇÕES */
+
+#modal {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    width: 80%;
+    height: 70%;
+    background-color: #E7ECEF;
+    border-radius: 8px;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    overflow: hidden; /* Impedir o overflow */
+    align-items: flex-start;
+}
+
+.opcoesComponentes.menu {
+    font-size: 2.4rem;
+    padding-bottom: 2rem;
+    /* white-space: wrap; */
+}
+
+#dashCpu,
+#dashDisco,
+#dashRede,
+#dashMemoria,
+
+#dashChamadas,
+#dashAtendimento,
+#dashResolucao,
+#dashAbandono
+
+{
+    display: none;
+}
+
+#dashCpu{
+    display: grid;
+}
+
+#dashChamadas{
+    display: flex;
+}
+
+#dashDisco {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+}
+
+.containerModal {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: space-around;
+    padding: 2rem;
+    width: 100%;
+    height: 100%;
+}
+
+.aside {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    justify-content: space-between;
+    height: 85%;
+    padding: 1rem;
+    flex: 1;
+    width: 60%;
+    font-size: 4rem;
+}
+
+.bside {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    width: 40%;
+    flex-wrap: wrap;
+    height: 85%;
+    justify-content: space-around;
+    align-content: space-around;
+    gap: 5%;
+    padding: 1rem;
+}
+
+/* informações do aside */
+.dadosComponente {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+    height: 30%;
+}
+
+.infosComponente {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-around;
+    width: 100%;
+    gap: 6%;
+}
+
+.graficoComponente {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 58%;
+}
+
+.graficoComponente img {
+    height: 100%;
+    width: 100%;
+}
+
+.graficoChart {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    height: 40vh;
+    width: 100%;
+    /* width: 26rem; 
+    height: 14rem; */
+}
+
+.componente {
+    font-size: 3rem;
+}
+
+.nomeComponente {
+    font-size: 1.5rem;
+    color: #002148;
+}
+
+.monitoramento {
+    font-size: 1.4rem;
+    padding: 10px;
+}
+
+/* informações do bside */
+
+.dado {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+.dado h3,
+h2 {
+    padding: .4rem;
+    font-weight: 600;
+    /* white-space: nowrap; impede a quebra de linha */
+}
+
+.dado span {
+    font-weight: 400;
+}
+
+.dadoInfo {
+    font-size: 1.2rem;
+    width: 100%;
+}
+
+.btnSair {
+    display: flex;
+    justify-self: flex-end;
+    padding: 3% 3% 0 0;
+
+}
+
+.btnSair img{
+    width: 3.5rem;
+    transition: 0.4s;
+    cursor: pointer;
+}
+
+.btnSair img:hover {
+    transform: scale(1.15);
+}
+
+/* MODIFICAÇÕES MODAL DA PÁGINA DE EQUIPE DO GERENTE DE OPERAÇÕES */
+
+.opcoesComponentes.menu.go{
+    font-size: 2.4rem;
+    padding-bottom: 0;
+    text-align: center;
+    white-space: wrap;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.opcoesMenu.go{
+    width: 100%;
+}
+
+.containerModal.go {
+    padding: 2rem 0;
+}
+
+.filtro {
+    display: flex;
+    flex-direction: column;
+    background-color: #001E42;
+    font-size: 2rem;
+    color: #fff;
+    gap: 1.2rem;
+    padding: 1rem;
+    border-radius: 15px;
+}
+.tituloFiltro {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: .8rem;
+}
+
+.tituloFiltro img {
+    width: 15%;
+    height: 15%;
+}
+
+.bside.go {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    align-items: center;
+}
+
+.ladoDados {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 3.4rem;
+}
+
+.slctxt.gotxt {
+    font-weight: 600;
+    color: #6096ba;
+}
+.gotxt {
+    color: #fff;
+    font-weight: 400;
+    font-size: 1.8rem;
+    white-space: nowrap;
+}
+
+.dado.go span, .dadoInfo.go h2{
+    font-weight: 500;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+body,
+html {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: "Inter";
+    flex-direction: column;
+    background-color: #E7ECEF;
+}
+
+
+/* HEADER */
+header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    height: auto;
+    background-color: #002148;
+    color: #fff;
+}
+.esq {
+    display: flex;
+    width: 70%;
+    height: 100%;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 0 0 1.75rem;
+}
+
+.opcoes {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 6rem;
+    font-size: 2.2rem;
+    width: 100%;
+}
+
+.opcoes a{
+    text-decoration: none;
+    color: #000;
+}
+
+.logo {
+    display: flex;
+    width: 10%;
+    padding: 1.5rem 0 ;
+}
+
+.logo img{
+    width: 90%;
+    cursor: pointer;
+}
+
+.opcoesComponentes {
+    display: flex;
+    width: 70%;
+    justify-content: space-evenly;
+    white-space: nowrap;
+    position: relative;
+}
+
+.opcoesComponentes img {
+    width: 15px;
+}
+
+.opcoesMenu {
+    cursor: pointer;
+    font-weight: 300;
+}
+.opcoesMenu.slct {
+    font-weight: 600;
+}
+
+#menu {
+    display: none;
+    flex-direction: column;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #002048b6;
+    position: absolute;
+    margin-top: 7rem;
+    left: 16rem;
+    padding: 0.5rem;
+    z-index: 10;
+}
+.opcoesComponentes h6:hover {
+    transform: scale(1.05);
+}
+
+.opcoesComponentes h6 {
+    transition: 0.4s;
+}
+
+#menu h4 {
+    margin: 0;
+    padding: .7rem;
+    cursor: pointer;
+}
+
+.sair {
+    display: flex;
+    padding: 0 1.5rem;
+    cursor: pointer;
+    transition: 0.4s;
+}
+
+.sair h6:hover {
+    color: #C43302;
+}
+
+
+/* PAGINA */
+.title {
+    color: #002148;
+    text-align: center;
+}
+
+.title h2 {
+    margin-top: 5%;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.main-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+@media screen and (max-width: 768px) {
+    .main-section {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .up-card img {
+        width: 30px;
+        height: 30px;
+        margin: 5px 2.5px;
+    }
+
+    .down-card{
+        flex-direction: row;
+    }
+    .down-card figure{
+        margin: 0;
+        width: auto;
+    }
+}
+
+.section-card {
+    display: flex;
+    flex-direction: column;
+    padding: 1%;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    margin: 2.5%;
+    padding: 10px 10px;
+    background-color: #001E42;
+    color: white;
+    border: 3px solid white;
+    border-radius: 12px;
+    box-shadow: 4px 5px 4px rgba(0, 0, 0, 0.25);
+    font-size: 20px;
+    transform: translateY(0) scale(1.0);
+    transition: transform 0.5s;
+}
+.card:hover,
+.card:focus{
+    transform: translateY(5px) scale(1.1);
+    transition: transform 0.5s;
+}
+
+.up-card {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+}
+
+.up-card img {
+    width: 15px;
+    height: 15px;
+    margin: 5px 2.5px;
+}
+
+.down-card {
+    display: flex;
+}
+
+.down-card img {
+    height: 50px;
+    width: 50px;
+}
+
+.down-card p {
+    margin: 0;
+}
+
+.down-card p b {
+    font-weight: bold;
+}
+
+#fade{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 5;
+}
+
+#modal{
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    width: 65%;
+    height: auto;
+    background-color: #E7ECEF;
+    border-radius: 8px;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+}
+
+#modal,
+#fade{
+    transition: 0.5s;
+    opacity: 1;
+    pointer-events: all;
+}
+
+#modal.hide,
+#fade.hide{
+    opacity: 0;
+    pointer-events: none;
+}
+
+
+.modal-content{
+    display: flex;
+    margin: 5%;
+    margin-top: 0;
+    font-size: 25px;
+}
+
+.modal-user{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 5%;
+}
+.modal-user p {
+    margin: 10px 0;
+}
+
+.modal-header figure img{
+    width: 10vw;
+    margin-left: 4.5%;
+}
+
+.modal-header{
+    margin-bottom: 0;
+}
+
+.modal-form{
+    margin-left: 15%;
+}
+
+.mae{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Inter";
+  }
+
+  .filho1{
+    background-color: #002148;
+    color: white;
+    justify-content: flex-start;
+    height:150px;
+    width: 300px;
+    margin: 10px;
+    border-radius: 15PX;
+    align-items: center;
+  }
+
+  .filho2{
+    background-color : #002148;
+    color: white;
+    justify-content: center;
+    height: 150px;
+    width: 300px;
+    margin: 10px;
+    border-radius: 15PX;
+    border-radius: 15PX;
+    align-items: center;
+  }
+
+  .filho3{
+    background-color: #002148;
+    color: white;
+    justify-content: flex-end;
+    height:150px;
+    width: 300px;
+    margin: 10px;
+    border-radius: 15PX;
+    border-radius: 15PX;
+  }
+
+  .editar{
+    height: 30px;
+    width: 40px;
+    position: relative;
+    left: -40px;
+  }
+  .deletar{
+    width: 40px;
+    position: relative;
+    left: -20px;
+    top: 5px;
+  }
+
+  input{
+    background-color: white;
+    height: 25%;
+    width: 20%;
+    border: none;
+    outline: none;
+    border-radius: 5px 0% 0% 5px;
+    font-family: "Inter";
+  }
+
+  button{
+    background-color:#002147;
+    color: white;
+    border: none;
+    border-radius: 0% 10% 10% 0%;
+    font-family: "Inter";
+    height: 25%;
+    width: 5%;
+  }
+
+  button :hover{
+    box-shadow: 0px 0px 10px #8a8785;
+    transform: translate(0px, -5px);
+    transition:transform 0.5s;
+  }
+
+dialog::backdrop{
+
+   background-color: rgb(0 0 0/ .5);
+    }
+
+    .dialog {
+        border: none;
+        border-radius: .5rem;
+        box-shadow: 0 0 1em rgb(0 0 0 / .3);
+        width: 50%;
+        height: 400px;
+        padding: 0px;  
+    }
+
+    .editMaquina{
+        width: 100%;
+        height: 100%;
+        background-color: #002147;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 10px;
+        
+    }
+
+    .editMaquina h1{
+        font-size: 40px;
+        color: white;
+    }
+    
+    .editMaquina p{
+        font-size: 30px;
+        color: white;
+    }
+    .editMaquina button{
+        background-color: white; 
+        color: #002147; 
+        border: none;
+        padding: 10px 20px; 
+        border-radius: 15px; 
+        font-size: 16px; 
+        cursor: pointer; 
+        transition: background-color 0.3s ease; 
+    }
+    
+    #FecharModal:hover {
+        background-color: #0e5ab1;
+    }
+
+    #dialog2::backdrop{
+
+        background-color: rgb(0 0 0/ .5);
+         }
+     
+         #dialog2 {
+             border: none;
+             border-radius: .5rem;
+             box-shadow: 0 0 1em rgb(0 0 0 / .3);
+             width: 50%;
+             height: 400px;
+             padding: 0px;  
+         }
+     
+         .editMaquina2{
+             width: 100%;
+             height: 100%;
+             background-color:#002147;
+             display: flex;
+             align-items: center;
+             justify-content: center;
+             flex-direction: column;
+             gap: 10px;
+             
+         }
+     
+         .editMaquina2 h1{
+             font-size: 40px;
+             color: white;
+         }
+         
+         .editMaquina2 p{
+             font-size: 30px;
+             color: white;
+         }
+         
+         .editMaquina2 span{
+             font-size: 30px;
+             color: white;
+         }
+         
+         .editMaquina2 input{
+             width: 40%;
+             padding: 10px; 
+             border-radius: 15px; 
+             border: none;
+             background-color: white; 
+             color: white;
+             outline: none;
+             font-size: 16px;
+         }
+         
+         
+         .editMaquina2 button{
+             background-color: white; 
+             color: #002147; 
+             border: none;
+             padding: 10px 20px; 
+             border-radius: 15px; 
+             font-size: 16px; 
+             cursor: pointer;
+             transition: background-color 0.3s ease; 
+         }
+         
+         #FecharModal2:hover {
+             background-color:#0e5ab1;
+         }
+
+         #dialog3::backdrop{
+
+            background-color: rgb(0 0 0/ .5);
+             }
+         
+             #dialog3 {
+                 border: none;
+                 border-radius: .5rem;
+                 box-shadow: 0 0 1em rgb(0 0 0 / .3);
+                 width: 50%;
+                 height: 400px;
+                 padding: 0px;  
+             }
+         
+             .editMaquina3{
+                 width: 100%;
+                 height: 100%;
+                 background-color: #002147;
+                 display: flex;
+                 align-items: center;
+                 justify-content: center;
+                 flex-direction: column;
+                 gap: 10px;
+                 
+             }
+         
+             .editMaquina3 h1{
+                 font-size: 40px;
+                 color: white;
+             }
+             
+             .editMaquina3 p{
+                 font-size: 30px;
+                 color: white;
+             }
+             
+             .editMaquina3 span{
+                 font-size: 30px;
+                 color: white;
+             }
+             
+             .editMaquina3 input{
+                 width: 40%; 
+                 padding: 10px; 
+                 border-radius: 15px; 
+                 border: none; 
+                 background-color: #002147; 
+                 color: white; 
+                 outline: none;
+                 font-size: 16px; 
+             }
+             
+             
+             .editMaquina3 button{
+                 background-color: white; 
+                 color: #002147; 
+                 border: none; 
+                 padding: 10px 20px; 
+                 border-radius: 15px; 
+                 font-size: 16px; 
+                 cursor: pointer; 
+                 transition: background-color 0.3s ease; 
+             }
+             
+             #FecharModal3:hover {
+                 background-color:#0e5ab1 ;
+             }
+/*Funcionários*/
+
+@import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family:"Inter";
+}
+
+.label-captura {
+  display: flex;
+  justify-content: center;
+}
+
+.dash-right .avisos {
+  width: 100%;
+  color: rgb(216, 216, 216);
+  font-family: 'Barlow', 'Segoe UI', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.dash-right .avisos .container {
+  display: flex;
+  align-items: center;
+}
+
+.dash-right .avisos .container .div-form {
+  width: 95%;
+}
+
+.dash-right .avisos .container .div-form #form_postagem {
+  width: 95%;
+}
+
+.dash-right .avisos .div-form label {
+  width: 95%;
+}
+
+.dash-right .avisos .div-form input {
+  width: 95%;
+  border-radius: 5px;
+  height: 30px;
+}
+
+.dash-right .avisos .div-form textarea {
+  width: 95%;
+  border: 3px solid #002147;
+  background-color: white;
+  border-radius: 5px;
+}
+
+.dash-right .avisos .div-form button {
+  cursor: pointer;
+  font-family:"Inter";
+  border: 0;
+  border-radius: 5px;
+  font-weight: 600;
+  font-size: 18px;
+  padding: 10px 15px;
+  color: white;
+  background-color: #002147;
+  width: 120px;
+}
+
+
+
+.publicacao {
+  display:grid;
+  align-content: center;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  margin-bottom: 30px;
+  background-color: #002147;
+  color: white;
+  width: 600px;
+  height: 80%;
+  padding: 20px;
+  text-align: center;
+  font-size: 22px;
+}
+
+.publicacao>*:not(:last-child) {
+  padding: 0 0 10px 0;
+}
+
+.div-results {
+  width: 100%;
+}
+.id{
+    position: relative;
+    left: -200px;
+    top: 20px;
+}
+
+.funcs{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.div-results .feed-container {
+    background-color: #212124;
+    border-radius: 5px;
+    margin-bottom: 80px;
+}
+
+.div-buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.div-buttons>* {
+  margin-left: 30px;
+}
+
+.container h1{
+    color: black;
+    padding-left: 25px;
+}
+
+.container h3{
+    color: #000;
+    height: 5px;
+    width: 100%;
+}
+
+             
+
