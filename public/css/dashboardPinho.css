@@ -1,0 +1,165 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter';
+    font-weight: 500;
+}
+
+
+
+body {
+    background-color: #e7ecef;
+    height: auto;
+}
+
+header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    height: auto;
+    background-color: #002148;
+    color: #fff;
+    margin: 0;
+}
+
+.esq {
+    display: flex;
+    width: 70%;
+    height: 100%;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 0 0 1.75rem;
+}
+
+.opcoes {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 6rem;
+    font-size: 2.2rem;
+    width: 100%;
+}
+
+.opcoes a {
+    text-decoration: none;
+    color: #000;
+}
+
+.logo {
+    display: flex;
+    width: 10%;
+    padding: 1.5rem 0;
+}
+
+.logo img {
+    width: 90%;
+    cursor: pointer;
+}
+
+.opcoesComponentes {
+    display: flex;
+    width: 70%;
+    justify-content: space-evenly;
+    white-space: nowrap;
+    position: relative;
+}
+
+.opcoesComponentes img {
+    width: 15px;
+}
+
+.opcoesMenu {
+    cursor: pointer;
+    font-weight: 300;
+}
+
+.opcoesMenu.slct {
+    font-weight: 600;
+}
+
+#menu {
+    display: none;
+    flex-direction: column;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #002048b6;
+    position: absolute;
+    margin-top: 3.92rem;
+    left: 16rem;
+    padding: 0.5rem;
+    z-index: 10;
+}
+
+.opcoesComponentes h6:hover {
+    transform: scale(1.05);
+}
+
+.opcoesComponentes h6 {
+    transition: 0.4s;
+}
+
+#menu h4 {
+    margin: 0;
+    padding: .7rem;
+    cursor: pointer;
+}
+
+.sair {
+    display: flex;
+    padding: 0 1.5rem 0;
+    cursor: pointer;
+    transition: 0.4s;
+}
+
+.sair h6:hover {
+    color: #C43302;
+}
+
+/* MENU LATERAL */
+.menuLateral {
+    display: flex;
+    flex-direction: column;
+    background-color: #002148;
+    color: #fff;
+    width: 12%;
+    min-height: 100%;
+    height: 100vh;
+    position: relative;
+}
+
+.itens {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    font-size: 1.3rem;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 4.5rem;
+
+}
+
+.itens h4 {
+    cursor: pointer;
+}
+
+.slc {
+    color: #6096ba;
+}
+
+.slc.novaequipe, .novaequipe {
+    color: #7fc4f1;
+
+}
+
+
+/* BODY  */
+
+.corpo {
+    display: flex;
+    width: 100%;
+    min-height: auto;
+}
