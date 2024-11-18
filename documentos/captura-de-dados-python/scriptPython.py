@@ -6,7 +6,7 @@ import mysql.connector
 
 config = {
     'user': 'root',
-    'password': '10062006Dudu',
+    'password': 'sptech',
     'host': 'localhost',
     'database': 'StaffWatch'
 }
@@ -27,7 +27,7 @@ def print_system_info():
     memUso = mem.used / (1024 ** 3)
     memTotal = mem.total / (1024 ** 3)
     memPerc = mem.percent
-    idComputador = menu_python()
+    # idComputador = menu_python()
 
     add_mem = ("""INSERT INTO captura 
                 (idCaptura, captura,fkComponente, fkComputador, fkAuxComponente)

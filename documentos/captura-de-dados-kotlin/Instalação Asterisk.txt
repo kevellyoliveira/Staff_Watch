@@ -1,47 +1,35 @@
 Instalação Asterisk
 
 sudo apt update && sudo apt upgrade -y 
-sudo apt install -y build-essential git libncurses5-dev libxml2-dev libsqlite3-dev uuid-dev libjansson-dev libssl-dev
-sudo apt install unixodbc unixodbc-dev
-git clone https://github.com/asterisk/asterisk.git
+sudo apt install -y build-essential git autoconf libxml2-dev libncurses5-dev libsqlite3-dev uuid-dev libjansson-dev libssl-dev -y
+sudo apt install libjansson-dev -y
+sudo apt install uuid-dev -y
+git clone -b 22 https://github.com/asterisk/asterisk.git
 cd asterisk
+sudo contrib/scripts/install_prereq install
+sudo apt install libedit-dev -y
 ./configure
 make menuselect
-Módulos necessários:
-Módulos de CDR (Call Detail Records):
-
-cdr_csv: Para gravação de CDRs em arquivos CSV. (Útil se você quiser ter registros de chamadas em formato simples de arquivo).
-cdr_adaptive_odbc: Para armazenamento de CDRs em bancos de dados usando ODBC.
-cdr_custom: Permite a customização dos campos e do formato dos registros de chamadas.
-Módulos de gravação:
-
-app_mixmonitor: Para gravação de chamadas. Isso permite que você grave chamadas de forma programada ou com base em condições específicas.
-app_record: Permite funcionalidades básicas de gravação de áudio durante a chamada.
-Módulos de monitoramento e eventos:
-
-res_monitor: Facilita a captura de áudio das chamadas.
-res_odbc: Necessário se você for usar ODBC para armazenar CDRs ou informações de chamadas em bancos de dados externos.
-Módulos de API e interfaces:
-
-res_agi: Para execução de scripts AGI (Asterisk Gateway Interface), que podem ser usados para manipular chamadas em tempo real e capturar dados específicos.
-app_dial: Módulo necessário para discagem de chamadas e monitoramento de eventos de chamadas.
-Módulos de logger:
-
-logger: Essencial para a geração de logs detalhados, incluindo eventos de chamadas.
-cel_custom: Para captura de eventos de chamadas com maior detalhamento que CDRs comuns.
-
-make -j$(nproc)
+make clean
+make distclean
+./configure
+make
 sudo make install
+sudo make samples
 sudo make config
 sudo ldconfig
-sudo useradd -r asterisk
-sudo chown -R asterisk:asterisk /var/lib/asterisk /var/spool/asterisk /var/log/asterisk /var/run/asterisk
-sudo chmod -R 750 /var/run/asterisk
+sudo service asterisk start
+sudo apt install docker.io -y
+sudo docker pull eduardomiyasaki/staffwatch:chamadasV5
+sudo nano /etc/asterisk/manager.conf
 
+[eduardo]
+secret = senhaSegura123
+read = all
+write = all
+deny = 0.0.0.0/0.0.0.0
+permit = 0.0.0.0/0.0.0.0
 
-sudo nano /etc/asterisk/asterisk.conf
-runuser = asterisk
-rungroup = asterisk
-sudo systemctl start asterisk
-sudo systemctl status asterisk
-sudo systemctl enable asterisk
+sudo systemctl restart Asterisk
+sudo systemctl status Asterisk
+ sudo docker run -d --name containerAsterisk1 -p 5038:5038 eduardomiyasaki/staffwatch:chamadasV5

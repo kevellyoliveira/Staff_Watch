@@ -2,7 +2,7 @@ import psutil
 import time
 import mysql.connector
 from datetime import datetime
-import pytz
+import pytz 
 from cpuinfo import get_cpu_info
 
 
@@ -11,7 +11,7 @@ from cpuinfo import get_cpu_info
 
 config = {
     'user': 'root',
-    'password': '#Gf47722899846',
+    'password': 'sptech',
     'host': 'localhost',
     'database': 'StaffWatch'
 }
@@ -52,10 +52,10 @@ def print_system_info():
     memPerc = mem.percent
 
     add_mem = ("""INSERT INTO captura
-                (idCaptura, captura, dataCaptura, fkAuxComponente, fkComponente)
-                VALUES (default,%s,%s,6,2),
-                (default,%s,%s,7,2),
-                (default,%s,%s,8,2)""")
+                (idCaptura, captura, dataCaptura, fkAuxComponente, fkComponente, fkComputador)
+                VALUES (default,%s,%s,6,2,1),
+                (default,%s,%s,7,2,1),
+                (default,%s,%s,8,2,1)""")
 
     data_mem = [memUso, agora, memTotal, agora, memPerc, agora]
 
@@ -71,10 +71,10 @@ def print_system_info():
     discoPerc = disk.percent
 
     add_disco = ("""INSERT INTO captura
-                (idCaptura, captura, dataCaptura, fkAuxComponente, fkComponente)
-                VALUES (default,%s,%s,9,3),
-                (default,%s,%s,10,3),
-                (default,%s,%s,11,3)""")
+                (idCaptura, captura, dataCaptura, fkAuxComponente, fkComponente, fkComputador)
+                VALUES (default,%s,%s,9,3,1),
+                (default,%s,%s,10,3,1),
+                (default,%s,%s,11,3,1)""")
 
     data_disco = [discoUso, agora, discoTotal, agora, discoPerc, agora]
 
@@ -85,12 +85,12 @@ def print_system_info():
     cpu_percent = psutil.cpu_percent(interval=None)
 
     add_cpu = ("""INSERT INTO captura
-                (idCaptura, captura, dataCaptura, fkAuxComponente,fkComponente)
-                VALUES (default,%s,%s,12,4)""")
+                (idCaptura, captura, dataCaptura, fkAuxComponente,fkComponente, fkComputador)
+                VALUES (default,%s,%s,12,4,1)""")
 
     data_cpu = [cpu_percent, agora]
 
-    cursor.execute(add_disco, data_disco)
+    cursor.execute(add_cpu, data_cpu)
     mydb.commit()
     print(cursor.rowcount, "registro inserido - cpu")
 
@@ -118,11 +118,11 @@ def print_system_info():
 
 
     add_rede = ("""INSERT INTO captura
-                (idCaptura, Captura, dataCaptura, fkAuxComponente,fkComponente)
-                VALUES (default,%s,%s,2,1),
-                (default,%s,%s,3,1),
-                (default,%s,%s,4,1),
-                (default,%s,%s,5,1)""")
+                (idCaptura, Captura, dataCaptura, fkAuxComponente,fkComponente, fkComputador)
+                VALUES (default,%s,%s,2,1,1),
+                (default,%s,%s,3,1,1),
+                (default,%s,%s,4,1,1),
+                (default,%s,%s,5,1,1)""")
 
     data_rede = [bytesEnv, agora, bytesReceb, agora, pctReceb, agora, pctEnv, agora]
     print(type(data_rede))
