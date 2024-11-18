@@ -43,6 +43,7 @@ insert into auxComponente values
 (default, "modelo CPU", "nome", 4),
 (default, "modelo Disco", "nome", 3),
 (default, "modelo Rede", "nome", 1),
+(default, "modelo RAM", "arm. total", 2),
 
 -- looca
 (default,"redeRecebidosLooca","bytes", 1),
