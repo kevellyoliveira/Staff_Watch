@@ -250,11 +250,10 @@ select * from captura order by idCaptura desc limit 15;
 INSERT INTO alerta (fkCaptura) VALUES 
 (1),
 (382),
-(720),
-(1456);
+(720);
+
 select * from computador;
 desc captura;
-select * from captura where modelo like "%";
 
 -- exibindo detalhes a serem exibidos na tela dos alertas!
 select ca.captura, ca.dataCaptura, 
@@ -281,12 +280,11 @@ group by co.idComponente, maq.fkEquipe;
 
 -- gráfico em tempo real: uso de CPU
 create or replace view view_cpuTempoReal as
-select ca.captura, time(ca.dataCaptura) as dataCaptura, maq.nome
-from captura ca
-join modelo maq on maq.fkComputador = ca.fkComputador
-where ca.fkComponente = 4 and ca.fkComputador = 1 and ca.fkAuxComponente = 12 order by dataCaptura limit 100;
+select captura, time(dataCaptura) as dataCaptura, modelo
+from captura
+where fkComponente = 4 and fkComputador = 1 and fkAuxComponente = 12 order by dataCaptura limit 100;
 
-select * from auxComponente;
+select * from captura order by idCaptura desc limit 10;
 
 desc captura;
 select * from componente;
@@ -339,7 +337,7 @@ order by idCaptura desc limit 1;
 desc captura;
 select * from alerta;
 select * from componente;
-
+select * from captura where modelo like "%";
 select fkComputador, fkEquipe, modelo.nome as modelo, funcionario.nome from modelo 
 join funcionario on modelo.fkFuncionario = funcionario.idFuncionario 
 where funcionario.fkEmpresa = 1;
