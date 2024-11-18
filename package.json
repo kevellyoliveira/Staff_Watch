@@ -12,6 +12,7 @@
   "dependencies": {
     "axios": "^1.7.7",
     "cors": "^2.8.5",
+    "datatables.net-dt": "^2.1.8",
     "dotenv": "^16.4.5",
     "express": "^4.17.1",
     "mysql2": "^3.9.4",
