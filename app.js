@@ -34,6 +34,7 @@ var app = express();
 var indexRouter = require("./src/routes/index");
 var usuarioRouter = require("./src/routes/usuarios");
 var funcionariosRouter = require("./src/routes/funcionarios");
+var redesRouter = require("./src/routes/redesMatheus");
 var enderecoRouter = require("./src/routes/enderecos");
 var medidasRouter = require("./src/routes/medidas");
 var maquinasRouter = require("./src/routes/maquinas");
@@ -52,7 +53,9 @@ app.use("/funcionarios", funcionariosRouter);
 app.use("/enderecos", enderecoRouter);
 app.use("/medidas", medidasRouter);
 app.use("/maquinas", maquinasRouter);
+app.use("/redesMatheus", redesRouter);
 app.use("/dispositivos", dispositivosRouter);
+
 // app.use("/empresas", empresasRouter);
 
 app.listen(PORTA_APP, function () {
