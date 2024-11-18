@@ -18,6 +18,7 @@ const transport = nodemailer.createTransport({
 function autenticar(req, res) {
     var email = req.body.emailServer;
     var senha = req.body.senhaServer;
+    var email2 = req.body.emailServer2;
     // var token = req.body.tokenServer;
 
 
@@ -61,6 +62,8 @@ function cadastrar(req, res) {
     var cargo = req.body.cargoServer;
     var email = req.body.emailServer;
     var senha = req.body.senhaServer;
+
+    var email2 = req.body.emailServer2;
     // var token = req.body.tokenServer;
 
     // Faça as validações dos valores
@@ -89,9 +92,9 @@ function cadastrar(req, res) {
 
                     transport.sendMail({
                         from: '"Staff Watch" <equipestaffwatch@gmail.com>',
-                        to: email,
+                        to: email2,
                         subject: "Negociação serviço Staff Watch",
-                        html: ` <p>Prezado(a) ${nomeRep},</p>
+                        html: ` <p>Prezado cliente,</p>
                             <p>Espero que esta mensagem o(a) encontre bem.</p>
 
     <p>A <strong>Staff Watch</strong> oferece um software robusto de monitoramento de atividades em tempo real, relatórios personalizados e análises detalhadas de desempenho, permitindo uma gestão mais eficaz de equipes e operações de atendimento ao cliente. Nosso objetivo é contribuir para a melhoria contínua da performance e a tomada de decisões mais estratégicas no seu call center.</p>
@@ -123,7 +126,7 @@ function cadastrar(req, res) {
 }
 
  async function contato(req, res) {
-    const nodemailer = require('nodemailer')
+    
 
 const transport = nodemailer.createTransport({
     host: 'smtp.gmail.com',
@@ -135,25 +138,37 @@ const transport = nodemailer.createTransport({
     }
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-    document.getElementById("contato").addEventListener("click", contato);
-});
+// document.addEventListener("DOMContentLoaded", () => {
+//     document.getElementById("contato").addEventListener("click", contato);
+// });
 
-    var email = req.body.email;  // Extrai o e-mail do corpo da requisição
+    var email2 = req.body.emailServer2;  // Extrai o e-mail do corpo da requisição
+
+
+
+
+
+    
 
     try {
         // Usa o 'await' para aguardar o envio do e-mail
        await transport.sendMail({
             from: '"Staff Watch" <equipestaffwatch@gmail.com>',
-            to: email,
+            to: email2,
             subject: "Negociação serviço Staff Watch",
-            html: `
-                <p>Prezado(a) Cliente,</p>
-                <p>Espero que esta mensagem o(a) encontre bem.</p>
-                <p>A <strong>Staff Watch</strong> oferece um software robusto de monitoramento de atividades em tempo real...</p>
-                <p>Atenciosamente,</p>
-                <p><strong>Equipe Staff Watch</strong></p>
-            `
+            html: ` <p>Prezado cliente,</p>
+            <p>Espero que esta mensagem o(a) encontre bem.</p>
+
+<p>A <strong>Staff Watch</strong> oferece um software robusto de monitoramento de atividades em tempo real, relatórios personalizados e análises detalhadas de desempenho, permitindo uma gestão mais eficaz de equipes e operações de atendimento ao cliente. Nosso objetivo é contribuir para a melhoria contínua da performance e a tomada de decisões mais estratégicas no seu call center.</p>
+
+<p>Estamos à disposição para agendar uma demonstração da nossa plataforma e discutir como podemos apoiar as necessidades específicas da sua empresa. Temos certeza de que nossa solução pode agregar valor às suas operações, oferecendo maior controle e eficiência.</p>
+
+<p>Fico à disposição para agendarmos uma reunião e explorarmos as melhores oportunidades de parceria.</p>
+
+<p>Aguardo seu retorno e agradeço sua atenção.</p>
+
+<p>Atenciosamente,</p>
+<p><strong>Equipe Staff Watch</strong></p>`
         });
 
         console.log("Email enviado com sucesso");

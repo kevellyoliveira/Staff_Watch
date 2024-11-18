@@ -2,7 +2,8 @@ import psutil
 import time
 import mysql.connector
 from datetime import datetime
-import pytz
+import pytz 
+from cpuinfo import get_cpu_info
 
 
 #import os
@@ -10,8 +11,8 @@ import pytz
 
 config = {
     'user': 'root',
-    'password': 'senha_segura',
-    'host': '44.194.151.184',
+    'password': 'sptech',
+    'host': 'localhost',
     'database': 'StaffWatch'
 }
 
@@ -24,13 +25,26 @@ try:
 except mysql.connector.Error as err:
     print(f'Erro: {err}')
 
-
+def insere_modelo_cpu():
+    cursor = mydb.cursor()
+    cpu_info = get_cpu_info()
+    modelo_cpu = cpu_info['brand_raw']
+    print("Modelo da CPU:", modelo_cpu)
+    
+    add_modelo_cpu = ("""INSERT INTO modelo
+                         (nome, fkComponente, fkEmpresa, fkFuncionario, fkComputador)
+                         VALUES (%s, %s, %s, %s, %s)""")
+    data_modelo_cpu = (modelo_cpu, 4, 1, 1, 1)  # Ajuste os valores das FKs conforme necessário
+    cursor.execute(add_modelo_cpu, data_modelo_cpu)
+    mydb.commit()
+    print("Registro inserido - modelo da CPU")
 
             
 def print_system_info():
     cursor = mydb.cursor()
     fuso_sao_paulo = pytz.timezone("America/Sao_Paulo")
     agora = datetime.now(fuso_sao_paulo)
+    
     mem = psutil.virtual_memory()
     print(f"\nUso de RAM: {mem.percent}% ({mem.used / (1024 ** 3):.2f} GB usado de {mem.total / (1024 ** 3):.2f} GB total)")
     memUso = mem.used / (1024 ** 3)
@@ -38,10 +52,10 @@ def print_system_info():
     memPerc = mem.percent
 
     add_mem = ("""INSERT INTO captura
-                (idCaptura, captura, dataCaptura, fkAuxComponente, fkComponente)
-                VALUES (default,%s,%s,6,2),
-                (default,%s,%s,7,2),
-                (default,%s,%s,8,2)""")
+                (idCaptura, captura, dataCaptura, fkAuxComponente, fkComponente, fkComputador)
+                VALUES (default,%s,%s,6,2,1),
+                (default,%s,%s,7,2,1),
+                (default,%s,%s,8,2,1)""")
 
     data_mem = [memUso, agora, memTotal, agora, memPerc, agora]
 
@@ -57,10 +71,10 @@ def print_system_info():
     discoPerc = disk.percent
 
     add_disco = ("""INSERT INTO captura
-                (idCaptura, captura, dataCaptura, fkAuxComponente, fkComponente)
-                VALUES (default,%s,%s,9,3),
-                (default,%s,%s,10,3),
-                (default,%s,%s,11,3)""")
+                (idCaptura, captura, dataCaptura, fkAuxComponente, fkComponente, fkComputador)
+                VALUES (default,%s,%s,9,3,1),
+                (default,%s,%s,10,3,1),
+                (default,%s,%s,11,3,1)""")
 
     data_disco = [discoUso, agora, discoTotal, agora, discoPerc, agora]
 
@@ -71,12 +85,12 @@ def print_system_info():
     cpu_percent = psutil.cpu_percent(interval=None)
 
     add_cpu = ("""INSERT INTO captura
-                (idCaptura, captura, dataCaptura, fkAuxComponente,fkComponente)
-                VALUES (default,%s,%s,12,4)""")
+                (idCaptura, captura, dataCaptura, fkAuxComponente,fkComponente, fkComputador)
+                VALUES (default,%s,%s,12,4,1)""")
 
     data_cpu = [cpu_percent, agora]
 
-    cursor.execute(add_disco, data_disco)
+    cursor.execute(add_cpu, data_cpu)
     mydb.commit()
     print(cursor.rowcount, "registro inserido - cpu")
 
@@ -104,11 +118,11 @@ def print_system_info():
 
 
     add_rede = ("""INSERT INTO captura
-                (idCaptura, Captura, dataCaptura, fkAuxComponente,fkComponente)
-                VALUES (default,%s,%s,2,1),
-                (default,%s,%s,3,1),
-                (default,%s,%s,4,1),
-                (default,%s,%s,5,1)""")
+                (idCaptura, Captura, dataCaptura, fkAuxComponente,fkComponente, fkComputador)
+                VALUES (default,%s,%s,2,1,1),
+                (default,%s,%s,3,1,1),
+                (default,%s,%s,4,1,1),
+                (default,%s,%s,5,1,1)""")
 
     data_rede = [bytesEnv, agora, bytesReceb, agora, pctReceb, agora, pctEnv, agora]
     print(type(data_rede))
@@ -143,5 +157,6 @@ def monitor_system(interval=5):
 
 
 if __name__ == "__main__":
+    insere_modelo_cpu() 
     print_system_info()
     #monitor_system()

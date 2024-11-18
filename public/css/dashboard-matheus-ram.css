@@ -21,6 +21,12 @@ body {
 }
 
 
+.h2{
+
+    height: 100px;
+
+}
+
 
 
 /* HEADER */
@@ -71,7 +77,7 @@ header {
 
 .opcoesComponentes {
     display: flex;
-    width: 70%;
+    width: 42%;
     justify-content: space-evenly;
     white-space: nowrap;
     position: relative;
@@ -142,7 +148,7 @@ header {
 .ola {
     font-size: 1.3rem;
     padding-top: 4.0rem;
-    padding-left: 1rem;
+    padding-left: 0.5rem;
 }
 
 .itens {
@@ -175,11 +181,17 @@ header {
 .corpo {
     display: flex;
     width: 100vw;
-    min-height: auto;
 }
 
 .menuLateral {
     min-height: 86.8vh;
+}
+
+.emcima {
+    font-size: 45px;
+    height: 125px;
+    padding-top: 25px;
+    padding-left: 40px;
 }
 
 
@@ -189,58 +201,74 @@ header {
     height: auto;
     background-color: #a8d7ffb8;
     /*Parte superior*/
-    & .emcima {
-        width: 100%;
-        height: 19%;
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        padding: 0rem 0px 0 3rem;
-        font-size: 30px;
-        gap: 5rem;
-
-    
-    }
-
-
-    
-    /*Parte com os gráficos e alertas*/
-    & .embaixo {
-        width: 100%;
-        height: 80%;
-        display: flex;
-        justify-content: space-between;
-
-        /*Alertas*/
-        & .direita {
-            width: 22%;
-            height: 85%;
-            background-color: #002148;
-            border-radius: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-right: 20px;
-
-            & h1 {
-                margin-top: 20px;
-                color: white;
-                text-align: center;
-            }
-
-            & .box {
-                margin-top: 20px;
-                width: 90%;
-                height: 6rem ;
-                background-color: #e7ecef;
-                border-radius: 15px;
-                /* text-align: center; */
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                padding: 3%;
-                cursor: pointer;
-            }
-        }
-    }
 }
+
+
+/* Ajustes na estrutura embaixo */
+.embaixo {
+    display: flex;
+    justify-content: space-between;
+    
+}
+
+/* Estrutura da seção esquerda */
+.esquerda {
+    display: flex;
+    width: 75%;
+    gap: 20px;
+}
+
+/* Gráfico maior à esquerda */
+.card.grande {
+    width: 70%;
+    height: 345px;
+    background-color: #002148;
+    border-radius: 15px;
+    padding: 0rem;
+    margin-left: 20px;
+    margin-top: 42px;   
+}
+
+
+
+/* Dois cards menores à direita do gráfico maior */
+.direitaCards {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 35%;
+}
+
+.card.pequeno {
+   height: 48%;
+   background-color: #002148;
+   border-radius: 15px;
+   padding: 1rem;
+}
+
+/* Seção de alertas à direita */
+.direita {
+    width: 22%;
+    background-color: #002148;
+    border-radius: 20px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 15px;
+    height: 422px;
+}
+
+.direita .box {
+    width: 90%;
+    height: 6rem;
+    background-color: #e7ecef;
+    border-radius: 15px;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+

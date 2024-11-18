@@ -18,6 +18,15 @@ router.get("/listar/:fkEmpresa/:inputPesquisa", function (req, res) {
     funcionarioController.listarPorUsuario(req, res);
 });
 
+router.get("/listarEquipe/:fkEmpresa/:fkEquipe", function (req, res) {
+    funcionarioController.listarEquipe(req, res);
+});
+
+router.get("/listarEquipes/:fkEmpresa", function (req, res) {
+    funcionarioController.listarEquipes(req, res);
+});
+
+
 router.get("/pesquisar/:mensagem", function (req, res) {
     funcionarioController.pesquisarmensagem(req, res);
 });

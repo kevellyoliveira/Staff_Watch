@@ -106,6 +106,9 @@ CONSTRAINT fkCargoFuncionario FOREIGN KEY(fkCargo)
 REFERENCES cargo(idCargo)
 );
 
+
+
+
 insert into funcionario (nome, email, telefone, senha, fkEmpresa, fkEquipe, fkCargo) values
 ("Jeffinho", "Jeffinho.botafogo@gmail.com", "11 956836220" , MD5("123456"), 1, 1, 1);
 
@@ -167,7 +170,8 @@ SELECT
     equipe.nome AS nomeEquipe
 FROM computador
 JOIN funcionario ON computador.fkFuncionario = funcionario.idFuncionario
-JOIN equipe ON computador.fkEquipe = equipe.idEquipe;
+JOIN equipe ON computador.fkEquipe = equipe.idEquipe where funcionario.fkCargo = 4 order by status;
+
 SELECT 
     idComputador,
     status,
@@ -179,8 +183,148 @@ SELECT
 FROM view_computador_funcionario_equipe;
 
 select idFuncionario, nome, email, status, fkEmpresa, fkEquipe, fkCargo from funcionario;
-    
 -- select * from token;
 select * from funcionario;
+
+
+CREATE TABLE IF NOT EXISTS modelo (
+idModelo INT PRIMARY KEY AUTO_INCREMENT,
+nome varchar(255),
+fkComputador int,
+CONSTRAINT fkmodeloComputador FOREIGN KEY(fkComputador)
+REFERENCES computador(idComputador),
+fkEmpresa INT,
+CONSTRAINT fkmodeloEmpresa FOREIGN KEY(fkEmpresa)
+REFERENCES empresa(idEmpresa),
+fkComponente int,
+CONSTRAINT fkmodeloComponente FOREIGN KEY(fkComponente)
+REFERENCES componente (idComponente),
+fkFuncionario INT,
+CONSTRAINT fkmodeloFuncionario FOREIGN KEY(fkFuncionario)
+REFERENCES funcionario(idFuncionario)
+);
+
+CREATE TABLE IF NOT EXISTS chamada(
+idChamada int primary key auto_increment,
+chamadaRecebida int,
+chamadaAtendida int,
+chamadaPerdida int,
+tempoChamada int,
+tempoEspera int,
+
+fkFuncionario INT,
+CONSTRAINT funcionarioChamada FOREIGN KEY(fkFuncionario)
+REFERENCES funcionario(idFuncionario),
+
+fkEmpresa INT,
+CONSTRAINT empresaChamada FOREIGN KEY(fkEmpresa)
+REFERENCES empresa(idEmpresa)
+);
+
+
+-- ------------------------ TESTES DE ALERTA & DESENVOLVIMENTO --------------------------------------------------
+insert into funcionario values
+(default, "teste", "teste@gmail.com", "11956782706", MD5("Aa1!"), 1,1, null, 1);
+
+insert into funcionario (nome, email, telefone, fkEmpresa, fkEquipe, fkCargo) values
+("Ana Clara", "anaclara@gmail.com", "11956782736", 1, 1, 4),
+("Júlio Cesar", "julio@gmail.com", "11956781234", 1, 1, 4),
+("Beatriz Angola", "bea@gmail.com", "11951234736", 1, 1, 4),
+("Sérgio Lucas", "sergio@gmail.com", "11990082736", 1, 1, 4);
+
+insert into computador (fkEquipe, fkEmpresa, fkFuncionario) values
+(1, 1, 3),
+(1, 1, 4),
+(1, 1, 5),
+(1, 1, 6);
+
+select * from captura order by idCaptura desc limit 15;
+
+INSERT INTO alerta (fkCaptura) VALUES 
+(1),
+(382),
+(720),
+(1456);
+select * from alerta;
+
+-- exibindo detalhes a serem exibidos na tela dos alertas!
+select ca.captura, ca.dataCaptura, 
+co.nome, aux.unidadeMedida, aux.descricao,
+ca.fkComputador, 
+maq.fkEquipe 
+from captura ca
+right join alerta a on a.fkCaptura = ca.idCaptura
+join componente co on co.idComponente = ca.fkComponente
+join auxcomponente aux on aux.idAuxComponente = ca.fkAuxComponente
+join computador maq on maq.idComputador = ca.fkComputador
+where maq.fkEmpresa = 1;
+
+-- quantidade de alertas por componente em cada equipe 
+create or replace view view_alertasComponenteEquipe as
+select co.nome, count(idAlerta), maq.fkEquipe from alerta a
+join captura ca on ca.idCaptura = a.fkCaptura
+join componente co on co.idComponente = ca.fkComponente
+join computador maq on maq.idComputador = ca.fkComputador
+where 
+-- co.idComponente = 2 and 
+maq.fkEmpresa = 1 and maq.fkEquipe = 1
+group by co.idComponente, maq.fkEquipe;
+
+-- gráfico em tempo real: uso de CPU
+create or replace view view_cpuTempoReal as
+select ca.captura, time(ca.dataCaptura) as dataCaptura, maq.nome from captura ca
+join modelo maq on maq.fkComputador = ca.fkComputador
+where ca.fkComponente = 4 and ca.fkComputador = 1 and ca.fkAuxComponente = 12 order by dataCaptura limit 100;
+
+select * from view_cpuTempoReal limit 1;
+select * from view_cpuTempoReal;
+
+-- gráfico em tempo real: uso de Disco e total
+create or replace view view_discoTempoReal as
+select 
+    (select captura from captura 
+     where fkComponente = 3 and fkComputador = 1 and fkAuxComponente = 10 
+     limit 1) as totalDisco,
+    captura, 
+    dataCaptura 
+from captura 
+where fkComponente = 3 and fkComputador = 1 and fkAuxComponente = 11 
+order by idCaptura desc limit 1;
+
+-- gráfico em tempo real: rede - pacotes enviados e recebidos 
+create or replace view view_redeTempoReal as
+select 
+    (select captura from captura 
+     where fkComponente = 1 and fkComputador = 1 and fkAuxComponente = 4
+     limit 1) as pctRec,
+    captura as pctEnv, 
+    dataCaptura 
+from captura
+where fkComponente = 1 and fkComputador = 1 and fkAuxComponente = 5
+order by idCaptura desc limit 1;
+
+-- gráfico em tempo real: uso de memória ram
+create or replace view view_ramTempoReal as
+select 
+    (select captura from captura 
+     where fkComponente = 2 and fkComputador = 1 and fkAuxComponente = 7 
+     limit 1) as totalMemoria,
+    captura, 
+    dataCaptura 
+from captura 
+where fkComponente = 2 and fkComputador = 1 and fkAuxComponente = 6 
+order by idCaptura desc limit 1;
+
+-- comandos ---------------------------------------------
+desc captura;
+select * from alerta;
+select * from componente;
+
+select fkComputador, fkEquipe, modelo.nome as modelo, funcionario.nome from modelo 
+join funcionario on modelo.fkFuncionario = funcionario.idFuncionario 
+where funcionario.fkEmpresa = 1;
+
+-- -------------------------------------------------------------------------------------------------------------------
+
 
 
