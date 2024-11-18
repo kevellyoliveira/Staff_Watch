@@ -1,15 +1,34 @@
 var dispositivoModel = require("../models/dispositivoModel");
-var database = require("../database/config");
 
 function gerarGraficoTempoReal(req, res) {
 
-    var idComputador = req.params.idComputador;
-    var idComponente = req.params.idComponente;
+    // var idComputador = req.params.idComputador;
+    // var idComponente = req.params.idComponente;
 
+    // console.log(`Recuperando medidas do computador ${idComputador} e do componente ${idComponente} em tempo real`);
+    console.log(`Recuperando medidas do computador em tempo real`);
 
-    console.log(`Recuperando medidas do computador ${idComputador} e do componente ${idComponente} em tempo real`);
+    // dispositivoModel.gerarGraficoTempoReal(idComputador, idComponente).then(function (resultado) {
+        dispositivoModel.gerarGraficoTempoReal().then(function (resultado) {
+        if (resultado.length > 0) {
+            res.status(200).json(resultado);
+        } else {
+            res.status(204).send("Nenhum resultado encontrado!")
+        }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
 
-    model.gerarGraficoTempoReal(idComputador, idComponente).then(function (resultado) {
+function obterDadosGrafico(req, res) {
+
+    // var idAviario = req.params.idAviario;
+
+    console.log(`Recuperando últimas 20 medidas da máquina`);
+
+    dispositivoModel.obterDadosGrafico().then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -24,5 +43,6 @@ function gerarGraficoTempoReal(req, res) {
 
 
 module.exports = {
-    gerarGraficoTempoReal
+    gerarGraficoTempoReal,
+    obterDadosGrafico
 }

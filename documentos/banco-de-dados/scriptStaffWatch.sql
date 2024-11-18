@@ -272,9 +272,12 @@ group by co.idComponente, maq.fkEquipe;
 
 -- gráfico em tempo real: uso de CPU
 create or replace view view_cpuTempoReal as
-select ca.captura, ca.dataCaptura, maq.nome from captura ca
+select ca.captura, time(ca.dataCaptura) as dataCaptura, maq.nome from captura ca
 join modelo maq on maq.fkComputador = ca.fkComputador
-where ca.fkComponente = 4 and ca.fkComputador = 1 and ca.fkAuxComponente = 12 order by idCaptura desc limit 1;
+where ca.fkComponente = 4 and ca.fkComputador = 1 and ca.fkAuxComponente = 12 order by dataCaptura limit 100;
+
+select * from view_cpuTempoReal limit 1;
+select * from view_cpuTempoReal;
 
 -- gráfico em tempo real: uso de Disco e total
 create or replace view view_discoTempoReal as

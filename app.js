@@ -37,6 +37,7 @@ var funcionariosRouter = require("./src/routes/funcionarios");
 var enderecoRouter = require("./src/routes/enderecos");
 var medidasRouter = require("./src/routes/medidas");
 var maquinasRouter = require("./src/routes/maquinas");
+var dispositivosRouter = require("./src/routes/dispositivos");
 // var empresasRouter = require("./src/routes/empresas");
 
 app.use(express.json());
@@ -51,6 +52,7 @@ app.use("/funcionarios", funcionariosRouter);
 app.use("/enderecos", enderecoRouter);
 app.use("/medidas", medidasRouter);
 app.use("/maquinas", maquinasRouter);
+app.use("/dispositivos", dispositivosRouter);
 // app.use("/empresas", empresasRouter);
 
 app.listen(PORTA_APP, function () {
