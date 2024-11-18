@@ -40,6 +40,9 @@ insert into auxComponente values
 (default,"discoTotal","byte", 3),
 (default,"discoPorcen","%", 3),
 (default,"cpuPorcen","%", 4),
+(default, "modelo CPU", "nome", 4),
+(default, "modelo Disco", "nome", 3),
+(default, "modelo Rede", "nome", 1),
 
 -- looca
 (default,"redeRecebidosLooca","bytes", 1),
@@ -56,6 +59,8 @@ idEmpresa INT PRIMARY KEY AUTO_INCREMENT,
 cnpj CHAR(18),
 nomeEmp VARCHAR(45)
 );
+
+select * from auxComponente;
 
 insert into empresa (idEmpresa, cnpj, nomeEmp) values
 (default, "123456789123456789", "Falla");
@@ -137,6 +142,7 @@ CREATE TABLE IF NOT EXISTS captura(
 idCaptura int primary key auto_increment,
 captura BIGINT,
 dataCaptura DATETIME,
+modelo VARCHAR(455),
 
 fkComponente INT,
 CONSTRAINT componenteComputador1 FOREIGN KEY(fkComponente)
@@ -245,7 +251,8 @@ INSERT INTO alerta (fkCaptura) VALUES
 (382),
 (720),
 (1456);
-select * from alerta;
+select * from computador;
+desc captura;
 
 -- exibindo detalhes a serem exibidos na tela dos alertas!
 select ca.captura, ca.dataCaptura, 
@@ -272,12 +279,23 @@ group by co.idComponente, maq.fkEquipe;
 
 -- gráfico em tempo real: uso de CPU
 create or replace view view_cpuTempoReal as
-select ca.captura, time(ca.dataCaptura) as dataCaptura, maq.nome from captura ca
+select ca.captura, time(ca.dataCaptura) as dataCaptura, maq.nome
+from captura ca
 join modelo maq on maq.fkComputador = ca.fkComputador
 where ca.fkComponente = 4 and ca.fkComputador = 1 and ca.fkAuxComponente = 12 order by dataCaptura limit 100;
 
+select * from auxComponente;
+
+desc captura;
+select * from componente;
+
 select * from view_cpuTempoReal limit 1;
 select * from view_cpuTempoReal;
+select * from componente;
+
+
+
+select round(avg(captura),0) as media from view_cpuTempoReal;
 
 -- gráfico em tempo real: uso de Disco e total
 create or replace view view_discoTempoReal as

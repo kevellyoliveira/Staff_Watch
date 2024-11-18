@@ -31,10 +31,10 @@ def insere_modelo_cpu():
     modelo_cpu = cpu_info['brand_raw']
     print("Modelo da CPU:", modelo_cpu)
     
-    add_modelo_cpu = ("""INSERT INTO modelo
-                         (nome, fkComponente, fkEmpresa, fkFuncionario, fkComputador)
-                         VALUES (%s, %s, %s, %s, %s)""")
-    data_modelo_cpu = (modelo_cpu, 4, 1, 1, 1)  # Ajuste os valores das FKs conforme necessário
+    add_modelo_cpu = ("""INSERT INTO captura
+                         (modelo, fkComponente, fkComputador, fkAuxComponente)
+                         VALUES (%s, %s, %s, %s)""")
+    data_modelo_cpu = (modelo_cpu, 4, 1, 13)  # Ajuste os valores das FKs conforme necessário
     cursor.execute(add_modelo_cpu, data_modelo_cpu)
     mydb.commit()
     print("Registro inserido - modelo da CPU")

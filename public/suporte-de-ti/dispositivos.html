@@ -178,13 +178,13 @@
                         <div class="dado">
                             <h3> Utilização: </h3>
                             <div class="dadoInfo">
-                                <h2> <span id="cpuUtilizacao"> 100% </span> </h2>
+                                <h2> <span id="cpuUtilizacao"> -- </span> </h2>
                             </div>
                         </div>
                         <div class="dado">
                             <h3> Média de uso: </h3>
                             <div class="dadoInfo">
-                                <h2> <span id="cpuVelocidade"> 25% </span> </h2>
+                                <h2> <span id="cpuMedia"> -- </span> </h2>
                             </div>
                         </div>
                         <!-- <div class="dado">
@@ -217,7 +217,7 @@
                         <div class="dado">
                             <h3> Utilização: </h3>
                             <div class="dadoInfo">
-                                <h2> <span id="discoUtilizacao"> 100% </span> </h2>
+                                <h2> <span id="discoUtilizacao"> -- </span> </h2>
                             </div>
                         </div>
 
@@ -225,16 +225,16 @@
                         <div class="dado">
                             <h3> Média de uso: </h3>
                             <div class="dadoInfo">
-                                <h2> <span id="discoLeitura"> 77% </span> </h2>
+                                <h2> <span id="discoMediaUso"> -- </span> </h2>
                             </div>
                         </div>
 
-                        <div class="dado">
+                        <!-- <div class="dado">
                             <h3> Tempo médio de resposta: </h3>
                             <div class="dadoInfo">
-                                <h2> <span id="discoResposta"> 2,1 ms </span> </h2>
+                                <h2> <span id="discoMediaResposta"> -- </span> </h2>
                             </div>
-                        </div>
+                        </div> -->
                         <!-- 
                         <div class="dado">
                             <h3> Velocidade de gravação: </h3>
@@ -248,21 +248,21 @@
                         <div class="dado">
                             <h3> Pacotes Enviados: </h3>
                             <div class="dadoInfo">
-                                <h2> <span id="redeEnviar"> 120 </span> </h2>
+                                <h2> <span id="redeEnviar"> -- </span> </h2>
                             </div>
                         </div>
 
                         <div class="dado">
                             <h3> Pacotes Recebidos: </h3>
                             <div class="dadoInfo">
-                                <h2> <span id="redeReceber"> 390 </span> </h2>
+                                <h2> <span id="redeReceber"> -- </span> </h2>
                             </div>
                         </div>
 
                         <div class="dado">
                             <h3> Pacotes Perdidos: </h3>
                             <div class="dadoInfo">
-                                <h2> <span id="redePerdido"> 103 </span> </h2>
+                                <h2> <span id="redePerdido"> -- </span> </h2>
                             </div>
                         </div>
 
@@ -274,14 +274,14 @@
                         <div class="dado">
                             <h3> Utilização: </h3>
                             <div class="dadoInfo">
-                                <h2> <span id="memoriaUtilizacao"> 44% </span> </h2>
+                                <h2> <span id="memoriaUtilizacao"> -- </span> </h2>
                             </div>
                         </div>
 
                         <div class="dado">
                             <h3> Média de uso: </h3>
                             <div class="dadoInfo">
-                                <h2> <span id="memoriaDisponivel"> 34% </span> </h2>
+                                <h2> <span id="memoriaMedia"> -- </span> </h2>
                             </div>
                         </div>
 
@@ -374,10 +374,10 @@
         };
 
         const nomeComponentes = {
-            "dashCpu": "12th Gen Intel(R) Core(TM) i5-1235U",
-            "dashDisco": "Samsung MZVLQ512HBLU-00B",
-            "dashRede": "Intel(R) Wireless-AC 9560 160MHz",
-            "dashMemoria": "Armazenamento total: 8,00 GB"
+            "dashCpu": "Modelo da CPU não obtido.",
+            "dashDisco": "Modelo do Disco não obtido.",
+            "dashRede": "Modelo da placa de rede não obtido.",
+            "dashMemoria": "Armazenamento total não obtido."
         };
 
         console.log("ID do componente selecionado: ", componenteId);
@@ -435,7 +435,6 @@
             idComponente = 2
         }
 
-        // gerarGraficoTempoReal(idComponente)
         obterDadosGrafico(idComponente)
         console.log(`idComponente em alterarComponente: ${idComponente}`)
 
@@ -684,11 +683,11 @@
     //============== GRÁFICO DE MONITORAMENTO EM TEMPO REAL  ==================================================================================
 
     // Função para buscar os dados iniciais
-    let indiceAtual = 0; // Variável global para rastrear o índice atual
+    // let indiceAtual = 0; // Variável global para rastrear o índice atual
     let dadosRecebidos = []; // Variável para armazenar os dados recebidos
 
     function obterDadosGrafico(idComponente) {
-        fetch(`/dispositivos/metrica`, {
+        fetch(`/dispositivos/metrica/${idComponente}`, {
             cache: 'no-store',
             method: "GET",
         })
@@ -697,7 +696,7 @@
                     response.json().then(function (resposta) {
                         console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
                         dadosRecebidos = resposta; // Salva os dados recebidos
-                        gerarGraficoTempoReal(); // Inicia o gráfico
+                        gerarGraficoTempoReal(idComponente); // Inicia o gráfico
                     });
                 } else {
                     console.error('Nenhum dado encontrado ou erro na API');
@@ -708,9 +707,12 @@
             });
     }
 
-    function gerarGraficoTempoReal() {
+    function gerarGraficoTempoReal(idComponente) {
         const ctx = document.getElementById('myChart').getContext('2d');
-        
+
+        // if (myChart) {
+        //     myChart.destroy();
+        // }
 
         // Inicialização do gráfico vazio
         const myChart = new Chart(ctx, {
@@ -733,38 +735,85 @@
                 }
             }
         });
+        atualizarGrafico(idComponente)
+    }
 
         // Função para adicionar valores incrementalmente
-        function atualizarGrafico() {
-            if (indiceAtual < dadosRecebidos.length) {
-                const dadoAtual = dadosRecebidos[indiceAtual];
-                const momento = dadoAtual.dataCaptura;
-                const temperatura = dadoAtual.captura;
+        function atualizarGrafico(idComponente) {
+            let indiceAtual = 0;
 
-                // Adiciona os novos dados ao gráfico
-                myChart.data.labels.push(momento);
-                myChart.data.datasets[0].data.push(temperatura);
+            const intervalo = setInterval(() => {
+                if (indiceAtual < dadosRecebidos.length) {
+                    const dadoAtual = dadosRecebidos[indiceAtual];
+                    const momento = dadoAtual.dataCaptura;
+                    let temperatura = dadoAtual.captura; // Captura de dados, mas isso pode ser alterado dependendo do componente
 
-                // Remove o ponto mais antigo se o gráfico exceder 20 pontos
-                if (myChart.data.labels.length > 20) {
-                    myChart.data.labels.shift();
-                    myChart.data.datasets[0].data.shift();
+                    // Adiciona os novos dados ao gráfico
+                    myChart.data.labels.push(momento);
+                    myChart.data.datasets[0].data.push(temperatura);
+
+                    // Remove o ponto mais antigo se o gráfico exceder 20 pontos
+                    if (myChart.data.labels.length > 20) {
+                        myChart.data.labels.shift();
+                        myChart.data.datasets[0].data.shift();
+                    }
+
+                    // Atualiza o gráfico
+                    myChart.update();
+
+                    // Incrementa o índice para o próximo dado
+                    indiceAtual++;
+
+                    // Atualiza os KPIs conforme o idComponente
+                    if (idComponente == 1) { // rede
+                        redeEnviar.innerHTML = `${dadoAtual.enviado}%`
+                        redeReceber.innerHTML = `${dadoAtual.recebido}%`
+                        redePerdido.innerHTML = `${dadoAtual.perdido}%`
+                        idNomeComponente.innerHTML = dadoAtual.nome
+                    } else if (idComponente == 2) { // memória
+                        memoriaUtilizacao.innerHTML = `${dadoAtual.captura}%`
+                        idNomeComponente.innerHTML = dadoAtual.nome
+
+                        // Média de memória
+                        atualizarMediaGrafico();
+                    } else if (idComponente == 3) { // disco
+                        discoUtilizacao.innerHTML = `${dadoAtual.captura}%`
+                        idNomeComponente.innerHTML = dadoAtual.nome
+
+                        // Média de disco
+                        atualizarMediaGrafico();
+                    } else if (idComponente == 4) { // CPU
+                        cpuUtilizacao.innerHTML = `${dadoAtual.captura}%`
+                        idNomeComponente.innerHTML = dadoAtual.nome
+
+                        // Média de CPU
+                        atualizarMediaGrafico();
+                    }
+
+                } else {
+                    console.log('Todos os dados foram exibidos.');
+                    clearInterval(intervalo); // Para o intervalo quando todos os dados forem exibidos
                 }
-
-                // Atualiza o gráfico
-                myChart.update();
-
-                // Incrementa o índice para o próximo dado
-                indiceAtual++;
-            } else {
-                console.log('Todos os dados foram exibidos.');
-                clearInterval(intervalo); // Para o intervalo quando todos os dados foram exibidos
-            }
+            }, 2000); // Intervalo de 2 segundos
         }
-
         // Atualiza o gráfico a cada 2 segundos
-        const intervalo = setInterval(atualizarGrafico, 2000);
+        // const intervalo = setInterval(atualizarGrafico, 2000);
+    
+
+    function atualizarMediaGrafico(idComponente) {
+    const capturasExibidas = myChart.data.datasets[0].data;
+    const soma = capturasExibidas.reduce((acumulador, valor) => acumulador + valor, 0);
+    const media = soma / capturasExibidas.length;
+    
+    // Atualiza a média conforme o idComponente
+    if (idComponente == 2) { // Memória
+        memoriaMedia.innerHTML = `${Math.round(media)}%`;
+    } else if (idComponente == 3) { // Disco
+        discoMediaUso.innerHTML = `${Math.round(media)}%`;
+    } else if (idComponente == 4) { // CPU
+        cpuMedia.innerHTML = `${Math.round(media)}%`;
     }
+}
 
 
 
