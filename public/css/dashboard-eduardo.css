@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
-
-.funcs{
+.funcs {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -11,26 +10,40 @@
 /* Configuração para os cards */
 #feed_container {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Sempre 2 colunas */
-    gap: 16px; /* Espaçamento entre os cards */
+    grid-template-columns: repeat(2, 1fr);
+    /* Sempre 2 colunas */
+    gap: 16px;
+    /* Espaçamento entre os cards */
     padding: 16px;
-    width: 100%; /* Garante que o container ocupe toda a largura */
-    max-width: 1200px; /* Opcional: limite para o tamanho do container */
-    margin: 0 auto; /* Centraliza o container na tela */
+    width: 100%;
+    /* Garante que o container ocupe toda a largura */
+    max-width: 1200px;
+    /* Opcional: limite para o tamanho do container */
+    margin: 0 auto;
+    /* Centraliza o container na tela */
 }
 
 /* Estilo de cada card */
 .publicacao {
-    background-color: #f4f4f4; /* Fundo claro */
-    border: 1px solid #ddd; /* Borda cinza */
-    border-radius: 8px; /* Bordas arredondadas */
-    padding: 16px; /* Espaço interno */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra */
-    box-sizing: border-box; /* Inclui borda e padding no tamanho total */
+    background-color: #f4f4f4;
+    /* Fundo claro */
+    border: 1px solid #ddd;
+    /* Borda cinza */
+    border-radius: 8px;
+    /* Bordas arredondadas */
+    padding: 16px;
+    /* Espaço interno */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Sombra */
+    box-sizing: border-box;
+    /* Inclui borda e padding no tamanho total */
     display: flex;
-    flex-direction: column; /* Organiza o conteúdo em coluna */
-    justify-content: space-between; /* Espaça o conteúdo interno */
+    flex-direction: column;
+    /* Organiza o conteúdo em coluna */
+    justify-content: space-between;
+    /* Espaça o conteúdo interno */
     align-items: flex-start;
+    
 }
 
 
@@ -49,13 +62,15 @@
 }
 
 :root {
-    --verde: #3CF211; /* ou qualquer outro código de cor verde */
+    --verde: #3CF211;
+    /* ou qualquer outro código de cor verde */
 }
 
-
-body {
-    background-color: #e7ecef;
-    height: auto;
+.pai {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    background: #e7ecef;
 }
 
 /* HEADER */
@@ -169,7 +184,7 @@ header {
     flex-direction: column;
     background-color: #002148;
     color: #fff;
-    width: 12%;
+    width: 26%;
     min-height: 100%;
     position: relative;
 }
@@ -180,10 +195,11 @@ header {
     gap: 2rem;
     font-size: 1.3rem;
     align-items: center;
+    text-align: center;
     justify-content: flex-start;
     padding-top: 4.5rem;
     height: 100%;
-
+    
 }
 
 .itens h4 {
@@ -194,7 +210,8 @@ header {
     color: #6096ba;
 }
 
-.slc.novaequipe, .novaequipe {
+.slc.novaequipe,
+.novaequipe {
     color: #7fc4f1;
 
 }
@@ -239,6 +256,7 @@ header {
             font-size: 1rem;
         }
     }
+
     /*Parte com os gráficos e alertas*/
     & .embaixo {
         width: 100%;
@@ -292,7 +310,7 @@ header {
             & .box {
                 margin-top: 20px;
                 width: 90%;
-                height: 6rem ;
+                height: 6rem;
                 background-color: #e7ecef;
                 border-radius: 15px;
                 /* text-align: center; */
@@ -310,6 +328,7 @@ header {
     gap: 3rem;
     font-size: 1rem;
 }
+
 .equipesAlerta {
     display: flex;
     font-size: 2rem;
@@ -425,7 +444,8 @@ header {
     }
 }
 
-.card.go, .card.dir {
+.card.go,
+.card.dir {
     margin: 0;
     height: 100%;
 }
@@ -439,6 +459,7 @@ header {
     padding: 1.5rem;
     gap: 1.5rem;
 }
+
 .card.go h1 {
     padding: 0;
 }
@@ -494,7 +515,7 @@ header {
 .legendas2 {
     display: flex;
     width: 40%;
-    
+
     align-items: center;
     justify-content: center;
     padding: .25rem 0;
@@ -509,6 +530,9 @@ header {
     display: flex;
     padding: 2rem 0 0 3rem;
     font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .main-section {
@@ -612,11 +636,13 @@ header {
 .iconComp {
     width: 4.8rem;
 }
+
 .iconFunc {
     width: 7.3rem;
 }
 
-.iconComp img, .iconFunc img {
+.iconComp img,
+.iconFunc img {
     width: 100%;
 }
 
@@ -720,7 +746,8 @@ header {
     border-radius: 8px;
     transform: translate(-50%, -50%);
     z-index: 10;
-    overflow: hidden; /* Impedir o overflow */
+    overflow: hidden;
+    /* Impedir o overflow */
     align-items: flex-start;
 }
 
@@ -738,17 +765,15 @@ header {
 #dashChamadas,
 #dashAtendimento,
 #dashResolucao,
-#dashAbandono
-
-{
+#dashAbandono {
     display: none;
 }
 
-#dashCpu{
+#dashCpu {
     display: grid;
 }
 
-#dashChamadas{
+#dashChamadas {
     display: flex;
 }
 
@@ -883,7 +908,7 @@ h2 {
 
 }
 
-.btnSair img{
+.btnSair img {
     width: 3.5rem;
     transition: 0.4s;
     cursor: pointer;
@@ -895,7 +920,7 @@ h2 {
 
 /* MODIFICAÇÕES MODAL DA PÁGINA DE EQUIPE DO GERENTE DE OPERAÇÕES */
 
-.opcoesComponentes.menu.go{
+.opcoesComponentes.menu.go {
     font-size: 2.4rem;
     padding-bottom: 0;
     text-align: center;
@@ -904,7 +929,7 @@ h2 {
     justify-content: space-between;
 }
 
-.opcoesMenu.go{
+.opcoesMenu.go {
     width: 100%;
 }
 
@@ -922,6 +947,7 @@ h2 {
     padding: 1rem;
     border-radius: 15px;
 }
+
 .tituloFiltro {
     display: flex;
     flex-direction: row;
@@ -952,6 +978,7 @@ h2 {
     font-weight: 600;
     color: #6096ba;
 }
+
 .gotxt {
     color: #fff;
     font-weight: 400;
@@ -959,21 +986,17 @@ h2 {
     white-space: nowrap;
 }
 
-.dado.go span, .dadoInfo.go h2{
+.dado.go span,
+.dadoInfo.go h2 {
     font-weight: 500;
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
-body,
-html {
-    display: flex;
-    width: 100%;
-    height: 100%;
+body {
     margin: 0;
     padding: 0;
     font-family: "Inter";
-    flex-direction: column;
     background-color: #E7ECEF;
 }
 
@@ -988,6 +1011,7 @@ header {
     background-color: #002148;
     color: #fff;
 }
+
 .esq {
     display: flex;
     width: 70%;
@@ -1006,7 +1030,7 @@ header {
     width: 100%;
 }
 
-.opcoes a{
+.opcoes a {
     text-decoration: none;
     color: #000;
 }
@@ -1014,10 +1038,10 @@ header {
 .logo {
     display: flex;
     width: 10%;
-    padding: 1.5rem 0 ;
+    padding: 1.5rem 0;
 }
 
-.logo img{
+.logo img {
     width: 90%;
     cursor: pointer;
 }
@@ -1038,6 +1062,7 @@ header {
     cursor: pointer;
     font-weight: 300;
 }
+
 .opcoesMenu.slct {
     font-weight: 600;
 }
@@ -1054,6 +1079,7 @@ header {
     padding: 0.5rem;
     z-index: 10;
 }
+
 .opcoesComponentes h6:hover {
     transform: scale(1.05);
 }
@@ -1104,16 +1130,18 @@ header {
         flex-direction: column;
         justify-content: center;
     }
+
     .up-card img {
         width: 30px;
         height: 30px;
         margin: 5px 2.5px;
     }
 
-    .down-card{
+    .down-card {
         flex-direction: row;
     }
-    .down-card figure{
+
+    .down-card figure {
         margin: 0;
         width: auto;
     }
@@ -1139,8 +1167,9 @@ header {
     transform: translateY(0) scale(1.0);
     transition: transform 0.5s;
 }
+
 .card:hover,
-.card:focus{
+.card:focus {
     transform: translateY(5px) scale(1.1);
     transition: transform 0.5s;
 }
@@ -1174,7 +1203,7 @@ header {
     font-weight: bold;
 }
 
-#fade{
+#fade {
     position: fixed;
     top: 0;
     left: 0;
@@ -1184,7 +1213,7 @@ header {
     z-index: 5;
 }
 
-#modal{
+#modal {
     position: fixed;
     left: 50%;
     top: 50%;
@@ -1197,69 +1226,70 @@ header {
 }
 
 #modal,
-#fade{
+#fade {
     transition: 0.5s;
     opacity: 1;
     pointer-events: all;
 }
 
 #modal.hide,
-#fade.hide{
+#fade.hide {
     opacity: 0;
     pointer-events: none;
 }
 
 
-.modal-content{
+.modal-content {
     display: flex;
     margin: 5%;
     margin-top: 0;
     font-size: 25px;
 }
 
-.modal-user{
+.modal-user {
     display: flex;
     flex-direction: column;
     justify-content: center;
     margin-left: 5%;
 }
+
 .modal-user p {
     margin: 10px 0;
 }
 
-.modal-header figure img{
+.modal-header figure img {
     width: 10vw;
     margin-left: 4.5%;
 }
 
-.modal-header{
+.modal-header {
     margin-bottom: 0;
 }
 
-.modal-form{
+.modal-form {
     margin-left: 15%;
 }
 
-.mae{
+.mae {
     display: flex;
     align-items: center;
     justify-content: center;
     font-family: "Inter";
-  }
+}
 
-  .filho1{
+.filho1 {
     background-color: #002148;
     color: white;
     justify-content: flex-start;
-    height:150px;
+    height: 150px;
     width: 300px;
     margin: 10px;
     border-radius: 15PX;
     align-items: center;
-  }
+}
 
-  .filho2{
-    background-color : #002148;
+.filho2 {
+    background-color: #002148;
     color: white;
     justify-content: center;
     height: 150px;
@@ -1268,33 +1298,34 @@ header {
     border-radius: 15PX;
     border-radius: 15PX;
     align-items: center;
-  }
+}
 
-  .filho3{
+.filho3 {
     background-color: #002148;
     color: white;
     justify-content: flex-end;
-    height:150px;
+    height: 150px;
     width: 300px;
     margin: 10px;
     border-radius: 15PX;
     border-radius: 15PX;
-  }
+}
 
-  .editar{
+.editar {
     height: 30px;
     width: 40px;
     position: relative;
     left: -40px;
-  }
-  .deletar{
+}
+
+.deletar {
     width: 40px;
     position: relative;
     left: -20px;
     top: 5px;
-  }
+}
 
-  input{
+input {
     background-color: white;
     height: 25%;
     width: 20%;
@@ -1302,306 +1333,303 @@ header {
     outline: none;
     border-radius: 5px 0% 0% 5px;
     font-family: "Inter";
-  }
+}
 
-  button{
-    background-color:#002147;
+button {
+    background-color: #002147;
     color: white;
     border: none;
     border-radius: 0% 10% 10% 0%;
     font-family: "Inter";
     height: 25%;
     width: 5%;
-  }
+}
 
-  button :hover{
+button :hover {
     box-shadow: 0px 0px 10px #8a8785;
     transform: translate(0px, -5px);
-    transition:transform 0.5s;
-  }
+    transition: transform 0.5s;
+}
 
-dialog::backdrop{
+dialog::backdrop {
 
-   background-color: rgb(0 0 0/ .5);
-    }
+    background-color: rgb(0 0 0/ .5);
+}
 
-    .dialog {
-        border: none;
-        border-radius: .5rem;
-        box-shadow: 0 0 1em rgb(0 0 0 / .3);
-        width: 50%;
-        height: 400px;
-        padding: 0px;  
-    }
+.dialog {
+    border: none;
+    border-radius: .5rem;
+    box-shadow: 0 0 1em rgb(0 0 0 / .3);
+    width: 50%;
+    height: 400px;
+    padding: 0px;
+}
 
-    .editMaquina{
-        width: 100%;
-        height: 100%;
-        background-color: #002147;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        gap: 10px;
-        
-    }
+.editMaquina {
+    width: 100%;
+    height: 100%;
+    background-color: #002147;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
 
-    .editMaquina h1{
-        font-size: 40px;
-        color: white;
-    }
-    
-    .editMaquina p{
-        font-size: 30px;
-        color: white;
-    }
-    .editMaquina button{
-        background-color: white; 
-        color: #002147; 
-        border: none;
-        padding: 10px 20px; 
-        border-radius: 15px; 
-        font-size: 16px; 
-        cursor: pointer; 
-        transition: background-color 0.3s ease; 
-    }
-    
-    #FecharModal:hover {
-        background-color: #0e5ab1;
-    }
+}
 
-    #dialog2::backdrop{
+.editMaquina h1 {
+    font-size: 40px;
+    color: white;
+}
 
-        background-color: rgb(0 0 0/ .5);
-         }
-     
-         #dialog2 {
-             border: none;
-             border-radius: .5rem;
-             box-shadow: 0 0 1em rgb(0 0 0 / .3);
-             width: 50%;
-             height: 400px;
-             padding: 0px;  
-         }
-     
-         .editMaquina2{
-             width: 100%;
-             height: 100%;
-             background-color:#002147;
-             display: flex;
-             align-items: center;
-             justify-content: center;
-             flex-direction: column;
-             gap: 10px;
-             
-         }
-     
-         .editMaquina2 h1{
-             font-size: 40px;
-             color: white;
-         }
-         
-         .editMaquina2 p{
-             font-size: 30px;
-             color: white;
-         }
-         
-         .editMaquina2 span{
-             font-size: 30px;
-             color: white;
-         }
-         
-         .editMaquina2 input{
-             width: 40%;
-             padding: 10px; 
-             border-radius: 15px; 
-             border: none;
-             background-color: white; 
-             color: white;
-             outline: none;
-             font-size: 16px;
-         }
-         
-         
-         .editMaquina2 button{
-             background-color: white; 
-             color: #002147; 
-             border: none;
-             padding: 10px 20px; 
-             border-radius: 15px; 
-             font-size: 16px; 
-             cursor: pointer;
-             transition: background-color 0.3s ease; 
-         }
-         
-         #FecharModal2:hover {
-             background-color:#0e5ab1;
-         }
+.editMaquina p {
+    font-size: 30px;
+    color: white;
+}
 
-         #dialog3::backdrop{
+.editMaquina button {
+    background-color: white;
+    color: #002147;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 15px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
 
-            background-color: rgb(0 0 0/ .5);
-             }
-         
-             #dialog3 {
-                 border: none;
-                 border-radius: .5rem;
-                 box-shadow: 0 0 1em rgb(0 0 0 / .3);
-                 width: 50%;
-                 height: 400px;
-                 padding: 0px;  
-             }
-         
-             .editMaquina3{
-                 width: 100%;
-                 height: 100%;
-                 background-color: #002147;
-                 display: flex;
-                 align-items: center;
-                 justify-content: center;
-                 flex-direction: column;
-                 gap: 10px;
-                 
-             }
-         
-             .editMaquina3 h1{
-                 font-size: 40px;
-                 color: white;
-             }
-             
-             .editMaquina3 p{
-                 font-size: 30px;
-                 color: white;
-             }
-             
-             .editMaquina3 span{
-                 font-size: 30px;
-                 color: white;
-             }
-             
-             .editMaquina3 input{
-                 width: 40%; 
-                 padding: 10px; 
-                 border-radius: 15px; 
-                 border: none; 
-                 background-color: #002147; 
-                 color: white; 
-                 outline: none;
-                 font-size: 16px; 
-             }
-             
-             
-             .editMaquina3 button{
-                 background-color: white; 
-                 color: #002147; 
-                 border: none; 
-                 padding: 10px 20px; 
-                 border-radius: 15px; 
-                 font-size: 16px; 
-                 cursor: pointer; 
-                 transition: background-color 0.3s ease; 
-             }
-             
-             #FecharModal3:hover {
-                 background-color:#0e5ab1 ;
-             }
+#FecharModal:hover {
+    background-color: #0e5ab1;
+}
+
+#dialog2::backdrop {
+
+    background-color: rgb(0 0 0/ .5);
+}
+
+#dialog2 {
+    border: none;
+    border-radius: .5rem;
+    box-shadow: 0 0 1em rgb(0 0 0 / .3);
+    width: 50%;
+    height: 400px;
+    padding: 0px;
+}
+
+.editMaquina2 {
+    width: 100%;
+    height: 100%;
+    background-color: #002147;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+
+}
+
+.editMaquina2 h1 {
+    font-size: 40px;
+    color: white;
+}
+
+.editMaquina2 p {
+    font-size: 30px;
+    color: white;
+}
+
+.editMaquina2 span {
+    font-size: 30px;
+    color: white;
+}
+
+.editMaquina2 input {
+    width: 40%;
+    padding: 10px;
+    border-radius: 15px;
+    border: none;
+    background-color: white;
+    color: white;
+    outline: none;
+    font-size: 16px;
+}
+
+
+.editMaquina2 button {
+    background-color: white;
+    color: #002147;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 15px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#FecharModal2:hover {
+    background-color: #0e5ab1;
+}
+
+#dialog3::backdrop {
+
+    background-color: rgb(0 0 0/ .5);
+}
+
+#dialog3 {
+    border: none;
+    border-radius: .5rem;
+    box-shadow: 0 0 1em rgb(0 0 0 / .3);
+    width: 50%;
+    height: 400px;
+    padding: 0px;
+}
+
+.editMaquina3 {
+    width: 100%;
+    height: 100%;
+    background-color: #002147;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+
+}
+
+.editMaquina3 h1 {
+    font-size: 40px;
+    color: white;
+}
+
+.editMaquina3 p {
+    font-size: 30px;
+    color: white;
+}
+
+.editMaquina3 span {
+    font-size: 30px;
+    color: white;
+}
+
+.editMaquina3 input {
+    width: 40%;
+    padding: 10px;
+    border-radius: 15px;
+    border: none;
+    background-color: #002147;
+    color: white;
+    outline: none;
+    font-size: 16px;
+}
+
+
+.editMaquina3 button {
+    background-color: white;
+    color: #002147;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 15px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#FecharModal3:hover {
+    background-color: #0e5ab1;
+}
+
 /*Funcionários*/
 
 @import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-body {
-  margin: 0;
-  padding: 0;
-  font-family:"Inter";
-}
-
 .label-captura {
-  display: flex;
-  justify-content: center;
+    display: flex;
+    justify-content: center;
 }
 
 .dash-right .avisos {
-  width: 100%;
-  color: rgb(216, 216, 216);
-  font-family: 'Barlow', 'Segoe UI', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    width: 100%;
+    color: rgb(216, 216, 216);
+    font-family: 'Barlow', 'Segoe UI', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .dash-right .avisos .container {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 }
 
 .dash-right .avisos .container .div-form {
-  width: 95%;
+    width: 95%;
 }
 
 .dash-right .avisos .container .div-form #form_postagem {
-  width: 95%;
+    width: 95%;
 }
 
 .dash-right .avisos .div-form label {
-  width: 95%;
+    width: 95%;
 }
 
 .dash-right .avisos .div-form input {
-  width: 95%;
-  border-radius: 5px;
-  height: 30px;
+    width: 95%;
+    border-radius: 5px;
+    height: 30px;
 }
 
 .dash-right .avisos .div-form textarea {
-  width: 95%;
-  border: 3px solid #002147;
-  background-color: white;
-  border-radius: 5px;
+    width: 95%;
+    border: 3px solid #002147;
+    background-color: white;
+    border-radius: 5px;
 }
 
 .dash-right .avisos .div-form button {
-  cursor: pointer;
-  font-family:"Inter";
-  border: 0;
-  border-radius: 5px;
-  font-weight: 600;
-  font-size: 18px;
-  padding: 10px 15px;
-  color: white;
-  background-color: #002147;
-  width: 120px;
+    cursor: pointer;
+    font-family: "Inter";
+    border: 0;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 18px;
+    padding: 10px 15px;
+    color: white;
+    background-color: #002147;
+    width: 120px;
 }
 
 
 
 .publicacao {
-  display:grid;
-  align-content: center;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  border-radius: 20px;
-  margin-bottom: 30px;
-  background-color: #002147;
-  color: white;
-  width: 600px;
-  height: 80%;
-  padding: 20px;
-  text-align: center;
-  font-size: 22px;
+    display: grid;
+    align-content: center;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    margin-bottom: 30px;
+    background-color: #002147;
+    color: white;
+    width: 500px;
+    height: 80%;
+    padding: 20px;
+    text-align: center;
+    font-size: 22px;
 }
 
 .publicacao>*:not(:last-child) {
-  padding: 0 0 10px 0;
+    padding: 0 0 10px 0;
 }
 
 .div-results {
-  width: 100%;
+    width: 100%;
 }
-.id{
+
+.id {
     position: relative;
     left: -200px;
     top: 20px;
 }
 
-.funcs{
+.funcs {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1615,24 +1643,45 @@ body {
 }
 
 .div-buttons {
-  display: flex;
-  justify-content: flex-end;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .div-buttons>* {
-  margin-left: 30px;
+    margin-left: 30px;
 }
 
-.container h1{
+.container h1 {
     color: black;
     padding-left: 25px;
 }
 
-.container h3{
+.container h3 {
     color: #000;
     height: 5px;
     width: 100%;
 }
 
-             
+.TITULO {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
+.Dashboard-chamada {
+    margin-top: 15px;
+    margin-left: 40px;
+    height: 25vh;
+    width: 150vh;
+    background-color: red;
+}
+
+
+.alerta {
+    margin-right: 15px;
+    align-items: end;
+    height: 500px;
+    width: 100vh;
+    background-color: green;
+    flex-direction: row;
+}

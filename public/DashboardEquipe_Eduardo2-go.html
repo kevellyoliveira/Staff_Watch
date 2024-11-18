@@ -37,28 +37,37 @@
             </div>
         </div>
     </header>
-    <div class="menuLateral">
-        <div class="itens">
-            <h4 id="0" class="historico" onclick="window.location.href='dashboardGeral-go.html'">Histórico</h4> <!-- Histórico Fixo -->
-            
-            <!-- As equipes serão carregadas dinamicamente aqui -->
-            
-            <h4 class="slc novaequipe" onclick="window.location.href='./novaEquipe.html'">Nova equipe</h4> <!-- Nova equipe Fixa -->
+    <div class="pai">
+        <div class="menuLateral">
+            <div class="itens">
+                <h4 id="0" class="historico" onclick="window.location.href='dashboardGeral-go.html'">Histórico</h4>
+                <!-- Histórico Fixo -->
+
+                <!-- As equipes serão carregadas dinamicamente aqui -->
+
+                <h4 class="slc novaequipe" onclick="window.location.href='./novaEquipe.html'">Nova equipe</h4>
+                <!-- Nova equipe Fixa -->
+            </div>
         </div>
+        <div>
+            <h1 class="TITULO">Monitoramento da equipe</h1>
+            <div class="Dashboard-chamada">
+                
+            </div>
+            <article class="title">
+
+                <input type="text" name="Pesquisar" id="pesquisar_input" required="required" autocomplete="off"
+                    placeholder="Pesquisar funcionário"><button onclick="listarPorUsuario()"><i
+                        class="fa-solid fa-magnifying-glass"></i></button>
+            </article>
+            <br>
+            <br>
+            <div class="funcs">
+                <div id="feed_container" class="feed-container"></div>
+            </div>
+        </div>
+        <div class="alerta"></div>
     </div>
-
-    <article class="title">
-        <h2>Monitoramento da equipe</h2><input type="text" name="Pesquisar" id="pesquisar_input" required="required"
-            autocomplete="off" placeholder="Pesquisar funcionário"><button onclick="listarPorUsuario()"><i
-                class="fa-solid fa-magnifying-glass"></i></button>
-    </article>
-    <br>
-    <br>
-    <div class="funcs">
-        <div id="feed_container" class="feed-container"></div>
-    </div>
-
-
 </body>
 
 </html>
@@ -80,13 +89,14 @@
     }
 
     function atualizarFeedEquipe() {
-        // var fkEmpresa = sessionStorage.getItem("ID_EMPRESA")
-        // var fkEquipe = sessionStorage.getItem("ID_EQUIPE")
+        var fkEmpresa = sessionStorage.getItem("ID_EMPRESA")
+        var fkEquipe = sessionStorage.getItem("equipeSelecionada")
 
-        //console.log(fkEmpresa)
-        //console.log(fkEquipe)
+        console.log(fkEmpresa)
+        console.log(fkEquipe)
+        console.log("---------")
 
-        fetch(`/funcionarios/listarEquipe/${2}/${1}`).then(function (resposta) {
+        fetch(`/funcionarios/listarEquipe/${fkEmpresa}/${fkEquipe}`).then(function (resposta) {
             if (resposta.ok) {
                 if (resposta.status == 204) {
                     var feed = document.getElementById("feed_container");
@@ -105,6 +115,7 @@
                         var publicacao = resposta[i];
 
                         // Criando e manipulando elementos do HTML via JavaScript
+                        var divModal = document.createElement("div")
                         var divPublicacao = document.createElement("div");
                         var spanID = document.createElement("span");
                         var spanTitulo = document.createElement("span");
@@ -115,7 +126,9 @@
                         var btnDeletar = document.createElement("button");
 
                         // Definindo conteúdo dos elementos
-                        spanID.innerHTML = "<div class='id'> Id Funcionário: <b>" + publicacao.idFuncionario + "</b> </div> <br>";
+
+                        divModal.innerHTML = "<div class = open-modal>"
+                        spanID.innerHTML = "<div class='id' style='color= red'> Id Funcionário: <b>" + publicacao.idFuncionario + "</b> </div> <br>";
                         spanTitulo.innerHTML = "E-mail: <b>" + publicacao.email + "</b>";
                         spanNome.innerHTML = "Nome: <b>" + publicacao.nome + "</b>";
                         divDescricao.innerHTML = "Equipe: <b>" + publicacao.fkEquipe + "</b>";
@@ -267,68 +280,68 @@
     }
 
     function listarEquipes() {
-    const fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
+        const fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
 
-    fetch(`funcionarios/listarEquipes/${fkEmpresa}`)
-        .then(function (resposta) {
-            if (resposta.ok) {
-                return resposta.json(); // Se a resposta for ok, tenta converter para JSON
-            } else {
-                console.error("Erro ao carregar equipes, status:", resposta.status);
-                return []; // Se não retornar sucesso, retorna um array vazio
-            }
-        })
-        .then(function (dados) {
-            // Verificando se dados está correto
-            console.log("Equipes carregadas:", dados);
+        fetch(`funcionarios/listarEquipes/${fkEmpresa}`)
+            .then(function (resposta) {
+                if (resposta.ok) {
+                    return resposta.json(); // Se a resposta for ok, tenta converter para JSON
+                } else {
+                    console.error("Erro ao carregar equipes, status:", resposta.status);
+                    return []; // Se não retornar sucesso, retorna um array vazio
+                }
+            })
+            .then(function (dados) {
+                // Verificando se dados está correto
+                console.log("Equipes carregadas:", dados);
 
-            const menuLateral = document.querySelector(".menuLateral .itens");
+                const menuLateral = document.querySelector(".menuLateral .itens");
 
-            // Limpa o conteúdo atual do menu (exceto os itens fixos)
-            const historicoItem = document.querySelector(".historico"); // Seleciona o item Histórico pela classe
-            const novaEquipeItem = document.querySelector(".novaequipe"); // Seleciona o item Nova Equipe pela classe
+                // Limpa o conteúdo atual do menu (exceto os itens fixos)
+                const historicoItem = document.querySelector(".historico"); // Seleciona o item Histórico pela classe
+                const novaEquipeItem = document.querySelector(".novaequipe"); // Seleciona o item Nova Equipe pela classe
 
-            // Re-adiciona o item "Histórico" de volta
-            menuLateral.innerHTML = ''; // Limpa a lista para evitar duplicação
+                // Re-adiciona o item "Histórico" de volta
+                menuLateral.innerHTML = ''; // Limpa a lista para evitar duplicação
 
-            // Adiciona o Histórico novamente
-            menuLateral.appendChild(historicoItem); 
+                // Adiciona o Histórico novamente
+                menuLateral.appendChild(historicoItem);
 
-            // Adiciona as equipes (se houver)
-            if (dados && dados.length > 0) {
-                dados.forEach(function (equipe) {
-                    const h4 = document.createElement("h4");
-                    h4.textContent = equipe.nome;  // O nome da equipe
-                    h4.onclick = function () {
-                        selecionarItem(equipe.id);  // Quando clicar, chama a função de seleção
-                    };
-                    menuLateral.appendChild(h4); // Adiciona a equipe ao menu
-                });
-            } else {
-                // Se não houver equipes, exibe uma mensagem
-                const noTeamsMessage = document.createElement("h4");
-                noTeamsMessage.textContent = "Nenhuma equipe encontrada.";
-                menuLateral.appendChild(noTeamsMessage);
-            }
+                // Adiciona as equipes (se houver)
+                if (dados && dados.length > 0) {
+                    dados.forEach(function (equipe) {
+                        const h4 = document.createElement("h4");
+                        h4.textContent = equipe.nome;  // O nome da equipe
+                        h4.onclick = function () {
+                            selecionarItem(equipe.id);  // Quando clicar, chama a função de seleção
+                        };
+                        menuLateral.appendChild(h4); // Adiciona a equipe ao menu
+                    });
+                } else {
+                    // Se não houver equipes, exibe uma mensagem
+                    const noTeamsMessage = document.createElement("h4");
+                    noTeamsMessage.textContent = "Nenhuma equipe encontrada.";
+                    menuLateral.appendChild(noTeamsMessage);
+                }
 
-            // Re-adiciona a opção "Nova equipe"
-            menuLateral.appendChild(novaEquipeItem);
-        })
-        .catch(function (erro) {
-            console.error("Erro ao carregar as equipes:", erro);
-        });
-}
+                // Re-adiciona a opção "Nova equipe"
+                menuLateral.appendChild(novaEquipeItem);
+            })
+            .catch(function (erro) {
+                console.error("Erro ao carregar as equipes:", erro);
+            });
+    }
 
-window.onload = function() {
-    listarEquipes();  // Chama a função para listar as equipes
-    atualizarFeedEquipe();  // Chama a função para atualizar o feed da equipe
-};
+    window.onload = function () {
+        listarEquipes();  // Chama a função para listar as equipes
+        atualizarFeedEquipe();  // Chama a função para atualizar o feed da equipe
+    };
 
 
-document.addEventListener('DOMContentLoaded', function() {
-    listarEquipes();  // Chama a função para listar as equipes
-    atualizarFeedEquipe();  // Chama a função para atualizar o feed da equipe
-});
+    document.addEventListener('DOMContentLoaded', function () {
+        listarEquipes();  // Chama a função para listar as equipes
+        atualizarFeedEquipe();  // Chama a função para atualizar o feed da equipe
+    });
 
 
 
