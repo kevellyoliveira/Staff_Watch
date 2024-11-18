@@ -253,6 +253,7 @@ INSERT INTO alerta (fkCaptura) VALUES
 (1456);
 select * from computador;
 desc captura;
+select * from captura where modelo like "%";
 
 -- exibindo detalhes a serem exibidos na tela dos alertas!
 select ca.captura, ca.dataCaptura, 
