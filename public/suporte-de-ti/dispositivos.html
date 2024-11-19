@@ -328,7 +328,6 @@
 
 <script>
     let editarAlgo = false
-    let myChart;
     // ==========  FUNÇÕES DO MODAL  ================================================================================================================================================
     // função pra fechar o modal quando clicar4 no botão de X e na parte de fora do modal
     document.getElementById('fade').addEventListener('click', function () {
@@ -405,7 +404,7 @@
         // Mostra a div do componente selecionado
         const selectedComponent = document.getElementById(componenteId);
         if (editarAlgo) {
-            stop
+            return;
         }
         console.log("Componente a ser exibido: ", selectedComponent);
         if (selectedComponent) {
@@ -641,26 +640,6 @@
         window.location = "../index.html"
     }
 
-    // função para alterar a equipe selecionada no menu lateral
-    // window.onload = function () {
-    //     var equipeSelecionada = sessionStorage.getItem('equipeSelecionada');  // Recupera o ID da equipe
-
-    //     if (equipeSelecionada) {
-    //         var item = document.getElementById(equipeSelecionada);  // Seleciona o item da equipe
-
-    //         if (item) {
-    //             // Remove a classe 'slc' de todos os itens e aplica ao selecionado
-    //             var itens = document.querySelectorAll('.menuLateral .itens h4');
-    //             itens.forEach(function (el) {
-    //                 el.classList.remove('slc');
-    //             });
-
-    //             // Adiciona a classe 'slc' ao item selecionado
-    //             item.classList.add('slc');
-    //         }
-    //     }
-    // };
-
     function selecionarItem(elemento) {
         // Salvar o id do item selecionado no localStorage
         localStorage.setItem('equipeSelecionada', elemento.id);
@@ -685,6 +664,8 @@
     // Função para buscar os dados iniciais
     // let indiceAtual = 0; // Variável global para rastrear o índice atual
     let dadosRecebidos = []; // Variável para armazenar os dados recebidos
+    // let myChart = null;
+    console.log(`mychart: ${myChart}`)
 
     function obterDadosGrafico(idComponente) {
         fetch(`/dispositivos/metrica/${idComponente}`, {
@@ -710,12 +691,16 @@
     function gerarGraficoTempoReal(idComponente) {
         const ctx = document.getElementById('myChart').getContext('2d');
 
-        // if (myChart) {
-        //     myChart.destroy();
-        // }
+        if (window.myChart instanceof Chart) {
+            window.myChart.destroy();
+        }
+        // Ajustar os dados recebidos para o gráfico
+        // const labels = dadosRecebidos.map(item => item.timestamp); // Supondo que cada item tenha um timestamp
+        // const data = dadosRecebidos.map(item => item.uso); // Supondo que "uso" seja o valor que você quer plotar
+
 
         // Inicialização do gráfico vazio
-        const myChart = new Chart(ctx, {
+        window.myChart = new Chart(ctx, {
             type: 'line',
             data: {
                 labels: [], // Inicialmente vazio
@@ -735,85 +720,92 @@
                 }
             }
         });
+        // Garante que o gráfico foi criado antes de chamar a atualização
+        console.log("myChart inicializado:", myChart);
         atualizarGrafico(idComponente)
     }
 
-        // Função para adicionar valores incrementalmente
-        function atualizarGrafico(idComponente) {
-            let indiceAtual = 0;
+    // Função para adicionar valores incrementalmente
+    function atualizarGrafico(idComponente) {
+        let indiceAtual = 0;
 
-            const intervalo = setInterval(() => {
-                if (indiceAtual < dadosRecebidos.length) {
-                    const dadoAtual = dadosRecebidos[indiceAtual];
-                    const momento = dadoAtual.dataCaptura;
-                    let temperatura = dadoAtual.captura; // Captura de dados, mas isso pode ser alterado dependendo do componente
+        const intervalo = setInterval(() => {
+            if (!myChart) {
+                console.warn("myChart ainda não foi inicializado. Tentando novamente...");
+                return; // Aguarde até que myChart seja inicializado
+            }
 
-                    // Adiciona os novos dados ao gráfico
-                    myChart.data.labels.push(momento);
-                    myChart.data.datasets[0].data.push(temperatura);
+            if (indiceAtual < dadosRecebidos.length) {
+                const dadoAtual = dadosRecebidos[indiceAtual];
+                let momento = dadoAtual.dataCaptura;
+                let temperatura = dadoAtual.captura;
 
-                    // Remove o ponto mais antigo se o gráfico exceder 20 pontos
-                    if (myChart.data.labels.length > 20) {
-                        myChart.data.labels.shift();
-                        myChart.data.datasets[0].data.shift();
-                    }
+                // Adiciona os novos dados ao gráfico
+                myChart.data.labels.push(momento);
+                myChart.data.datasets[0].data.push(temperatura);
 
-                    // Atualiza o gráfico
-                    myChart.update();
-
-                    // Incrementa o índice para o próximo dado
-                    indiceAtual++;
-
-                    // Atualiza os KPIs conforme o idComponente
-                    if (idComponente == 1) { // rede
-                        redeEnviar.innerHTML = `${dadoAtual.enviado}%`
-                        redeReceber.innerHTML = `${dadoAtual.recebido}%`
-                        redePerdido.innerHTML = `${dadoAtual.perdido}%`
-                        idNomeComponente.innerHTML = dadoAtual.nome
-                    } else if (idComponente == 2) { // memória
-                        memoriaUtilizacao.innerHTML = `${dadoAtual.captura}%`
-                        idNomeComponente.innerHTML = dadoAtual.nome
-
-                        // Média de memória
-                        atualizarMediaGrafico();
-                    } else if (idComponente == 3) { // disco
-                        discoUtilizacao.innerHTML = `${dadoAtual.captura}%`
-                        idNomeComponente.innerHTML = dadoAtual.nome
-
-                        // Média de disco
-                        atualizarMediaGrafico();
-                    } else if (idComponente == 4) { // CPU
-                        cpuUtilizacao.innerHTML = `${dadoAtual.captura}%`
-                        idNomeComponente.innerHTML = dadoAtual.nome
-
-                        // Média de CPU
-                        atualizarMediaGrafico();
-                    }
-
-                } else {
-                    console.log('Todos os dados foram exibidos.');
-                    clearInterval(intervalo); // Para o intervalo quando todos os dados forem exibidos
+                // Remove o ponto mais antigo se o gráfico exceder 20 pontos
+                if (myChart.data.labels.length > 20) {
+                    myChart.data.labels.shift();
+                    myChart.data.datasets[0].data.shift();
                 }
-            }, 2000); // Intervalo de 2 segundos
-        }
-        // Atualiza o gráfico a cada 2 segundos
-        // const intervalo = setInterval(atualizarGrafico, 2000);
-    
+
+                // Atualiza o gráfico
+                myChart.update();
+
+                // Incrementa o índice para o próximo dado
+                indiceAtual++;
+
+                // Atualiza os KPIs conforme o idComponente
+                if (idComponente == 1) { // rede
+                    redeEnviar.innerHTML = `${dadoAtual.enviado}%`
+                    redeReceber.innerHTML = `${dadoAtual.recebido}%`
+                    redePerdido.innerHTML = `${dadoAtual.perdido}%`
+                    idNomeComponente.innerHTML = dadoAtual.modelo
+                } else if (idComponente == 2) { // memória
+                    memoriaUtilizacao.innerHTML = `${dadoAtual.captura}%`
+                    idNomeComponente.innerHTML = dadoAtual.modelo
+
+                    // Média de memória
+                    atualizarMediaGrafico(idComponente);
+                } else if (idComponente == 3) { // disco
+                    discoUtilizacao.innerHTML = `${dadoAtual.captura}%`
+                    idNomeComponente.innerHTML = dadoAtual.modelo
+
+                    // Média de disco
+                    atualizarMediaGrafico(idComponente);
+                } else if (idComponente == 4) { // CPU
+                    cpuUtilizacao.innerHTML = `${dadoAtual.captura}%`
+                    idNomeComponente.innerHTML = dadoAtual.modelo
+
+                    // Média de CPU
+                    atualizarMediaGrafico(idComponente);
+                }
+
+            } else {
+                console.log('Todos os dados foram exibidos.');
+                clearInterval(intervalo); // Para o intervalo quando todos os dados forem exibidos
+            }
+        }, 2000); // Intervalo de 2 segundos
+    }
+    // Atualiza o gráfico a cada 2 segundos
+    // const intervalo = setInterval(atualizarGrafico, 2000);
+
 
     function atualizarMediaGrafico(idComponente) {
-    const capturasExibidas = myChart.data.datasets[0].data;
-    const soma = capturasExibidas.reduce((acumulador, valor) => acumulador + valor, 0);
-    const media = soma / capturasExibidas.length;
-    
-    // Atualiza a média conforme o idComponente
-    if (idComponente == 2) { // Memória
-        memoriaMedia.innerHTML = `${Math.round(media)}%`;
-    } else if (idComponente == 3) { // Disco
-        discoMediaUso.innerHTML = `${Math.round(media)}%`;
-    } else if (idComponente == 4) { // CPU
-        cpuMedia.innerHTML = `${Math.round(media)}%`;
+        const capturasExibidas = myChart.data.datasets[0].data;
+        const soma = capturasExibidas.reduce((acumulador, valor) => acumulador + valor, 0);
+        const media = soma / capturasExibidas.length;
+
+        // Atualiza a média conforme o idComponente
+        if (idComponente == 2) { // Memória
+            memoriaMedia.innerHTML = `${Math.round(media)}%`;
+        } else if (idComponente == 3) { // Disco
+            discoMediaUso.innerHTML = `${Math.round(media)}%`;
+        } else if (idComponente == 4) { // CPU
+            cpuMedia.innerHTML = `${Math.round(media)}%`;
+        }
     }
-}
 
 
 

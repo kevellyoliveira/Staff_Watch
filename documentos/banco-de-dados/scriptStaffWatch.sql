@@ -284,30 +284,18 @@ select captura, time(dataCaptura) as dataCaptura, modelo
 from captura
 where fkComponente = 4 and fkComputador = 1 and fkAuxComponente = 12 order by dataCaptura limit 100;
 
-select * from captura order by idCaptura desc limit 10;
-
-desc captura;
-select * from componente;
-
-select * from view_cpuTempoReal limit 1;
-select * from view_cpuTempoReal;
-select * from componente;
-
-
-
-select round(avg(captura),0) as media from view_cpuTempoReal;
-
 -- gráfico em tempo real: uso de Disco e total
 create or replace view view_discoTempoReal as
 select 
     (select captura from captura 
      where fkComponente = 3 and fkComputador = 1 and fkAuxComponente = 10 
      limit 1) as totalDisco,
-    captura, 
-    dataCaptura 
+    time(dataCaptura) as dataCaptura, modelo
 from captura 
 where fkComponente = 3 and fkComputador = 1 and fkAuxComponente = 11 
-order by idCaptura desc limit 1;
+order by idCaptura limit 100;
+
+select * from view_discoTempoReal;
 
 -- gráfico em tempo real: rede - pacotes enviados e recebidos 
 create or replace view view_redeTempoReal as
@@ -316,10 +304,10 @@ select
      where fkComponente = 1 and fkComputador = 1 and fkAuxComponente = 4
      limit 1) as pctRec,
     captura as pctEnv, 
-    dataCaptura 
+    time(dataCaptura) as dataCaptura, modelo
 from captura
 where fkComponente = 1 and fkComputador = 1 and fkAuxComponente = 5
-order by idCaptura desc limit 1;
+order by idCaptura limit 100;
 
 -- gráfico em tempo real: uso de memória ram
 create or replace view view_ramTempoReal as
@@ -328,10 +316,10 @@ select
      where fkComponente = 2 and fkComputador = 1 and fkAuxComponente = 7 
      limit 1) as totalMemoria,
     captura, 
-    dataCaptura 
+    time(dataCaptura) as dataCaptura, modelo 
 from captura 
 where fkComponente = 2 and fkComputador = 1 and fkAuxComponente = 6 
-order by idCaptura desc limit 1;
+order by idCaptura limit 100;
 
 -- comandos ---------------------------------------------
 desc captura;
@@ -341,6 +329,15 @@ select * from captura where modelo like "%";
 select fkComputador, fkEquipe, modelo.nome as modelo, funcionario.nome from modelo 
 join funcionario on modelo.fkFuncionario = funcionario.idFuncionario 
 where funcionario.fkEmpresa = 1;
+
+select * from captura order by idCaptura desc limit 10;
+
+desc captura;
+select * from componente;
+
+select * from view_cpuTempoReal limit 1;
+select * from view_redeTempoReal;
+select * from componente;
 
 -- -------------------------------------------------------------------------------------------------------------------
 
