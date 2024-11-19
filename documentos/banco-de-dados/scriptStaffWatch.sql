@@ -1,7 +1,6 @@
 CREATE DATABASE IF NOT EXISTS StaffWatch;
 USE StaffWatch;
 
--- DROP DATABASE Staffwatch;
 
 
 CREATE TABLE IF NOT EXISTS componente(
@@ -40,6 +39,9 @@ insert into auxComponente values
 (default,"discoTotal","byte", 3),
 (default,"discoPorcen","%", 3),
 (default,"cpuPorcen","%", 4),
+(default, "modelo CPU", "nome", 4),
+(default, "modelo Disco", "nome", 3),
+(default, "modelo Rede", "nome", 1),
 
 -- looca
 (default,"redeRecebidosLooca","bytes", 1),
@@ -56,6 +58,8 @@ idEmpresa INT PRIMARY KEY AUTO_INCREMENT,
 cnpj CHAR(18),
 nomeEmp VARCHAR(45)
 );
+
+select * from auxComponente;
 
 insert into empresa (idEmpresa, cnpj, nomeEmp) values
 (default, "123456789123456789", "Falla");
@@ -137,6 +141,7 @@ CREATE TABLE IF NOT EXISTS captura(
 idCaptura int primary key auto_increment,
 captura BIGINT,
 dataCaptura DATETIME,
+modelo VARCHAR(455),
 
 fkComponente INT,
 CONSTRAINT componenteComputador1 FOREIGN KEY(fkComponente)
@@ -245,7 +250,9 @@ INSERT INTO alerta (fkCaptura) VALUES
 (382),
 (720),
 (1456);
-select * from alerta;
+select * from computador;
+desc captura;
+select * from captura where modelo like "%";
 
 -- exibindo detalhes a serem exibidos na tela dos alertas!
 select ca.captura, ca.dataCaptura, 
@@ -272,12 +279,23 @@ group by co.idComponente, maq.fkEquipe;
 
 -- gráfico em tempo real: uso de CPU
 create or replace view view_cpuTempoReal as
-select ca.captura, time(ca.dataCaptura) as dataCaptura, maq.nome from captura ca
+select ca.captura, time(ca.dataCaptura) as dataCaptura, maq.nome
+from captura ca
 join modelo maq on maq.fkComputador = ca.fkComputador
 where ca.fkComponente = 4 and ca.fkComputador = 1 and ca.fkAuxComponente = 12 order by dataCaptura limit 100;
 
+select * from auxComponente;
+
+desc captura;
+select * from componente;
+
 select * from view_cpuTempoReal limit 1;
 select * from view_cpuTempoReal;
+select * from componente;
+
+
+
+select round(avg(captura),0) as media from view_cpuTempoReal;
 
 -- gráfico em tempo real: uso de Disco e total
 create or replace view view_discoTempoReal as
@@ -324,7 +342,31 @@ select fkComputador, fkEquipe, modelo.nome as modelo, funcionario.nome from mode
 join funcionario on modelo.fkFuncionario = funcionario.idFuncionario 
 where funcionario.fkEmpresa = 1;
 
--- -------------------------------------------------------------------------------------------------------------------
 
+select modelo, fkComputador, equipe.nome from captura join computador as c on c.idComputador = captura.fkComputador join equipe on equipe.idEquipe = c.fkEquipe
+ WHERE equipe.fkEmpresa = 1 AND captura.fkComponente = 3;
+ 
+ 
+ select * from alerta;
+ select * from captura;
+ select * from computador;
+ 
 
+select count(*) as quantidade_alertas from alerta as a join captura as c on a.fkCaptura = c.idCaptura where fkComponente = 4; 
+select count(*) as quantidade_alertas from alerta as a join captura as c on a.fkCaptura = c.idCaptura where fkComputador = 1; -- esse vai estar no data tables
+select count(*) as quantidade_alertas from alerta as a join captura as c on a.fkCaptura = c.idCaptura; -- esse pode estar na primeira página
+ 
+SELECT COUNT(DISTINCT fkComputador) AS quantidade_maquinas_com_alertas
+FROM alerta AS a
+JOIN captura AS c ON a.fkCaptura = c.idCaptura; -- conta o numero de computadores que contém alertas
 
+ 
+ 
+ 
+ insert into alerta values
+ (default, 3),
+ (default, 1),
+ (default, 4);
+ 
+
+-- --------------------------------------------------------------------------------------------------------------------

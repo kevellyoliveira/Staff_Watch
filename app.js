@@ -35,6 +35,8 @@ var indexRouter = require("./src/routes/index");
 var usuarioRouter = require("./src/routes/usuarios");
 var funcionariosRouter = require("./src/routes/funcionarios");
 var redesRouter = require("./src/routes/redesMatheus");
+var ramRouter = require("./src/routes/memsramMatheus");
+var discoRouter = require("./src/routes/discoMatheus");
 var enderecoRouter = require("./src/routes/enderecos");
 var medidasRouter = require("./src/routes/medidas");
 var maquinasRouter = require("./src/routes/maquinas");
@@ -54,6 +56,8 @@ app.use("/enderecos", enderecoRouter);
 app.use("/medidas", medidasRouter);
 app.use("/maquinas", maquinasRouter);
 app.use("/redesMatheus", redesRouter);
+app.use("/discoMatheus", discoRouter);
+app.use("/memsramMatheus", ramRouter);
 app.use("/dispositivos", dispositivosRouter);
 
 // app.use("/empresas", empresasRouter);

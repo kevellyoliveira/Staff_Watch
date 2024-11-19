@@ -3,7 +3,8 @@ var router = express.Router();
 
 var redeMatheus = require("../controllers/redeMatheusController");
 
-router.get("/listarPacotes/", function (req, res) {
+
+router.get("/listarPacotes/:fkEmpresa", function (req, res) {
     redeMatheus.buscarPacotes(req, res);
 });
 

@@ -1,10 +1,11 @@
-var redeMatheusModel = require("../models/redeMatheusModel");
 
-function buscarPacotes(req, res) {
+var memramMatheusModel = require("../models/memramMatheusModel");
+
+function buscarRam (req, res) {
     var fkEmpresa = req.params.fkEmpresa;
     console.log(`fkEmpresa recebido na controller:", fkEmpresa`);
 
-    redeMatheusModel.buscarPacotes(fkEmpresa).then(function (resultado) {
+    memramMatheusModel.buscarRam(fkEmpresa).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -17,9 +18,6 @@ function buscarPacotes(req, res) {
     });
 }
 
-
-
-
 module.exports = {
-    buscarPacotes
+    buscarRam
 }

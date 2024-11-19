@@ -1,10 +1,10 @@
-var redeMatheusModel = require("../models/redeMatheusModel");
+var discoMatheusModel = require("../models/discoMatheusModel");
 
-function buscarPacotes(req, res) {
+function buscarDisco(req, res) {
     var fkEmpresa = req.params.fkEmpresa;
     console.log(`fkEmpresa recebido na controller:", fkEmpresa`);
 
-    redeMatheusModel.buscarPacotes(fkEmpresa).then(function (resultado) {
+    discoMatheusModel.buscarDisco(fkEmpresa).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -21,5 +21,5 @@ function buscarPacotes(req, res) {
 
 
 module.exports = {
-    buscarPacotes
+    buscarDisco
 }

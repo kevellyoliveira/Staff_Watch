@@ -10,7 +10,7 @@
     
 </head>
 
-<body onload="enderecoLinhas()">
+<body onload="funcaoGeral()">
 
     <header>
         <div class="opcoes">
@@ -20,6 +20,7 @@
                 </div>
 
                 <div class="opcoesComponentes" id="itens">
+                    <h6 class="opcoesMenu associMenu"> Olá, <span id="b_usuario">usuário </span>! </h6>  
                     <h6 class="opcoesMenu associMenu"  onclick="window.location.href='pagina-maquina.html'">Dispositivos </h6>
                     <!-- <h6 class="opcoesMenu" onclick="window.location.href='cadastroFuncionario.html'">Cadastrar</h6> -->
                     
@@ -34,25 +35,18 @@
 
 
     <div class="corpo">
-        <div class="menuLateral">
-
-            <h1 class="ola"> Olá, <span id="b_usuario">usuário </span>! </h1>  
-
-            <div class="itens">
-                <!-- <h4 id="0" class="slc" onclick="window.location.href='dashboardGeral-go.html'">Histórico</h4> -->
-                <h4 style="text-decoration: underline;" id="1" onclick="window.location.href='dashboard-matheus-cpu.html'">CPU</h4>
-                <h4 id="2"  onclick="window.location.href='dashboard-matheus-ram.html'">RAM</h4>
-                <h4 id="3" onclick="window.location.href='dashboard-matheus-rede.html'">REDE</h4>
-                <h4 id="4"  onclick="window.location.href='dashboard-matheus-disco.html'">DISCO</h4>
-                <!-- <h4 class="slc novaequipe" onclick="window.location.href='./novaEquipe.html'">Nova equipe</h4> -->
-            </div>
-        </div>
+        
         <div class="infos">
             <!-- Parte superior das Informações-->
             <div class="emcima">
 
-                <span> Página de monitoramento de CPU!</span> 
-
+                <span> Monitoramento de CPU!</span> 
+                <select name="opcoes" class="dropdown" id="seletorPaginas">
+                    <option value="dashboard-matheus-cpu.html">CPU</option>
+                    <option value="dashboard-matheus-rede.html">REDE</option>
+                    <option value="dashboard-matheus-ram.html">RAM</option>
+                    <option value="dashboard-matheus-disco.html">DISCO</option>
+                </select>
 
             </div>
 
@@ -71,7 +65,7 @@
                                         <tr>
                                             <th>Maquina</th>
                                             <th>Equipe</th>
-                                            <th>Modelo</th>
+                                            <th>Modelo da CPU</th>
                                             
                                         </tr>
                                     </thead>
@@ -86,17 +80,25 @@
                   <!-- Dois gráficos menores ao lado direito -->
                   <div class="direitaCards">
                       <div class="card pequeno">
-                          
+                          <h3 style="color: white;"> Quantidade total de alertas :</h3>
+                          <div class="card-numero">
+
+                            
+                          </div>
                       </div>
                       <div class="card pequeno">
-                          
+                        <h3 style="color: white;"> Máquinas com alertas: </h3>
+                        <div class="card-numero2">
+
+
+                        </div>
                       </div>
                   </div>
               </div>
           
               <!-- Alertas à direita -->
               <div class="direita">
-                  <h1 style="color: white;">Alertas</h1>
+                  <h1 style="color: white;"> Alertas Gerais </h1>
                   <div class="box">
                       <p><b style="color: red;"></b></p>
                   </div>
@@ -117,8 +119,17 @@
 
 <script>
 
+
+function funcaoGeral(){
+
+    enderecoLinhas();
+    buscarNumeros();
+
+}
+
+
 function enderecoLinhas() {
-    b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
 let fkEmpresa = sessionStorage.getItem("ID_EMPRESA")
 
 console.log(fkEmpresa)
@@ -157,11 +168,10 @@ fetch(`/enderecos/listarEnderecos/${fkEmpresa}`).then(function (resposta) {
                 celMaquina.textContent = conteudoMaquina;
                 linha.appendChild(celMaquina);
 
-                let conteudoFuncionario = linhaAtual.nome;
-                
-                let celFuncionario = document.createElement('td');
-                celFuncionario.textContent = `${conteudoFuncionario}`
-                linha.appendChild(celFuncionario);
+                let conteudoEquipe = linhaAtual.nome; 
+                let celEquipe = document.createElement('td');
+                celEquipe.textContent = `${conteudoEquipe}`;
+                linha.appendChild(celEquipe);
 
                 let conteudoModelo = linhaAtual.modelo;
                 
@@ -202,6 +212,32 @@ fetch(`/enderecos/listarEnderecos/${fkEmpresa}`).then(function (resposta) {
 });
 }
 
+
+document.getElementById('seletorPaginas').addEventListener('change', function() {
+    const paginaSelecionada = this.value;
+    window.location.href = paginaSelecionada; 
+});
+
+
+
+function buscarNumeros() {
+
+    fetch(`/enderecos/numerosBuscar/:fkComponente`) 
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Erro ao buscar o número total de servidores");
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Acessando o valor da chave 'count(*)' do primeiro objeto
+            const Quantidade_Alertas = data[0].quantidade_alertas;
+            document.querySelector(".card-numero").textContent = Quantidade_Alertas;
+        })
+        .catch(error => {
+            console.error("Erro:", error);
+        });
+}
 
 
 </script>
