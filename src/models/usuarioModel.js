@@ -40,25 +40,41 @@ function cadastrar(nomeEmp, cnpj, nomeRep, email, cargo, senha) {
     // Executa a query de inserção da empresa
     return database.executar(instrucaoSqlEmpresa)
         .then(() => {
+            // Agora inserimos o cargo na tabela de cargos
+            var instrucaoSqlCargo = `
+            INSERT INTO cargo 
+            VALUES (default, '${cargo}');`;
+            console.log("Executando a instrução SQL para funcionário:\n" + instrucaoSqlCargo);
+            return database.executar(instrucaoSqlCargo)
+        })
+        .then(() => {
+            // Agora inserimos o cargo na tabela de cargos
+            var instrucaoSqlObterIdCargo = `
+            SELECT idCargo FROM cargo WHERE cargo = '${cargo}'`;
+            console.log("Executando a instrução SQL para funcionário:\n" + instrucaoSqlObterIdCargo);
+            return database.executar(instrucaoSqlObterIdCargo)
+        })
+        .then((resultado2) => {
             // Após inserir a empresa, obtemos o ID gerado
             var instrucaoSqlObterIdEmpresa = `
-                SELECT idEmpresa FROM empresa WHERE NomeEmp = '${nomeEmp}';
-            `;
+            SELECT idEmpresa FROM empresa WHERE NomeEmp = '${nomeEmp}'`;
             console.log("Executando a instrução SQL para obter o ID da empresa:\n" + instrucaoSqlObterIdEmpresa);
-            return database.executar(instrucaoSqlObterIdEmpresa);
+            return Promise.all([database.executar(instrucaoSqlObterIdEmpresa), resultado2]);
         })
-        .then((resultado) => {
+        .then(([resultado, resultado2]) => {
             // Supondo que o resultado seja um array de linhas e a primeira linha contém o idEmpresa
             var idEmpresa = resultado[0].idEmpresa;
+            var idCargo = resultado2[0].idCargo;
 
             // Agora inserimos o representante na tabela de funcionários
             var instrucaoSqlFuncionario = `
                 INSERT INTO funcionario (nome, email, senha, fkCargo, status, fkEmpresa) 
-                VALUES ('${nomeRep}', '${email}', MD5('${senha}'), ${cargo}, default, ${idEmpresa});
+                VALUES ('${nomeRep}', '${email}', MD5('${senha}'),${idCargo}, default, ${idEmpresa});
             `;
             console.log("Executando a instrução SQL para funcionário:\n" + instrucaoSqlFuncionario);
             return database.executar(instrucaoSqlFuncionario)
         })
+        
         .catch((erro) => {
             console.error("Erro durante o cadastro:", erro);
             throw erro; // Para capturar e propagar o erro
@@ -81,7 +97,7 @@ function cadastrar(nomeEmp, cnpj, nomeRep, email, cargo, senha) {
 module.exports = {
     autenticar,
     cadastrar,
-//    cadastrarComponente
+    //    cadastrarComponente
     // consultar,
     // inserirPontos
 };
