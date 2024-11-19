@@ -56,7 +56,18 @@ function obterDadosGrafico(idComponente) {
     }
 }
 
+//Listar todas as máquinas
+function listar(fkEmpresa) {
+    console.log("ACESSEI O AVISO  MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listar()");
+    var instrucaoSql = `
+    SELECT * FROM view_computador_funcionario_equipe WHERE fkEmpresa = ${fkEmpresa}
+   `;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+  }
+
 module.exports = {
     gerarGraficoTempoReal,
-    obterDadosGrafico
+    obterDadosGrafico,
+    listar
 };

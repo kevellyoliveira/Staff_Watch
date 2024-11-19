@@ -1,8 +1,6 @@
 CREATE DATABASE IF NOT EXISTS StaffWatch;
 USE StaffWatch;
-
 -- DROP DATABASE Staffwatch;
-
 
 CREATE TABLE IF NOT EXISTS componente(
 idComponente INT PRIMARY KEY AUTO_INCREMENT,
@@ -21,7 +19,7 @@ REFERENCES componente(idComponente)
 
 insert into componente values
 (default,"rede"),
-(default,"memoria"),
+(default,"memória"),
 (default,"disco"),
 (default,"cpu"),
 (default, "processos");
@@ -40,10 +38,6 @@ insert into auxComponente values
 (default,"discoTotal","byte", 3),
 (default,"discoPorcen","%", 3),
 (default,"cpuPorcen","%", 4),
-(default, "modelo CPU", "nome", 4),
-(default, "modelo Disco", "nome", 3),
-(default, "modelo Rede", "nome", 1),
-(default, "modelo RAM", "arm. total", 2),
 
 -- looca
 (default,"redeRecebidosLooca","bytes", 1),
@@ -193,24 +187,6 @@ select idFuncionario, nome, email, status, fkEmpresa, fkEquipe, fkCargo from fun
 -- select * from token;
 select * from funcionario;
 
-
-CREATE TABLE IF NOT EXISTS modelo (
-idModelo INT PRIMARY KEY AUTO_INCREMENT,
-nome varchar(255),
-fkComputador int,
-CONSTRAINT fkmodeloComputador FOREIGN KEY(fkComputador)
-REFERENCES computador(idComputador),
-fkEmpresa INT,
-CONSTRAINT fkmodeloEmpresa FOREIGN KEY(fkEmpresa)
-REFERENCES empresa(idEmpresa),
-fkComponente int,
-CONSTRAINT fkmodeloComponente FOREIGN KEY(fkComponente)
-REFERENCES componente (idComponente),
-fkFuncionario INT,
-CONSTRAINT fkmodeloFuncionario FOREIGN KEY(fkFuncionario)
-REFERENCES funcionario(idFuncionario)
-);
-
 CREATE TABLE IF NOT EXISTS chamada(
 idChamada int primary key auto_increment,
 chamadaRecebida int,
@@ -245,16 +221,12 @@ insert into computador (fkEquipe, fkEmpresa, fkFuncionario) values
 (1, 1, 5),
 (1, 1, 6);
 
-select * from captura order by idCaptura desc limit 15;
-
 INSERT INTO alerta (fkCaptura) VALUES 
 (1),
 (382),
 (720);
 
-select * from computador;
-desc captura;
-
+-- --------------------------- VIEWS - TELA DE DISPOSITIVOS --------------------------------------------------------------------------------
 -- exibindo detalhes a serem exibidos na tela dos alertas!
 select ca.captura, ca.dataCaptura, 
 co.nome, aux.unidadeMedida, aux.descricao,
@@ -267,7 +239,7 @@ join auxcomponente aux on aux.idAuxComponente = ca.fkAuxComponente
 join computador maq on maq.idComputador = ca.fkComputador
 where maq.fkEmpresa = 1;
 
--- quantidade de alertas por componente em cada equipe 
+-- --------------------------- quantidade de alertas por componente em cada equipe 
 create or replace view view_alertasComponenteEquipe as
 select co.nome, count(idAlerta), maq.fkEquipe from alerta a
 join captura ca on ca.idCaptura = a.fkCaptura
@@ -278,13 +250,43 @@ where
 maq.fkEmpresa = 1 and maq.fkEquipe = 1
 group by co.idComponente, maq.fkEquipe;
 
--- gráfico em tempo real: uso de CPU
+-- --------------------------- listagem das máquinas
+CREATE OR REPLACE VIEW view_listarMaquinas AS SELECT 
+c.idComputador, c.status, c.fkEquipe, c.fkEmpresa, c.fkFuncionario,
+f.nome AS nomeFuncionario,
+e.nome AS nomeEquipe
+FROM computador c
+JOIN funcionario f ON c.fkFuncionario = f.idFuncionario
+JOIN equipe e ON c.fkEquipe = e.idEquipe where f.fkCargo = 4 order by status;
+
+-- na model
+select * from view_listarMaquinas where fkEmpresa = 1;
+
+
+-- -------------------------------------
+create or replace view view_listarMaquinasComAlertas as select
+c.idComputador, c.status, c.fkEquipe, c.fkEmpresa, c.fkFuncionario,
+f.nome as nomeFuncionario,
+e.nome as nomeEquipe,
+captura.idAlerta AS ultimoAlerta,
+MAX(captura.dataCaptura) AS dataUltimoAlerta
+from computador c
+join funcionario f on c.fkFuncionario = f.idFuncionario
+join equipe e on c.fkEquipe = e.idEquipe
+left join (select al.idAlerta, c.fkComponente, c.dataCaptura from alerta al join captura c on al.fkCaptura = c.idCaptura) captura on captura.fkComponente = c.idComputador
+where f.fkCargo = 4
+group by c.idComputador, c.status, c.fkEquipe, c.fkEmpresa, c.fkFuncionario, f.nome, e.nome, captura.idAlerta
+order by c.status desc, dataUltimoAlerta desc;
+
+select * from view_listarMaquinasComAlertas;
+
+-- --------------------------- gráfico em tempo real: uso de CPU
 create or replace view view_cpuTempoReal as
 select captura, time(dataCaptura) as dataCaptura, modelo
 from captura
 where fkComponente = 4 and fkComputador = 1 and fkAuxComponente = 12 order by dataCaptura limit 100;
 
--- gráfico em tempo real: uso de Disco e total
+-- --------------------------- gráfico em tempo real: uso de Disco e total
 create or replace view view_discoTempoReal as
 select 
     (select captura from captura 
@@ -295,9 +297,7 @@ from captura
 where fkComponente = 3 and fkComputador = 1 and fkAuxComponente = 11 
 order by idCaptura limit 100;
 
-select * from view_discoTempoReal;
-
--- gráfico em tempo real: rede - pacotes enviados e recebidos 
+-- --------------------------- gráfico em tempo real: rede - pacotes enviados e recebidos 
 create or replace view view_redeTempoReal as
 select 
     (select captura from captura 
@@ -309,7 +309,7 @@ from captura
 where fkComponente = 1 and fkComputador = 1 and fkAuxComponente = 5
 order by idCaptura limit 100;
 
--- gráfico em tempo real: uso de memória ram
+-- --------------------------- gráfico em tempo real: uso de memória ram
 create or replace view view_ramTempoReal as
 select 
     (select captura from captura 
@@ -321,7 +321,24 @@ from captura
 where fkComponente = 2 and fkComputador = 1 and fkAuxComponente = 6 
 order by idCaptura limit 100;
 
--- comandos ---------------------------------------------
+-- --------------------------- verifica se a máquina tem alerta pra exibir na listagem(o menu lateral de listagem de maquinas em alerta vai ser parecido)
+create or replace view view_alertaMaquina as
+select c.captura, time(c.dataCaptura) as horario, date(c.dataCaptura) as data, 
+comp.nome, 
+aux.unidadeMedida, 
+maq.idComputador, maq.fkEquipe, maq.fkEmpresa,
+al.idAlerta
+from alerta al
+left join captura c on al.fkCaptura = c.idCaptura
+left join componente comp on c.fkComponente = comp.idComponente
+left join auxcomponente aux on aux.idAuxComponente = c.fkAuxComponente
+left join computador maq on maq.idComputador = c.fkComponente;
+
+-- na model
+select * from view_alertaMaquina where fkEmpresa = 1;
+
+
+-- ----------------------------------------------------------------   comandos ----------------------------------------------------------------
 desc captura;
 select * from alerta;
 select * from componente;
@@ -331,13 +348,20 @@ join funcionario on modelo.fkFuncionario = funcionario.idFuncionario
 where funcionario.fkEmpresa = 1;
 
 select * from captura order by idCaptura desc limit 10;
-
+select * from alerta;
 desc captura;
 select * from componente;
-
 select * from view_cpuTempoReal limit 1;
 select * from view_redeTempoReal;
 select * from componente;
+
+select * from alerta;
+
+select idCaptura, c.captura, comp.nome, aux.unidadeMedida
+from captura c
+join componente comp on c.fkComponente = comp.idComponente
+join auxcomponente aux on comp.idComponente = aux.fkComponente
+where idCaptura = 1;
 
 -- -------------------------------------------------------------------------------------------------------------------
 
