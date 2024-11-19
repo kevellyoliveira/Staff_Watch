@@ -112,11 +112,8 @@ CONSTRAINT fkCargoFuncionario FOREIGN KEY(fkCargo)
 REFERENCES cargo(idCargo)
 );
 
-
-
-
 insert into funcionario (nome, email, telefone, senha, fkEmpresa, fkEquipe, fkCargo) values
-("Jeffinho", "Jeffinho.botafogo@gmail.com", "11 956836220" , MD5("123456"), 1, 1, 1);
+("Jeffinho", "Jeffinho.botafogo@gmail.com", "5511941159059" , MD5("123456"), 1, 1, 1);
 
 CREATE TABLE IF NOT EXISTS computador (
 idComputador INT PRIMARY KEY AUTO_INCREMENT,
@@ -214,7 +211,7 @@ REFERENCES funcionario(idFuncionario)
 CREATE TABLE IF NOT EXISTS chamada(
 idChamada int primary key auto_increment,
 chamadaRecebida int,
-chamadaAtendida int,
+chamadaAtendida INT,
 chamadaPerdida int,
 tempoChamada int,
 tempoEspera int,
@@ -230,14 +227,14 @@ REFERENCES empresa(idEmpresa)
 
 
 -- ------------------------ TESTES DE ALERTA & DESENVOLVIMENTO --------------------------------------------------
-insert into funcionario values
-(default, "teste", "teste@gmail.com", "11956782706", MD5("Aa1!"), 1,1, null, 1);
+-- insert into funcionario values
+-- (default, "teste", "teste@gmail.com", "11956782706", MD5("Aa1!"), 1,1, null, 1);
 
-insert into funcionario (nome, email, telefone, fkEmpresa, fkEquipe, fkCargo) values
-("Ana Clara", "anaclara@gmail.com", "11956782736", 1, 1, 4),
-("Júlio Cesar", "julio@gmail.com", "11956781234", 1, 1, 4),
-("Beatriz Angola", "bea@gmail.com", "11951234736", 1, 1, 4),
-("Sérgio Lucas", "sergio@gmail.com", "11990082736", 1, 1, 4);
+-- insert into funcionario (nome, email, telefone, fkEmpresa, fkEquipe, fkCargo) values
+-- ("Ana Clara", "anaclara@gmail.com", "11956782736", 1, 1, 4),
+-- ("Júlio Cesar", "julio@gmail.com", "11956781234", 1, 1, 4),
+-- ("Beatriz Angola", "bea@gmail.com", "11951234736", 1, 1, 4),
+-- ("Sérgio Lucas", "sergio@gmail.com", "11990082736", 1, 1, 4);
 
 insert into computador (fkEquipe, fkEmpresa, fkFuncionario) values
 (1, 1, 3),
@@ -341,5 +338,7 @@ select * from componente;
 
 -- -------------------------------------------------------------------------------------------------------------------
 
+select * from chamada;
+select * from funcionario;
 
 
