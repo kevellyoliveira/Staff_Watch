@@ -288,8 +288,8 @@ where fkComponente = 4 and fkComputador = 1 and fkAuxComponente = 12 order by da
 create or replace view view_discoTempoReal as
 select 
     (select captura from captura 
-     where fkComponente = 3 and fkComputador = 1 and fkAuxComponente = 10 
-     limit 1) as totalDisco,
+     where fkComponente = 3 and fkComputador = 1 and fkAuxComponente = 11 
+     limit 1) as captura,
     time(dataCaptura) as dataCaptura, modelo
 from captura 
 where fkComponente = 3 and fkComputador = 1 and fkAuxComponente = 11 
@@ -314,7 +314,7 @@ create or replace view view_ramTempoReal as
 select 
     (select captura from captura 
      where fkComponente = 2 and fkComputador = 1 and fkAuxComponente = 7 
-     limit 1) as totalMemoria,
+     limit 1) as captura,
     captura, 
     time(dataCaptura) as dataCaptura, modelo 
 from captura 
