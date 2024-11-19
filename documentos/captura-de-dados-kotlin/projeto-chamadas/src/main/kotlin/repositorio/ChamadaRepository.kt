@@ -35,8 +35,8 @@ class ChamadaRepository {
 
     fun pegarChamada(telefone: String?): com.twilio.rest.api.v2010.account.Call {
         // Autenticação da Twilio com seu SID da conta e token de autenticação
-        val ACCOUNT_SID = "ACde6cb6e25a1f9310b189c1f6318018da"
-        val AUTH_TOKEN = "b91873c80e6deb5c0ce0ef8989b7f962"
+        val ACCOUNT_SID = "tem que buscar no console do twilio"
+        val AUTH_TOKEN = "tem que buscar no console do twilio"
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN)
 
         // Configurar os números de telefone
