@@ -7,7 +7,7 @@
     <link rel="stylesheet" href=".././css/dashboardDispositivos.css">
     <link rel="shortcut icon" href=".././src/img/logoB.png" type="image/x-icon" />
 
-    <title>Dispositivos | Staff Watch</title>
+    <title> Dispositivos | Staff Watch</title>
 </head>
 
 <body onload="atualizarFeed()">
@@ -29,14 +29,14 @@
         </div>
     </header>
     <div class="corpo">
-        <div class="menuLateral">
+        <!-- <div class="menuLateral">
             <div class="itens">
-                <h4 id="1" onclick="window.location.href='../dashboard-matheus.html'"> CPU </h4>
-                <h4 id="2" onclick="window.location.href='../dashboard-matheus.html'">Disco</h4>
-                <h4 id="3" onclick="window.location.href='../dashboard-matheus.html'">Rede</h4>
-                <h4 id="4" onclick="window.location.href='../dashboard-matheus.html'">RAM</h4>
+                <h4 id="1" onclick="window.location.href='../dashboard-matheus-cpu.html'"> CPU </h4>
+                <h4 id="2" onclick="window.location.href='../dashboard-matheus-disco.html'">Disco</h4>
+                <h4 id="3" onclick="window.location.href='../dashboard-matheus-rede.html'">Rede</h4>
+                <h4 id="4" onclick="window.location.href='../dashboard-matheus-ram.html'">RAM</h4>
             </div>
-        </div>
+        </div> -->
 
         <!-- reutilizando da página de máquinas -->
 
@@ -142,10 +142,10 @@
         </main>
 
         <!--  MODAL  -->
-        <div id="fade" class="hide"></div>
+        <div id="fade" class="hide" onclick="closeModal()"></div>
         <div id="modal" class="hide">
             <div class="btnSair">
-                <img src=".././src/img/icons/fechar.svg" alt="ícone para sair do modal">
+                <img src=".././src/img/icons/fechar.svg" alt="ícone para sair do modal" onclick="closeModal()">
             </div>
             <div class="modal-content">
                 <div class="containerModal">
@@ -153,8 +153,8 @@
                         <h6 class="opcoesMenu" id="cpu" onclick="alterarComponente('dashCpu')"> CPU </h6>
                         <h6 class="opcoesMenu" id="disco" onclick="alterarComponente('dashDisco')"> Disco </h6>
                         <h6 class="opcoesMenu" id="rede" onclick="alterarComponente('dashRede')"> Rede </h6>
-                        <h6 class="opcoesMenu" id="memoria" onclick="alterarComponente('dashMemoria')"> Memória
-                        </h6>
+                        <h6 class="opcoesMenu" id="memoria" onclick="alterarComponente('dashMemoria')"> Memória</h6>
+                        <h6 class="opcoesMenu" id="historico" onclick="alterarComponente('historico')"> Histórico</h6>
                     </div>
 
                     <div class="aside">
@@ -259,12 +259,12 @@
                             </div>
                         </div>
 
-                        <div class="dado">
+                        <!-- <div class="dado">
                             <h3> Pacotes Perdidos: </h3>
                             <div class="dadoInfo">
                                 <h2> <span id="redePerdido"> -- </span> </h2>
                             </div>
-                        </div>
+                        </div> -->
 
                     </div>
 
@@ -319,7 +319,7 @@
     </div>
 </body>
 <!-- script do modal -->
-<script src=".././js/modalDispositivo.js"></script>
+<!-- <script src=".././js/modalDispositivo.js"></script> -->
 <!-- script do chartJs -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -329,31 +329,32 @@
 <script>
     let editarAlgo = false
     // ==========  FUNÇÕES DO MODAL  ================================================================================================================================================
-    // função pra fechar o modal quando clicar4 no botão de X e na parte de fora do modal
-    document.getElementById('fade').addEventListener('click', function () {
-        document.getElementById('fade').classList.add('hide');
-        document.getElementById('modal').classList.add('hide');
-    });
-
-
-    document.querySelector('.btnSair').addEventListener('click', function () {
-        document.getElementById('fade').classList.add('hide');
-        document.getElementById('modal').classList.add('hide');
-    });
-
-
-    // COLANDO TODAS AS FUNCIOES DO SCRIPT.JS AQUI PRO MODAL FUNCIONAR!!!
-    // Seleção de elementos do modal
-    const openModal = document.querySelectorAll(".open-modal");
-    const closeModal = document.querySelector("#close-modal");
+   // Função para abrir e fechar o modal
+function toggleModal() {
     const modal = document.querySelector("#modal");
     const fade = document.querySelector("#fade");
 
-    // Função para alternar a visibilidade do modal
-    const toggleModal = () => {
-        modal.classList.toggle("hide");
-        fade.classList.toggle("hide");
-    };
+    modal.classList.toggle("hide");
+    fade.classList.toggle("hide");
+}
+
+// Função para fechar o modal clicando fora ou no botão de fechar
+function closeModal() {
+    document.getElementById("fade").classList.add("hide");
+    document.getElementById("modal").classList.add("hide");
+}
+
+// Exemplo de outras funções como deletar e atualizar
+function atualizarMaquina(idComputador) {
+    console.log(`Atualizando máquina com ID: ${idComputador}`);
+    toggleModal();
+}
+
+function deletar(idComputador) {
+    console.log(`Deletando máquina com ID: ${idComputador}`);
+    toggleModal();
+}
+
 
 
     // =================================================================================================================
@@ -446,7 +447,7 @@
     function atualizarFeed() {
         var fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
         // console.log(fkEmpresa);
-        fetch(`/maquinas/listar/${fkEmpresa}`)
+        fetch(`/dispositivos/listar/${fkEmpresa}`)
             .then(function (resposta) {
                 if (resposta.ok) {
                     if (resposta.status == 204) {
@@ -469,7 +470,7 @@
                 feed.innerHTML = ""; // Limpa o conteúdo atual do feed
                 resposta.forEach(publicacao => {
                     var card = document.createElement("div");
-                    card.classList.add("card", "open-modal"); // Adiciona a classe para abrir o modal
+                    card.classList.add("card"); // Adiciona a classe para abrir o modal
 
                     // Adicionando o evento para abrir o modal
                     card.addEventListener("click", function () {
@@ -482,27 +483,27 @@
 
                     // Adicionando o conteúdo HTML do card
                     card.innerHTML = `
-                <div class="down-card cima">
-                    <div class="esqCard">
-                        <figure class="iconComp">
-                            <img src=".././src/img/icons/indicadoresMaquina/computadorEstavel.png" alt="">
-                        </figure>
-                    </div>
-                    <div class="dirCard" id="maquina${publicacao.idComputador}"></div>
-                </div>
-                <div class="down-card">
-                    <div class="content-card">
-                        <p><b>ID:</b> ${publicacao.idComputador}</p>
-                        <p><b>Equipe:</b> ${publicacao.fkEquipe}</p>
-                        <p><b>Funcionário:</b> ${publicacao.nomeFuncionario}</p>
-                        <p><b>Status:</b> ${status}</p>
-                    </div>
-                    <div id="editar" class="up-card">
-                        <img src=".././src/img/icons/editar.svg" onclick="atualizarMaquina(${publicacao.idComputador})">
-                        <img src=".././src/img/icons/excluir.svg" onclick="deletar(${publicacao.idComputador})">
-                    </div>
-                </div>
-            `;
+                        <div class="down-card cima onclick="toggleModal()">
+                            <div class="esqCard">
+                                <figure class="iconComp">
+                                    <img src=".././src/img/icons/indicadoresMaquina/computadorEstavel.png" alt="">
+                                </figure>
+                            </div>
+                            <div class="dirCard" id="maquina${publicacao.idComputador}"></div>
+                        </div>
+                        <div class="down-card">
+                            <div class="content-card onclick="toggleModal()"">
+                                <p><b>ID:</b> ${publicacao.idComputador}</p>
+                                <p><b>Equipe:</b> ${publicacao.fkEquipe}</p>
+                                <p><b>Funcionário:</b> ${publicacao.nomeFuncionario}</p>
+                                <p><b>Status:</b> ${status}</p>
+                            </div>
+                            <div id="editar" class="up-card">
+                                <img src=".././src/img/icons/editar.svg" onclick="atualizarMaquina(${publicacao.idComputador})">
+                                <img src=".././src/img/icons/excluir.svg" onclick="deletar(${publicacao.idComputador})">
+                            </div>
+                        </div>
+                    `;
                     feed.appendChild(card);
                 });
             })
@@ -694,6 +695,8 @@
         if (window.myChart instanceof Chart) {
             window.myChart.destroy();
         }
+
+        
         // Ajustar os dados recebidos para o gráfico
         // const labels = dadosRecebidos.map(item => item.timestamp); // Supondo que cada item tenha um timestamp
         // const data = dadosRecebidos.map(item => item.uso); // Supondo que "uso" seja o valor que você quer plotar

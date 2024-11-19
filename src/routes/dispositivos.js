@@ -14,5 +14,9 @@ router.get("/tempo-real/:idComponente", function (req, res) {
     dispositivosController.gerarGraficoTempoReal(req, res);
 })
 
+// lista todos os funcionários da empresa
+router.get("/listar/:fkEmpresa", function (req, res) {
+    dispositivosController.listar(req, res);
+});
 
 module.exports = router;
