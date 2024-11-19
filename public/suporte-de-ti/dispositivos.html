@@ -725,17 +725,23 @@
         atualizarGrafico(idComponente)
     }
 
+    let intervaloAtivo = null; // Armazena o ID do intervalo ativo
     // Função para adicionar valores incrementalmente
     function atualizarGrafico(idComponente) {
         let indiceAtual = 0;
 
-        const intervalo = setInterval(() => {
+        if (intervaloAtivo) {
+            clearInterval(intervaloAtivo);
+            intervaloAtivo = null;
+        }
+
+        intervaloAtivo = setInterval(() => {
             if (!myChart) {
                 console.warn("myChart ainda não foi inicializado. Tentando novamente...");
                 return; // Aguarde até que myChart seja inicializado
             }
 
-            if (indiceAtual < dadosRecebidos.length) {
+            if ((indiceAtual < dadosRecebidos.length) && idComponente != 1) {
                 const dadoAtual = dadosRecebidos[indiceAtual];
                 let momento = dadoAtual.dataCaptura;
                 let temperatura = dadoAtual.captura;
@@ -757,12 +763,7 @@
                 indiceAtual++;
 
                 // Atualiza os KPIs conforme o idComponente
-                if (idComponente == 1) { // rede
-                    redeEnviar.innerHTML = `${dadoAtual.enviado}%`
-                    redeReceber.innerHTML = `${dadoAtual.recebido}%`
-                    redePerdido.innerHTML = `${dadoAtual.perdido}%`
-                    idNomeComponente.innerHTML = dadoAtual.modelo
-                } else if (idComponente == 2) { // memória
+                if (idComponente == 2) { // memória
                     memoriaUtilizacao.innerHTML = `${dadoAtual.captura}%`
                     idNomeComponente.innerHTML = dadoAtual.modelo
 
@@ -782,9 +783,56 @@
                     atualizarMediaGrafico(idComponente);
                 }
 
-            } else {
+            } else if (idComponente == 1) {
+                const dadoAtual = dadosRecebidos[indiceAtual];
+                let momento = dadoAtual.dataCaptura;
+                let pctEnv = dadoAtual.pctEnv;
+                let pctRec = dadoAtual.pctRec;
+
+                if (myChart.data.datasets.length === 1) {
+                    myChart.data.datasets = [
+                        {
+                            label: 'Pacotes enviados',
+                            data: [], // Inicialmente vazio
+                            borderWidth: 1,
+                            borderColor: "#FF6384",
+                            backgroundColor: "rgba(255, 99, 132, 0.2)"
+                        },
+                        {
+                            label: 'Pacotes recebidos',
+                            data: [], // Inicialmente vazio
+                            borderWidth: 1,
+                            borderColor: "#36A2EB",
+                            backgroundColor: "rgba(54, 162, 235, 0.2)"
+                        }
+                    ];
+                }
+
+                // Adiciona os novos dados ao gráfico
+                myChart.data.labels.push(momento);
+                myChart.data.datasets[0].data.push(pctEnv);
+                myChart.data.datasets[1].data.push(pctRec);
+
+                // Remove o ponto mais antigo se o gráfico exceder 20 pontos
+                if (myChart.data.labels.length > 20) {
+                    myChart.data.labels.shift();
+                    myChart.data.datasets[0].data.shift();
+                    myChart.data.datasets[1].data.shift();
+                }
+                // Atualiza o gráfico
+                myChart.update();
+
+                // Incrementa o índice para o próximo dado
+                indiceAtual++;
+
+                redeEnviar.innerHTML = dadoAtual.pctEnv
+                redeReceber.innerHTML = dadoAtual.pctRec
+                redePerdido.innerHTML = dadoAtual.perdido
+                idNomeComponente.innerHTML = dadoAtual.modelo
+            }
+            else {
                 console.log('Todos os dados foram exibidos.');
-                clearInterval(intervalo); // Para o intervalo quando todos os dados forem exibidos
+                clearInterval(intervaloAtivo); // Para o intervalo quando todos os dados forem exibidos
             }
         }, 2000); // Intervalo de 2 segundos
     }
