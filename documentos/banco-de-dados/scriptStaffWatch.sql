@@ -1,10 +1,6 @@
 CREATE DATABASE IF NOT EXISTS StaffWatch;
 USE StaffWatch;
-<<<<<<< HEAD
-
-=======
 -- DROP DATABASE Staffwatch;
->>>>>>> 7c4869070d0242bb13bf66baba73de312f9fb0b0
 
 CREATE TABLE IF NOT EXISTS componente(
 idComponente INT PRIMARY KEY AUTO_INCREMENT,
@@ -229,7 +225,7 @@ INSERT INTO alerta (fkCaptura) VALUES
 (1),
 (382),
 (720),
-(1456);
+(1456),
 (720);
 select * from computador;
 desc captura;
@@ -314,13 +310,11 @@ select * from componente;
 select round(avg(captura),0) as media from view_cpuTempoReal;
 
 -- gráfico em tempo real: uso de Disco e total
-=======
 select captura, time(dataCaptura) as dataCaptura, modelo
 from captura
 where fkComponente = 4 and fkComputador = 1 and fkAuxComponente = 12 order by dataCaptura limit 100;
 
 -- --------------------------- gráfico em tempo real: uso de Disco e total
->>>>>>> 7c4869070d0242bb13bf66baba73de312f9fb0b0
 create or replace view view_discoTempoReal as
 select 
     (select captura from captura 
@@ -381,11 +375,8 @@ select fkComputador, fkEquipe, modelo.nome as modelo, funcionario.nome from mode
 join funcionario on modelo.fkFuncionario = funcionario.idFuncionario 
 where funcionario.fkEmpresa = 1;
 
-<<<<<<< HEAD
-
 select modelo, fkComputador, equipe.nome from captura join computador as c on c.idComputador = captura.fkComputador join equipe on equipe.idEquipe = c.fkEquipe
  WHERE equipe.fkEmpresa = 1 AND captura.fkComponente = 3;
- 
  
  select * from alerta;
  select * from captura;
@@ -412,7 +403,6 @@ where idCaptura = 1;
 
 select * from chamada;
 select * from funcionario;
->>>>>>> 7c4869070d0242bb13bf66baba73de312f9fb0b0
 
 select count(*) as quantidade_alertas from alerta as a join captura as c on a.fkCaptura = c.idCaptura where fkComponente = 4; 
 select count(*) as quantidade_alertas from alerta as a join captura as c on a.fkCaptura = c.idCaptura where fkComputador = 1; -- esse vai estar no data tables
