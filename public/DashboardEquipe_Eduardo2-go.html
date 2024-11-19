@@ -52,7 +52,7 @@
         <div>
             <h1 class="TITULO">Monitoramento da equipe</h1>
             <div class="Dashboard-chamada">
-                
+
             </div>
             <article class="title">
 
@@ -65,10 +65,33 @@
             <div class="funcs">
                 <div id="feed_container" class="feed-container"></div>
             </div>
+
+            <!-- Modal -->
+           <!-- Modal -->
+<div id="fade" class="hide"></div>
+<div id="modal" class="hide">
+    <div class="modal-content">
+        <!-- Títulos no topo -->
+        <div id="modal-titles">
+            <h3>Detalhes do Funcionário</h3>
+            <h4>Gráfico de Uso</h4>
+        </div>
+        <!-- Canvas do gráfico -->
+        <canvas id="MyChart"></canvas>
+        <!-- Corpo do Modal -->
+        <div id="modal-body"></div>
+        <!-- Botão de Fechar -->
+        <button onclick="fecharModal()">Fechar</button>
+    </div>
+</div>
+
+
+
         </div>
         <div class="alerta"></div>
     </div>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </html>
 
@@ -89,12 +112,12 @@
     }
 
     function atualizarFeedEquipe() {
-        var fkEmpresa = sessionStorage.getItem("ID_EMPRESA")
-        var fkEquipe = sessionStorage.getItem("equipeSelecionada")
+        var fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
+        var fkEquipe = sessionStorage.getItem("equipeSelecionada");
 
-        console.log(fkEmpresa)
-        console.log(fkEquipe)
-        console.log("---------")
+        console.log(fkEmpresa);
+        console.log(fkEquipe);
+        console.log("---------");
 
         fetch(`/funcionarios/listarEquipe/${fkEmpresa}/${fkEquipe}`).then(function (resposta) {
             if (resposta.ok) {
@@ -111,11 +134,12 @@
 
                     var feed = document.getElementById("feed_container");
                     feed.innerHTML = ""; // Limpa o conteúdo atual do feed
+
                     for (let i = 0; i < resposta.length; i++) {
                         var publicacao = resposta[i];
 
                         // Criando e manipulando elementos do HTML via JavaScript
-                        var divModal = document.createElement("div")
+                        var divContent = document.createElement("div");
                         var divPublicacao = document.createElement("div");
                         var spanID = document.createElement("span");
                         var spanTitulo = document.createElement("span");
@@ -127,28 +151,27 @@
 
                         // Definindo conteúdo dos elementos
 
-                        divModal.innerHTML = "<div class = open-modal>"
-                        spanID.innerHTML = "<div class='id' style='color= red'> Id Funcionário: <b>" + publicacao.idFuncionario + "</b> </div> <br>";
+                        spanID.innerHTML = "<div class='id'> Id Funcionário: <b>" + publicacao.idFuncionario + "</b> </div> <br>";
                         spanTitulo.innerHTML = "E-mail: <b>" + publicacao.email + "</b>";
                         spanNome.innerHTML = "Nome: <b>" + publicacao.nome + "</b>";
                         divDescricao.innerHTML = "Equipe: <b>" + publicacao.fkEquipe + "</b>";
 
                         // Configurando o botão "Editar"
-                        btnEditar.innerHTML = '<i class="fa-solid fa-pen"></i>'; // Ícone do botão
-                        btnEditar.className = "editar"; // Classe do botão
-                        btnEditar.id = "AbrirModal2_" + publicacao.idFuncionario; // ID único baseado no ID do funcionário
-                        let idDaVez = publicacao.idFuncionario
-                        btnEditar.addEventListener('click', function () {
-                            redirecionarParaEdicao(idDaVez); // Função que redireciona para a página de edição
+                        // btnEditar.innerHTML = '<i class="fa-solid fa-pen"></i>'; // Ícone do botão
+                        // btnEditar.className = "editar"; // Classe do botão
+                        // btnEditar.id = "AbrirModal_" + publicacao.idFuncionario; // ID único baseado no ID do funcionário
+                        let idDaVez = publicacao.idFuncionario;
+                        divPublicacao.addEventListener('click', function () {
+                            abrirModal(idDaVez); // Abre o modal passando o ID do funcionário
                         });
 
                         // Configurando o botão "Deletar"
-                        btnDeletar.innerHTML = '<i class="fa-solid fa-trash"></i>'; // Ícone do botão
-                        btnDeletar.className = "deletar"; // Classe do botão
-                        btnDeletar.id = "btnDeletar_" + publicacao.idFuncionario; // ID único
-                        btnDeletar.addEventListener('click', function () {
-                            deletar(idDaVez); // Função 'deletar' com ID do funcionário
-                        });
+                        // btnDeletar.innerHTML = '<i class="fa-solid fa-trash"></i>'; // Ícone do botão
+                        // btnDeletar.className = "deletar"; // Classe do botão
+                        // btnDeletar.id = "btnDeletar_" + publicacao.idFuncionario; // ID único
+                        // btnDeletar.addEventListener('click', function () {
+                        //     deletar(idDaVez); // Função 'deletar' com ID do funcionário
+                        // });
 
                         // Adicionando os botões ao container de botões
                         divButtons.className = "div-buttons";
@@ -163,10 +186,9 @@
                         divPublicacao.appendChild(divDescricao);
                         divPublicacao.appendChild(divButtons);
 
-                        // Adicionando o card de publicacao ao feed
+                        // Adicionando o card de publicação ao feed
                         feed.appendChild(divPublicacao);
                     }
-
                 });
             } else {
                 throw ('Houve um erro na API!');
@@ -175,6 +197,71 @@
             console.error(resposta);
         });
     }
+
+    function abrirModal(idFuncionario) {
+    const ctx = document.getElementById("MyChart");
+
+    if (window.myChart instanceof Chart) {
+        window.myChart.destroy();
+    }
+
+    window.myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [], // Inicialmente vazio
+            datasets: [{
+                label: '% de uso',
+                data: [], // Inicialmente vazio
+                borderWidth: 1,
+                borderColor: "#C7D",
+                backgroundColor: "#C7D"
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // Aqui você pode preencher o modal com informações do funcionário
+    var modalBody = document.getElementById("modal-body");
+    modalBody.innerHTML = "Carregando informações..."; // Mensagem inicial
+
+    // Fazer uma nova requisição para pegar os detalhes do funcionário
+    fetch(`/funcionarios/detalhes/${idFuncionario}`).then(function (resposta) {
+        if (resposta.ok) {
+            resposta.json().then(function (dadosFuncionario) {
+                // Atualizando o conteúdo do modal com as informações do funcionário
+                modalBody.innerHTML = `
+                    <p>ID: <b>${dadosFuncionario.idFuncionario}</b></p>
+                    <p>Nome: <b>${dadosFuncionario.nome}</b></p>
+                    <p>E-mail: <b>${dadosFuncionario.email}</b></p>
+                    <p>Equipe: <b>${dadosFuncionario.fkEquipe}</b></p>
+                `;
+            });
+        } else {
+            modalBody.innerHTML = "Erro ao carregar os detalhes.";
+        }
+    });
+
+    // Mostrar o modal
+    document.getElementById("fade").classList.remove("hide");
+    document.getElementById("fade").classList.add("show");
+    document.getElementById("modal").classList.remove("hide");
+    document.getElementById("modal").classList.add("show");
+}
+
+function fecharModal() {
+    document.getElementById("fade").classList.remove("show");
+    document.getElementById("fade").classList.add("hide");
+    document.getElementById("modal").classList.remove("show");
+    document.getElementById("modal").classList.add("hide");
+}
+
+
 
     function levarParaDashboard() {
         if (fkCargo == 3) {
