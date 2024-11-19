@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/dashboardHist.css">
     <link rel="shortcut icon" href="./src/img/logoB.png" type="image/x-icon" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -38,101 +39,43 @@
             </div>
         </div>
     </header>
-    <div class="corpo">
-        <div class="menuLateral">
-            <div class="itens">
-                <h4 id="0" class="slc" onclick="window.location.href='dashboardGeral-go.html'">Histórico</h4>
-                <h4 id="1" onclick="selecionarItem(this)">Equipe 1</h4>
-                <h4 id="2" onclick="selecionarItem(this)">Equipe 2</h4>
-                <h4 id="3" onclick="selecionarItem(this)">Equipe 3</h4>
-                <h4 id="4" onclick="selecionarItem(this)">Equipe 4</h4>
-                <h4 class="slc novaequipe" onclick="window.location.href='./novaEquipe.html'">Nova equipe</h4>
-            </div>
+    <div class="mom">
+        <div class="son1">
+            <button onclick="Menu10()" class="MENUU">MENU</button>
+            <h1 class="h1Central">Indicadores Gerais</h1>
+            <select name="opcoes" class="TEMPO">
+                <option value="tempo">Tempo</option>
+                <option value="dia">DIA</option>
+                <option value="MÊS">MÊS</option>
+                <option value="6 MESES">6 MESES</option>
+              </select>
+              
+
         </div>
-        <div class="infos">
-            <!-- Parte superior das Informações-->
-            <div class="emcima">
-
-                <h2> Indicadores Gerais</h2>
-
-                <select name="" id="">
-                    <option value="">No dia</option>
-                    <option value="">Na semana</option>
-                    <option value="">No mês</option>
-                    <option value="">Sempre</option>
-                </select>
-            </div>
-            <!-- Parte dos gráficos e alertas-->
-            <div class="embaixo">
-                <div class="esquerda">
-                    <div class="cima go">
-                        <!--Cards dos comentarios-->
-                        <div class="card dir">
-                            <div class="cimaCard">
-                                <h1>Total de chamadas recebidas e atendidas</h1>
-                            </div>
-                            <div class="baixoCard">
-                                <div class="left chamadas">
-                                    <img src="./src/img/graficoChamadas.png" alt="">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card go">
-                                <div class="cimaCard">
-                                    <h1>Tempo médio de atendimento</h1>
-                                </div>
-                                <div class="baixoCard">
-                                    <h3 id="tempoMedioChamadas" class="tempoMedioChamadas"> 5 minutos </h3>
-                                </div>
-                                <div class="legendas">
-                                    <h5 style="color: var(--verde);">Estável</h5>
-                                    <h5 style="color: orange;">Alerta</h5>
-                                    <h5 style="color: red;">Crítico</h5>
-                                </div>
-                        </div>
-                    </div>
-
-                    <div class="baixo go vai">
-                        <div class="card go">
-                            <div class="cimaCard">
-                                <h1>Eficiência de Atendimento</h1>
-                            </div>
-                            <div class="baixoCard">
-                                <h4 style="color: var(--verde);" id="tempoMedioChamadas"> 70% </h4>
-                            </div>
-                        </div>
-
-                        <div class="card go">
-                            <div class="cimaCard">
-                                <h1>Índice de chamadas perdidas</h1>
-                                <!-- (chamadas perdidas por equipe / recebidas atendidas) * 100  -->
-                            </div>
-                            <div class="baixoCard">
-                                <h4 style="color: var(--verde);" id="tempoMedioChamadas"> 13% </h4>
-                            </div>
-                        </div>
-
-                        <div class="card go">
-                            <div class="cimaCard">
-                                <h1>Média de espera para atendimento</h1>
-                            </div>
-                            <div class="baixoCard">
-                                <h5 style="color: orange;" id="tempoMedioChamadas"> 9 min </h5>
-                            </div>
-                        </div>
-
+        <div class="son2">
+            <div class="estavel">ESTÁVEL</div>
+            <div class="alerta">ALERTA</div>
+            <div class="critico">CRÍTICO</div>
+        </div>
+    </div>
+    <div class="mom2">
+        <div class="son3">
+            <div id="graficos" class="grafico">
+                    <div class="grafico1">
+                        <canvas id="myChartCanvas"></canvas>
                     </div>
                 </div>
-                <div class="direita go">
-                    <!--Alertas-->
-                    <h1>Equipes em alerta</h1>
-                    <div class="equipesAlerta">
-                        <p class="alertasEquipes" id="alertaEquipe1" style="color: orange;" onclick="window.location.href='dashboardEquipe-go.html'" > Equipe 2 </p>
-                        <p class="alertasEquipes" id="alertaEquipe3" style="color: red;" onclick="window.location.href='dashboardEquipe-go.html'"> Equipe 3 </p>
-                    </div>
-                </div>
-            </div>
+        </div>
+        <div class="son4">
+            <div class="bloco1">Tempo médio atendimento:</div>
+            <div class="bloco2">Eficiência:</div>
+        </div>
+         <div class="son6">
+            <div class="bloco3">Tempo de espera:</div>
+            <div class="bloco4">Chamadas perdidas:</div>
+         </div>   
+        <div class="son5">
+            <div class="equipAlert">Alerta equipes</div>
         </div>
     </div>
 </body>
