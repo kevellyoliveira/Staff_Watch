@@ -89,12 +89,11 @@
 
                 <div class="input-wrapper">
                     <span id="alertCargo" class="msgAlerta"></span>
-                    <select class="input-field slct" id="cargo_select">
-                        <option value="#" selected disabled> Selecione o seu cargo </option>
-                        <!-- <option value="1">Suporte de TI</option> -->
-                        <option value="2">Gerente de Operações</option>
-                        <option value="3">Gerente de TI</option>
-                    </select>
+                    <span class="senha-span pholder">Seu cargo</span>
+                    <div class="input-field">
+                        <input type="text" name="Cargo" id="cargo_input" required="required" autocomplete="off"
+                            placeholder="Seu cargo" oninput="exibirLegenda(this)">
+                    </div>
                 </div>
 
                 <div class="input-wrapper">
@@ -141,7 +140,7 @@
         let cnpj = Number(cnpj_input.value);
         let nomeRep = nomeRepresentante_input.value;
         let email = email_input.value;
-        let cargo = Number(cargo_select.value);
+        let cargo = cargo_input.value;
         let senha = senha_input.value;
         let confirmSenha = confirmSenha_input.value;
 
@@ -158,7 +157,7 @@
         event.preventDefault();
 
         // validação das inputs
-        let validacaoVazio = nomeEmp == "" || email == '' || cnpj == "" || nomeRep == "" || cargo == "#" || senha == "" || confirmSenha == "";
+        let validacaoVazio = nomeEmp == "" || email == '' || cnpj == "" || nomeRep == "" || cargo == "" || senha == "" || confirmSenha == "";
 
         if (validacaoVazio) {
             if (nomeEmp == "") {
@@ -171,8 +170,8 @@
             if (email == "") {
                 alertEmail.innerHTML += "Preencha o campo com o seu email!<br>";
             }
-            if (cargo == '#') {
-                alertCargo.innerHTML += "Selecione o seu cargo!"
+            if (cargo == '') {
+                alertCargo.innerHTML += "Preencha o campo com o seu cargo!<br>"
             }
             if (senha == "") {
                 alertSenha.innerHTML += "Preencha o campo com a sua senha!<br>";

@@ -146,9 +146,11 @@ header {
 }
 
 .ola {
-    font-size: 1.3rem;
-    padding-top: 4.0rem;
-    padding-left: 0.5rem;
+    
+        font-size: 18px;
+        padding-top: 3rem;
+        padding-left: 30px;
+    
 }
 
 .itens {
@@ -192,6 +194,7 @@ header {
     height: 125px;
     padding-top: 25px;
     padding-left: 40px;
+    height: 13vh;
 }
 
 
@@ -221,7 +224,7 @@ header {
 /* Gráfico maior à esquerda */
 .card.grande {
     width: 70%;
-    height: 418px;
+    height: 470px;
     background-color: #002148;
     border-radius: 15px;
     padding: 0rem;
@@ -256,7 +259,7 @@ header {
     flex-direction: column;
     align-items: center;
     margin-right: 15px;
-    height: 422px;
+    height: 455px;
 }
 
 .direita .box {
@@ -310,46 +313,106 @@ tr {
 }
 
 
+/* Estilo para DataTables */
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    background-color: #004080 !important;
+    color: #fff !important;
+    border: 1px solid #004080 !important;
+    padding: 6px 12px !important;
+    margin: 0 2px !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
+    transition: background-color 0.3s ease, color 0.3s ease !important;
+}
 
-/* Estilos para a tabela */
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background-color: #0066cc !important;
+    color: #ffffff !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background-color: #002148 !important;
+    color: #ffffff !important;
+    border: none !important;
+}
+
+.dataTables_wrapper .dataTables_length select,
+.dataTables_wrapper .dataTables_filter input {
+    background-color: #f0f0f0 !important;
+    border: 1px solid #ddd !important;
+    border-radius: 5px !important;
+    padding: 5px !important;
+    outline: none !important;
+}
+
+.dataTables_wrapper .dataTables_length select {
+    margin-left: 5px;
+}
+
+.dataTables_wrapper .dataTables_filter input {
+    margin-left: 8px !important;
+    width: 250px !important;
+}
+
+.dataTables_wrapper .dataTables_info {
+    color: #555;
+    padding: 7px;
+}
+
+.dataTables_wrapper .dataTables_paginate {
+    margin-top: 10px;
+}
+
+/* Ajustes para a tabela */
 #minhaTabela {
     width: 100%;
     border-collapse: separate;
-    margin-top: 20px;
-    font-size: 15px;
+    margin-top: 10px;
+    font-size: 13px;
     background-color: #f9f9f9;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
 }
 
-/* Cabeçalho da tabela */
 #minhaTabela thead tr {
-    background-color: #002148; /* Cor de fundo do cabeçalho */
-    color: white; /* Cor do texto */
-    font-weight: 200;
+    background-color: #002148;
+    color: white;
+    font-weight: 600;
     text-align: center;
 }
 
-/* Linhas da tabela */
 #minhaTabela tbody tr {
-    border-bottom: 3px solid #ddd;
+    border-bottom: 1px solid #ddd;
     transition: background-color 0.3s;
 }
 
-/* Efeito de hover para as linhas */
 #minhaTabela tbody tr:hover {
-    background-color: #f1f1f1; /* Cor ao passar o mouse por cima */
+    background-color: #f0f5ff;
 }
 
-/* Células da tabela */
 #minhaTabela td, #minhaTabela th {
-    padding: 10px;
+    padding: 15px;
+    text-align: center;
 }
 
-/* Customização do cabeçalho e footer do DataTable */
-.custom-header .dataTables_length,
-.custom-header .dataTables_filter {
+.dataTables_wrapper .dataTables_filter {
     color: #333;
     margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.dataTables_wrapper .dataTables_filter label {
+    font-weight: bold;
+    color: #333;
+}
+
+.custom-header .dataTables_length,
+.custom-header .dataTables_filter {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .custom-footer .dataTables_info,
@@ -357,34 +420,4 @@ tr {
     color: #333;
     margin-top: 10px;
 }
-
-/* Customizando a barra de paginação */
-.dataTables_paginate .paginate_button {
-    background-color: #4CAF50; /* Cor de fundo dos botões de paginação */
-    color: white; /* Cor do texto dos botões */
-    border: none;
-    padding: 6px 12px;
-    margin: 0 2px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.dataTables_paginate .paginate_button:hover {
-    background-color: #45a049; /* Cor dos botões ao passar o mouse */
-}
-
-.dataTables_paginate .paginate_button.current {
-    background-color: #333;
-}
-
-/* Personalizando o campo de busca */
-.dataTables_filter input[type="search"] {
-    border: 1px solid #ccc;
-    padding: 8px;
-    border-radius: 4px;
-    width: 200px;
-    margin-left: 8px;
-}
-
 

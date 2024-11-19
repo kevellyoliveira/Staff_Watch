@@ -563,7 +563,6 @@ header {
 
 #modal.hide,
 #fade.hide {
-    display: none;
     opacity: 0;
     pointer-events: none;
 }
@@ -647,8 +646,8 @@ header {
     display: flex;
 }
 
-#dashDisco {
-    grid-template-columns: 1fr 1fr;
+#dashMemoria, #dashCpu{
+    grid-template-columns: 1fr;
     grid-template-rows: 1fr 1fr;
 }
 
@@ -678,15 +677,16 @@ header {
 
 .bside {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr ;
     grid-template-rows: 1fr 1fr 1fr;
     width: 40%;
     flex-wrap: wrap;
-    height: 85%;
+    /* height: 85%; */
     justify-content: space-around;
     align-content: space-around;
     gap: 5%;
     padding: 1rem;
+    align-items: flex-start;
 }
 
 /* informações do aside */

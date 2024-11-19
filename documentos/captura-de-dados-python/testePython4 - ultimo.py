@@ -1,17 +1,29 @@
 import psutil
-import os
 import time
 import mysql.connector
 from datetime import datetime
-import pytz 
-from cpuinfo import get_cpu_info
+import pytz
+
+
+#import os
+#import dotenv
 
 config = {
     'user': 'root',
-    'password': 'sptech',
+    'password': '73917391',
     'host': 'localhost',
     'database': 'StaffWatch'
 }
+
+
+config2 = {
+    'user': 'root',
+    'password': 'senha_segura',
+    'host': '44.194.151.184',
+    'database': 'StaffWatch'
+}
+
+
 
 # Estabelecendo a conexão
 try:
@@ -22,78 +34,69 @@ except mysql.connector.Error as err:
     print(f'Erro: {err}')
 
 
+
+            
 def print_system_info():
     cursor = mydb.cursor()
     fuso_sao_paulo = pytz.timezone("America/Sao_Paulo")
     agora = datetime.now(fuso_sao_paulo)
-
-    # --------------------------------------------------------------------------------
-    # Obtém e exibe o uso de memória RAM
-
     mem = psutil.virtual_memory()
     print(f"\nUso de RAM: {mem.percent}% ({mem.used / (1024 ** 3):.2f} GB usado de {mem.total / (1024 ** 3):.2f} GB total)")
     memUso = mem.used / (1024 ** 3)
     memTotal = mem.total / (1024 ** 3)
-    ram_total_str = f"Armazenamento total: {memTotal:.2f} GB"  # Formata o valor como string
     memPerc = mem.percent
 
     add_mem = ("""INSERT INTO captura
-                (idCaptura, captura, dataCaptura, fkAuxComponente, fkComponente, fkComputador, modelo)
-                VALUES (default,%s,%s,6,2,1,%s),
-                (default,%s,%s,7,2,1,%s),
-                (default,%s,%s,8,2,1,%s)""")
+                (idCaptura, captura, dataCaptura, fkAuxComponente, fkComponente)
+                VALUES (default,%s,%s,6,2),
+                (default,%s,%s,7,2),
+                (default,%s,%s,8,2)""")
 
-    data_mem = [memUso, agora, ram_total_str, memTotal, agora, ram_total_str, memPerc, agora, ram_total_str]
+    data_mem = [memUso, agora, memTotal, agora, memPerc, agora]
 
     cursor.execute(add_mem, data_mem)
     mydb.commit()
     print(cursor.rowcount, "registro inserido - memória")
 
-# --------------------------------------------------------------------------------
     # Obtém e exibe o uso de disco
     disk = psutil.disk_usage('/')
     print(f"Uso de Disco: {disk.percent}% ({disk.used / (1024 ** 3):.2f} GB usado de {disk.total / (1024 ** 3):.2f} GB total)")
     discoUso = disk.used / (1024 ** 3)
     discoTotal = disk.total / (1024 ** 3)
     discoPerc = disk.percent
-
-    if os.name == 'posix':  # Para sistemas Linux
-        output = os.popen("lsblk -d -o name,model").read()
-        lines = output.splitlines()
-
-        disk_model = lines[2].strip()            
-        print("Modelo do Disco:", disk_model)
-        
-    elif os.name == 'nt':  # Para sistemas Windows
-        output = os.popen("wmic diskdrive get model").read()
-        lines = output.splitlines()        
-        disk_model = lines[2].strip()            
-
+    disk2 = psutil.disk_io_counters()
+    print(f"Quantidade de leituras no disco: {disk2.read_count}")
+    discoLido = disk2.read_count
+    print(f"Quantidade de escritas no disco: {disk2.write_count}")
+    discoEscrito = disk2.write_count
+    print(f"Quantidade de bytes lidos: {disk2.read_bytes}")
+    discoBytesLidos = disk2.read_bytes
+    print(f"Quantidade de bytes escritos: {disk2.write_bytes}")
+    discoBytesEscritos = disk2.write_bytes
+    
     add_disco = ("""INSERT INTO captura
-                (idCaptura, captura, dataCaptura, fkAuxComponente, fkComponente, fkComputador, modelo)
-                VALUES 
-                (default,%s,%s,9,3,1,%s),
-                (default,%s,%s,10,3,1,%s),
-                (default,%s,%s,11,3,1,%s)""")
+                (idCaptura, captura, dataCaptura, fkAuxComponente, fkComponente)
+                VALUES (default,%s,%s,9,3),
+                (default,%s,%s,10,3),
+                (default,%s,%s,11,3),
+                (default,%s,%s,20,3),
+                (default,%s,%s,21,3),
+                (default,%s,%s,22,3),
+                (default,%s,%s,23,3)""")
 
-    data_disco = [discoUso, agora, disk_model, discoTotal, agora, disk_model, discoPerc, agora, disk_model]
+    data_disco = [discoUso, agora, discoTotal, agora, discoPerc, agora, discoLido, agora, discoEscrito, agora, discoBytesLidos, agora, discoBytesEscritos, agora]
 
     cursor.execute(add_disco, data_disco)
     mydb.commit()
     print(cursor.rowcount, "registro inserido - disco")
-
-    # --------------------------------------------------------------------------------
     # Obtém e exibe o uso da CPU
     cpu_percent = psutil.cpu_percent(interval=None)
-    cpu_info = get_cpu_info()
-    modelo_cpu = cpu_info['brand_raw']
-    print("Modelo da CPU:", modelo_cpu)
 
     add_cpu = ("""INSERT INTO captura
-            (idCaptura, captura, dataCaptura, fkAuxComponente,fkComponente, fkComputador, modelo) VALUES 
-            (default,%s,%s,12,4,1,%s)""")
+                (idCaptura, captura, dataCaptura, fkAuxComponente,fkComponente)
+                VALUES (default,%s,%s,12,4)""")
 
-    data_cpu = [cpu_percent, agora, modelo_cpu]
+    data_cpu = [cpu_percent, agora]
 
     cursor.execute(add_cpu, data_cpu)
     mydb.commit()
@@ -107,9 +110,7 @@ def print_system_info():
     for i, perc in enumerate(cpu_per_core):
         print(f"  Núcleo {i}: {perc}%")
 
-
-    # --------------------------------------------------------------------------------
-    # Obtém e exibe o uso da rede
+        # Obtém e exibe o uso da rede
     net_io = psutil.net_io_counters()
     print(f"\nUso de Rede:")
     print(f"  Bytes recebidos: {net_io.bytes_recv / (1024 ** 1):.2f} KB")
@@ -123,33 +124,25 @@ def print_system_info():
     print(f"\n{'PID':<10} {'Nome':<30} {'Uso de CPU (%)':<15}")
     print("="*60)
 
-    # Captura do modelo da placa de rede
-    if os.name == 'posix':  # Para sistemas Linux
-        output = os.popen("lshw -C network | grep 'product'").read()  # Utiliza lshw para obter informações sobre o hardware
-        lines = output.splitlines()
-        network_model = lines[2].strip()
-        print("Modelo da Placa de Rede:", network_model)
-
-    elif os.name == 'nt':  # Para sistemas Windows
-        output = os.popen("wmic nic get Description").read()
-        lines = output.splitlines()
-        network_model = lines[2].strip()
-        print("Modelo da Placa de Rede:", network_model)
-
 
     add_rede = ("""INSERT INTO captura
-                (idCaptura, captura, dataCaptura, fkAuxComponente,fkComponente, fkComputador, modelo) VALUES 
-                (default,%s,%s,2,1,1,%s),
-                (default,%s,%s,3,1,1,%s),
-                (default,%s,%s,4,1,1,%s),
-                (default,%s,%s,5,1,1,%s)""")
+                (idCaptura, Captura, dataCaptura, fkAuxComponente,fkComponente)
+                VALUES (default,%s,%s,2,1),
+                (default,%s,%s,3,1),
+                (default,%s,%s,4,1),
+                (default,%s,%s,5,1)""")
 
-    data_rede = [bytesEnv, agora, network_model, bytesReceb, agora, network_model, pctReceb, agora, network_model, pctEnv, agora, network_model]
+    data_rede = [bytesEnv, agora, bytesReceb, agora, pctReceb, agora, pctEnv, agora]
     print(type(data_rede))
+
+
     cursor.execute(add_rede, data_rede)
     mydb.commit()
-    print(cursor.rowcount, "registro inserido - rede")
+    print(cursor.rowcount, "registro inserido")
     monitor_system()
+
+
+
 
     """ Obtém e exibe informações dos processos
     for proc in psutil.process_iter(['pid', 'name', 'cpu_percent']):
@@ -170,5 +163,7 @@ def monitor_system(interval=5):
      #   conn.close()
       #  print('Conexão encerrada.')
 
+
 if __name__ == "__main__":
     print_system_info()
+    #monitor_system()

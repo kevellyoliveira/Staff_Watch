@@ -117,8 +117,11 @@
                         sessionStorage.FK_CARGO = json.fkCargo;
                         if(json.email == 'matheusfermoselle@gmail.com'){
                             window.location.href = "/dashboard-matheus-cpu.html";
-                        } else
-                        if(json.fkCargo == 3){
+                        } else if (json.email == 'teste@gmail.com'){
+                            window.location.href = "/suporte-de-ti/dispositivos.html";
+                        }
+                        
+                        else if(json.fkCargo == 3){
                             window.location.href = "/dashboardGeral-gti.html";
                             console.log(`idUser: ${ID_USUARIO}\n email: ${NOME_USUARIO}\n nome: ${NOME_USUARIO}\n idEmpresa: ${ID_EMPRESA}\n fkCargo: ${FK_CARGO}`)
                         } else if (json.fkCargo == 2){
