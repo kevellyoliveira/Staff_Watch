@@ -137,7 +137,7 @@ def main():
     print("Bem-vindo ao monitor de sistema!")
     while True:
         try:
-            fk_computador = int(input("Insira a fkComputador para monitoramento (ou 0 para sair): "))
+            fk_computador = int(input("Insira a fkComputador para monitoramento (ou 0 para sair):0 "))
             if fk_computador == 0:
                 print("Saindo do programa...")
                 break

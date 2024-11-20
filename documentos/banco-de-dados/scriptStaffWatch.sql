@@ -38,9 +38,6 @@ insert into auxComponente values
 (default,"discoTotal","byte", 3),
 (default,"discoPorcen","%", 3),
 (default,"cpuPorcen","%", 4),
-(default, "modelo CPU", "nome", 4),
-(default, "modelo Disco", "nome", 3),
-(default, "modelo Rede", "nome", 1),
 
 -- looca
 (default,"redeRecebidosLooca","bytes", 1),
