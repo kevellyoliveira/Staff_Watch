@@ -22,7 +22,7 @@
                 </div>
 
                 <div class="opcoesComponentes" id="itens">
-                    <h6 class="opcoesMenu slct" onclick="window.location.href='dashboardGeral-go.html'">Home</h6>
+                    <h6 class="opcoesMenu slct" onclick="window.location.href='dashboardPedroPorfirio.html'">Home</h6>
                     <h6 class="opcoesMenu associMenu" onclick="abrirMenu()">Associados <img
                             src="./src/img/icons/seta.png" alt="icone menu vertical"></h6>
                     <h6 class="opcoesMenu" onclick="window.location.href='cadastroFuncionario.html'">Cadastrar</h6>
@@ -45,14 +45,14 @@
 
             <!-- Menu Lateral -->
             <div id="sideMenu" class="side-menu">
-                <button class="close-btn" onclick="closeMenu()">×</button>
+                <button class="close-btn" onclick="closeMenu()">☰</button>
                 <div class="menuLateral">
                     <div class="itens1">
-                        <h4 id="0" class="hist2" onclick="window.location.href='dashboardGeral-go.html'">Home</h4>
+                        <h4 id="0" class="hist2" onclick="window.location.href='dashboardPedroPorfirio.html'">Home</h4>
                         <!-- Histórico Fixo -->
-        
+
                         <!-- As equipes serão carregadas dinamicamente aqui -->
-        
+
                         <h4 class="hist3" onclick="window.location.href='./novaEquipe.html'">NovaEquipe</h4>
                         <!-- Nova equipe Fixa -->
                     </div>
@@ -67,28 +67,51 @@
             </select>
         </div>
         <div class="son2">
-            <div class="estavel">ESTÁVEL</div>
-            <div class="alerta">ALERTA</div>
-            <div class="critico">CRÍTICO</div>
+            <div class="estavel">ESTÁVEL
+                <div class="card10">
+                    Tempo médio atendimento: 1 a 6 minutosㅤㅤㅤㅤㅤ
+                    Eficiência: 85% a 100%ㅤㅤㅤㅤㅤ
+                    Tempo médio espera: 0 até 60 segundos
+                    ㅤㅤㅤChamadas perdidas: 0% a 5%ㅤㅤ
+                </div>
+            </div>
+            <div class="alerta">ALERTA
+                <div class="card11">
+                    Tempo médio atendimento: 7 a 10 minutosㅤㅤㅤㅤㅤㅤㅤ
+                    Eficiência: 70% a 84%ㅤㅤㅤ
+                    Tempo médio espera: 72 a 89 segundos
+                    Chamadas perdidas: 6% a 9%
+                </div>
+            </div>
+
+            <div class="critico">CRÍTICO
+                <div class="card12">
+                    Tempo médio atendimento: 11 minutos...ㅤㅤㅤㅤㅤㅤㅤㅤ
+                    Eficiência: 69% a 0%ㅤㅤㅤㅤ
+                    Tempo médio espera: 90 segundos...
+                    Chamadas perdidas: 10%...
+                </div>
+            </div>
         </div>
+    </div>
     </div>
     <div class="mom2">
         <div class="son3">
-            <div class="fundoo">
-            <h2>Chamadas recebidas X Chamadas atendidas</h2>
-            <canvas id="barChart" class="GRAFIC"></canvas>
-            </div>
-        </div>
-        <div class="son4">
             <div class="bloco1">Tempo médio atendimento:</div>
             <div class="bloco2">Eficiência:</div>
         </div>
-        <div class="son6">
-            <div class="bloco3">Tempo médio de espera:</div>
+        <div class="son4">
+            <div class="bloco3">Tempo médio espera:</div>
             <div class="bloco4">Chamadas perdidas:</div>
         </div>
+        <div class="son6">
+            <div class="fundoo">
+                <h2>Chamadas recebidas X Chamadas atendidas</h2>
+                <canvas id="barChart" class="GRAFIC"></canvas>
+            </div>
+        </div>
         <div class="son5">
-            <div class="equipAlert">Alerta equipes</div>
+            <div class="equipAlert">Equipes em alerta</div>
         </div>
     </div>
 </body>
@@ -136,7 +159,7 @@
             datasets: [{
                 label: 'Chamadas',
                 data: [70, 60],
-                backgroundColor: ["#90cafd","blue"],
+                backgroundColor: ["#90cafd", "blue"],
             }]
         },
         options: {

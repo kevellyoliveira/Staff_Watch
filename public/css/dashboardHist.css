@@ -1052,6 +1052,8 @@ h2 {
     background-color: #a8d7ffb8;
     display: flex;
     align-items: center;
+    justify-content: center;
+    padding-right: 5vh;
     gap: 5vh;
 }
 
@@ -1063,21 +1065,25 @@ h2 {
 
 .son3 {
     height: 67vh;
-    width: 90vh;
+    width: 40vh;
     background-color: #a8d7ffb8;
+    display: flex;
     align-items: center;
+    justify-content: center;
     text-align: center;
+    flex-direction: column;
+    gap: 8vh;
 }
 
 .son4 {
     height: 67vh;
-    width: 63vh;
+    width: 55vh;
     background-color: #a8d7ffb8;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    gap: 4vh;
+    gap: 8vh;
 }
 
 .son5 {
@@ -1087,6 +1093,17 @@ h2 {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.son6 {
+    height: 67vh;
+    width: 100vh;
+    background-color: #a8d7ffb8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 8vh;
 }
 
 .TEMPO {
@@ -1099,107 +1116,145 @@ h2 {
     text-align: center;
 }
 
+.TEMPO:hover{
+    background-color: #1662c0;
+    box-shadow: 0 0 8px rgb(11, 21, 109);
+  }
+
+
 .h1Central {
     font-size: 7vh;
 }
 
 .estavel {
-    height: 15vh;
-    width: 29vh;
+    position: relative;
+    height: 8vh;
+    width: 20vh;
     background-color: #74FF00;
-    border-radius: 4vh;
+    border-radius: 1vh;
     text-align: center;
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow:5px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transform: translateZ(0);
 }
+
+.estavel:hover{
+    height: 10vh;
+    width: 23vh;
+    transition: 0.4s;
+    transform: translateZ(50px); 
+    box-shadow: 10px 20px rgba(0, 0, 0, 0.3); 
+    }
 
 .alerta {
-    height: 15vh;
-    width: 29vh;
+    position: relative;
+    height: 8vh;
+    width: 20vh;
     background-color: #FFFF00;
-    border-radius: 4vh;
+    border-radius: 1vh;
     text-align: center;
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow:5px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transform: translateZ(0);
 }
+
+.alerta:hover{
+    height: 10vh;
+    width: 23vh;
+    transition: 0.4s;
+    transform: translateZ(50px); 
+    box-shadow: 10px 20px rgba(0, 0, 0, 0.3); 
+    }
 
 .critico {
-    height: 15vh;
-    width: 29vh;
+    position: relative;
+    height: 8vh;
+    width: 20vh;
     background-color: #FFA400;
-    border-radius: 4vh;
+    border-radius: 1vh;
     text-align: center;
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow:5px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transform: translateZ(0);
 }
 
+.critico:hover{
+    height: 10vh;
+    width: 23vh;
+    transition: 0.4s;
+    transform: translateZ(50px); 
+    box-shadow: 10px 20px rgba(0, 0, 0, 0.3); 
+    }
+
 .equipAlert {
-    height: 65vh;
+    height: 60vh;
     width: 40vh;
     background-color: #002148;
     color: #fff;
-    border-radius: 6vh;
+    border-radius: 2vh;
     text-align: center;
-    font-size: 5vh;
+    font-size: 4vh;
     padding-top: 5%;
+    box-shadow: 5px 10px rgba(0, 0, 0, 0.3);
 }
 
-.son6 {
-    width: 60vh;
-    height: 67vh;
-    background-color: #a8d7ffb8;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 4vh;
-}
+
 
 .bloco1 {
-    height: 30vh;
-    width: 40vh;
+    height: 23vh;
+    width: 30vh;
     background-color: #002148;
-    border-radius: 5vh;
+    border-radius: 2vh;
     text-align: center;
-    font-size: 3vh;
-    padding-top: 5vh;
+    font-size: 2.5vh;
+    padding-top: 3vh;
     color: white;
+    box-shadow: 5px 10px rgba(0, 0, 0, 0.3);
 }
 
 .bloco2 {
-    height: 30vh;
-    width: 40vh;
+    height: 23vh;
+    width: 30vh;
     background-color: #002148;
-    border-radius: 5vh;
+    border-radius: 2vh;
     text-align: center;
-    font-size: 3vh;
-    padding-top: 5vh;
+    font-size: 2.5vh;
+    padding-top: 3vh;
     color: white;
+    box-shadow:5px 10px rgba(0, 0, 0, 0.3);
 }
 
 .bloco3 {
-    height: 30vh;
-    width: 40vh;
+    height: 23vh;
+    width: 30vh;
     background-color: #002148;
-    border-radius: 5vh;
+    border-radius: 2vh;
     text-align: center;
-    font-size: 3vh;
-    padding-top: 5vh;
+    font-size: 2.5vh;
+    padding-top: 3vh;
     color: white;
+    box-shadow:5px 10px rgba(0, 0, 0, 0.3);
 }
 
 .bloco4 {
-    height: 30vh;
-    width: 40vh;
+    height: 23vh;
+    width: 30vh;
     background-color: #002148;
-    border-radius: 5vh;
+    border-radius: 2vh;
     text-align: center;
-    font-size: 3vh;
-    padding-top: 5vh;
+    font-size: 2.5vh;
+    padding-top: 3vh;
     color: white;
+    box-shadow:5px 10px rgba(0, 0, 0, 0.3);
 }
 
 .menu-btn {
@@ -1225,8 +1280,8 @@ h2 {
 .side-menu {
     position: fixed;
     top: 0;
-    left: -250px; /* Fora da tela inicialmente */
-    width: 250px;
+    left: -200px; /* Fora da tela inicialmente */
+    width: 200px;
     height: 100%;
     background-color: #002148;
     color: white;
@@ -1253,16 +1308,21 @@ h2 {
 
   /* Botão para abrir o menu */
   .open-btn {
-    font-size: 20px;
+    font-size: 15px;
     cursor: pointer;
     background-color: #002148;
     color: white;
     border: none;
     padding: 10px 20px;
-    top: 20px;
-    left: 20px;
+    top: 5px;
+    left: 5px;
     border-radius: 5px;
     margin-left: 20px;
+  }
+
+  .open-btn:hover{
+    background-color: #1662c0;
+    box-shadow: 0 0 8px rgb(11, 21, 109);
   }
 
   /* Estilo para fechar o menu */
@@ -1278,25 +1338,24 @@ h2 {
   }
 
   .GRAFIC{
-    padding: 3vh;
+    padding: 0vh;
   }
 
   .fundoo{
     width: 80vh;
     height: 50vh;
     background-color: white;
-    border-radius: 5vh;
-    margin-left: 3vh;
-    margin-top: 6vh;
+    border-radius: 2vh;
     align-items: center;
-    padding-top: 5vh;
+    padding-top: 2vh;
+    box-shadow: 5px 10px rgba(0, 0, 0, 0.3);
   }
 
   .itens1{
     text-align: center;
     font-size: 24px;
     display: flex;
-    margin-left: 18.5vh;
+    margin-left: 16vh;
     flex-direction: column;
     align-items: center;
   }
@@ -1309,4 +1368,77 @@ h2 {
   .hist3{
     color:#6096ba;
     cursor: pointer;
+  }
+
+  .inverter{
+    flex-direction: row-reverse;
+  }
+
+  .card10 {
+    position: absolute;
+    font-size: 13px;
+    top: 110%; /* Posiciona o card abaixo da div */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 320px;
+    background-color: white;
+    color: black;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 15px;
+    opacity: 0; /* Esconde o card inicialmente */
+    pointer-events: none; /* Previne interações quando invisível */
+    transition: opacity 0.3s ease, transform 0.3s ease; /* Transição suave */
+  }
+
+  .estavel:hover .card10 {
+    opacity: 1; /* Mostra o card */
+    pointer-events: auto; /* Permite interação quando visível */
+    transform: translateX(-50%) translateY(0); /* Animação suave */
+  }
+
+  .card11 {
+    position: absolute;
+    top: 110%; 
+    left: 50%;
+    font-size: 13px;
+    transform: translateX(-50%);
+    width: 320px;
+    background-color: white;
+    color: black;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 15px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .alerta:hover .card11 {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .card12{
+    position: absolute;
+    top: 110%;
+    left: 50%;
+    font-size: 13px;
+    transform: translateX(-50%);
+    width: 320px;
+    background-color: white;
+    color: black;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 15px;
+    opacity: 0; 
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .critico:hover .card12 {
+    opacity: 1;
+    pointer-events: auto; 
+    transform: translateX(-50%) translateY(0);
   }
