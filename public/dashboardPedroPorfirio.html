@@ -47,17 +47,14 @@
             <div id="sideMenu" class="side-menu">
                 <button class="close-btn" onclick="closeMenu()">☰</button>
                 <div class="menuLateral">
-                    <div class="itens1">
-                        <h4 id="0" class="hist2" onclick="window.location.href='dashboardPedroPorfirio.html'">Home</h4>
-                        <!-- Histórico Fixo -->
-
-                        <!-- As equipes serão carregadas dinamicamente aqui -->
-
-                        <h4 class="hist3" onclick="window.location.href='./novaEquipe.html'">NovaEquipe</h4>
-                        <!-- Nova equipe Fixa -->
+                    <div class="itens">
+                        <h4 id="home" class="historico" onclick="window.location.href='dashboardPedroPorfirio.html'">Home</h4>
+                        <!-- Aqui as equipes serão inseridas dinamicamente pelo JavaScript -->
+                        <h4 id="novaEquipe" class="novaequipe" onclick="window.location.href='./novaEquipe.html'">Nova Equipe</h4>
                     </div>
                 </div>
             </div>
+            
             <h1 class="h1Central">Indicadores Gerais</h1>
             <select name="opcoes" class="TEMPO">
                 <option value="tempo">TEMPO</option>
@@ -108,7 +105,7 @@
         </div>
         <div class="son6">
             <div class="fundoo">
-                <h2>Chamadas recebidas X Chamadas atendidas</h2>
+                <h2 class="chamadas">Chamadas recebidas X Chamadas atendidas</h2>
                 <canvas id="barChart" class="GRAFIC"></canvas>
             </div>
         </div>
@@ -184,57 +181,54 @@
     }
 
     function listarEquipes() {
-        const fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
+    const fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
 
-        fetch(`funcionarios/listarEquipes/${fkEmpresa}`)
-            .then(function (resposta) {
-                if (resposta.ok) {
-                    return resposta.json(); // Se a resposta for ok, tenta converter para JSON
-                } else {
-                    console.error("Erro ao carregar equipes, status:", resposta.status);
-                    return []; // Se não retornar sucesso, retorna um array vazio
-                }
-            })
-            .then(function (dados) {
-                // Verificando se dados está correto
-                console.log("Equipes carregadas:", dados);
+    fetch(`funcionarios/listarEquipes/${fkEmpresa}`)
+        .then(resposta => {
+            if (resposta.ok) {
+                return resposta.json(); // Se a resposta for válida, converte para JSON
+            } else {
+                console.error("Erro ao carregar equipes, status:", resposta.status);
+                return [];
+            }
+        })
+        .then(dados => {
+            console.log("Equipes carregadas:", dados);
 
-                const menuLateral = document.querySelector(".menuLateral .itens");
+            // Seleciona o menu lateral e os itens fixos
+            const menuLateral = document.querySelector(".menuLateral .itens");
+            const historicoItem = document.querySelector("#home");
+            const novaEquipeItem = document.querySelector("#novaEquipe");
 
-                // Limpa o conteúdo atual do menu (exceto os itens fixos)
-                const historicoItem = document.querySelector(".historico"); // Seleciona o item Histórico pela classe
-                const novaEquipeItem = document.querySelector(".novaequipe"); // Seleciona o item Nova Equipe pela classe
+            // Limpa o menu sem remover os itens fixos
+            menuLateral.innerHTML = ''; // Limpa todos os itens
+            menuLateral.appendChild(historicoItem); // Reinsere o item "Home"
 
-                // Re-adiciona o item "Histórico" de volta
-                menuLateral.innerHTML = ''; // Limpa a lista para evitar duplicação
+            // Adiciona as equipes dinamicamente
+            if (dados.length > 0) {
+                dados.forEach(equipe => {
+                    const h4 = document.createElement("h4");
+                    h4.textContent = equipe.nome;
+                    h4.classList.add("equipe"); // Adiciona uma classe para estilização
+                    h4.onclick = () => selecionarItem(equipe.id);
+                    menuLateral.appendChild(h4);
+                });
+            } else {
+                // Exibe mensagem caso não existam equipes
+                const noTeamsMessage = document.createElement("h4");
+                noTeamsMessage.textContent = "Nenhuma equipe encontrada.";
+                noTeamsMessage.classList.add("sem-equipes");
+                menuLateral.appendChild(noTeamsMessage);
+            }
 
-                // Adiciona o Histórico novamente
-                menuLateral.appendChild(historicoItem);
+            // Reinsere a opção "Nova Equipe"
+            menuLateral.appendChild(novaEquipeItem);
+        })
+        .catch(erro => {
+            console.error("Erro ao carregar as equipes:", erro);
+        });
+}
 
-                // Adiciona as equipes (se houver)
-                if (dados && dados.length > 0) {
-                    dados.forEach(function (equipe) {
-                        const h4 = document.createElement("h4");
-                        h4.textContent = equipe.nome;  // O nome da equipe
-                        h4.onclick = function () {
-                            selecionarItem(equipe.id);  // Quando clicar, chama a função de seleção
-                        };
-                        menuLateral.appendChild(h4); // Adiciona a equipe ao menu
-                    });
-                } else {
-                    // Se não houver equipes, exibe uma mensagem
-                    const noTeamsMessage = document.createElement("h4");
-                    noTeamsMessage.textContent = "Nenhuma equipe encontrada.";
-                    menuLateral.appendChild(noTeamsMessage);
-                }
-
-                // Re-adiciona a opção "Nova equipe"
-                menuLateral.appendChild(novaEquipeItem);
-            })
-            .catch(function (erro) {
-                console.error("Erro ao carregar as equipes:", erro);
-            });
-    }
 
     window.onload = function () {
         listarEquipes();  // Chama a função para listar as equipes

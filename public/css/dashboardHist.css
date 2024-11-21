@@ -114,7 +114,7 @@
 
 body {
     background-color: #e7ecef;
-    height: auto;
+    height: 100%;
 }
 
 /* HEADER */
@@ -1048,7 +1048,7 @@ h2 {
 
 .son2 {
     height: 18vh;
-    width: 100vh;
+    width: 110vh;
     background-color: #a8d7ffb8;
     display: flex;
     align-items: center;
@@ -1281,7 +1281,7 @@ h2 {
 
 .side-menu {
     position: fixed;
-    top: 0;
+    top: -7px;
     left: -200px; /* Fora da tela inicialmente */
     width: 200px;
     height: 100%;
@@ -1301,6 +1301,8 @@ h2 {
     font-size: 25px;
     color: white;
     display: block;
+    align-items: center;
+
     transition: 0.2s;
   }
 
@@ -1310,14 +1312,17 @@ h2 {
 
   /* Botão para abrir o menu */
   .open-btn {
-    font-size: 15px;
+    display: flex;
+    font-size: 20px;
     cursor: pointer;
     background-color: #002148;
     color: white;
     border: none;
+    align-items: center;
+    justify-content: center;
     padding: 10px 20px;
-    top: 5px;
-    left: 5px;
+    height: 40px;
+    width: 60px;
     border-radius: 5px;
     margin-left: 20px;
   }
@@ -1353,11 +1358,11 @@ h2 {
     box-shadow: 5px 10px rgba(0, 0, 0, 0.3);
   }
 
-  .itens1{
+  .itens{
     text-align: center;
     font-size: 24px;
     display: flex;
-    margin-left: 16vh;
+    margin-left: 13vh;
     flex-direction: column;
     align-items: center;
   }
@@ -1443,4 +1448,10 @@ h2 {
     opacity: 1;
     pointer-events: auto; 
     transform: translateX(-50%) translateY(0);
+  }
+
+  .chamadas{
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
