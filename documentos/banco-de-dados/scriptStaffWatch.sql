@@ -223,16 +223,9 @@ insert into computador (fkEquipe, fkEmpresa, fkFuncionario) values
 (1, 1, 5),
 (1, 1, 6);
 
-INSERT INTO alerta (fkCaptura, tipoAlerta) VALUES 
-(1, 1), -- alerta pra maquina 1
-(22, 2), -- alerta pra maquina 1
-(66, 1), -- alerta pra maquina 3
-(97, 2); -- alerta pra maquina 4
-
-desc alerta;
-truncate table alerta;
-select * from alerta join captura on captura.idCaptura = alerta.fkCaptura;
 desc captura;
+desc componente;
+desc auxcomponente;
 select idCaptura from captura where captura = 80 AND dataCaptura = agora AND fkComponente = 2;
 select * from captura where fkComputador = 4 order by idCaptura desc limit 3;
 
@@ -268,9 +261,13 @@ e.nome AS nomeEquipe
 FROM computador c
 JOIN funcionario f ON c.fkFuncionario = f.idFuncionario
 JOIN equipe e ON c.fkEquipe = e.idEquipe where f.fkCargo = 4 order by status;
-
 -- na model
 select * from view_listarMaquinas where fkEmpresa = 1;
+
+-- ------------------------------------- a cada listagem, procurar se a máquina tem algum alerta pra ser exibido
+CREATE OR REPLACE VIEW view_obterAlertasNaListagem as select ;
+
+
 
 
 -- ------------------------------------- listagem das máquinas com os alertas
@@ -286,7 +283,7 @@ join equipe e on c.fkEquipe = e.idEquipe
 left join (select al.idAlerta, c.fkComponente, c.dataCaptura from alerta al join captura c on al.fkCaptura = c.idCaptura) captura on captura.fkComponente = c.idComputador
 where f.fkCargo = 4
 group by c.idComputador, c.status, c.fkEquipe, c.fkEmpresa, c.fkFuncionario, f.nome, e.nome, captura.idAlerta
-order by c.status desc, dataUltimoAlerta desc;
+order by c.status desc, dataUltimoAlerta;
 
 select * from view_listarMaquinasComAlertas;
 
@@ -359,8 +356,6 @@ select * from view_cpuTempoReal limit 1;
 select * from view_cpuTempoReal;
 select * from componente;
 select round(avg(captura),0) as media from view_cpuTempoReal;
-select * from componente;
-select * from captura where modelo like "%";
 
 select modelo, fkComputador, equipe.nome from captura join computador as c on c.idComputador = captura.fkComputador join equipe on equipe.idEquipe = c.fkEquipe
  WHERE equipe.fkEmpresa = 1 AND captura.fkComponente = 3;
