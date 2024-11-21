@@ -46,10 +46,40 @@ def print_system_info(fk_computador):
     data_mem = [memUso, agora, fk_computador, ram_total_str,
                 memTotal, agora, fk_computador, ram_total_str,
                 memPerc, agora, fk_computador, ram_total_str]
-
+    
     cursor.execute(add_mem, data_mem)
     mydb.commit()
     print(cursor.rowcount, "registro inserido - memória")
+
+    if memPerc >= 80:
+        if memPerc >= 90:
+            buscarID = ("""SELECT idCaptura FROM captura WHERE 
+                    fkComponente = 2 AND fkAuxComponente = 8 
+                    ORDER BY idCaptura DESC LIMIT 1""")
+            cursor.execute(buscarID)
+            idObtido = cursor.fetchone() # obtém o resultado do select de buscarID!!!
+
+            inserirAlerta = ("""INSERT INTO alerta (tipoAlerta, fkCaptura) 
+                                VALUES (2, %s)""")
+            dados_alerta = [idObtido[0]]  # Usa o primeiro elemento da tupla
+            cursor.execute(inserirAlerta, dados_alerta)
+            mydb.commit()
+            print(cursor.rowcount, "alerta vermelho inserido - memória")
+
+        else: # entre 80 e 89
+            buscarID = ("""SELECT idCaptura FROM captura WHERE 
+                    fkComponente = 2 AND fkAuxComponente = 8 
+                    ORDER BY idCaptura DESC LIMIT 1""")
+            cursor.execute(buscarID)
+            idObtido = cursor.fetchone() # obtém o resultado do select de buscarID!!!
+
+            inserirAlerta = ("""INSERT INTO alerta (tipoAlerta, fkCaptura) 
+                                VALUES (1, %s)""")
+            dados_alerta = [idObtido[0]]  # Usa o primeiro elemento da tupla
+            cursor.execute(inserirAlerta, dados_alerta)
+            mydb.commit()
+            print(cursor.rowcount, "alerta amarelo inserido - memória")
+
 
     # --------------------------------------------------------------------------------
     # Obtém e exibe o uso de disco
@@ -83,6 +113,35 @@ def print_system_info(fk_computador):
     mydb.commit()
     print(cursor.rowcount, "registro inserido - disco")
 
+    if discoPerc >= 80:
+        if discoPerc >= 90:
+            buscarID = ("""SELECT idCaptura FROM captura WHERE 
+                    fkComponente = 3 AND fkAuxComponente = 11
+                    ORDER BY idCaptura DESC LIMIT 1""")
+            cursor.execute(buscarID)
+            idObtido = cursor.fetchone() # obtém o resultado do select de buscarID!!!
+
+            inserirAlerta = ("""INSERT INTO alerta (tipoAlerta, fkCaptura) 
+                                VALUES (2, %s)""")
+            dados_alerta = [idObtido[0]]  # Usa o primeiro elemento da tupla
+            cursor.execute(inserirAlerta, dados_alerta)
+            mydb.commit()
+            print(cursor.rowcount, "alerta vermelho inserido - memória")
+
+        else: # entre 80 e 89
+            buscarID = ("""SELECT idCaptura FROM captura WHERE 
+                    fkComponente = 3 AND fkAuxComponente = 11 
+                    ORDER BY idCaptura DESC LIMIT 1""")
+            cursor.execute(buscarID)
+            idObtido = cursor.fetchone() # obtém o resultado do select de buscarID!!!
+
+            inserirAlerta = ("""INSERT INTO alerta (tipoAlerta, fkCaptura) 
+                                VALUES (1, %s)""")
+            dados_alerta = [idObtido[0]]  # Usa o primeiro elemento da tupla
+            cursor.execute(inserirAlerta, dados_alerta)
+            mydb.commit()
+            print(cursor.rowcount, "alerta amarelo inserido - memória")
+
     # --------------------------------------------------------------------------------
     # Obtém e exibe o uso da CPU
     cpu_percent = psutil.cpu_percent(interval=None)
@@ -99,6 +158,35 @@ def print_system_info(fk_computador):
     cursor.execute(add_cpu, data_cpu)
     mydb.commit()
     print(cursor.rowcount, "registro inserido - cpu")
+
+    if cpu_percent >= 80:
+        if cpu_percent >= 90:
+            buscarID = ("""SELECT idCaptura FROM captura WHERE 
+                    fkComponente = 4 AND fkAuxComponente = 12 
+                    ORDER BY idCaptura DESC LIMIT 1""")
+            cursor.execute(buscarID)
+            idObtido = cursor.fetchone() # obtém o resultado do select de buscarID!!!
+
+            inserirAlerta = ("""INSERT INTO alerta (tipoAlerta, fkCaptura) 
+                                VALUES (2, %s)""")
+            dados_alerta = [idObtido[0]]  # Usa o primeiro elemento da tupla
+            cursor.execute(inserirAlerta, dados_alerta)
+            mydb.commit()
+            print(cursor.rowcount, "alerta vermelho inserido - memória")
+
+        else: # entre 80 e 89
+            buscarID = ("""SELECT idCaptura FROM captura WHERE 
+                    fkComponente = 4 AND fkAuxComponente = 12 
+                    ORDER BY idCaptura DESC LIMIT 1""")
+            cursor.execute(buscarID)
+            idObtido = cursor.fetchone() # obtém o resultado do select de buscarID!!!
+
+            inserirAlerta = ("""INSERT INTO alerta (tipoAlerta, fkCaptura) 
+                                VALUES (1, %s)""")
+            dados_alerta = [idObtido[0]]  # Usa o primeiro elemento da tupla
+            cursor.execute(inserirAlerta, dados_alerta)
+            mydb.commit()
+            print(cursor.rowcount, "alerta amarelo inserido - memória")
 
     # --------------------------------------------------------------------------------
     # Obtém e exibe o uso da rede
@@ -137,7 +225,7 @@ def main():
     print("Bem-vindo ao monitor de sistema!")
     while True:
         try:
-            fk_computador = int(input("Insira a fkComputador para monitoramento (ou 0 para sair):0 "))
+            fk_computador = int(input("Insira a fkComputador para monitoramento (ou 0 para sair): "))
             if fk_computador == 0:
                 print("Saindo do programa...")
                 break

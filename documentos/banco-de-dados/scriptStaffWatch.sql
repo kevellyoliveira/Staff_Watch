@@ -31,6 +31,11 @@ insert into auxComponente values
 (default,"redeRecebidos","bytes", 1),
 (default,"pacoteRecebidos","qte", 1),
 (default,"pacoteEnviados","qte", 1),
+(default,"pacoteEnviados","qte", 1),
+(default,"pacoteEnviados","qte", 1),
+(default,"pacoteEnviados","qte", 1),
+
+
 (default,"memoriaUso","byte", 2),
 (default,"memoriaTotal","byte", 2),
 (default,"memoriaPorcen","%", 2),
@@ -225,6 +230,10 @@ INSERT INTO alerta (fkCaptura, tipoAlerta) VALUES
 (97, 2); -- alerta pra maquina 4
 
 desc alerta;
+truncate table alerta;
+select * from alerta join captura on captura.idCaptura = alerta.fkCaptura;
+desc captura;
+select idCaptura from captura where captura = 80 AND dataCaptura = agora AND fkComponente = 2;
 select * from captura where fkComputador = 4 order by idCaptura desc limit 3;
 
 -- --------------------------- VIEWS - TELA DE DISPOSITIVOS --------------------------------------------------------------------------------
