@@ -8,7 +8,7 @@ from cpuinfo import get_cpu_info
 
 config = {
     'user': 'root',
-    'password': 'sptech',
+    'password': '#Gf47722899846',
     'host': 'localhost',
     'database': 'StaffWatch'
 }

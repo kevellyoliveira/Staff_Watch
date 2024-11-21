@@ -19,10 +19,20 @@ function numerosBuscar(fkComponente) {
     return database.executar(instrucaoSql);
 }
 
-
+function maquinasBuscarCpu(fkComponente) {
+    console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listarPorUsuario()");
+    var instrucaoSql = `
+    SELECT COUNT(DISTINCT fkComputador) AS quantidade_maquinas_com_alertas
+FROM alerta AS a
+JOIN captura AS c ON a.fkCaptura = c.idCaptura where fkComponente = 4; 
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
 
 
 module.exports = {
     listarEnderecos,
-    numerosBuscar
+    numerosBuscar,
+    maquinasBuscarCpu
 }

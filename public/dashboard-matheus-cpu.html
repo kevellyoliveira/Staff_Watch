@@ -124,6 +124,7 @@ function funcaoGeral(){
 
     enderecoLinhas();
     buscarNumeros();
+    buscarMaquinasCpu();
 
 }
 
@@ -237,6 +238,26 @@ function buscarNumeros() {
         .catch(error => {
             console.error("Erro:", error);
         });
+}
+
+
+function buscarMaquinasCpu() {
+
+fetch(`/enderecos/maquinasBuscarCpu/:fkComponente`) 
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Erro ao buscar o número total de servidores");
+        }
+        return response.json();
+    })
+    .then(data => {
+        // Acessando o valor da chave 'count(*)' do primeiro objeto
+        const Quantidade_Alertas = data[0].quantidade_maquinas_com_alertas;
+        document.querySelector(".card-numero2").textContent = Quantidade_Alertas;
+    })
+    .catch(error => {
+        console.error("Erro:", error);
+    });
 }
 
 
