@@ -151,7 +151,7 @@ REFERENCES auxComponente(idAuxComponente)
 
 CREATE TABLE IF NOT EXISTS alerta(
 idAlerta INT PRIMARY KEY AUTO_INCREMENT,
-
+tipoAlerta TINYINT(1) DEFAULT 1, -- default 1(alerta amarelo) ou 2(alerta vermelho) 
 fkCaptura INT,
 CONSTRAINT fkAlertaCaptura FOREIGN KEY(fkCaptura)
 REFERENCES captura(idCaptura)
@@ -202,15 +202,15 @@ REFERENCES empresa(idEmpresa)
 );
 
 
--- ------------------------ TESTES DE ALERTA & DESENVOLVIMENTO --------------------------------------------------
--- insert into funcionario values
--- (default, "teste", "teste@gmail.com", "11956782706", MD5("Aa1!"), 1,1, null, 1);
+-- --------------------------------------------------------------- TESTES & DESENVOLVIMENTO --------------------------------------------------
+insert into funcionario values
+(default, "teste", "teste@gmail.com", "11956782706", MD5("Aa1!"), 1,1, null, 1);
 
--- insert into funcionario (nome, email, telefone, fkEmpresa, fkEquipe, fkCargo) values
--- ("Ana Clara", "anaclara@gmail.com", "11956782736", 1, 1, 4),
--- ("Júlio Cesar", "julio@gmail.com", "11956781234", 1, 1, 4),
--- ("Beatriz Angola", "bea@gmail.com", "11951234736", 1, 1, 4),
--- ("Sérgio Lucas", "sergio@gmail.com", "11990082736", 1, 1, 4);
+insert into funcionario (idFuncionario, nome, email, telefone, fkEmpresa, fkEquipe, fkCargo) values
+(3, "Ana Clara", "anaclara@gmail.com", "11956782736", 1, 1, 4),
+(4, "Júlio Cesar", "julio@gmail.com", "11956781234", 1, 1, 4),
+(5, "Beatriz Angola", "bea@gmail.com", "11951234736", 1, 1, 4),
+(6, "Sérgio Lucas", "sergio@gmail.com", "11990082736", 1, 1, 4);
 
 insert into computador (fkEquipe, fkEmpresa, fkFuncionario) values
 (1, 1, 3),
@@ -218,18 +218,14 @@ insert into computador (fkEquipe, fkEmpresa, fkFuncionario) values
 (1, 1, 5),
 (1, 1, 6);
 
-INSERT INTO alerta (fkCaptura) VALUES 
-(1),
-(382),
-(720),
-(1456),
-(720);
-select * from computador;
-desc captura;
-select * from captura where modelo like "%";
+INSERT INTO alerta (fkCaptura, tipoAlerta) VALUES 
+(1, 1), -- alerta pra maquina 1
+(22, 2), -- alerta pra maquina 1
+(66, 1), -- alerta pra maquina 3
+(97, 2); -- alerta pra maquina 4
 
-
-
+desc alerta;
+select * from captura where fkComputador = 4 order by idCaptura desc limit 3;
 
 -- --------------------------- VIEWS - TELA DE DISPOSITIVOS --------------------------------------------------------------------------------
 -- exibindo detalhes a serem exibidos na tela dos alertas!
@@ -250,10 +246,10 @@ select co.nome, count(idAlerta), maq.fkEquipe from alerta a
 join captura ca on ca.idCaptura = a.fkCaptura
 join componente co on co.idComponente = ca.fkComponente
 join computador maq on maq.idComputador = ca.fkComputador
-where 
--- co.idComponente = 2 and 
-maq.fkEmpresa = 1 and maq.fkEquipe = 1
+where maq.fkEmpresa = 1
 group by co.idComponente, maq.fkEquipe;
+
+select * from view_alertasComponenteEquipe;
 
 -- --------------------------- listagem das máquinas
 CREATE OR REPLACE VIEW view_listarMaquinas AS SELECT 
@@ -268,7 +264,7 @@ JOIN equipe e ON c.fkEquipe = e.idEquipe where f.fkCargo = 4 order by status;
 select * from view_listarMaquinas where fkEmpresa = 1;
 
 
--- -------------------------------------
+-- ------------------------------------- listagem das máquinas com os alertas
 create or replace view view_listarMaquinasComAlertas as select
 c.idComputador, c.status, c.fkEquipe, c.fkEmpresa, c.fkFuncionario,
 f.nome as nomeFuncionario,
@@ -287,24 +283,9 @@ select * from view_listarMaquinasComAlertas;
 
 -- --------------------------- gráfico em tempo real: uso de CPU
 create or replace view view_cpuTempoReal as
-
-select ca.captura, time(ca.dataCaptura) as dataCaptura, maq.nome
+select ca.captura, time(ca.dataCaptura) as dataCaptura, ca.modelo
 from captura ca
-join modelo maq on maq.fkComputador = ca.fkComputador
 where ca.fkComponente = 4 and ca.fkComputador = 1 and ca.fkAuxComponente = 12 order by dataCaptura limit 100;
-
-select * from auxComponente;
-
-desc captura;
-select * from componente;
-
-select * from view_cpuTempoReal limit 1;
-select * from view_cpuTempoReal;
-select * from componente;
-
-
-
-select round(avg(captura),0) as media from view_cpuTempoReal;
 
 -- gráfico em tempo real: uso de Disco e total
 select captura, time(dataCaptura) as dataCaptura, modelo
@@ -313,11 +294,7 @@ where fkComponente = 4 and fkComputador = 1 and fkAuxComponente = 12 order by da
 
 -- --------------------------- gráfico em tempo real: uso de Disco e total
 create or replace view view_discoTempoReal as
-select 
-    (select captura from captura 
-     where fkComponente = 3 and fkComputador = 1 and fkAuxComponente = 11 
-     limit 1) as captura,
-    time(dataCaptura) as dataCaptura, modelo
+select captura, time(dataCaptura) as dataCaptura, modelo
 from captura 
 where fkComponente = 3 and fkComputador = 1 and fkAuxComponente = 11 
 order by idCaptura limit 100;
@@ -346,6 +323,8 @@ from captura
 where fkComponente = 2 and fkComputador = 1 and fkAuxComponente = 6 
 order by idCaptura limit 100;
 
+-- na model
+select * from view_ramTempoReal where fkEmpresa = 1;
 -- --------------------------- verifica se a máquina tem alerta pra exibir na listagem(o menu lateral de listagem de maquinas em alerta vai ser parecido)
 create or replace view view_alertaMaquina as
 select c.captura, time(c.dataCaptura) as horario, date(c.dataCaptura) as data, 
@@ -358,19 +337,21 @@ left join captura c on al.fkCaptura = c.idCaptura
 left join componente comp on c.fkComponente = comp.idComponente
 left join auxcomponente aux on aux.idAuxComponente = c.fkAuxComponente
 left join computador maq on maq.idComputador = c.fkComponente;
-
 -- na model
 select * from view_alertaMaquina where fkEmpresa = 1;
-
 
 -- ----------------------------------------------------------------   comandos ----------------------------------------------------------------
 desc captura;
 select * from alerta;
+select * from auxComponente;
+desc captura;
+select * from componente;
+select * from view_cpuTempoReal limit 1;
+select * from view_cpuTempoReal;
+select * from componente;
+select round(avg(captura),0) as media from view_cpuTempoReal;
 select * from componente;
 select * from captura where modelo like "%";
-select fkComputador, fkEquipe, modelo.nome as modelo, funcionario.nome from modelo 
-join funcionario on modelo.fkFuncionario = funcionario.idFuncionario 
-where funcionario.fkEmpresa = 1;
 
 select modelo, fkComputador, equipe.nome from captura join computador as c on c.idComputador = captura.fkComputador join equipe on equipe.idEquipe = c.fkEquipe
  WHERE equipe.fkEmpresa = 1 AND captura.fkComponente = 3;
