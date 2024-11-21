@@ -54,19 +54,19 @@
             <h1 class="TITULO">Monitoramento da equipe</h1>
             <div class="Dashboard-chamada">
                 <div class="son6">
-                    <div class="bloco3">Tempo médio de espera:
+                    <div class="bloco3">Tempo médio atendimento:
                         <div class="minibloco">10s</div>
                     </div>
                    
-                    <div class="bloco4">Chamadas perdidas:
-                        <div class="minibloco">10s</div>
+                    <div class="bloco4">Tempo médio espera:
+                        <div class="minibloco1">10s</div>
                     </div>
-                        <div class="bloco5">Chamadas perdidas:
-                            <div class="minibloco">10s</div>
+                        <div class="bloco5">Eficiência:
+                            <div class="minibloco2">10%</div>
                         </div>
                     
-                    <div class="bloco6">Chamadas perdidas:
-                        <div class="minibloco">10s</div>
+                    <div class="bloco6">Chamadas perdida:
+                        <div class="minibloco3">10</div>
                     </div>
                 </div>
             </div>
@@ -100,8 +100,6 @@
         <button onclick="fecharModal()">Fechar</button>
     </div>
 </div>
-
-
 
         </div>
         <div class="alerta">
@@ -264,10 +262,10 @@
             resposta.json().then(function (dadosFuncionario) {
                 // Atualizando o conteúdo do modal com as informações do funcionário
                 modalBody.innerHTML = `
-                    <p>ID: <b>${dadosFuncionario.idFuncionario}</b></p>
-                    <p>Nome: <b>${dadosFuncionario.nome}</b></p>
-                    <p>E-mail: <b>${dadosFuncionario.email}</b></p>
-                    <p>Equipe: <b>${dadosFuncionario.fkEquipe}</b></p>
+                    <p>ID: <b>${dadosFuncionario.chamadaRecebida}</b></p>
+                    <p>Nome: <b>${dadosFuncionario.chamadaAtendida}</b></p>
+                    <p>E-mail: <b>${dadosFuncionario.tempoChamada}</b></p>
+                    <p>Equipe: <b>${dadosFuncionario.tempoEspera}</b></p>
                 `;
             });
         } else {
@@ -295,7 +293,7 @@ function fecharModal() {
         if (fkCargo == 3) {
             window.location.href = "/dashboardGeral-gti.html";
         } else if (fkCargo == 2) {
-            window.location.href = "/dashboardGeral-go.html";
+            window.location.href = "/dashboardPedroPorfirio.html";
         }
 
     }

@@ -26,6 +26,10 @@ router.get("/listarEquipes/:fkEmpresa", function (req, res) {
     funcionarioController.listarEquipes(req, res);
 });
 
+router.get("/detalhes/:fkFuncionario", function (req, res) {
+    funcionarioController.abrirModal(req, res);
+});
+
 
 router.get("/pesquisar/:mensagem", function (req, res) {
     funcionarioController.pesquisarmensagem(req, res);

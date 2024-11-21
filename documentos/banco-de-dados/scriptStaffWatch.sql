@@ -1,6 +1,7 @@
 CREATE DATABASE IF NOT EXISTS StaffWatch;
 USE StaffWatch;
--- DROP DATABASE Staffwatch;
+-- 
+DROP DATABASE Staffwatch;
 
 CREATE TABLE IF NOT EXISTS componente(
 idComponente INT PRIMARY KEY AUTO_INCREMENT,
@@ -208,20 +209,20 @@ REFERENCES empresa(idEmpresa)
 
 
 -- --------------------------------------------------------------- TESTES & DESENVOLVIMENTO --------------------------------------------------
-insert into funcionario values
-(default, "teste", "teste@gmail.com", "11956782706", MD5("Aa1!"), 1,1, null, 1);
+-- insert into funcionario values
+-- (default, "teste", "teste@gmail.com", "11956782706", MD5("Aa1!"), 1,1, null, 1);
 
-insert into funcionario (idFuncionario, nome, email, telefone, fkEmpresa, fkEquipe, fkCargo) values
-(3, "Ana Clara", "anaclara@gmail.com", "11956782736", 1, 1, 4),
-(4, "Júlio Cesar", "julio@gmail.com", "11956781234", 1, 1, 4),
-(5, "Beatriz Angola", "bea@gmail.com", "11951234736", 1, 1, 4),
-(6, "Sérgio Lucas", "sergio@gmail.com", "11990082736", 1, 1, 4);
+-- insert into funcionario (idFuncionario, nome, email, telefone, fkEmpresa, fkEquipe, fkCargo) values
+-- (3, "Ana Clara", "anaclara@gmail.com", "11956782736", 1, 1, 4),
+-- (4, "Júlio Cesar", "julio@gmail.com", "11956781234", 1, 1, 4),
+-- (5, "Beatriz Angola", "bea@gmail.com", "11951234736", 1, 1, 4),
+-- (6, "Sérgio Lucas", "sergio@gmail.com", "11990082736", 1, 1, 4);
 
-insert into computador (fkEquipe, fkEmpresa, fkFuncionario) values
-(1, 1, 3),
-(1, 1, 4),
-(1, 1, 5),
-(1, 1, 6);
+-- insert into computador (fkEquipe, fkEmpresa, fkFuncionario) values
+-- (1, 1, 3),
+-- (1, 1, 4),
+-- (1, 1, 5),
+-- (1, 1, 6);
 
 desc captura;
 desc componente;
@@ -265,7 +266,7 @@ JOIN equipe e ON c.fkEquipe = e.idEquipe where f.fkCargo = 4 order by status;
 select * from view_listarMaquinas where fkEmpresa = 1;
 
 -- ------------------------------------- a cada listagem, procurar se a máquina tem algum alerta pra ser exibido
-CREATE OR REPLACE VIEW view_obterAlertasNaListagem as select ;
+
 
 
 
@@ -404,3 +405,5 @@ JOIN captura AS c ON a.fkCaptura = c.idCaptura; -- conta o numero de computadore
  
 
 -- --------------------------------------------------------------------------------------------------------------------
+								-- Listagem de chamadas
+                                        

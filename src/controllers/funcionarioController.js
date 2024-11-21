@@ -163,7 +163,26 @@ function deletar(req, res) {
         );
 }
 
+function abrirModal(req,res){
 
+    var idFuncionario  = req.params.idFuncionario;
+
+    funcionarioModel.abrirModal(idFuncionario)
+    .then(
+        function (resultado) {
+            res.json(resultado);
+        }
+    )
+    .catch(
+        function (erro) {
+            console.log(erro);
+            console.log("Houve um erro ao listar o funcionário: ", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        }
+    );
+
+
+}
 
 module.exports = {
     listarPorUsuario,
@@ -173,4 +192,5 @@ module.exports = {
     listar,
     listarEquipe,
     listarEquipes,
+    abrirModal,
 }
