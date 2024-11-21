@@ -30,6 +30,22 @@ router.get("/detalhes/:fkFuncionario", function (req, res) {
     funcionarioController.abrirModal(req, res);
 });
 
+router.get("/dados/tempoEspera/:fkFuncionario", function (req, res) {
+    funcionarioController.puxarDadosChamada(req, res);
+});
+
+router.get("/dados/tempoChamada/:fkFuncionario", function (req, res) {
+    funcionarioController.puxarTempoChamada(req, res);
+});
+
+router.get("/dados/totalChamada/:fkFuncionario", function (req, res) {
+    funcionarioController.puxarTotalChamada(req, res);
+});
+
+router.get("/dados/totalPerdida/:fkFuncionario", function (req, res) {
+    funcionarioController.puxarTotalPerdida(req, res);
+});
+
 
 router.get("/pesquisar/:mensagem", function (req, res) {
     funcionarioController.pesquisarmensagem(req, res);

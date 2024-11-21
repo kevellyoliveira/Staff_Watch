@@ -1,4 +1,5 @@
 // const { abrirModal } = require("../controllers/funcionarioController");
+//const { puxarDadosChamada } = require("../controllers/funcionarioController");
 var database = require("../database/config");
 // funcoes utilizadas =======================================================================================
 
@@ -142,6 +143,41 @@ function abrirModal(idFuncionario) {
     return database.executar(instrucaoSql);
 }
 
+function puxarDadosChamada(idFuncionario){
+    console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function descurtir()");
+    var instrucaoSql = `
+    SELECT tempoEspera FROM chamada where fkFuncionario = ${1}
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function puxarTempoChamada(idFuncionario){
+    console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function descurtir()");
+    var instrucaoSql = `
+    SELECT tempoChamada FROM chamada where fkFuncionario = ${1}
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function puxarTotalChamada(idFuncionario){
+    console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function descurtir()");
+    var instrucaoSql = `
+    SELECT COUNT(*) chamadaRecebida FROM chamada WHERE fkFuncionario = ${1}; 
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function puxarTotalPerdida(idFuncionario){
+    console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function descurtir()");
+    var instrucaoSql = `
+    SELECT COUNT(*) chamadaPerdida FROM chamada WHERE fkFuncionario = ${1} and chamadaPerdida = 1;
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
 
 module.exports = {
     listar,
@@ -155,4 +191,8 @@ module.exports = {
     listarEquipe,
     listarEquipes,
     abrirModal,
+    puxarDadosChamada,
+    puxarTempoChamada,
+    puxarTotalChamada,
+    puxarTotalPerdida,
 }

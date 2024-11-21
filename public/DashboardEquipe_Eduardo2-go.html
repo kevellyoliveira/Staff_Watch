@@ -306,7 +306,7 @@ function fecharModal() {
     function deletar(idFuncionario) {
         if (confirm("Tem a certeza de que deseja deletar este funcionário?")) {
             fetch(`/funcionarios/deletar/${idFuncionario}`, {
-                method: "PUT"
+                method: "get"
             })
                 .then(resposta => {
                     if (resposta.ok) {
@@ -322,6 +322,87 @@ function fecharModal() {
                 });
         }
     }
+
+    function puxarDadosChamada(idFuncionario) {
+      
+            fetch(`/funcionarios/dados/tempoEspera/${idFuncionario}`, {
+                method: "GET"
+            })
+                .then(resposta => {
+                    if (resposta.ok) {
+                        alert("Captura de dados de tempo de Espera de chamada efetuada ");
+                        ; // Atualiza a lista após a exclusão
+                    } else {
+                        throw "Não foi possível capturar os dados do funcionário.";
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                    alert("Ocorreu um erro ao tentar capturar dados do funcionário.");
+                });
+        }
+
+        function puxarTempoChamada(idFuncionario) {
+      
+      fetch(`/funcionarios/dados/tempoChamada/${idFuncionario}`, {
+          method: "GET"
+      })
+          .then(resposta => {
+              if (resposta.ok) {
+                console.log(resposta)
+                  alert("Captura de dados de tempo de chamada efetuada ");
+                  ; // Atualiza a lista após a exclusão
+              } else {
+                  throw "Não foi possível capturar os dados do funcionário.";
+              }
+          })
+          .catch(error => {
+              console.error(error);
+              alert("Ocorreu um erro ao tentar capturar dados do funcionário.");
+          });
+  }
+
+  function puxarTotalChamada(idFuncionario){
+
+    fetch(`/funcionarios/dados/totalChamada/${idFuncionario}`, {
+          method: "GET"
+      })
+          .then(resposta => {
+              if (resposta.ok) {
+                console.log(resposta)
+                  alert("Captura de dados total de chamadas efetuadas ");
+                  ; // Atualiza a lista após a exclusão
+              } else {
+                  throw "Não foi possível capturar o total de chamadas do funcionário.";
+              }
+          })
+          .catch(error => {
+              console.error(error);
+              alert("Ocorreu um erro ao tentar capturar o total de chamadas do funcionário");
+          });
+  }
+
+  
+  function puxarTotalPerdida(idFuncionario){
+
+fetch(`/funcionarios/dados/totalPerdida/${idFuncionario}`, {
+      method: "GET"
+  })
+      .then(resposta => {
+          if (resposta.ok) {
+            console.log(resposta)
+              alert("Captura de dados total de chamadas perdida efetuadas ");
+              ; // Atualiza a lista após a exclusão
+          } else {
+              throw "Não foi possível capturar o total de chamadas perdidas do funcionário.";
+          }
+      })
+      .catch(error => {
+          console.error(error);
+          alert("Ocorreu um erro ao tentar capturar o total de chamadas perdidas do funcionário");
+      });
+}
+    
 
     function listarPorUsuario() {
         const inputPesquisa = document.getElementById("pesquisar_input").value; // Pega o valor do input
@@ -443,13 +524,18 @@ function fecharModal() {
 
     window.onload = function () {
         listarEquipes();  // Chama a função para listar as equipes
-        atualizarFeedEquipe();  // Chama a função para atualizar o feed da equipe
+        atualizarFeedEquipe();
+        puxarDadosChamada();   // Chama a função para atualizar o feed da equipe
+        puxarTempoChamada();
+        puxarTotalChamada();
+        puxarTotalPerdida();
     };
 
 
     document.addEventListener('DOMContentLoaded', function () {
         listarEquipes();  // Chama a função para listar as equipes
-        atualizarFeedEquipe();  // Chama a função para atualizar o feed da equipe
+        atualizarFeedEquipe(); 
+     // Chama a função para atualizar o feed da equipe
     });
 
 
