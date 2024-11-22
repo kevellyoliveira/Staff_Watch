@@ -114,7 +114,8 @@
 
 body {
     background-color: #e7ecef;
-    height: 100%;
+    height: auto;
+    height: 100vh;
 }
 
 /* HEADER */
@@ -1030,16 +1031,29 @@ h2 {
     font-weight: 500;
 }
 
+.cima{
+    width: 100%;
+    height: 24.8%;
+    background-color: #000;
+    color: white;
+}
+.baixo{
+    width: 100%;
+    height: 50%;
+    background-color: #001E42;
+    color: white;
+}
+
 .mom {
-    background-color: #C43302;
+    /* background-color: #C43302; */
     display: flex;
     align-items: flex-end;
 }
 
 .son1 {
-    height: 18vh;
-    width: 115vh;
-    background-color: #a8d7ffb8;
+    height: 12vh;
+    /* width: 115vh; */
+    /* background-color: #a8d7ffb8; */
     color: rgb(0, 0, 0);
     display: flex;
     align-items: center;
@@ -1048,7 +1062,7 @@ h2 {
 
 .son2 {
     height: 18vh;
-    width: 110vh;
+    width: 100vh;
     background-color: #a8d7ffb8;
     display: flex;
     align-items: center;
@@ -1281,16 +1295,16 @@ h2 {
 
 .side-menu {
     position: fixed;
-    top: -7px;
-    left: -200px; /* Fora da tela inicialmente */
+    top: 0;
+    left: -200px; 
     width: 200px;
-    height: 100%;
+    height: 100vh;
     background-color: #002148;
     color: white;
     overflow-x: hidden;
-    transition: 0.3s; /* Animação suave */
+    transition: 0.3s; 
     padding-top: 60px;
-    margin-top: 14vh;
+    margin-top: 13vh;
     text-align: center;
   }
 
@@ -1301,8 +1315,6 @@ h2 {
     font-size: 25px;
     color: white;
     display: block;
-    align-items: center;
-
     transition: 0.2s;
   }
 
@@ -1312,17 +1324,14 @@ h2 {
 
   /* Botão para abrir o menu */
   .open-btn {
-    display: flex;
-    font-size: 20px;
+    font-size: 15px;
     cursor: pointer;
     background-color: #002148;
     color: white;
     border: none;
-    align-items: center;
-    justify-content: center;
     padding: 10px 20px;
-    height: 40px;
-    width: 60px;
+    top: 5px;
+    left: 5px;
     border-radius: 5px;
     margin-left: 20px;
   }
@@ -1358,14 +1367,23 @@ h2 {
     box-shadow: 5px 10px rgba(0, 0, 0, 0.3);
   }
 
-  .itens{
+  .itens1{
     text-align: center;
     font-size: 24px;
     display: flex;
-    margin-left: 13vh;
+    margin-left: 16vh;
     flex-direction: column;
     align-items: center;
+    width: 200%;
+    height: 200px;
+
+    & h4{
+        margin-left: -70px;
+        margin-bottom: 40px;
+    
+    }
   }
+  
 
   .hist2{
     color: #6096ba;
@@ -1448,10 +1466,4 @@ h2 {
     opacity: 1;
     pointer-events: auto; 
     transform: translateX(-50%) translateY(0);
-  }
-
-  .chamadas{
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }

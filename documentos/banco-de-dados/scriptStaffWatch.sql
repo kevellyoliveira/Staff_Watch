@@ -366,15 +366,70 @@ select * from funcionario;
 select count(*) as quantidade_alertas from alerta as a join captura as c on a.fkCaptura = c.idCaptura where fkComponente = 4; 
 select count(*) as quantidade_alertas from alerta as a join captura as c on a.fkCaptura = c.idCaptura where fkComputador = 1; -- esse vai estar no data tables
 select count(*) as quantidade_alertas from alerta as a join captura as c on a.fkCaptura = c.idCaptura; -- esse pode estar na primeira página
+
+
+select count(*) as quantidade_alertas from alerta as a join captura as c on a.fkCaptura = c.idCaptura where fkComponente = 1;
  
 SELECT COUNT(DISTINCT fkComputador) AS quantidade_maquinas_com_alertas
 FROM alerta AS a
-JOIN captura AS c ON a.fkCaptura = c.idCaptura; -- conta o numero de computadores que contém alertas
+JOIN captura AS c ON a.fkCaptura = c.idCaptura where fkComponente = 1; -- conta o numero de computadores que contém alertas
 
- insert into alerta values
- (default, 3),
- (default, 1),
- (default, 4);
  
+ select * from componente;
+ 
+ insert into alerta values
+ (default, 2 ,10);
+ 
+ select * from captura where fkComponente = 3;
+
+select modelo, fkComputador, equipe.nome from captura join computador as c on c.idComputador = captura.fkComputador join equipe on equipe.idEquipe = c.fkEquipe
+ WHERE equipe.fkEmpresa = 1 AND captura.fkComponente = 4; 
+ 
+ select count(*) as quantidade_alertas from alerta as a join captura as c on a.fkCaptura = c.idCaptura where fkComputador = 1;
+ 
+    select count(*) as quantidade_alertas from alerta as a join captura as c on a.fkCaptura = c.idCaptura where fkComponente = 1;
+ 
+SELECT 
+    captura.modelo,
+    captura.fkComputador,
+    equipe.nome,
+    COUNT(alerta.idAlerta) AS quantidade_alertas
+FROM 
+    captura
+JOIN 
+    computador AS c ON c.idComputador = captura.fkComputador
+JOIN 
+    equipe ON equipe.idEquipe = c.fkEquipe
+LEFT JOIN 
+    alerta ON alerta.fkCaptura = captura.idCaptura
+WHERE 
+    equipe.fkEmpresa = 1 
+    AND captura.fkComponente = 4
+GROUP BY 
+    captura.modelo, captura.fkComputador, equipe.nome;
+
+
+SELECT 
+    captura.fkComputador AS idComputador,
+    CASE 
+        WHEN captura.fkComponente = 1 THEN 
+            CONCAT(COUNT(alerta.idAlerta), ' alertas relacionados à Rede na máquina ', captura.fkComputador)
+        WHEN captura.fkComponente = 2 THEN 
+            CONCAT(COUNT(alerta.idAlerta), ' alertas relacionados à Memória na máquina ', captura.fkComputador)
+        WHEN captura.fkComponente = 3 THEN 
+            CONCAT(COUNT(alerta.idAlerta), ' alertas relacionados ao Disco na máquina ', captura.fkComputador)
+        WHEN captura.fkComponente = 4 THEN 
+            CONCAT(COUNT(alerta.idAlerta), ' alertas relacionados à CPU na máquina ', captura.fkComputador)
+        ELSE 
+            CONCAT(COUNT(alerta.idAlerta), ' alertas de componente desconhecido na máquina ', captura.fkComputador)
+    END AS mensagemAlerta
+FROM 
+    alerta
+JOIN 
+    captura ON alerta.fkCaptura = captura.idCaptura
+GROUP BY 
+    captura.fkComputador, captura.fkComponente
+ORDER BY 
+    captura.fkComputador;
 
 -- --------------------------------------------------------------------------------------------------------------------

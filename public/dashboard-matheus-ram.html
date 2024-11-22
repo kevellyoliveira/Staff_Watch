@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="./css/dashboard-matheus-cpu.css">
 </head>
 
-<body onload="obterDadosGrafico()">
+<body onload="funcaoGeral()">
 
     <header>
         <div class="opcoes">
@@ -66,6 +66,7 @@
                                             <th>Maquina</th>
                                             <th>Equipe</th>
                                             <th>Uso da memória</th>
+                                            <th>Quantidade de alertas</th>
                                             
                                         </tr>
                                     </thead>
@@ -79,23 +80,31 @@
           
                   <!-- Dois gráficos menores ao lado direito -->
                   <div class="direitaCards">
-                      <div class="card pequeno">
-                          
+                    <div class="card pequeno">
+                        <h3 style="color: white;"> Quantidade de alertas: </h3>
+                        <div class="card-numero">
+
+
+                        </div>
                       </div>
                       <div class="card pequeno">
-                          
+                        <h3 style="color: white;"> Máquinas com alertas: </h3>
+                        <div class="card-numero2">
+
+
+                        </div>
                       </div>
                   </div>
               </div>
           
               <!-- Alertas à direita -->
               <div class="direita">
-                  <h1 style="color: white;"> Alertas / Gerais </h1>
+                  <h1 style="color: white;"> Alertas Gerais </h1>
                   <div class="box">
-                      <p><b style="color: red;"></b></p>
-                  </div>
+                      <p> Uso de <b style="color: red;">RAM</b> da máquina 1 acima da média</p>
+                  </div> 
                   <div class="box">
-                      <p><b style="color: orange;"></b></p>
+                      <p> Uso de <b style="color: orange;">RAM</b> da máquina 3 acima da média</p>
                   </div>
               </div>
           </div>
@@ -113,6 +122,17 @@
 
 b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
 let fkEmpresa = sessionStorage.getItem("ID_EMPRESA")
+
+
+function funcaoGeral(){
+
+obterDadosGrafico();
+buscarNumerosRam();
+buscarMaquinasRam();
+mensagemAlerta();
+
+}
+
 
 function obterDadosGrafico() {
 
@@ -159,6 +179,11 @@ if (resposta.ok) {
             celModelo.textContent = `${conteudoModelo}`
             linha.appendChild(celModelo);
         
+            let conteudoAlertas = linhaAtual.quantidade_alertas;
+                
+            let celAlertas = document.createElement('td');
+            celAlertas.textContent = `${conteudoAlertas}`
+            linha.appendChild(celAlertas);
 
         }
      
@@ -197,6 +222,67 @@ document.getElementById('seletorPaginas').addEventListener('change', function() 
     const paginaSelecionada = this.value;
     window.location.href = paginaSelecionada; 
 });
+
+
+
+function buscarNumerosRam() {
+
+fetch(`/memsramMatheus/numerosBuscarRam/:fkComponente`) 
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Erro ao buscar o número total de servidores");
+        }
+        return response.json();
+    })
+    .then(data => {
+        // Acessando o valor da chave 'count(*)' do primeiro objeto
+        const Quantidade_Alertas = data[0].quantidade_alertas;
+        document.querySelector(".card-numero").textContent = Quantidade_Alertas;
+    })
+    .catch(error => {
+        console.error("Erro:", error);
+    });
+}
+
+function buscarMaquinasRam() {
+
+fetch(`/memsramMatheus/maquinasBuscarRam/:fkComponente`) 
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Erro ao buscar o número total de servidores");
+        }
+        return response.json();
+    })
+    .then(data => {
+        // Acessando o valor da chave 'count(*)' do primeiro objeto
+        const Quantidade_Alertas = data[0].quantidade_maquinas_com_alertas;
+        document.querySelector(".card-numero2").textContent = Quantidade_Alertas;
+    })
+    .catch(error => {
+        console.error("Erro:", error);
+    });
+}
+
+
+function mensagemAlerta(){
+
+    fetch(`/enderecos/funcaoGeral/:fkComponente`) 
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Erro ao buscar o número total de servidores");
+        }
+        return response.json();
+    })
+    .then(data => {
+        // Acessando o valor da chave 'count(*)' do primeiro objeto
+        const mensagem_Alerta = data[0].mensagemAlerta;
+    document.querySelector(".box").textContent = mensagem_Alerta;
+    })
+    .catch(error => {
+        console.error("Erro:", error);
+    });
+}
+
 
 
 

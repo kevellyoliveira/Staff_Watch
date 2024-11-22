@@ -47,17 +47,14 @@
             <div id="sideMenu" class="side-menu">
                 <button class="close-btn" onclick="closeMenu()">☰</button>
                 <div class="menuLateral">
-                    <div class="itens1">
-                        <h4 id="0" class="hist2" onclick="window.location.href='dashboardPedroPorfirio.html'">Home</h4>
-                        <!-- Histórico Fixo -->
-
-                        <!-- As equipes serão carregadas dinamicamente aqui -->
-
-                        <h4 class="hist3" onclick="window.location.href='./novaEquipe.html'">NovaEquipe</h4>
-                        <!-- Nova equipe Fixa -->
+                    <div class="itens">
+                        <h4 id="home" class="historico" onclick="window.location.href='dashboardPedroPorfirio.html'">Home</h4>
+                        <!-- Aqui as equipes serão inseridas dinamicamente pelo JavaScript -->
+                        <h4 id="novaEquipe" class="novaequipe" onclick="window.location.href='./novaEquipe.html'">Nova Equipe</h4>
                     </div>
                 </div>
             </div>
+            
             <h1 class="h1Central">Indicadores Gerais</h1>
             <select name="opcoes" class="TEMPO">
                 <option value="tempo">TEMPO</option>
@@ -108,8 +105,8 @@
         </div>
         <div class="son6">
             <div class="fundoo">
-                <h2>Chamadas recebidas X Chamadas atendidas</h2>
-                <canvas id="barChart" class="GRAFIC"></canvas>
+                <h2 class="chamadas">Chamadas recebidas X Chamadas atendidas</h2>
+                <canvas id="myChartCanvas"></canvas>
             </div>
         </div>
         <div class="son5">
@@ -123,19 +120,165 @@
 
 <script>
 
-
-
     function selecionarItem(elemento) {
         var id = elemento.id;  // Pega o ID da equipe clicada
         if (id == 0) {
             // Redireciona para dashboardGeral.html
-            window.location.href = "dashboardGeral-go.html";
+            window.location.href = "dashboardPedroPorfirio.html";
         } else {
             // Armazena o ID correto da equipe no sessionStorage
             sessionStorage.setItem('equipeSelecionada', id);
             // Redireciona para a página da equipe
             window.location.href = 'dashboardEquipe_Eduardo2-go.html';
         }
+    }
+
+    let proximaAtualizacao;
+
+    window.onload = obterDadosGrafico();
+
+    function obterDadosGrafico() {
+
+        fetch(`/funcionarios/plotarGrafico`, { cache: 'no-store' }).then(function (response) {
+            if (response.ok) {
+                response.json().then(function (resposta) {
+                    console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+                    resposta.reverse();
+
+                    plotarGrafico(resposta);
+
+                });
+            } else {
+                console.error('Nenhum dado encontrado ou erro na API');
+            }
+        })
+            .catch(function (error) {
+                console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+            });
+    }
+
+
+    function plotarGrafico(resposta) {
+
+        console.log('iniciando plotagem do gráfico...');
+
+
+        let labels = [];
+
+
+        let dados = {
+            labels: labels,
+            datasets: [{
+                label: 'Chamadas',
+                data: [],
+                fill: false,
+                borderColor: 'black',
+                backgroundColor: ["#add8e6", " #ffb6c1"],
+                tension: 0.1
+            },]
+        };
+
+        console.log('----------------------------------------------')
+        console.log('Estes dados foram recebidos pela funcao "obterDadosGrafico" e passados para "plotarGrafico":')
+        console.log(resposta)
+
+
+        for (i = 0; i < resposta.length; i++) {
+            var registro = resposta[i];
+            labels.push(registro.objetivo);
+            dados.datasets[0].data.push(registro.obj);
+        }
+
+        console.log('----------------------------------------------')
+        console.log('O gráfico será plotado com os respectivos valores:')
+        console.log('Labels:')
+        console.log(labels)
+        console.log('Dados:')
+        console.log(dados.datasets)
+        console.log('----------------------------------------------')
+
+
+        const config = {
+            type: 'bar',
+            data: dados,
+        };
+
+
+        let myChart = new Chart(
+            document.getElementById(`myChartCanvas`),
+            config
+        );
+    }
+
+    function listarEquipes() {
+    const fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
+
+    fetch(`funcionarios/listarEquipes/${fkEmpresa}`)
+        .then(resposta => {
+            if (resposta.ok) {
+                return resposta.json(); // Se a resposta for válida, converte para JSON
+            } else {
+                console.error("Erro ao carregar equipes, status:", resposta.status);
+                return [];
+            }
+        })
+        .then(dados => {
+            console.log("Equipes carregadas:", dados);
+
+            // Seleciona o menu lateral e os itens fixos
+            const menuLateral = document.querySelector(".menuLateral .itens");
+            const historicoItem = document.querySelector("#home");
+            const novaEquipeItem = document.querySelector("#novaEquipe");
+
+            // Limpa o menu sem remover os itens fixos
+            menuLateral.innerHTML = ''; // Limpa todos os itens
+            menuLateral.appendChild(historicoItem); // Reinsere o item "Home"
+
+            // Adiciona as equipes dinamicamente
+            if (dados.length > 0) {
+                dados.forEach(equipe => {
+                    const h4 = document.createElement("h4");
+                    h4.textContent = equipe.nome;
+                    h4.classList.add("equipe"); // Adiciona uma classe para estilização
+                    h4.onclick = () => selecionarItem(equipe.id);
+                    menuLateral.appendChild(h4);
+                });
+            } else {
+                // Exibe mensagem caso não existam equipes
+                const noTeamsMessage = document.createElement("h4");
+                noTeamsMessage.textContent = "Nenhuma equipe encontrada.";
+                noTeamsMessage.classList.add("sem-equipes");
+                menuLateral.appendChild(noTeamsMessage);
+            }
+
+            // Reinsere a opção "Nova Equipe"
+            menuLateral.appendChild(novaEquipeItem);
+        })
+        .catch(erro => {
+            console.error("Erro ao carregar as equipes:", erro);
+        });
+}
+
+
+    window.onload = function () {
+        listarEquipes();  // Chama a função para listar as equipes
+        atualizarFeedEquipe();  // Chama a função para atualizar o feed da equipe
+    };
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        listarEquipes();  // Chama a função para listar as equipes
+        atualizarFeedEquipe();  // Chama a função para atualizar o feed da equipe
+    });
+
+     // Função para abrir o menu header
+     function openMenu() {
+        document.getElementById("sideMenu").style.left = "0";
+    }
+
+    // Função para fechar o menu header
+    function closeMenu() {
+        document.getElementById("sideMenu").style.left = "-250px";
     }
 
     function abrirMenu() {
@@ -148,103 +291,7 @@
 
     function sair() {
         sessionStorage.clear()
-        window.location = "index.html"
+        window.location = "dashboardPedroPorfirio.html"
     }
-
-    const ctx = document.getElementById('barChart');
-
-    // Criando o gráfico
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['Chamadas recebidas', 'Chamadas atendidas'],
-            datasets: [{
-                label: 'Chamadas',
-                data: [70, 60],
-                backgroundColor: ["#90cafd", "blue"],
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-
-    // Função para abrir o menu
-    function openMenu() {
-        document.getElementById("sideMenu").style.left = "0";
-    }
-
-    // Função para fechar o menu
-    function closeMenu() {
-        document.getElementById("sideMenu").style.left = "-250px";
-    }
-
-    function listarEquipes() {
-        const fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
-
-        fetch(`funcionarios/listarEquipes/${fkEmpresa}`)
-            .then(function (resposta) {
-                if (resposta.ok) {
-                    return resposta.json(); // Se a resposta for ok, tenta converter para JSON
-                } else {
-                    console.error("Erro ao carregar equipes, status:", resposta.status);
-                    return []; // Se não retornar sucesso, retorna um array vazio
-                }
-            })
-            .then(function (dados) {
-                // Verificando se dados está correto
-                console.log("Equipes carregadas:", dados);
-
-                const menuLateral = document.querySelector(".menuLateral .itens");
-
-                // Limpa o conteúdo atual do menu (exceto os itens fixos)
-                const historicoItem = document.querySelector(".historico"); // Seleciona o item Histórico pela classe
-                const novaEquipeItem = document.querySelector(".novaequipe"); // Seleciona o item Nova Equipe pela classe
-
-                // Re-adiciona o item "Histórico" de volta
-                menuLateral.innerHTML = ''; // Limpa a lista para evitar duplicação
-
-                // Adiciona o Histórico novamente
-                menuLateral.appendChild(historicoItem);
-
-                // Adiciona as equipes (se houver)
-                if (dados && dados.length > 0) {
-                    dados.forEach(function (equipe) {
-                        const h4 = document.createElement("h4");
-                        h4.textContent = equipe.nome;  // O nome da equipe
-                        h4.onclick = function () {
-                            selecionarItem(equipe.id);  // Quando clicar, chama a função de seleção
-                        };
-                        menuLateral.appendChild(h4); // Adiciona a equipe ao menu
-                    });
-                } else {
-                    // Se não houver equipes, exibe uma mensagem
-                    const noTeamsMessage = document.createElement("h4");
-                    noTeamsMessage.textContent = "Nenhuma equipe encontrada.";
-                    menuLateral.appendChild(noTeamsMessage);
-                }
-
-                // Re-adiciona a opção "Nova equipe"
-                menuLateral.appendChild(novaEquipeItem);
-            })
-            .catch(function (erro) {
-                console.error("Erro ao carregar as equipes:", erro);
-            });
-    }
-
-    window.onload = function () {
-        listarEquipes();  // Chama a função para listar as equipes
-        atualizarFeedEquipe();  // Chama a função para atualizar o feed da equipe
-    };
-
-
-    document.addEventListener('DOMContentLoaded', function () {
-        listarEquipes();  // Chama a função para listar as equipes
-        atualizarFeedEquipe();  // Chama a função para atualizar o feed da equipe
-    });
 
 </script>
