@@ -106,7 +106,7 @@
         <div class="son6">
             <div class="fundoo">
                 <h2 class="chamadas">Chamadas recebidas X Chamadas atendidas</h2>
-                <canvas id="barChart" class="GRAFIC"></canvas>
+                <canvas id="myChartCanvas"></canvas>
             </div>
         </div>
         <div class="son5">
@@ -120,13 +120,11 @@
 
 <script>
 
-
-
     function selecionarItem(elemento) {
         var id = elemento.id;  // Pega o ID da equipe clicada
         if (id == 0) {
             // Redireciona para dashboardGeral.html
-            window.location.href = "dashboardGeral-go.html";
+            window.location.href = "dashboardPedroPorfirio.html";
         } else {
             // Armazena o ID correto da equipe no sessionStorage
             sessionStorage.setItem('equipeSelecionada', id);
@@ -135,49 +133,81 @@
         }
     }
 
-    function abrirMenu() {
-        if (document.getElementById("menu").style.display == "flex") {
-            document.getElementById("menu").style.display = "none";
-        } else {
-            document.getElementById("menu").style.display = "flex"
-        }
+    let proximaAtualizacao;
+
+    window.onload = obterDadosGrafico();
+
+    function obterDadosGrafico() {
+
+        fetch(`/funcionarios/plotarGrafico`, { cache: 'no-store' }).then(function (response) {
+            if (response.ok) {
+                response.json().then(function (resposta) {
+                    console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+                    resposta.reverse();
+
+                    plotarGrafico(resposta);
+
+                });
+            } else {
+                console.error('Nenhum dado encontrado ou erro na API');
+            }
+        })
+            .catch(function (error) {
+                console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+            });
     }
 
-    function sair() {
-        sessionStorage.clear()
-        window.location = "index.html"
-    }
 
-    const ctx = document.getElementById('barChart');
+    function plotarGrafico(resposta) {
 
-    // Criando o gráfico
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['Chamadas recebidas', 'Chamadas atendidas'],
+        console.log('iniciando plotagem do gráfico...');
+
+
+        let labels = [];
+
+
+        let dados = {
+            labels: labels,
             datasets: [{
                 label: 'Chamadas',
-                data: [70, 60],
-                backgroundColor: ["#90cafd", "blue"],
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
+                data: [],
+                fill: false,
+                borderColor: 'black',
+                backgroundColor: ["#add8e6", " #ffb6c1"],
+                tension: 0.1
+            },]
+        };
+
+        console.log('----------------------------------------------')
+        console.log('Estes dados foram recebidos pela funcao "obterDadosGrafico" e passados para "plotarGrafico":')
+        console.log(resposta)
+
+
+        for (i = 0; i < resposta.length; i++) {
+            var registro = resposta[i];
+            labels.push(registro.objetivo);
+            dados.datasets[0].data.push(registro.obj);
         }
-    });
 
-    // Função para abrir o menu
-    function openMenu() {
-        document.getElementById("sideMenu").style.left = "0";
-    }
+        console.log('----------------------------------------------')
+        console.log('O gráfico será plotado com os respectivos valores:')
+        console.log('Labels:')
+        console.log(labels)
+        console.log('Dados:')
+        console.log(dados.datasets)
+        console.log('----------------------------------------------')
 
-    // Função para fechar o menu
-    function closeMenu() {
-        document.getElementById("sideMenu").style.left = "-250px";
+
+        const config = {
+            type: 'bar',
+            data: dados,
+        };
+
+
+        let myChart = new Chart(
+            document.getElementById(`myChartCanvas`),
+            config
+        );
     }
 
     function listarEquipes() {
@@ -240,5 +270,28 @@
         listarEquipes();  // Chama a função para listar as equipes
         atualizarFeedEquipe();  // Chama a função para atualizar o feed da equipe
     });
+
+     // Função para abrir o menu header
+     function openMenu() {
+        document.getElementById("sideMenu").style.left = "0";
+    }
+
+    // Função para fechar o menu header
+    function closeMenu() {
+        document.getElementById("sideMenu").style.left = "-250px";
+    }
+
+    function abrirMenu() {
+        if (document.getElementById("menu").style.display == "flex") {
+            document.getElementById("menu").style.display = "none";
+        } else {
+            document.getElementById("menu").style.display = "flex"
+        }
+    }
+
+    function sair() {
+        sessionStorage.clear()
+        window.location = "dashboardPedroPorfirio.html"
+    }
 
 </script>

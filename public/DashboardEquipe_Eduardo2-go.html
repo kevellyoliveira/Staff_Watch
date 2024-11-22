@@ -44,9 +44,11 @@
             <button class="close-btn" onclick="closeMenu()">☰</button>
             <div class="menuLateral">
                 <div class="itens">
-                    <h4 id="home" class="historico" onclick="window.location.href='dashboardPedroPorfirio.html'">Home</h4>
+                    <h4 id="home" class="historico" onclick="window.location.href='dashboardPedroPorfirio.html'">Home
+                    </h4>
                     <!-- Aqui as equipes serão inseridas dinamicamente pelo JavaScript -->
-                    <h4 id="novaEquipe" class="novaequipe" onclick="window.location.href='./novaEquipe.html'">Nova Equipe</h4>
+                    <h4 id="novaEquipe" class="novaequipe" onclick="window.location.href='./novaEquipe.html'">Nova
+                        Equipe</h4>
                 </div>
             </div>
         </div>
@@ -55,16 +57,16 @@
             <div class="Dashboard-chamada">
                 <div class="son6">
                     <div class="bloco3">Tempo médio atendimento:
-                        <div class="minibloco">10s</div>
+                        <div class="minibloco"></div>
                     </div>
-                   
+
                     <div class="bloco4">Tempo médio espera:
                         <div class="minibloco1">10s</div>
                     </div>
-                        <div class="bloco5">Eficiência:
-                            <div class="minibloco2">10%</div>
-                        </div>
-                    
+                    <div class="bloco5">Eficiência:
+                        <div class="minibloco2">10%</div>
+                    </div>
+
                     <div class="bloco6">Chamadas perdida:
                         <div class="minibloco3">10</div>
                     </div>
@@ -83,23 +85,23 @@
             </div>
 
             <!-- Modal -->
-           <!-- Modal -->
-<div id="fade" class="hide"></div>
-<div id="modal" class="hide">
-    <div class="modal-content">
-        <!-- Títulos no topo -->
-        <div id="modal-titles">
-            <h3>Detalhes do Funcionário</h3>
-            <h4>Gráfico de Uso</h4>
-        </div>
-        <!-- Canvas do gráfico -->
-        <canvas id="MyChart"></canvas>
-        <!-- Corpo do Modal -->
-        <div id="modal-body"></div>
-        <!-- Botão de Fechar -->
-        <button onclick="fecharModal()">Fechar</button>
-    </div>
-</div>
+            <!-- Modal -->
+            <div id="fade" class="hide"></div>
+            <div id="modal" class="hide">
+                <div class="modal-content">
+                    <!-- Títulos no topo -->
+                    <div id="modal-titles">
+                        <h3>Detalhes do Funcionário</h3>
+                        <h4>Gráfico de Uso</h4>
+                    </div>
+                    <!-- Canvas do gráfico -->
+                    <canvas id="MyChart"></canvas>
+                    <!-- Corpo do Modal -->
+                    <div id="modal-body"></div>
+                    <!-- Botão de Fechar -->
+                    <button onclick="fecharModal()">Fechar</button>
+                </div>
+            </div>
 
         </div>
         <div class="alerta">
@@ -225,67 +227,67 @@
     }
 
     function abrirModal(idFuncionario) {
-    const ctx = document.getElementById("MyChart");
+        const ctx = document.getElementById("MyChart");
 
-    if (window.myChart instanceof Chart) {
-        window.myChart.destroy();
-    }
+        if (window.myChart instanceof Chart) {
+            window.myChart.destroy();
+        }
 
-    window.myChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: [], // Inicialmente vazio
-            datasets: [{
-                label: '% de uso',
-                data: [], // Inicialmente vazio
-                borderWidth: 1,
-                borderColor: "#C7D",
-                backgroundColor: "#C7D"
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
+        window.myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [], // Inicialmente vazio
+                datasets: [{
+                    label: '% de uso',
+                    data: [], // Inicialmente vazio
+                    borderWidth: 1,
+                    borderColor: "#C7D",
+                    backgroundColor: "#C7D"
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
                 }
             }
-        }
-    });
+        });
 
-    // Aqui você pode preencher o modal com informações do funcionário
-    var modalBody = document.getElementById("modal-body");
-    modalBody.innerHTML = "Carregando informações..."; // Mensagem inicial
+        // Aqui você pode preencher o modal com informações do funcionário
+        var modalBody = document.getElementById("modal-body");
+        modalBody.innerHTML = "Carregando informações..."; // Mensagem inicial
 
-    // Fazer uma nova requisição para pegar os detalhes do funcionário
-    fetch(`/funcionarios/detalhes/${idFuncionario}`).then(function (resposta) {
-        if (resposta.ok) {
-            resposta.json().then(function (dadosFuncionario) {
-                // Atualizando o conteúdo do modal com as informações do funcionário
-                modalBody.innerHTML = `
+        // Fazer uma nova requisição para pegar os detalhes do funcionário
+        fetch(`/funcionarios/detalhes/${idFuncionario}`).then(function (resposta) {
+            if (resposta.ok) {
+                resposta.json().then(function (dadosFuncionario) {
+                    // Atualizando o conteúdo do modal com as informações do funcionário
+                    modalBody.innerHTML = `
                     <p>ID: <b>${dadosFuncionario.chamadaRecebida}</b></p>
                     <p>Nome: <b>${dadosFuncionario.chamadaAtendida}</b></p>
                     <p>E-mail: <b>${dadosFuncionario.tempoChamada}</b></p>
                     <p>Equipe: <b>${dadosFuncionario.tempoEspera}</b></p>
                 `;
-            });
-        } else {
-            modalBody.innerHTML = "Erro ao carregar os detalhes.";
-        }
-    });
+                });
+            } else {
+                modalBody.innerHTML = "Erro ao carregar os detalhes.";
+            }
+        });
 
-    // Mostrar o modal
-    document.getElementById("fade").classList.remove("hide");
-    document.getElementById("fade").classList.add("show");
-    document.getElementById("modal").classList.remove("hide");
-    document.getElementById("modal").classList.add("show");
-}
+        // Mostrar o modal
+        document.getElementById("fade").classList.remove("hide");
+        document.getElementById("fade").classList.add("show");
+        document.getElementById("modal").classList.remove("hide");
+        document.getElementById("modal").classList.add("show");
+    }
 
-function fecharModal() {
-    document.getElementById("fade").classList.remove("show");
-    document.getElementById("fade").classList.add("hide");
-    document.getElementById("modal").classList.remove("show");
-    document.getElementById("modal").classList.add("hide");
-}
+    function fecharModal() {
+        document.getElementById("fade").classList.remove("show");
+        document.getElementById("fade").classList.add("hide");
+        document.getElementById("modal").classList.remove("show");
+        document.getElementById("modal").classList.add("hide");
+    }
 
 
 
@@ -310,7 +312,7 @@ function fecharModal() {
             })
                 .then(resposta => {
                     if (resposta.ok) {
-                        alert("Funcionário deletado com sucesso!");
+                        // alert("Funcionário deletado com sucesso!");
                         atualizarFeed(); // Atualiza a lista após a exclusão
                     } else {
                         throw "Não foi possível deletar o funcionário.";
@@ -318,91 +320,113 @@ function fecharModal() {
                 })
                 .catch(error => {
                     console.error(error);
-                    alert("Ocorreu um erro ao tentar deletar o funcionário.");
+                    // alert("Ocorreu um erro ao tentar deletar o funcionário.");
                 });
         }
     }
 
     function puxarDadosChamada(idFuncionario) {
-      
-            fetch(`/funcionarios/dados/tempoEspera/${idFuncionario}`, {
-                method: "GET"
+
+        fetch(`/funcionarios/dados/tempoEspera/${idFuncionario}`, {
+            method: "GET"
+        })
+            .then(resposta => {
+                if (resposta.ok) {
+                    // alert("Captura de dados de tempo de Espera de chamada efetuada ");
+                    ; // Atualiza a lista após a exclusão
+                } else {
+                    throw "Não foi possível capturar os dados do funcionário.";
+                }
             })
-                .then(resposta => {
-                    if (resposta.ok) {
-                        alert("Captura de dados de tempo de Espera de chamada efetuada ");
+            .catch(error => {
+                console.error(error);
+                //alert("Ocorreu um erro ao tentar capturar dados do funcionário.");
+            });
+    }
+
+    function puxarTempoChamada(idFuncionario) {
+        fetch(`/funcionarios/dados/tempoChamada/${idFuncionario}`, {
+            method: "GET"
+        })
+            .then(resposta => {
+                if (resposta.ok) {
+                    return resposta.json(); // Corrigido 'response' para 'resposta'
+                } else {
+                    throw "Não foi possível capturar os dados do funcionário.";
+                }
+            })
+            .then(data => { // Esse 'then' deve ser separado do anterior
+                const qtdTempoChamada = data[1].tempoChamada; // Acesso aos dados
+                document.querySelector('.minibloco').textContent = qtdTempoChamada + "s"; // Atualiza o conteúdo
+            })
+            .catch(error => {
+                console.error(error);
+                // alert("Ocorreu um erro ao tentar capturar dados do funcionário.");
+            });
+    }
+
+
+    function puxarTotalChamada(idFuncionario) {
+
+        fetch(`/funcionarios/dados/totalChamada/${idFuncionario}`, {
+            method: "GET"
+        })
+            .then(resposta => {
+                if (resposta.ok) {
+                    console.log(resposta)
+                        // alert("Captura de dados total de chamadas efetuadas ");
                         ; // Atualiza a lista após a exclusão
-                    } else {
-                        throw "Não foi possível capturar os dados do funcionário.";
-                    }
-                })
-                .catch(error => {
-                    console.error(error);
-                    alert("Ocorreu um erro ao tentar capturar dados do funcionário.");
-                });
-        }
+                } else {
+                    throw "Não foi possível capturar o total de chamadas do funcionário.";
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                // alert("Ocorreu um erro ao tentar capturar o total de chamadas do funcionário");
+            });
+    }
 
-        function puxarTempoChamada(idFuncionario) {
-      
-      fetch(`/funcionarios/dados/tempoChamada/${idFuncionario}`, {
-          method: "GET"
-      })
-          .then(resposta => {
-              if (resposta.ok) {
-                console.log(resposta)
-                  alert("Captura de dados de tempo de chamada efetuada ");
-                  ; // Atualiza a lista após a exclusão
-              } else {
-                  throw "Não foi possível capturar os dados do funcionário.";
-              }
-          })
-          .catch(error => {
-              console.error(error);
-              alert("Ocorreu um erro ao tentar capturar dados do funcionário.");
-          });
-  }
 
-  function puxarTotalChamada(idFuncionario){
+    function puxarTotalPerdida(idFuncionario) {
 
-    fetch(`/funcionarios/dados/totalChamada/${idFuncionario}`, {
-          method: "GET"
-      })
-          .then(resposta => {
-              if (resposta.ok) {
-                console.log(resposta)
-                  alert("Captura de dados total de chamadas efetuadas ");
-                  ; // Atualiza a lista após a exclusão
-              } else {
-                  throw "Não foi possível capturar o total de chamadas do funcionário.";
-              }
-          })
-          .catch(error => {
-              console.error(error);
-              alert("Ocorreu um erro ao tentar capturar o total de chamadas do funcionário");
-          });
-  }
+        fetch(`/funcionarios/dados/totalPerdida/${idFuncionario}`, {
+            method: "GET"
+        })
+            .then(resposta => {
+                if (resposta.ok) {
+                    console.log(resposta)
+                        //alert("Captura de dados total de chamadas perdida efetuadas ");
+                        ; // Atualiza a lista após a exclusão
+                } else {
+                    throw "Não foi possível capturar o total de chamadas perdidas do funcionário.";
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                //alert("Ocorreu um erro ao tentar capturar o total de chamadas perdidas do funcionário");
+            });
+    }
 
-  
-  function puxarTotalPerdida(idFuncionario){
+    function puxarTotalAtendida(idFuncionario) {
 
-fetch(`/funcionarios/dados/totalPerdida/${idFuncionario}`, {
-      method: "GET"
-  })
-      .then(resposta => {
-          if (resposta.ok) {
-            console.log(resposta)
-              alert("Captura de dados total de chamadas perdida efetuadas ");
-              ; // Atualiza a lista após a exclusão
-          } else {
-              throw "Não foi possível capturar o total de chamadas perdidas do funcionário.";
-          }
-      })
-      .catch(error => {
-          console.error(error);
-          alert("Ocorreu um erro ao tentar capturar o total de chamadas perdidas do funcionário");
-      });
-}
-    
+        fetch(`/funcionarios/dados/totalAtendida/${idFuncionario}`, {
+            method: "GET"
+        })
+            .then(resposta => {
+                if (resposta.ok) {
+                    console.log(resposta)
+                        //  alert("Captura de dados total de chamadas atendida efetuadas ");
+                        ; // Atualiza a lista após a exclusão
+                } else {
+                    throw "Não foi possível capturar o total de chamadas atendidas do funcionário.";
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                //  alert("Ocorreu um erro ao tentar capturar o total de chamadas atendidas do funcionário");
+            });
+    }
+
 
     function listarPorUsuario() {
         const inputPesquisa = document.getElementById("pesquisar_input").value; // Pega o valor do input
@@ -474,53 +498,53 @@ fetch(`/funcionarios/dados/totalPerdida/${idFuncionario}`, {
     }
 
     function listarEquipes() {
-    const fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
+        const fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
 
-    fetch(`funcionarios/listarEquipes/${fkEmpresa}`)
-        .then(resposta => {
-            if (resposta.ok) {
-                return resposta.json(); // Se a resposta for válida, converte para JSON
-            } else {
-                console.error("Erro ao carregar equipes, status:", resposta.status);
-                return [];
-            }
-        })
-        .then(dados => {
-            console.log("Equipes carregadas:", dados);
+        fetch(`funcionarios/listarEquipes/${fkEmpresa}`)
+            .then(resposta => {
+                if (resposta.ok) {
+                    return resposta.json(); // Se a resposta for válida, converte para JSON
+                } else {
+                    console.error("Erro ao carregar equipes, status:", resposta.status);
+                    return [];
+                }
+            })
+            .then(dados => {
+                console.log("Equipes carregadas:", dados);
 
-            // Seleciona o menu lateral e os itens fixos
-            const menuLateral = document.querySelector(".menuLateral .itens");
-            const historicoItem = document.querySelector("#home");
-            const novaEquipeItem = document.querySelector("#novaEquipe");
+                // Seleciona o menu lateral e os itens fixos
+                const menuLateral = document.querySelector(".menuLateral .itens");
+                const historicoItem = document.querySelector("#home");
+                const novaEquipeItem = document.querySelector("#novaEquipe");
 
-            // Limpa o menu sem remover os itens fixos
-            menuLateral.innerHTML = ''; // Limpa todos os itens
-            menuLateral.appendChild(historicoItem); // Reinsere o item "Home"
+                // Limpa o menu sem remover os itens fixos
+                menuLateral.innerHTML = ''; // Limpa todos os itens
+                menuLateral.appendChild(historicoItem); // Reinsere o item "Home"
 
-            // Adiciona as equipes dinamicamente
-            if (dados.length > 0) {
-                dados.forEach(equipe => {
-                    const h4 = document.createElement("h4");
-                    h4.textContent = equipe.nome;
-                    h4.classList.add("equipe"); // Adiciona uma classe para estilização
-                    h4.onclick = () => selecionarItem(equipe.id);
-                    menuLateral.appendChild(h4);
-                });
-            } else {
-                // Exibe mensagem caso não existam equipes
-                const noTeamsMessage = document.createElement("h4");
-                noTeamsMessage.textContent = "Nenhuma equipe encontrada.";
-                noTeamsMessage.classList.add("sem-equipes");
-                menuLateral.appendChild(noTeamsMessage);
-            }
+                // Adiciona as equipes dinamicamente
+                if (dados.length > 0) {
+                    dados.forEach(equipe => {
+                        const h4 = document.createElement("h4");
+                        h4.textContent = equipe.nome;
+                        h4.classList.add("equipe"); // Adiciona uma classe para estilização
+                        h4.onclick = () => selecionarItem(equipe.id);
+                        menuLateral.appendChild(h4);
+                    });
+                } else {
+                    // Exibe mensagem caso não existam equipes
+                    const noTeamsMessage = document.createElement("h4");
+                    noTeamsMessage.textContent = "Nenhuma equipe encontrada.";
+                    noTeamsMessage.classList.add("sem-equipes");
+                    menuLateral.appendChild(noTeamsMessage);
+                }
 
-            // Reinsere a opção "Nova Equipe"
-            menuLateral.appendChild(novaEquipeItem);
-        })
-        .catch(erro => {
-            console.error("Erro ao carregar as equipes:", erro);
-        });
-}
+                // Reinsere a opção "Nova Equipe"
+                menuLateral.appendChild(novaEquipeItem);
+            })
+            .catch(erro => {
+                console.error("Erro ao carregar as equipes:", erro);
+            });
+    }
 
     window.onload = function () {
         listarEquipes();  // Chama a função para listar as equipes
@@ -534,8 +558,8 @@ fetch(`/funcionarios/dados/totalPerdida/${idFuncionario}`, {
 
     document.addEventListener('DOMContentLoaded', function () {
         listarEquipes();  // Chama a função para listar as equipes
-        atualizarFeedEquipe(); 
-     // Chama a função para atualizar o feed da equipe
+        atualizarFeedEquipe();
+        // Chama a função para atualizar o feed da equipe
     });
 
 

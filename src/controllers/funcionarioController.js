@@ -253,7 +253,45 @@ function puxarTotalPerdida(req, res){
                 res.status(500).json(erro.sqlMessage);
             }
         );
+
+       
 }
+
+function puxarTotalAtendida(req, res){
+    const idFuncionario = req.params.idFuncionario;
+
+    funcionarioModel.puxarTotalAtendida(idFuncionario)
+        .then(
+            function (resultado) {
+                res.json(resultado);
+            }
+        )
+        .catch(
+            function (erro) {
+                console.log(erro);
+                console.log("Houve um erro ao listar os dados da chamada: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+    }
+
+    function plotarGrafico(req, res){
+        const fkEmpresa = req.params.fkEmpresa;
+    
+        funcionarioModel.puxarTotalAtendida(fkEmpresa)
+            .then(
+                function (resultado) {
+                    res.json(resultado);
+                }
+            )
+            .catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log("Houve um erro ao listar os dados da chamada: ", erro.sqlMessage);
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
+        }
 
     module.exports = {
         listarPorUsuario,
@@ -268,4 +306,6 @@ function puxarTotalPerdida(req, res){
         puxarTempoChamada,
         puxarTotalChamada,
         puxarTotalPerdida,
+        puxarTotalAtendida,
+        plotarGrafico,z
     }
