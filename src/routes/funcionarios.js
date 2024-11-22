@@ -51,6 +51,30 @@ router.get("/dados/totalAtendida/:fkFuncionario", function (req, res) {
 });
 
 
+
+                                            // Equipe
+
+router.get("/dados/tempoEspera/:fkEquipe", function (req, res) {
+funcionarioController.puxarDadosEquipeChamada(req, res);
+});
+                                            
+router.get("/dados/tempoChamada/:fkEquipe", function (req, res) {
+funcionarioController.puxarTempoEquipeChamada(req, res);
+});
+                                            
+router.get("/dados/totalChamada/:fkEquipe", function (req, res) {
+funcionarioController.puxarTotalEquipeChamada(req, res);
+});
+                                            
+router.get("/dados/totalPerdida/:fkEquipe", function (req, res) {
+funcionarioController.puxarTotalEquipePerdida(req, res);
+});
+                                            
+router.get("/dados/totalAtendida/:fkEquipe", function (req, res) {
+funcionarioController.puxarTotalEquipeAtendida(req, res);
+});
+
+
 router.get("/pesquisar/:mensagem", function (req, res) {
     funcionarioController.pesquisarmensagem(req, res);
 });
@@ -68,7 +92,7 @@ router.post("/pontuar", function (req, res) {
     funcionarioController.pontuar(req, res);
 });
 
-router.get("/listar/:fkEmpresa", function (req, res) {
+router.get("/plotarGrafico/:fkEmpresa", function (req, res) {
     funcionarioController.plotarGrafico(req, res);
 });
 

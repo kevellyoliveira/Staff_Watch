@@ -61,14 +61,14 @@
                     </div>
 
                     <div class="bloco4">Tempo médio espera:
-                        <div class="minibloco1">10s</div>
+                        <div class="minibloco1"></div>
                     </div>
                     <div class="bloco5">Eficiência:
                         <div class="minibloco2">10%</div>
                     </div>
 
                     <div class="bloco6">Chamadas perdida:
-                        <div class="minibloco3">10</div>
+                        <div class="minibloco3"></div>
                     </div>
                 </div>
             </div>
@@ -356,8 +356,8 @@
                 }
             })
             .then(data => { // Esse 'then' deve ser separado do anterior
-                const qtdTempoChamada = data[1].tempoChamada; // Acesso aos dados
-                document.querySelector('.minibloco').textContent = qtdTempoChamada + "s"; // Atualiza o conteúdo
+                // const qtdTempoChamada = data[1].tempoChamada; // Acesso aos dados
+                // document.querySelector('.minibloco').textContent = qtdTempoChamada + "s"; // Atualiza o conteúdo
             })
             .catch(error => {
                 console.error(error);
@@ -410,6 +410,136 @@
     function puxarTotalAtendida(idFuncionario) {
 
         fetch(`/funcionarios/dados/totalAtendida/${idFuncionario}`, {
+            method: "GET"
+        })
+            .then(resposta => {
+                if (resposta.ok) {
+                    console.log(resposta)
+                        //  alert("Captura de dados total de chamadas atendida efetuadas ");
+                        ; // Atualiza a lista após a exclusão
+                } else {
+                    throw "Não foi possível capturar o total de chamadas atendidas do funcionário.";
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                //  alert("Ocorreu um erro ao tentar capturar o total de chamadas atendidas do funcionário");
+            });
+    }
+
+    // equipe
+
+
+    function puxarDadosEquipeChamada(fkEquipe) {
+
+        fetch(`/funcionarios/dados/tempoEspera/${fkEquipe}`, {
+            method: "GET"
+        })
+            .then(resposta => {
+                if (resposta.ok) {
+                    return resposta.json(); // Retorna os dados em JSON
+                } else {
+                    throw new Error("Não foi possível capturar os dados de tempo de espera do funcionário.");
+                }
+            })
+            .then(data => {
+                if (data && Array.isArray(data)) { // Valida se 'data' é um array
+                    const tempoTotalEspera = data.reduce((soma, funcionario) => soma + funcionario.tempoEspera, 0);
+                    const tempoMedioEspera = (tempoTotalEspera / data.length).toFixed(2); // Cálculo médio e arredondamento
+                    document.querySelector('.minibloco1').textContent = `${tempoMedioEspera}s`; // Atualiza a UI
+                } else {
+                    throw new Error("Dados inesperados recebidos do servidor.");
+                }
+            })
+            .catch(error => {
+                console.error("Erro:", error.message);
+                document.querySelector('.minibloco').textContent = "Erro ao carregar dados."; // Feedback para o utilizador
+            });
+    }
+
+    function puxarTempoEquipeChamada(fkEquipe) {
+        fetch(`/funcionarios/dados/tempoChamada/${fkEquipe}`, {
+            method: "GET"
+        })
+            .then(resposta => {
+                if (resposta.ok) {
+                    return resposta.json(); // Retorna os dados em JSON
+                } else {
+                    throw new Error("Não foi possível capturar os dados do funcionário.");
+                }
+            })
+            .then(data => {
+                if (data && Array.isArray(data)) { // Valida se 'data' é um array
+                    const tempoTotal = data.reduce((soma, funcionario) => soma + funcionario.tempoChamada, 0);
+                    const tempoMedio = (tempoTotal / data.length).toFixed(2); // Cálculo médio e arredondamento
+                    document.querySelector('.minibloco').textContent = `${tempoMedio}s`; // Atualiza a UI
+                } else {
+                    throw new Error("Dados inesperados recebidos do servidor.");
+                }
+            })
+            .catch(error => {
+                console.error("Erro:", error.message);
+                document.querySelector('.minibloco').textContent = "Erro ao carregar dados."; // Feedback para o utilizador
+            });
+    }
+
+
+
+    function puxarTotalEquipeChamada(fkEquipe) {
+
+        fetch(`/funcionarios/dados/totalChamada/${fkEquipe}`, {
+            method: "GET"
+        })
+            .then(resposta => {
+                if (resposta.ok) {
+                    console.log(resposta)
+                        // alert("Captura de dados total de chamadas efetuadas ");
+                        ; // Atualiza a lista após a exclusão
+                } else {
+                    throw "Não foi possível capturar o total de chamadas do funcionário.";
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                // alert("Ocorreu um erro ao tentar capturar o total de chamadas do funcionário");
+            });
+    }
+
+
+    function puxarTotalEquipePerdida(fkEquipe) {
+    fetch(`/funcionarios/dados/totalPerdida/${fkEquipe}`, {
+        method: "GET"
+    })
+        .then(resposta => {
+            if (resposta.ok) {
+                return resposta.json(); // Retorna os dados em JSON
+            } else {
+                throw new Error("Não foi possível capturar os dados de chamadas perdidas da equipe.");
+            }
+        })
+        .then(data => {
+            console.log("Dados recebidos:", data); // Log para verificar o formato dos dados
+
+            if (Array.isArray(data) && data.length > 0) { // Verifica se é um array e contém elementos
+                const totalChamadasPerdidas = data[0].chamadaPerdida; // Acessa o primeiro objeto do array
+                document.querySelector('.minibloco3').textContent = `${totalChamadasPerdidas} chamadas perdidas`;
+            } else {
+                throw new Error("Formato inesperado dos dados recebidos.");
+            }
+        })
+        .catch(error => {
+            console.error("Erro:", error.message);
+            document.querySelector('.minibloco3').textContent = "Erro ao carregar dados."; // Feedback para o utilizador
+        });
+}
+
+
+
+
+
+    function puxarTotalEquipeAtendida(fkEquipe) {
+
+        fetch(`/funcionarios/dados/totalAtendida/${fkEquipe}`, {
             method: "GET"
         })
             .then(resposta => {
@@ -549,10 +679,11 @@
     window.onload = function () {
         listarEquipes();  // Chama a função para listar as equipes
         atualizarFeedEquipe();
-        puxarDadosChamada();   // Chama a função para atualizar o feed da equipe
-        puxarTempoChamada();
-        puxarTotalChamada();
-        puxarTotalPerdida();
+        puxarDadosEquipeChamada();   // Chama a função para atualizar o feed da equipe
+        puxarTempoEquipeChamada();
+        puxarTotalEquipeChamada();
+        puxarTotalEquipePerdida();
+        puxarTotalEquipeAtendida();
     };
 
 
