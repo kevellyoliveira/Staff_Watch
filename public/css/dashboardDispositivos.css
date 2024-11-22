@@ -186,8 +186,6 @@ header {
 /* ====================================================================================================================== */
 
 
-/* BODY  */
-
 .section-grafico {
     width: 100%;
     height: 20%;
@@ -211,6 +209,13 @@ header {
     justify-content: center;
     align-items: center;
     /* background-color: #a3b4bfa4; */
+}
+
+/* modal */
+#chartDISCO,
+#chartREDE,
+#chartRAM {
+    display: none;
 }
 
 /*Parte com os gráficos e alertas*/

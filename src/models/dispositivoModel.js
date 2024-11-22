@@ -28,28 +28,28 @@ var database = require("../database/config");
     }
 }
 
-function obterDadosGrafico(idComponente) {
+function obterDadosGrafico(fkEmpresa, idComponente, idComputador) {
     console.log(`estamos na model em obterDadosGrafico e o idComponente é: ${idComponente}`)
 
     if (idComponente == 1) {
-        var instrucaoSql = `select * from view_redeTempoReal;`;
+        var instrucaoSql = `select * from view_redeTempoReal where fkEmpresa = ${fkEmpresa} and fkComputador = ${idComputador};`;
         console.log("Executando a instrução SQL: \n" + instrucaoSql);
         return database.executar(instrucaoSql);
     }
     if (idComponente == 2) {
-        var instrucaoSql = `select * from view_ramTempoReal;`;
+        var instrucaoSql = `select * from view_ramTempoReal where fkEmpresa = ${fkEmpresa} and fkComputador = ${idComputador};`;
 
         console.log("Executando a instrução SQL: \n" + instrucaoSql);
         return database.executar(instrucaoSql);
     } 
     if (idComponente == 3) {
-        var instrucaoSql = `select * from view_discoTempoReal;`;
+        var instrucaoSql = `select * from view_discoTempoReal where fkEmpresa = ${fkEmpresa} and fkComputador = ${idComputador};`;
 
         console.log("Executando a instrução SQL: \n" + instrucaoSql);
         return database.executar(instrucaoSql);
     }
     if (idComponente == 4) {
-        var instrucaoSql = `select * from view_cpuTempoReal;`;
+        var instrucaoSql = `select * from view_cpuTempoReal where fkEmpresa = ${fkEmpresa} and fkComputador = ${idComputador};`;
 
         console.log("Executando a instrução SQL: \n" + instrucaoSql);
         return database.executar(instrucaoSql);
@@ -66,8 +66,18 @@ function listar(fkEmpresa) {
     return database.executar(instrucaoSql);
   }
 
+  function listarAlertas(fkEmpresa, idComputador) {
+    console.log("ACESSEI O AVISO  MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listarAlertas()");
+    var instrucaoSql = `
+    select * from view_alertaMaquina where fkEmpresa = ${fkEmpresa};
+   `;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+  }
+
 module.exports = {
     gerarGraficoTempoReal,
     obterDadosGrafico,
-    listar
+    listar,
+    listarAlertas
 };

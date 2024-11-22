@@ -169,7 +169,10 @@
 
                         <div class="graficoComponente">
                             <div class="graficoChart">
-                                <canvas id="myChart"></canvas>
+                                <canvas id="chartDISCO"></canvas>
+                                <canvas id="chartREDE"></canvas>
+                                <canvas id="chartRAM"></canvas>
+                                <canvas id="chartCPU"></canvas>
                             </div>
                         </div>
                     </div>
@@ -329,31 +332,31 @@
 <script>
     let editarAlgo = false
     // ==========  FUNÇÕES DO MODAL  ================================================================================================================================================
-   // Função para abrir e fechar o modal
-function toggleModal() {
-    const modal = document.querySelector("#modal");
-    const fade = document.querySelector("#fade");
+    // Função para abrir e fechar o modal
+    function toggleModal() {
+        const modal = document.querySelector("#modal");
+        const fade = document.querySelector("#fade");
 
-    modal.classList.toggle("hide");
-    fade.classList.toggle("hide");
-}
+        modal.classList.toggle("hide");
+        fade.classList.toggle("hide");
+    }
 
-// Função para fechar o modal clicando fora ou no botão de fechar
-function closeModal() {
-    document.getElementById("fade").classList.add("hide");
-    document.getElementById("modal").classList.add("hide");
-}
+    // Função para fechar o modal clicando fora ou no botão de fechar
+    function closeModal() {
+        document.getElementById("fade").classList.add("hide");
+        document.getElementById("modal").classList.add("hide");
+    }
 
-// Exemplo de outras funções como deletar e atualizar
-function atualizarMaquina(idComputador) {
-    console.log(`Atualizando máquina com ID: ${idComputador}`);
-    toggleModal();
-}
+    // Exemplo de outras funções como deletar e atualizar
+    function atualizarMaquina(idComputador) {
+        console.log(`Atualizando máquina com ID: ${idComputador}`);
+        toggleModal();
+    }
 
-function deletar(idComputador) {
-    console.log(`Deletando máquina com ID: ${idComputador}`);
-    toggleModal();
-}
+    function deletar(idComputador) {
+        console.log(`Deletando máquina com ID: ${idComputador}`);
+        toggleModal();
+    }
 
 
 
@@ -364,7 +367,7 @@ function deletar(idComputador) {
 
     // essa função serve pra mudar as métricas na tela de acordo com o componente selecionado no header
     // quando o item for selecionado, a div correspondente aparece e as outras são escondidas.
-    function alterarComponente(componenteId) {
+    function alterarComponente(componenteId, cardId) {
         const dashComponentes = ["dashCpu", "dashDisco", "dashRede", "dashMemoria"];
         const componentes = {
             "dashCpu": "CPU",
@@ -435,7 +438,7 @@ function deletar(idComputador) {
             idComponente = 2
         }
 
-        obterDadosGrafico(idComponente)
+        obterDadosGrafico(idComponente, cardId)
         console.log(`idComponente em alterarComponente: ${idComponente}`)
 
     }
@@ -468,11 +471,12 @@ function deletar(idComputador) {
                 feed.innerHTML = ""; // Limpa o conteúdo atual do feed
                 resposta.forEach(publicacao => {
                     var card = document.createElement("div");
+                    card.setAttribute("id", publicacao.idComputador); // Define o ID
                     card.classList.add("card"); // Adiciona a classe para abrir o modal
 
                     // Adicionando o evento para abrir o modal
                     card.addEventListener("click", function () {
-                        alterarComponente('dashCpu');  // Altera o componente
+                        alterarComponente('dashCpu', this.id);  // Altera o componente
                         toggleModal();  // Abre o modal após alterar o componente
                     });
 
@@ -664,10 +668,15 @@ function deletar(idComputador) {
     // let indiceAtual = 0; // Variável global para rastrear o índice atual
     let dadosRecebidos = []; // Variável para armazenar os dados recebidos
     // let myChart = null;
-    console.log(`mychart: ${myChart}`)
+    console.log(`mychart: ${chartCPU}`)
 
-    function obterDadosGrafico(idComponente) {
-        fetch(`/dispositivos/metrica/${idComponente}`, {
+
+    //  =================================================================================
+    //  =================================================================================
+    function obterDadosGrafico(idComponente, cardId) {
+        var fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
+        let idComputador = cardId
+        fetch(`/dispositivos/metrica/${fkEmpresa}:${idComponente}:${idComputador}`, {
             cache: 'no-store',
             method: "GET",
         })
@@ -676,7 +685,7 @@ function deletar(idComputador) {
                     response.json().then(function (resposta) {
                         console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
                         dadosRecebidos = resposta; // Salva os dados recebidos
-                        gerarGraficoTempoReal(idComponente); // Inicia o gráfico
+                        gerarGraficoTempoReal(idComponente, cardId); // Inicia o gráfico
                     });
                 } else {
                     console.error('Nenhum dado encontrado ou erro na API');
@@ -687,48 +696,63 @@ function deletar(idComputador) {
             });
     }
 
-    function gerarGraficoTempoReal(idComponente) {
-        const ctx = document.getElementById('myChart').getContext('2d');
+    function gerarGraficoTempoReal(idComponente, cardId) {
+        console.log(`Gerando gráfico em tempo real para o card: ${cardId}`);
 
-        if (window.myChart instanceof Chart) {
-            window.myChart.destroy();
-        }
+        const graficos = ['chartCPU', 'chartDISCO', 'chartRAM', 'chartREDE'];
+        // Itera sobre os gráficos e ajusta o display
+        graficos.forEach(id => {
+            document.getElementById(id).style.display = id === idComponente ? "flex" : "none";
+        });
+
+        const cCpu = document.getElementById('chartCPU').getContext('2d');
+        const cDisco = document.getElementById('chartDISCO').getContext('2d');
+        const cRam = document.getElementById('chartRAM').getContext('2d');
+        const cRede = document.getElementById('chartREDE').getContext('2d');
 
 
-        // Ajustar os dados recebidos para o gráfico
-        // const labels = dadosRecebidos.map(item => item.timestamp); // Supondo que cada item tenha um timestamp
-        // const data = dadosRecebidos.map(item => item.uso); // Supondo que "uso" seja o valor que você quer plotar
+        if (idComponente == 1) { // rede
+            if (window.chartREDE instanceof Chart) {
+                window.chartREDE.destroy();
+            }
+            const ultimosPctEnv = dadosRecebidos.slice(-20).map(item => item.pctEnv);
+            const ultimosPctRec = dadosRecebidos.slice(-20).map(item => item.pctRec);
 
-
-        // Inicialização do gráfico vazio
-        window.myChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: [], // Inicialmente vazio
-                datasets: [{
-                    label: '% de uso',
-                    data: [], // Inicialmente vazio
-                    borderWidth: 1,
-                    borderColor: "#C7D",
-                    backgroundColor: "#C7D"
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
+            // Inicialização do gráfico vazio
+            window.chartREDE = new Chart(cRede, {
+                type: 'line',
+                data: {
+                    labels: [], // Inicialmente vazio
+                    datasets: [{
+                        label: 'Pacotes enviados',
+                        data: [], // Inicialmente vazio
+                        borderWidth: 1,
+                        borderColor: "#FF6384",
+                        backgroundColor: "rgba(255, 99, 132, 0.2)"
+                    },
+                    {
+                        label: 'Pacotes Recebidos',
+                        data: [], // Inicialmente vazio
+                        borderWidth: 1,
+                        borderColor: "#36A2EB",
+                        backgroundColor: "rgba(54, 162, 235, 0.2)"
+                    }
+                    ]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
                     }
                 }
-            }
-        });
-        // Garante que o gráfico foi criado antes de chamar a atualização
-        console.log("myChart inicializado:", myChart);
-        atualizarGrafico(idComponente)
+            });
+        }
     }
 
+
     let intervaloAtivo = null; // Armazena o ID do intervalo ativo
-    // Função para adicionar valores incrementalmente
-    function atualizarGrafico(idComponente) {
+    function atualizarGrafico(idComponente) { // Função para adicionar valores incrementalmente
         let indiceAtual = 0;
 
         if (intervaloAtivo) {
@@ -771,7 +795,7 @@ function deletar(idComputador) {
                     // Média de memória
                     atualizarMediaGrafico(idComponente);
                 } else if (idComponente == 3) { // disco
-                    discoUtilizacao.innerHTML = `${dadoAtual.captura}%`
+                    discoUtilizacao.innerHTML = `${dadoAtual.media}%`
                     idNomeComponente.innerHTML = dadoAtual.modelo
 
                     // Média de disco
@@ -789,25 +813,6 @@ function deletar(idComputador) {
                 let momento = dadoAtual.dataCaptura;
                 let pctEnv = dadoAtual.pctEnv;
                 let pctRec = dadoAtual.pctRec;
-
-                if (myChart.data.datasets.length === 1) {
-                    myChart.data.datasets = [
-                        {
-                            label: 'Pacotes enviados',
-                            data: [], // Inicialmente vazio
-                            borderWidth: 1,
-                            borderColor: "#FF6384",
-                            backgroundColor: "rgba(255, 99, 132, 0.2)"
-                        },
-                        {
-                            label: 'Pacotes recebidos',
-                            data: [], // Inicialmente vazio
-                            borderWidth: 1,
-                            borderColor: "#36A2EB",
-                            backgroundColor: "rgba(54, 162, 235, 0.2)"
-                        }
-                    ];
-                }
 
                 // Adiciona os novos dados ao gráfico
                 myChart.data.labels.push(momento);
@@ -839,6 +844,8 @@ function deletar(idComputador) {
     }
     // Atualiza o gráfico a cada 2 segundos
     // const intervalo = setInterval(atualizarGrafico, 2000);
+    //  =================================================================================
+    //  =================================================================================
 
 
     function atualizarMediaGrafico(idComponente) {
