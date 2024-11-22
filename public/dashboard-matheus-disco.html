@@ -65,6 +65,7 @@
                                             <th>Maquina</th>
                                             <th>Equipe</th>
                                             <th>Modelo do Disco</th>
+                                            <th>Quantidade de alertas</th>
                                             
                                         </tr>
                                     </thead>
@@ -97,7 +98,7 @@
           
               <!-- Alertas à direita -->
               <div class="direita">
-                  <h1 style="color: white;">Alertas</h1>
+                  <h1 style="color: white;"> Alertas Gerais </h1>
                   <div class="box">
                       <p><b style="color: red;"></b></p>
                   </div>
@@ -126,6 +127,7 @@ function funcaoGeral(){
 obterDadosGrafico();
 buscarNumerosDisco();
 buscarMaquinasDisco();
+mensagemAlerta();
 
 }
 
@@ -179,6 +181,12 @@ fetch(`/discoMatheus/listarDisco/${fkEmpresa}`).then(function (resposta) {
                 let celModelo = document.createElement('td');
                 celModelo.textContent = `${conteudoModelo}`
                 linha.appendChild(celModelo);
+
+                let conteudoAlertas = linhaAtual.quantidade_alertas;
+                
+                let celAlertas = document.createElement('td');
+                celAlertas.textContent = `${conteudoAlertas}`
+                linha.appendChild(celAlertas);
             
 
             }
@@ -259,6 +267,26 @@ fetch(`/discoMatheus/maquinasBuscarDisco/:fkComponente`)
         console.error("Erro:", error);
     });
 }
+
+function mensagemAlerta(){
+
+fetch(`/enderecos/funcaoGeral/:fkComponente`) 
+.then(response => {
+    if (!response.ok) {
+        throw new Error("Erro ao buscar o número total de servidores");
+    }
+    return response.json();
+})
+.then(data => {
+    // Acessando o valor da chave 'count(*)' do primeiro objeto
+    const mensagem_Alerta = data[0].mensagemAlerta;
+    document.querySelector(".box").textContent = mensagem_Alerta;
+})
+.catch(error => {
+    console.error("Erro:", error);
+});
+}
+
 
 
 

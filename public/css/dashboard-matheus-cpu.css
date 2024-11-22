@@ -251,7 +251,7 @@ header {
     width: 70%;
     height: 470px;
     background-color: #002148;
-    border-radius: 15px;
+    border-radius: 8px;
     padding: 0rem;
     margin-right: 10px;
     margin-top: 2px;
@@ -271,8 +271,9 @@ header {
 .card.pequeno {
     height: 29%;;
     background-color: #002148;
-    border-radius: 15px;
+    border-radius: 8px;
     padding: 1rem;
+    box-shadow:5px 10px rgba(0, 26, 255, 0.15);
 }
 
 
@@ -314,7 +315,7 @@ header {
 .direita {
     width: 22%;
     background-color: #002148;
-    border-radius: 20px;
+    border-radius: 8px;
     padding: 1rem;
     display: flex;
     flex-direction: column;
@@ -333,6 +334,7 @@ header {
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    text-align: center;
 }
 
 
@@ -352,8 +354,6 @@ header {
     height: 100%;
     background-color: rgb(255, 255, 255);
     padding: 1rem;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
     overflow: hidden;
     overflow-y: auto;
 }
@@ -455,6 +455,20 @@ tr {
 #minhaTabela td, #minhaTabela th {
     padding: 15px;
     text-align: center;
+}
+
+div.dt-container .dt-search input {
+    border: 1px solid #aaa;
+    border-radius: 3px;
+    padding: 5px;
+    background-color: transparent;
+    color: inherit;
+    margin-left: 3px;
+    margin-top: 13px;
+}
+
+div.dt-container .dt-info{
+    margin-top: 10px;
 }
 
 .dataTables_wrapper .dataTables_filter {

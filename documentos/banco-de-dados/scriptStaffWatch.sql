@@ -1,7 +1,6 @@
 CREATE DATABASE IF NOT EXISTS StaffWatch;
 USE StaffWatch;
--- 
-DROP DATABASE Staffwatch;
+-- DROP DATABASE Staffwatch;
 
 CREATE TABLE IF NOT EXISTS componente(
 idComponente INT PRIMARY KEY AUTO_INCREMENT,
@@ -209,20 +208,20 @@ REFERENCES empresa(idEmpresa)
 
 
 -- --------------------------------------------------------------- TESTES & DESENVOLVIMENTO --------------------------------------------------
--- insert into funcionario values
--- (default, "teste", "teste@gmail.com", "11956782706", MD5("Aa1!"), 1,1, null, 1);
+insert into funcionario values
+(default, "teste", "teste@gmail.com", "11956782706", MD5("Aa1!"), 1,1, null, 1);
 
--- insert into funcionario (idFuncionario, nome, email, telefone, fkEmpresa, fkEquipe, fkCargo) values
--- (3, "Ana Clara", "anaclara@gmail.com", "11956782736", 1, 1, 4),
--- (4, "Júlio Cesar", "julio@gmail.com", "11956781234", 1, 1, 4),
--- (5, "Beatriz Angola", "bea@gmail.com", "11951234736", 1, 1, 4),
--- (6, "Sérgio Lucas", "sergio@gmail.com", "11990082736", 1, 1, 4);
+insert into funcionario (idFuncionario, nome, email, telefone, fkEmpresa, fkEquipe, fkCargo) values
+(3, "Ana Clara", "anaclara@gmail.com", "11956782736", 1, 1, 4),
+(4, "Júlio Cesar", "julio@gmail.com", "11956781234", 1, 1, 4),
+(5, "Beatriz Angola", "bea@gmail.com", "11951234736", 1, 1, 4),
+(6, "Sérgio Lucas", "sergio@gmail.com", "11990082736", 1, 1, 4);
 
--- insert into computador (fkEquipe, fkEmpresa, fkFuncionario) values
--- (1, 1, 3),
--- (1, 1, 4),
--- (1, 1, 5),
--- (1, 1, 6);
+insert into computador (fkEquipe, fkEmpresa, fkFuncionario) values
+(1, 1, 3),
+(1, 1, 4),
+(1, 1, 5),
+(1, 1, 6);
 
 desc captura;
 desc componente;
@@ -266,7 +265,7 @@ JOIN equipe e ON c.fkEquipe = e.idEquipe where f.fkCargo = 4 order by status;
 select * from view_listarMaquinas where fkEmpresa = 1;
 
 -- ------------------------------------- a cada listagem, procurar se a máquina tem algum alerta pra ser exibido
-
+CREATE OR REPLACE VIEW view_obterAlertasNaListagem as select ;
 
 
 
@@ -390,20 +389,70 @@ select * from funcionario;
 select count(*) as quantidade_alertas from alerta as a join captura as c on a.fkCaptura = c.idCaptura where fkComponente = 4; 
 select count(*) as quantidade_alertas from alerta as a join captura as c on a.fkCaptura = c.idCaptura where fkComputador = 1; -- esse vai estar no data tables
 select count(*) as quantidade_alertas from alerta as a join captura as c on a.fkCaptura = c.idCaptura; -- esse pode estar na primeira página
+
+
+select count(*) as quantidade_alertas from alerta as a join captura as c on a.fkCaptura = c.idCaptura where fkComponente = 1;
  
 SELECT COUNT(DISTINCT fkComputador) AS quantidade_maquinas_com_alertas
 FROM alerta AS a
-JOIN captura AS c ON a.fkCaptura = c.idCaptura; -- conta o numero de computadores que contém alertas
+JOIN captura AS c ON a.fkCaptura = c.idCaptura where fkComponente = 1; -- conta o numero de computadores que contém alertas
 
  
- 
+ select * from componente;
  
  insert into alerta values
- (default, 3),
- (default, 1),
- (default, 4);
+ (default, 2 ,10);
  
+ select * from captura where fkComponente = 3;
+
+select modelo, fkComputador, equipe.nome from captura join computador as c on c.idComputador = captura.fkComputador join equipe on equipe.idEquipe = c.fkEquipe
+ WHERE equipe.fkEmpresa = 1 AND captura.fkComponente = 4; 
+ 
+ select count(*) as quantidade_alertas from alerta as a join captura as c on a.fkCaptura = c.idCaptura where fkComputador = 1;
+ 
+    select count(*) as quantidade_alertas from alerta as a join captura as c on a.fkCaptura = c.idCaptura where fkComponente = 1;
+ 
+SELECT 
+    captura.modelo,
+    captura.fkComputador,
+    equipe.nome,
+    COUNT(alerta.idAlerta) AS quantidade_alertas
+FROM 
+    captura
+JOIN 
+    computador AS c ON c.idComputador = captura.fkComputador
+JOIN 
+    equipe ON equipe.idEquipe = c.fkEquipe
+LEFT JOIN 
+    alerta ON alerta.fkCaptura = captura.idCaptura
+WHERE 
+    equipe.fkEmpresa = 1 
+    AND captura.fkComponente = 4
+GROUP BY 
+    captura.modelo, captura.fkComputador, equipe.nome;
+
+
+SELECT 
+    captura.fkComputador AS idComputador,
+    CASE 
+        WHEN captura.fkComponente = 1 THEN 
+            CONCAT(COUNT(alerta.idAlerta), ' alertas relacionados à Rede na máquina ', captura.fkComputador)
+        WHEN captura.fkComponente = 2 THEN 
+            CONCAT(COUNT(alerta.idAlerta), ' alertas relacionados à Memória na máquina ', captura.fkComputador)
+        WHEN captura.fkComponente = 3 THEN 
+            CONCAT(COUNT(alerta.idAlerta), ' alertas relacionados ao Disco na máquina ', captura.fkComputador)
+        WHEN captura.fkComponente = 4 THEN 
+            CONCAT(COUNT(alerta.idAlerta), ' alertas relacionados à CPU na máquina ', captura.fkComputador)
+        ELSE 
+            CONCAT(COUNT(alerta.idAlerta), ' alertas de componente desconhecido na máquina ', captura.fkComputador)
+    END AS mensagemAlerta
+FROM 
+    alerta
+JOIN 
+    captura ON alerta.fkCaptura = captura.idCaptura
+GROUP BY 
+    captura.fkComputador, captura.fkComponente
+ORDER BY 
+    captura.fkComputador;
 
 -- --------------------------------------------------------------------------------------------------------------------
-								-- Listagem de chamadas
-                                        
