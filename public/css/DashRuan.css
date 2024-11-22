@@ -1,0 +1,1469 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+
+.navigation {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    height: 750px;
+    background: skyblue;
+    width: 75px;
+    box-shadow: 10px 0px 0px rgb(158, 142, 187);
+    border-left: 10px solid skyblue;
+    overflow-x: hidden;
+    transition: 0.5s;
+
+}
+
+.navigation:hover {
+    width: 300px;
+}
+
+.navigation ul {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding-left: 5px;
+    padding-top: 40px;
+}
+
+.navigation ul li {
+    position: relative;
+    list-style: none;
+    width: 100%;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+
+.navigation ul li a {
+    font-size: 21px;
+    position: relative;
+    display: flex;
+    width: 100%;
+    text-decoration: none;
+    color: cornsilk;
+}
+
+.navigation ul li a .icon {
+    position: relative;
+    display: block;
+    min-width: 60px;
+    height: 60px;
+    text-align: center;
+    line-height: 70px;
+
+}
+
+.navigation ul li a .icon ion-icon {
+    position: relative;
+    font-size: 1.5rem;
+    z-index: 1;
+}
+
+.navigation ul li a .title {
+    position: relative;
+    display: block;
+    padding-left: 10px;
+    height: 60px;
+    line-height: 60px;
+    white-space: nowrap;
+}
+
+.navigation ul li.active {
+    background: rgb(158, 142, 187);
+}
+
+.navigation ul li.active a::before {
+    content: '';
+    position: absolute;
+    top: -30px;
+    right: 0;
+    width: 30px;
+    height: 30px;
+    background: skyblue;
+    border-radius: 50%;
+    box-shadow: 15px 15px 0 rgb(158, 142, 187);
+}
+
+.navigation ul li.active a::after {
+    content: '';
+    position: absolute;
+    bottom: -30px;
+    right: 0;
+    width: 30px;
+    height: 30px;
+    background: skyblue;
+    border-radius: 50%;
+    box-shadow: 15px -15px 0 rgb(158, 142, 187);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter';
+    font-weight: 500;
+}
+
+:root {
+    --verde: #3CF211;
+    /* ou qualquer outro código de cor verde */
+}
+
+
+body {
+    background-color: #e7ecef;
+    height: auto;
+    height: 100vh;
+}
+
+/* HEADER */
+
+header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    height: auto;
+    background-color: #002148;
+    color: #fff;
+}
+
+.esq {
+    display: flex;
+    width: 70%;
+    height: 100%;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 0 0 1.75rem;
+}
+
+.opcoes {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 6rem;
+    font-size: 2.2rem;
+    width: 100%;
+}
+
+.opcoes a {
+    text-decoration: none;
+    color: #000;
+}
+
+.logo {
+    display: flex;
+    width: 10%;
+    padding: 1.5rem 0;
+}
+
+.logo img {
+    width: 90%;
+    cursor: pointer;
+}
+
+.opcoesComponentes {
+    display: flex;
+    width: 70%;
+    justify-content: space-evenly;
+    white-space: nowrap;
+    position: relative;
+}
+
+.opcoesComponentes img {
+    width: 15px;
+}
+
+.opcoesMenu {
+    cursor: pointer;
+    font-weight: 300;
+}
+
+.opcoesMenu.slct {
+    font-weight: 600;
+}
+
+#menu {
+    display: none;
+    flex-direction: column;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #002048b6;
+    position: absolute;
+    margin-top: 3.92rem;
+    left: 16rem;
+    padding: 0.5rem;
+    z-index: 10;
+}
+
+.opcoesComponentes h6:hover {
+    transform: scale(1.05);
+}
+
+.opcoesComponentes h6 {
+    transition: 0.4s;
+}
+
+#menu h4 {
+    margin: 0;
+    padding: .7rem;
+    cursor: pointer;
+}
+
+.sair {
+    display: flex;
+    padding: 0 1.5rem;
+    cursor: pointer;
+    transition: 0.4s;
+}
+
+.sair h6:hover {
+    color: #C43302;
+}
+
+/* MENU LATERAL */
+.menuLateral {
+    display: flex;
+    flex-direction: column;
+    background-color: #002148;
+    color: #fff;
+    width: 12%;
+    min-height: 100%;
+    position: relative;
+}
+
+.itens {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    font-size: 1.3rem;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 4.5rem;
+
+}
+
+.itens h4 {
+    cursor: pointer;
+}
+
+.slc {
+    color: #6096ba;
+}
+
+.slc.novaequipe,
+.novaequipe {
+    color: #7fc4f1;
+
+}
+
+
+/* BODY  */
+
+.corpo {
+    display: flex;
+    width: 99vw;
+    min-height: auto;
+}
+
+.menuLateral {
+    min-height: 86.8vh;
+}
+
+.infos {
+    width: 100%;
+    /* height: 86.8vh; */
+    height: auto;
+
+    /*Parte superior*/
+    & .emcima {
+        width: 100%;
+        height: 20%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 2rem 0 0 3rem;
+        font-size: 2rem;
+        gap: 5rem;
+
+        & select {
+            width: 15%;
+            height: 38%;
+            background-color: #002148;
+            color: #fff;
+            border-radius: 20px;
+            border: none;
+            text-align: center;
+            font-size: 1rem;
+        }
+    }
+
+    /*Parte com os gráficos e alertas*/
+    & .embaixo {
+        width: 100%;
+        height: 80%;
+        display: flex;
+        justify-content: space-between;
+
+        /*Cards*/
+        & .esquerda {
+            width: 75%;
+            height: 100%;
+
+            & .cima,
+            .baixo {
+                width: 100%;
+                height: 50%;
+                display: flex;
+                justify-content: space-evenly;
+                align-items: center;
+            }
+
+            & .card {
+                width: 45%;
+                height: 85%;
+                background-color: #002148;
+                border-radius: 20px;
+            }
+        }
+
+        .cima.go {
+            height: 60%;
+            align-items: flex-start;
+        }
+
+        /*Alertas*/
+        & .direita {
+            width: 22%;
+            height: 90%;
+            background-color: #002148;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            & h1 {
+                margin-top: 20px;
+                color: white;
+                text-align: center;
+            }
+
+            & .box {
+                margin-top: 20px;
+                width: 90%;
+                height: 6rem;
+                background-color: #e7ecef;
+                border-radius: 15px;
+                /* text-align: center; */
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                padding: 3%;
+                cursor: pointer;
+            }
+        }
+    }
+}
+
+.direita.go {
+    gap: 3rem;
+    font-size: 1rem;
+}
+
+.equipesAlerta {
+    display: flex;
+    font-size: 2rem;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.alertasEquipes {
+    cursor: pointer;
+}
+
+/*Complemento Cards*/
+
+.card {
+
+    & .cimaCard {
+        width: 100%;
+        height: 15%;
+        display: flex;
+        align-items: center;
+
+        & h1 {
+            font-size: 20px;
+            padding-left: 20px;
+            color: white;
+        }
+    }
+
+    & .baixoCard {
+        width: 100%;
+        height: 85%;
+        display: flex;
+
+        & .left {
+            height: 100%;
+            width: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        & .left.chamadas {
+            /* height: 100%; */
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        & .left.chamadas img {
+            width: 100%;
+        }
+
+        & .left img {
+            width: 75%;
+        }
+
+        & .right {
+            height: 100%;
+            width: 50%;
+            display: flex;
+
+            & .leftIndicador {
+                height: 100%;
+                width: 50%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-evenly;
+                align-items: center;
+
+                & .indicador {
+                    width: 95%;
+                    /* height: 40%; */
+                    background-color: rgba(96, 150, 186, 0.8);
+                    border-radius: 10px;
+                }
+            }
+
+            & .rightIndicador {
+                height: 100%;
+                width: 50%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-evenly;
+                align-items: center;
+
+                & .indicador {
+                    width: 86%;
+                    height: 86%;
+                    background-color: rgba(96, 150, 186, 0.8);
+                    border-radius: 10px;
+                }
+            }
+
+            & .indicador {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-evenly;
+            }
+
+            & h2 {
+                /* margin-top: 5px; */
+                font-size: 14px;
+                text-align: center;
+                color: white;
+            }
+
+            & h1 {
+                font-size: 25px;
+                text-align: center;
+            }
+        }
+    }
+}
+
+.card.go,
+.card.dir {
+    margin: 0;
+    height: 100%;
+}
+
+
+.card.go {
+    /* max-height: 12rem;*/
+    max-width: 18rem;
+    text-align: center;
+    align-items: center;
+    padding: 1.5rem;
+    gap: 1.5rem;
+}
+
+.card.go h1 {
+    padding: 0;
+}
+
+.card.go .cimaCard {
+    width: 80%;
+    height: 30%;
+    font-size: 2rem;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.card.go .baixoCard {
+    width: 80%;
+    height: 70%;
+    font-size: 2rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.tempoMedioChamadas {
+    color: var(--verde);
+}
+
+.card.dir {
+    width: 25rem;
+}
+
+.embaixo .baixo.go.vai {
+    display: flex;
+    height: 40%;
+    align-items: flex-start;
+    padding-top: 2rem;
+}
+
+.baixo.go .card.go {
+    max-height: 90%;
+}
+
+
+.legendas {
+    display: flex;
+    width: 65%;
+    flex-direction: column;
+    align-items: center;
+    padding: .25rem 0;
+    border-radius: 20px;
+    gap: .25rem;
+    background-color: #000;
+}
+
+.legendas2 {
+    display: flex;
+    width: 40%;
+
+    align-items: center;
+    justify-content: center;
+    padding: .25rem 0;
+    border-radius: 20px;
+    color: white;
+    gap: .25rem;
+    background-color: #001E42;
+}
+
+.title {
+    color: #001E42;
+    display: flex;
+    padding: 2rem 0 0 3rem;
+    font-size: 2rem;
+}
+
+.main-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.up-card img {
+    width: 30px;
+    height: 30px;
+    margin: 5px 2.5px;
+}
+
+.down-card img {
+    width: 2rem;
+}
+
+.alertaMaquina p {
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.section-card {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 1%;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    margin: 2.5%;
+    padding: 0.75rem;
+    background-color: #001E42;
+    color: white;
+    border: 3px solid white;
+    border-radius: 12px;
+    box-shadow: 4px 5px 4px rgba(0, 0, 0, 0.25);
+    font-size: 20px;
+    transform: translateY(0) scale(1.0);
+    transition: transform 0.5s;
+    height: 12rem;
+    width: 22rem;
+    align-items: flex-start;
+    justify-content: space-around;
+}
+
+.card:hover,
+.card:focus {
+    transform: translateY(5px) scale(1.1);
+    transition: transform 0.5s;
+    cursor: pointer;
+}
+
+.up-card {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    width: 15%;
+}
+
+.up-card img {
+    width: 1.375rem;
+    margin: 5px 2.5px;
+}
+
+.down-card {
+    display: flex;
+    gap: 1.30rem;
+    justify-content: flex-start;
+    flex-direction: row;
+    width: 100%;
+    align-items: flex-end;
+}
+
+.down-card.cima {
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.esqCard {
+    width: 25%;
+}
+
+.dirCard {
+    width: 65%;
+}
+
+.alertaMaquina {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+}
+
+.iconComp {
+    width: 4.8rem;
+}
+
+.iconFunc {
+    width: 7.3rem;
+}
+
+.iconComp img,
+.iconFunc img {
+    width: 100%;
+}
+
+.down-card p {
+    margin: 0;
+}
+
+.down-card p b {
+    font-weight: bold;
+}
+
+.content-card {
+    width: 85%;
+}
+
+.content-card p {
+    gap: 1.2rem;
+}
+
+#fade {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 5;
+}
+
+/* #modal {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    width: 65%;
+    height: auto;
+    background-color: #E7ECEF;
+    border-radius: 8px;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+} */
+
+
+#modal,
+#fade {
+    transition: 0.5s;
+    opacity: 1;
+    pointer-events: all;
+}
+
+#modal.hide,
+#fade.hide {
+    opacity: 0;
+    pointer-events: none;
+}
+
+
+.modal-content {
+    display: flex;
+    margin: 0 0 5% 5%;
+    font-size: 25px;
+}
+
+.modal-user {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 5%;
+}
+
+.modal-user p {
+    margin: 10px 0;
+}
+
+.modal-header figure img {
+    width: 10vw;
+    margin-left: 4.5%;
+}
+
+.modal-header {
+    margin-bottom: 0;
+}
+
+.modal-form {
+    margin-left: 15%;
+}
+
+
+/* MODAL - DASHBOARD EQUIPE DO GERENTE DE OPERAÇÕES */
+
+#modal {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    width: 80%;
+    height: 70%;
+    background-color: #E7ECEF;
+    border-radius: 8px;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    overflow: hidden;
+    /* Impedir o overflow */
+    align-items: flex-start;
+}
+
+.opcoesComponentes.menu {
+    font-size: 2.4rem;
+    padding-bottom: 2rem;
+    /* white-space: wrap; */
+}
+
+#dashCpu,
+#dashDisco,
+#dashRede,
+#dashMemoria,
+
+#dashChamadas,
+#dashAtendimento,
+#dashResolucao,
+#dashAbandono {
+    display: none;
+}
+
+#dashCpu {
+    display: grid;
+}
+
+#dashChamadas {
+    display: flex;
+}
+
+#dashDisco {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+}
+
+.containerModal {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: space-around;
+    padding: 2rem;
+    width: 100%;
+    height: 100%;
+}
+
+.aside {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    justify-content: space-between;
+    height: 85%;
+    padding: 1rem;
+    flex: 1;
+    width: 60%;
+    font-size: 4rem;
+}
+
+.bside {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    width: 40%;
+    flex-wrap: wrap;
+    height: 85%;
+    justify-content: space-around;
+    align-content: space-around;
+    gap: 5%;
+    padding: 1rem;
+}
+
+/* informações do aside */
+.dadosComponente {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+    height: 30%;
+}
+
+.infosComponente {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-around;
+    width: 100%;
+    gap: 6%;
+}
+
+.graficoComponente {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 58%;
+}
+
+.graficoComponente img {
+    height: 100%;
+    width: 100%;
+}
+
+.graficoChart {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    height: 40vh;
+    width: 100%;
+    /* width: 26rem; 
+    height: 14rem; */
+}
+
+.componente {
+    font-size: 3rem;
+}
+
+.nomeComponente {
+    font-size: 1.5rem;
+    color: #002148;
+}
+
+.monitoramento {
+    font-size: 1.4rem;
+    padding: 10px;
+}
+
+/* informações do bside */
+
+.dado {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+.dado h3,
+h2 {
+    padding: .4rem;
+    font-weight: 600;
+    /* white-space: nowrap; impede a quebra de linha */
+}
+
+.dado span {
+    font-weight: 400;
+}
+
+.dadoInfo {
+    font-size: 1.2rem;
+    width: 100%;
+}
+
+.btnSair {
+    display: flex;
+    justify-self: flex-end;
+    padding: 3% 3% 0 0;
+
+}
+
+.btnSair img {
+    width: 3.5rem;
+    transition: 0.4s;
+    cursor: pointer;
+}
+
+.btnSair img:hover {
+    transform: scale(1.15);
+}
+
+/* MODIFICAÇÕES MODAL DA PÁGINA DE EQUIPE DO GERENTE DE OPERAÇÕES */
+
+.opcoesComponentes.menu.go {
+    font-size: 2.4rem;
+    padding-bottom: 0;
+    text-align: center;
+    white-space: wrap;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.opcoesMenu.go {
+    width: 100%;
+}
+
+.containerModal.go {
+    padding: 2rem 0;
+}
+
+.filtro {
+    display: flex;
+    flex-direction: column;
+    background-color: #001E42;
+    font-size: 2rem;
+    color: #fff;
+    gap: 1.2rem;
+    padding: 1rem;
+    border-radius: 15px;
+}
+
+.tituloFiltro {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: .8rem;
+}
+
+.tituloFiltro img {
+    width: 15%;
+    height: 15%;
+}
+
+.bside.go {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    align-items: center;
+}
+
+.ladoDados {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 3.4rem;
+}
+
+.slctxt.gotxt {
+    font-weight: 600;
+    color: #6096ba;
+}
+
+.gotxt {
+    color: #fff;
+    font-weight: 400;
+    font-size: 1.8rem;
+    white-space: nowrap;
+}
+
+.dado.go span,
+.dadoInfo.go h2 {
+    font-weight: 500;
+}
+
+.cima{
+    width: 100%;
+    height: 24.8%;
+    background-color: #000;
+    color: white;
+}
+.baixo{
+    width: 100%;
+    height: 50%;
+    background-color: #001E42;
+    color: white;
+}
+
+.mom {
+    /* background-color: #C43302; */
+    display: flex;
+    align-items: flex-end;
+}
+
+.son1 {
+    height: 12vh;
+    /* width: 115vh; */
+    /* background-color: #a8d7ffb8; */
+    color: rgb(0, 0, 0);
+    display: flex;
+    align-items: center;
+    gap: 6vh;
+}
+
+.son2 {
+    height: 18vh;
+    width: 100vh;
+    background-color: #a8d7ffb8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-right: 5vh;
+    gap: 5vh;
+}
+
+.mom2 {
+    background-color: #C43302;
+    display: flex;
+    align-items: flex-end;
+}
+
+.son3 {
+    height: 67vh;
+    width: 40vh;
+    background-color: #a8d7ffb8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    gap: 8vh;
+}
+
+.son4 {
+    height: 67vh;
+    width: 55vh;
+    background-color: #a8d7ffb8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 8vh;
+}
+
+.son5 {
+    height: 67vh;
+    width: 60vh;
+    background-color: #a8d7ffb8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.son6 {
+    height: 67vh;
+    width: 100vh;
+    background-color: #a8d7ffb8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 8vh;
+}
+
+.TEMPO {
+    background-color: #002148;
+    color: #fff;
+    width: 26vh;
+    height: 5vh;
+    border: none;
+    border-radius: 4vh;
+    text-align: center;
+    cursor: pointer;
+    
+}
+
+.TEMPO:hover{
+    background-color: #1662c0;
+    box-shadow: 0 0 8px rgb(11, 21, 109);
+  }
+
+
+.h1Central {
+    font-size: 7vh;
+}
+
+.estavel {
+    position: relative;
+    height: 8vh;
+    width: 20vh;
+    background-color: #74FF00;
+    border-radius: 1vh;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:5px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transform: translateZ(0);
+}
+
+.estavel:hover{
+    height: 10vh;
+    width: 23vh;
+    transition: 0.4s;
+    transform: translateZ(50px); 
+    box-shadow: 10px 20px rgba(0, 0, 0, 0.3); 
+    }
+
+.alerta {
+    position: relative;
+    height: 8vh;
+    width: 20vh;
+    background-color: #FFFF00;
+    border-radius: 1vh;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:5px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transform: translateZ(0);
+}
+
+.alerta:hover{
+    height: 10vh;
+    width: 23vh;
+    transition: 0.4s;
+    transform: translateZ(50px); 
+    box-shadow: 10px 20px rgba(0, 0, 0, 0.3); 
+    }
+
+.critico {
+    position: relative;
+    height: 8vh;
+    width: 20vh;
+    background-color: #FFA400;
+    border-radius: 1vh;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:5px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transform: translateZ(0);
+}
+
+.critico:hover{
+    height: 10vh;
+    width: 23vh;
+    transition: 0.4s;
+    transform: translateZ(50px); 
+    box-shadow: 10px 20px rgba(0, 0, 0, 0.3); 
+    }
+
+.equipAlert {
+    height: 60vh;
+    width: 40vh;
+    background-color: #002148;
+    color: #fff;
+    border-radius: 2vh;
+    text-align: center;
+    font-size: 4vh;
+    padding-top: 5%;
+    box-shadow: 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+
+
+.bloco1 {
+    height: 23vh;
+    width: 30vh;
+    background-color: #002148;
+    border-radius: 2vh;
+    text-align: center;
+    font-size: 2.5vh;
+    padding-top: 3vh;
+    color: white;
+    box-shadow: 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+.bloco2 {
+    height: 23vh;
+    width: 30vh;
+    background-color: #002148;
+    border-radius: 2vh;
+    text-align: center;
+    font-size: 2.5vh;
+    padding-top: 3vh;
+    color: white;
+    box-shadow:5px 10px rgba(0, 0, 0, 0.3);
+}
+
+.bloco3 {
+    height: 23vh;
+    width: 30vh;
+    background-color: #002148;
+    border-radius: 2vh;
+    text-align: center;
+    font-size: 2.5vh;
+    padding-top: 3vh;
+    color: white;
+    box-shadow:5px 10px rgba(0, 0, 0, 0.3);
+}
+
+.bloco4 {
+    height: 23vh;
+    width: 30vh;
+    background-color: #002148;
+    border-radius: 2vh;
+    text-align: center;
+    font-size: 2.5vh;
+    padding-top: 3vh;
+    color: white;
+    box-shadow:5px 10px rgba(0, 0, 0, 0.3);
+}
+
+.menu-btn {
+    width: 40px;
+    height: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+    padding-left: 2vh;
+}
+
+.bar {
+    width: 100%;
+    height: 5px;
+    background-color: #002148;
+    border-radius: 5px;
+    /* Opcional: deixa as pontas arredondadas */
+    transition: 0.3s ease;
+    /* Para animações suaves */
+}
+
+.side-menu {
+    position: fixed;
+    top: 0;
+    left: -200px; 
+    width: 200px;
+    height: 100vh;
+    background-color: #002148;
+    color: white;
+    overflow-x: hidden;
+    transition: 0.3s; 
+    padding-top: 60px;
+    margin-top: 13vh;
+    text-align: center;
+  }
+
+  /* Links dentro do menu */
+  .side-menu a {
+    padding: 10px 15px;
+    text-decoration: none;
+    font-size: 25px;
+    color: white;
+    display: block;
+    transition: 0.2s;
+  }
+
+  .side-menu a:hover {
+    background-color: #002148;
+  }
+
+  /* Botão para abrir o menu */
+  .open-btn {
+    font-size: 15px;
+    cursor: pointer;
+    background-color: #002148;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    top: 5px;
+    left: 5px;
+    border-radius: 5px;
+    margin-left: 20px;
+  }
+
+  .open-btn:hover{
+    background-color: #1662c0;
+    box-shadow: 0 0 8px rgb(11, 21, 109);
+  }
+
+  /* Estilo para fechar o menu */
+  .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px;
+    background: none;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+
+  .GRAFIC{
+    padding: 0vh;
+  }
+
+  .fundoo{
+    width: 80vh;
+    height: 50vh;
+    background-color: white;
+    border-radius: 2vh;
+    align-items: center;
+    padding-top: 2vh;
+    box-shadow: 5px 10px rgba(0, 0, 0, 0.3);
+  }
+
+  .itens1{
+    text-align: center;
+    font-size: 24px;
+    display: flex;
+    margin-left: 16vh;
+    flex-direction: column;
+    align-items: center;
+    width: 200%;
+    height: 200px;
+
+    & h4{
+        margin-left: -70px;
+        margin-bottom: 40px;
+    
+    }
+  }
+  
+
+  .hist2{
+    color: #6096ba;
+    cursor: pointer;
+  }
+
+  .hist3{
+    color:#6096ba;
+    cursor: pointer;
+  }
+
+  .inverter{
+    flex-direction: row-reverse;
+  }
+
+  .card10 {
+    position: absolute;
+    font-size: 13px;
+    top: 110%; /* Posiciona o card abaixo da div */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 320px;
+    background-color: white;
+    color: black;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 15px;
+    opacity: 0; /* Esconde o card inicialmente */
+    pointer-events: none; /* Previne interações quando invisível */
+    transition: opacity 0.3s ease, transform 0.3s ease; /* Transição suave */
+  }
+
+  .estavel:hover .card10 {
+    opacity: 1; /* Mostra o card */
+    pointer-events: auto; /* Permite interação quando visível */
+    transform: translateX(-50%) translateY(0); /* Animação suave */
+  }
+
+  .card11 {
+    position: absolute;
+    top: 110%; 
+    left: 50%;
+    font-size: 13px;
+    transform: translateX(-50%);
+    width: 320px;
+    background-color: white;
+    color: black;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 15px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .alerta:hover .card11 {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .card12{
+    position: absolute;
+    top: 110%;
+    left: 50%;
+    font-size: 13px;
+    transform: translateX(-50%);
+    width: 320px;
+    background-color: white;
+    color: black;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 15px;
+    opacity: 0; 
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .critico:hover .card12 {
+    opacity: 1;
+    pointer-events: auto; 
+    transform: translateX(-50%) translateY(0);
+  }
