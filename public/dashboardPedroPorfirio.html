@@ -13,7 +13,7 @@
     <title>Dashboard | Staff Watch</title>
 </head>
 
-<body>
+<body onload="plotarGrafico()">
     <header>
         <div class="opcoes">
             <div class="esq">
@@ -48,13 +48,15 @@
                 <button class="close-btn" onclick="closeMenu()">☰</button>
                 <div class="menuLateral">
                     <div class="itens">
-                        <h4 id="home" class="historico" onclick="window.location.href='dashboardPedroPorfirio.html'">Home</h4>
+                        <h4 id="home" class="historico" onclick="window.location.href='dashboardPedroPorfirio.html'">
+                            Home</h4>
                         <!-- Aqui as equipes serão inseridas dinamicamente pelo JavaScript -->
-                        <h4 id="novaEquipe" class="novaequipe" onclick="window.location.href='./novaEquipe.html'">Nova Equipe</h4>
+                        <h4 id="novaEquipe" class="novaequipe" onclick="window.location.href='./novaEquipe.html'">Nova
+                            Equipe</h4>
                     </div>
                 </div>
             </div>
-            
+
             <h1 class="h1Central">Indicadores Gerais</h1>
             <select name="opcoes" class="TEMPO">
                 <option value="tempo">TEMPO</option>
@@ -137,12 +139,17 @@
 
     window.onload = obterDadosGrafico();
 
+
     function obterDadosGrafico() {
 
-        fetch(`/funcionarios/plotarGrafico`, { cache: 'no-store' }).then(function (response) {
+        const fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
+
+
+        fetch(`/funcionarios/plotarGrafico/${fkEmpresa}`, { cache: 'no-store' }).then(function (response) {
             if (response.ok) {
                 response.json().then(function (resposta) {
                     console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+                    console.log(`GRAFICO PORFIRIO`);
                     resposta.reverse();
 
                     plotarGrafico(resposta);
@@ -159,110 +166,130 @@
 
 
     function plotarGrafico(resposta) {
+    console.log('Iniciando plotagem do gráfico...');
 
-        console.log('iniciando plotagem do gráfico...');
+    let labels = [];  // Para armazenar os rótulos do eixo X
+    let chamadasRecebidas = [];  // Para armazenar os dados de chamadas recebidas
+    let chamadasAtendidas = [];  // Para armazenar os dados de chamadas atendidas
 
-
-        let labels = [];
-
-
-        let dados = {
-            labels: labels,
-            datasets: [{
-                label: 'Chamadas',
-                data: [],
+    let dados = {
+        labels: labels,  // As labels (categorias) para o eixo X
+        datasets: [
+            {
+                label: 'Chamadas Recebidas',
+                data: chamadasRecebidas,
                 fill: false,
-                borderColor: 'black',
-                backgroundColor: ["#add8e6", " #ffb6c1"],
+                borderColor: 'blue',
+                backgroundColor: 'lightblue',
                 tension: 0.1
-            },]
-        };
+            },
+            {
+                label: 'Chamadas Atendidas',
+                data: chamadasAtendidas,
+                fill: false,
+                borderColor: '#00FFFF',
+                backgroundColor: 'blue',
+                tension: 0.1
+            }
+        ]
+    };
 
-        console.log('----------------------------------------------')
-        console.log('Estes dados foram recebidos pela funcao "obterDadosGrafico" e passados para "plotarGrafico":')
-        console.log(resposta)
+    console.log('----------------------------------------------');
+    console.log('Estes dados foram recebidos pela função "obterDadosGrafico" e passados para "plotarGrafico":');
+    console.log(resposta);
 
-
-        for (i = 0; i < resposta.length; i++) {
-            var registro = resposta[i];
-            labels.push(registro.objetivo);
-            dados.datasets[0].data.push(registro.obj);
-        }
-
-        console.log('----------------------------------------------')
-        console.log('O gráfico será plotado com os respectivos valores:')
-        console.log('Labels:')
-        console.log(labels)
-        console.log('Dados:')
-        console.log(dados.datasets)
-        console.log('----------------------------------------------')
-
-
-        const config = {
-            type: 'bar',
-            data: dados,
-        };
-
-
-        let myChart = new Chart(
-            document.getElementById(`myChartCanvas`),
-            config
-        );
+    for (let i = 0; i < resposta.length; i++) {
+        let registro = resposta[i];
+        labels.push(``);  // Adiciona o rótulo, pode ser personalizado
+        chamadasRecebidas.push(registro.chamadaRecebida);  // Dados de chamadas recebidas
+        chamadasAtendidas.push(registro.chamadaAtendida);  // Dados de chamadas atendidas
     }
 
-    function listarEquipes() {
-    const fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
+    console.log('----------------------------------------------');
+    console.log('O gráfico será plotado com os respectivos valores:');
+    console.log('Labels:');
+    console.log(labels);
+    console.log('Dados:');
+    console.log(dados.datasets);
+    console.log('----------------------------------------------');
 
-    fetch(`funcionarios/listarEquipes/${fkEmpresa}`)
-        .then(resposta => {
-            if (resposta.ok) {
-                return resposta.json(); // Se a resposta for válida, converte para JSON
-            } else {
-                console.error("Erro ao carregar equipes, status:", resposta.status);
-                return [];
+    const config = {
+        type: 'bar',  // Tipo do gráfico (barra)
+        data: dados,  // Dados a serem usados no gráfico
+        options: {
+            responsive: true,  // O gráfico será redimensionado automaticamente
+            scales: {
+                x: {
+                    beginAtZero: true,  // Inicia o eixo X a partir de 0
+                }
             }
-        })
-        .then(dados => {
-            console.log("Equipes carregadas:", dados);
+        }
+    };
 
-            // Seleciona o menu lateral e os itens fixos
-            const menuLateral = document.querySelector(".menuLateral .itens");
-            const historicoItem = document.querySelector("#home");
-            const novaEquipeItem = document.querySelector("#novaEquipe");
-
-            // Limpa o menu sem remover os itens fixos
-            menuLateral.innerHTML = ''; // Limpa todos os itens
-            menuLateral.appendChild(historicoItem); // Reinsere o item "Home"
-
-            // Adiciona as equipes dinamicamente
-            if (dados.length > 0) {
-                dados.forEach(equipe => {
-                    const h4 = document.createElement("h4");
-                    h4.textContent = equipe.nome;
-                    h4.classList.add("equipe"); // Adiciona uma classe para estilização
-                    h4.onclick = () => selecionarItem(equipe.id);
-                    menuLateral.appendChild(h4);
-                });
-            } else {
-                // Exibe mensagem caso não existam equipes
-                const noTeamsMessage = document.createElement("h4");
-                noTeamsMessage.textContent = "Nenhuma equipe encontrada.";
-                noTeamsMessage.classList.add("sem-equipes");
-                menuLateral.appendChild(noTeamsMessage);
-            }
-
-            // Reinsere a opção "Nova Equipe"
-            menuLateral.appendChild(novaEquipeItem);
-        })
-        .catch(erro => {
-            console.error("Erro ao carregar as equipes:", erro);
-        });
+    let myChart = new Chart(
+        document.getElementById('myChartCanvas'),  // ID do canvas onde o gráfico será renderizado
+        config
+    );
 }
+
+
+
+
+    function listarEquipes() {
+
+        const fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
+
+        fetch(`funcionarios/listarEquipes/${fkEmpresa}`)
+            .then(resposta => {
+                if (resposta.ok) {
+                    return resposta.json(); // Se a resposta for válida, converte para JSON
+                } else {
+                    console.error("Erro ao carregar equipes, status:", resposta.status);
+                    return [];
+                }
+            })
+            .then(dados => {
+                console.log("Equipes carregadas:", dados);
+
+                // Seleciona o menu lateral e os itens fixos
+                const menuLateral = document.querySelector(".menuLateral .itens");
+                const historicoItem = document.querySelector("#home");
+                const novaEquipeItem = document.querySelector("#novaEquipe");
+
+                // Limpa o menu sem remover os itens fixos
+                menuLateral.innerHTML = ''; // Limpa todos os itens
+                menuLateral.appendChild(historicoItem); // Reinsere o item "Home"
+
+                // Adiciona as equipes dinamicamente
+                if (dados.length > 0) {
+                    dados.forEach(equipe => {
+                        const h4 = document.createElement("h4");
+                        h4.textContent = equipe.nome;
+                        h4.classList.add("equipe"); // Adiciona uma classe para estilização
+                        h4.onclick = () => selecionarItem(equipe.id);
+                        menuLateral.appendChild(h4);
+                    });
+                } else {
+                    // Exibe mensagem caso não existam equipes
+                    const noTeamsMessage = document.createElement("h4");
+                    noTeamsMessage.textContent = "Nenhuma equipe encontrada.";
+                    noTeamsMessage.classList.add("sem-equipes");
+                    menuLateral.appendChild(noTeamsMessage);
+                }
+
+                // Reinsere a opção "Nova Equipe"
+                menuLateral.appendChild(novaEquipeItem);
+            })
+            .catch(erro => {
+                console.error("Erro ao carregar as equipes:", erro);
+            });
+    }
 
 
     window.onload = function () {
         listarEquipes();  // Chama a função para listar as equipes
         atualizarFeedEquipe();  // Chama a função para atualizar o feed da equipe
+        // plotarGrafico();
     };
 
 
@@ -271,8 +298,8 @@
         atualizarFeedEquipe();  // Chama a função para atualizar o feed da equipe
     });
 
-     // Função para abrir o menu header
-     function openMenu() {
+    // Função para abrir o menu header
+    function openMenu() {
         document.getElementById("sideMenu").style.left = "0";
     }
 
