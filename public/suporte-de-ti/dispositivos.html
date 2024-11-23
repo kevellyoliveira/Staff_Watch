@@ -359,92 +359,8 @@
     }
 
 
-
-    // =================================================================================================================
-
-    // =============== FUNÇÕES DE GRÁFICOS ========================================================================================
-    let idComponente = 0
-
-    // essa função serve pra mudar as métricas na tela de acordo com o componente selecionado no header
-    // quando o item for selecionado, a div correspondente aparece e as outras são escondidas.
-    function alterarComponente(componenteId, cardId) {
-        const dashComponentes = ["dashCpu", "dashDisco", "dashRede", "dashMemoria"];
-        const componentes = {
-            "dashCpu": "CPU",
-            "dashDisco": "Disco",
-            "dashRede": "Rede",
-            "dashMemoria": "Memória"
-        };
-
-        const nomeComponentes = {
-            "dashCpu": "Modelo da CPU não obtido.",
-            "dashDisco": "Modelo do Disco não obtido.",
-            "dashRede": "Modelo da placa de rede não obtido.",
-            "dashMemoria": "Armazenamento total não obtido."
-        };
-
-        console.log("ID do componente selecionado: ", componenteId);
-
-        // Esconde a div de todos os componentes
-        dashComponentes.forEach(id => {
-            const element = document.getElementById(id);
-            if (element) {
-                element.style.display = "none"; // Garante que o elemento existe antes de manipular
-            } else {
-                console.log(`Elemento não encontrado para ID: ${id}`);
-            }
-        });
-
-        // Define o peso da fonte de todos os elementos
-        dashComponentes.forEach(id => {
-            const element = document.getElementById(id.replace("dash", "").toLowerCase());
-            if (element) {
-                element.style.fontWeight = (id === componenteId) ? "700" : "500";
-            } else {
-                console.log(`Elemento não encontrado para o ID no menu: ${id.replace("dash", "").toLowerCase()}`);
-            }
-        });
-
-        // Mostra a div do componente selecionado
-        const selectedComponent = document.getElementById(componenteId);
-        if (editarAlgo) {
-            return;
-        }
-        console.log("Componente a ser exibido: ", selectedComponent);
-        if (selectedComponent) {
-            selectedComponent.style.display = "grid"; // Garante que o componente é mostrado
-        } else {
-            console.log(`Elemento não encontrado para o ID: ${componenteId}`);
-        }
-
-        // Atualiza o nome do componente no aside
-        const componentName = nomeComponentes[componenteId];
-        const nomeComponenteElem = document.getElementById("idNomeComponente");
-        if (nomeComponenteElem) {
-            nomeComponenteElem.innerHTML = componentName;
-        } else {
-            console.log("Elemento 'idNomeComponente' não encontrado.");
-        }
-
-        if (componenteId == "dashCpu") {
-            idComponente = 4
-        } else if (componenteId == "dashDisco") {
-            idComponente = 3
-        }
-        else if (componenteId == "dashRede") {
-            idComponente = 1
-        }
-        else if (componenteId == "dashMemoria") {
-            idComponente = 2
-        }
-
-        obterDadosGrafico(idComponente, cardId)
-        console.log(`idComponente em alterarComponente: ${idComponente}`)
-
-    }
-
     // ============= FUNÇÃO DE ATUALIZAR O FEED - LISTAR MÁQUINAS
-
+    let cardId = 0;
     function atualizarFeed() {
         var fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
         // console.log(fkEmpresa);
@@ -476,6 +392,8 @@
 
                     // Adicionando o evento para abrir o modal
                     card.addEventListener("click", function () {
+                        cardId = this.id
+                        console.log("Card clicado. cardId:", this.id);
                         alterarComponente('dashCpu', this.id);  // Altera o componente
                         toggleModal();  // Abre o modal após alterar o componente
                     });
@@ -513,15 +431,11 @@
                 console.error("Erro ao atualizar o feed:", erro);
             });
     }
+    // =================================================================================================================
 
-
-
-    // ============================================================================================================
-
-
+    // =============== FUNÇÕES DE GRÁFICOS ========================================================================================
 
     // ============ SIMULAÇÃO DO GRÁFICO DA PARTE SUPERIOR DA TELA ==============================================
-
     // Gerar valores aleatórios entre 2 e 19
 
     function getRandomValues() {
@@ -592,7 +506,6 @@
     );
 
     // funcoes do card da equipe: editar e remover máquina
-
     function atualizarMaquina(idComputador) {
         editarAlgo = true
         // Redireciona o usuário para a página de edição com o ID do funcionário como parâmetro na URL
@@ -643,40 +556,121 @@
         window.location = "../index.html"
     }
 
-    function selecionarItem(elemento) {
-        // Salvar o id do item selecionado no localStorage
-        localStorage.setItem('equipeSelecionada', elemento.id);
-
-        // Remover a classe 'slc' de todos os h4
-        var itens = document.querySelectorAll('.menuLateral .itens h4');
-        itens.forEach(function (item) {
-            item.classList.remove('slc');
-        });
-
-        // Adicionar a classe 'slc' ao item clicado
-        elemento.classList.add('slc');
-
-    }
-    // lembrar de chamar essa funcao pra exibir os graficos dinamicos
-    //         alterarComponente("dashCpu");
-    //          Chama a função que recarrega a dashboard para a equipe selecionada
-    // carregarDashboard(elemento.id);
-
     //============== GRÁFICO DE MONITORAMENTO EM TEMPO REAL  ==================================================================================
 
+    let idComponente = 0
+    let idComputador = 0;
+    // essa função serve pra mudar as métricas na tela de acordo com o componente selecionado no header
+    // quando o item for selecionado, a div correspondente aparece e as outras são escondidas.
+    function alterarComponente(componenteId, card = cardId) {
+        console.log(`cardId em alterarComponente: ${card}`)
+        const dashComponentes = ["dashCpu", "dashDisco", "dashRede", "dashMemoria"];
+        const componentes = {
+            "dashCpu": "CPU",
+            "dashDisco": "Disco",
+            "dashRede": "Rede",
+            "dashMemoria": "Memória"
+        };
+
+        const nomeComponentes = {
+            "dashCpu": "Modelo da CPU não obtido.",
+            "dashDisco": "Modelo do Disco não obtido.",
+            "dashRede": "Modelo da placa de rede não obtido.",
+            "dashMemoria": "Armazenamento total não obtido."
+        };
+        // console.log("ID do componente selecionado: ", componenteId);
+
+        // Esconde a div e os gráficos de todos os componentes
+        dashComponentes.forEach(id => {
+            const element = document.getElementById(id);
+            element.style.display = "none"; // Garante que o elemento existe antes de manipular
+
+        });
+        // Esconde todos os gráficos
+        const graficoIds = ["chartCPU", "chartDISCO", "chartREDE", "chartRAM"];
+        graficoIds.forEach(graficoId => {
+            const graficoElem = document.getElementById(graficoId);
+            graficoElem.style.display = "none"; // Oculta todos os gráficos
+        });
+
+        // Define o peso da fonte de todos os elementos
+        dashComponentes.forEach(id => {
+            const element = document.getElementById(id.replace("dash", "").toLowerCase());
+            if (element) {
+                element.style.fontWeight = (id === componenteId) ? "700" : "500";
+            } else {
+                console.log(`Elemento não encontrado para o ID no menu: ${id.replace("dash", "").toLowerCase()}`);
+            }
+        });
+
+        // Mostra a div do componente selecionado e o gráfico
+        // div: 
+        const selectedComponent = document.getElementById(componenteId);
+        if (editarAlgo) {
+            return;
+        }
+        // console.log("Componente a ser exibido: ", selectedComponent);
+        if (selectedComponent) {
+            selectedComponent.style.display = "grid"; // Garante que o componente é mostrado
+        } else {
+            console.log(`Elemento não encontrado para o ID: ${componenteId}`);
+        }
+
+        // Atualiza o nome do componente no aside
+        const componentName = nomeComponentes[componenteId];
+        const nomeComponenteElem = document.getElementById("idNomeComponente");
+        if (nomeComponenteElem) {
+            nomeComponenteElem.innerHTML = componentName;
+        } else {
+            console.log("Elemento 'idNomeComponente' não encontrado.");
+        }
+
+        if (componenteId == "dashCpu") {
+            idComponente = 4
+        } else if (componenteId == "dashDisco") {
+            idComponente = 3
+        }
+        else if (componenteId == "dashRede") {
+            idComponente = 1
+        }
+        else if (componenteId == "dashMemoria") {
+            idComponente = 2
+        }
+        // grafico:
+        // Exibe o gráfico correspondente
+        let graficoAtivoId;
+        if (componenteId === "dashCpu") {
+            graficoAtivoId = "chartCPU";
+            idComponente = 4;
+        } else if (componenteId === "dashDisco") {
+            graficoAtivoId = "chartDISCO";
+            idComponente = 3;
+        } else if (componenteId === "dashRede") {
+            graficoAtivoId = "chartREDE";
+            idComponente = 1;
+        } else if (componenteId === "dashMemoria") {
+            graficoAtivoId = "chartRAM";
+            idComponente = 2;
+        }
+        if (graficoAtivoId) {
+            const graficoAtivoElem = document.getElementById(graficoAtivoId);
+            if (graficoAtivoElem) {
+                graficoAtivoElem.style.display = "flex"; // Exibe o gráfico ativo
+            } else {
+                console.log(`Gráfico ativo não encontrado: ${graficoAtivoId}`);
+            }
+        }
+
+        obterDadosGrafico(idComponente, cardId)
+    }
+
     // Função para buscar os dados iniciais
-    // let indiceAtual = 0; // Variável global para rastrear o índice atual
     let dadosRecebidos = []; // Variável para armazenar os dados recebidos
-    // let myChart = null;
-    console.log(`mychart: ${chartCPU}`)
 
-
-    //  =================================================================================
-    //  =================================================================================
-    function obterDadosGrafico(idComponente, cardId) {
+    function obterDadosGrafico(idComponente, card = cardId) {
         var fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
-        let idComputador = cardId
-        fetch(`/dispositivos/metrica/${fkEmpresa}:${idComponente}:${idComputador}`, {
+       
+        fetch(`/dispositivos/metrica/${fkEmpresa}/${idComponente}/${card}`, {
             cache: 'no-store',
             method: "GET",
         })
@@ -696,19 +690,27 @@
             });
     }
 
-    function gerarGraficoTempoReal(idComponente, cardId) {
-        console.log(`Gerando gráfico em tempo real para o card: ${cardId}`);
+    let graficoAtual; // variavel pra passar de gerarGrafico pra atualizarGrafico, 
+    // pra incrementar 1 dado no gráfico plotado do componente certo
+    function gerarGraficoTempoReal(idComponente, card = cardId) {
+        // console.log(`Gerando gráfico em tempo real para o card: ${cardId} com o idCOmponente = ${idComponente}`);
 
-        const graficos = ['chartCPU', 'chartDISCO', 'chartRAM', 'chartREDE'];
-        // Itera sobre os gráficos e ajusta o display
-        graficos.forEach(id => {
-            document.getElementById(id).style.display = id === idComponente ? "flex" : "none";
-        });
+        // const graficos = ['chartCPU', 'chartDISCO', 'chartRAM', 'chartREDE'];
+        // // Itera sobre os gráficos e ajusta o display
+        // graficos.forEach(id => {
+        //     const graficoElem = document.getElementById(id);
+        //     if (graficoElem) {
+        //         graficoElem.style.display = id === `chart${idComponente.toString().toUpperCase()}` ? "flex" : "none";
+        //     } else {
+        //         console.log(`Elemento com ID ${id} não encontrado.`);
+        //     }
+        // });
 
-        const cCpu = document.getElementById('chartCPU').getContext('2d');
-        const cDisco = document.getElementById('chartDISCO').getContext('2d');
-        const cRam = document.getElementById('chartRAM').getContext('2d');
-        const cRede = document.getElementById('chartREDE').getContext('2d');
+
+        const cCpu = document.getElementById('chartCPU');
+        const cDisco = document.getElementById('chartDISCO');
+        const cRam = document.getElementById('chartRAM');
+        const cRede = document.getElementById('chartREDE');
 
 
         if (idComponente == 1) { // rede
@@ -717,22 +719,23 @@
             }
             const ultimosPctEnv = dadosRecebidos.slice(-20).map(item => item.pctEnv);
             const ultimosPctRec = dadosRecebidos.slice(-20).map(item => item.pctRec);
+            const ultimasDatas = dadosRecebidos.slice(-20).map(item => item.dataCaptura);
 
             // Inicialização do gráfico vazio
             window.chartREDE = new Chart(cRede, {
                 type: 'line',
                 data: {
-                    labels: [], // Inicialmente vazio
+                    labels: ultimasDatas, // Inicialmente vazio
                     datasets: [{
                         label: 'Pacotes enviados',
-                        data: [], // Inicialmente vazio
+                        data: ultimosPctEnv, // Inicialmente vazio
                         borderWidth: 1,
                         borderColor: "#FF6384",
                         backgroundColor: "rgba(255, 99, 132, 0.2)"
                     },
                     {
                         label: 'Pacotes Recebidos',
-                        data: [], // Inicialmente vazio
+                        data: ultimosPctRec, // Inicialmente vazio
                         borderWidth: 1,
                         borderColor: "#36A2EB",
                         backgroundColor: "rgba(54, 162, 235, 0.2)"
@@ -747,9 +750,108 @@
                     }
                 }
             });
+            // Garante que o gráfico foi criado antes de chamar a atualização
+            console.log("myChart inicializado:", chartREDE);
+            graficoAtual = window.chartREDE;
+            atualizarGrafico(idComponente)
+
+        } else if (idComponente == 2) { // memoria RAM
+            if (window.chartRAM instanceof Chart) {
+                window.chartRAM.destroy();
+            }
+            const ultimosDados = dadosRecebidos.slice(-20).map(item => item.captura);
+            const ultimasDatas = dadosRecebidos.slice(-20).map(item => item.dataCaptura);
+
+            window.chartRAM = new Chart(cRam, {
+                type: 'line',
+                data: {
+                    labels: ultimasDatas, // Inicialmente vazio
+                    datasets: [{
+                        label: '% de uso',
+                        data: ultimosDados, // Inicialmente vazio
+                        borderWidth: 1,
+                        borderColor: "#C7D",
+                        backgroundColor: "#C7D"
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            // Garante que o gráfico foi criado antes de chamar a atualização
+            console.log("myChart inicializado:", chartRAM);
+            graficoAtual = window.chartRAM;
+            atualizarGrafico(idComponente)
+
+        } else if (idComponente == 3) { // disco
+            if (window.chartDISCO instanceof Chart) {
+                window.chartDISCO.destroy();
+            }
+            const ultimosDados = dadosRecebidos.slice(-20).map(item => item.captura);
+            const ultimasDatas = dadosRecebidos.slice(-20).map(item => item.dataCaptura);
+
+            window.chartDISCO = new Chart(cDisco, {
+                type: 'line',
+                data: {
+                    labels: ultimasDatas, // Inicialmente vazio
+                    datasets: [{
+                        label: '% de uso',
+                        data: ultimosDados, // Inicialmente vazio
+                        borderWidth: 1,
+                        borderColor: "#C7D",
+                        backgroundColor: "#C7D"
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            // Garante que o gráfico foi criado antes de chamar a atualização
+            console.log("myChart inicializado:", chartDISCO);
+            graficoAtual = window.chartDISCO;
+            atualizarGrafico(idComponente)
+        }
+        else if (idComponente == 4) { // cpu
+            if (window.chartCPU instanceof Chart) {
+                window.chartCPU.destroy();
+            }
+            const ultimosDados = dadosRecebidos.slice(-20).map(item => item.captura);
+            const ultimasDatas = dadosRecebidos.slice(-20).map(item => item.dataCaptura);
+
+            window.chartCPU = new Chart(cCpu, {
+                type: 'line',
+                data: {
+                    labels: ultimasDatas, // Inicialmente vazio
+                    datasets: [{
+                        label: '% de uso',
+                        data: ultimosDados, // Inicialmente vazio
+                        borderWidth: 1,
+                        borderColor: "#C7D",
+                        backgroundColor: "#C7D"
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            // Garante que o gráfico foi criado antes de chamar a atualização
+            console.log("myChart inicializado:", chartCPU);
+            graficoAtual = window.chartCPU;
+            atualizarGrafico(idComponente)
         }
     }
-
 
     let intervaloAtivo = null; // Armazena o ID do intervalo ativo
     function atualizarGrafico(idComponente) { // Função para adicionar valores incrementalmente
@@ -761,9 +863,9 @@
         }
 
         intervaloAtivo = setInterval(() => {
-            if (!myChart) {
-                console.warn("myChart ainda não foi inicializado. Tentando novamente...");
-                return; // Aguarde até que myChart seja inicializado
+            if (!graficoAtual || !graficoAtual.data || !graficoAtual.data.labels) {
+                console.error("GraficoAtual não foi inicializado corretamente.");
+                return;
             }
 
             if ((indiceAtual < dadosRecebidos.length) && idComponente != 1) {
@@ -772,17 +874,17 @@
                 let temperatura = dadoAtual.captura;
 
                 // Adiciona os novos dados ao gráfico
-                myChart.data.labels.push(momento);
-                myChart.data.datasets[0].data.push(temperatura);
+                graficoAtual.data.labels.push(momento);
+                graficoAtual.data.datasets[0].data.push(temperatura);
 
                 // Remove o ponto mais antigo se o gráfico exceder 20 pontos
-                if (myChart.data.labels.length > 20) {
-                    myChart.data.labels.shift();
-                    myChart.data.datasets[0].data.shift();
+                if (graficoAtual.data.labels.length > 20) {
+                    graficoAtual.data.labels.shift();
+                    graficoAtual.data.datasets[0].data.shift();
                 }
 
                 // Atualiza o gráfico
-                myChart.update();
+                graficoAtual.update();
 
                 // Incrementa o índice para o próximo dado
                 indiceAtual++;
@@ -815,18 +917,18 @@
                 let pctRec = dadoAtual.pctRec;
 
                 // Adiciona os novos dados ao gráfico
-                myChart.data.labels.push(momento);
-                myChart.data.datasets[0].data.push(pctEnv);
-                myChart.data.datasets[1].data.push(pctRec);
+                graficoAtual.data.labels.push(momento);
+                graficoAtual.data.datasets[0].data.push(pctEnv);
+                graficoAtual.data.datasets[1].data.push(pctRec);
 
                 // Remove o ponto mais antigo se o gráfico exceder 20 pontos
-                if (myChart.data.labels.length > 20) {
-                    myChart.data.labels.shift();
-                    myChart.data.datasets[0].data.shift();
-                    myChart.data.datasets[1].data.shift();
+                if (graficoAtual.data.labels.length > 20) {
+                    graficoAtual.data.labels.shift();
+                    graficoAtual.data.datasets[0].data.shift();
+                    graficoAtual.data.datasets[1].data.shift();
                 }
                 // Atualiza o gráfico
-                myChart.update();
+                graficoAtual.update();
 
                 // Incrementa o índice para o próximo dado
                 indiceAtual++;
@@ -842,14 +944,9 @@
             }
         }, 2000); // Intervalo de 2 segundos
     }
-    // Atualiza o gráfico a cada 2 segundos
-    // const intervalo = setInterval(atualizarGrafico, 2000);
-    //  =================================================================================
-    //  =================================================================================
-
 
     function atualizarMediaGrafico(idComponente) {
-        const capturasExibidas = myChart.data.datasets[0].data;
+        const capturasExibidas = graficoAtual.data.datasets[0].data;
         const soma = capturasExibidas.reduce((acumulador, valor) => acumulador + valor, 0);
         const media = soma / capturasExibidas.length;
 
@@ -862,9 +959,6 @@
             cpuMedia.innerHTML = `${Math.round(media)}%`;
         }
     }
-
-
-
 
     // enviando alerta para o slack caso o dado seja alerta (teste, não vai ser usado assim depois)
 
@@ -896,7 +990,5 @@
     //         });
     // }
     // }
-
-    // FIM DO GRÁFICO EM TEMPO REAL ==================================================================================
 
 </script>
