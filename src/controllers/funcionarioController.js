@@ -276,7 +276,28 @@ function puxarTotalAtendida(req, res) {
 }
 
 
+function carregarGrafico(req, res) {
+    const { endpoint, fkFuncionario } = req.params;
+    let dados;
 
+    try {
+        if (endpoint === "tempoChamada") {
+            dados = funcionarioModel.buscarTempoMedioChamada(fkFuncionario);
+        } else if (endpoint === "tempoEspera") {
+            dados = funcionarioModel.buscarTempoMedioEspera(fkFuncionario);
+        } else if (endpoint === "eficiencia") {
+            dados =  funcionarioModel.buscarEficiencia(fkFuncionario);
+        } else if (endpoint === "totalPerdida") {
+            dados = funcionarioModel.buscarChamadasPerdidas(fkFuncionario);
+        } else {
+            return res.status(400).json({ erro: "Endpoint inválido." });
+        }
+        return res.json(dados); // Retorna os dados encontrados
+    } catch (err) {
+        console.error("Erro ao buscar dados:", err);
+        return res.status(500).json({ erro: "Erro interno no servidor." });
+    }
+}
 
 
 
@@ -439,4 +460,5 @@ module.exports = {
     puxarTotalEquipeAtendida,
     plotarGrafico,
     eficienciaEquipeChamada,
+    carregarGrafico,
 }

@@ -115,7 +115,7 @@ function deletar(idFuncionario) {
     return database.executar(instrucaoSql);
 }
 
-function abrirModal(idFuncionario) {
+function abrirModal(fkFuncionario) {
 
     console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function descurtir()");
     var instrucaoSql = `
@@ -125,7 +125,7 @@ function abrirModal(idFuncionario) {
     return database.executar(instrucaoSql);
 }
 
-function puxarDadosChamada(idFuncionario) {
+function puxarDadosChamada(fkFuncionario) {
     console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function descurtir()");
     var instrucaoSql = `
     SELECT tempoEspera FROM chamada where fkFuncionario = ${1}
@@ -134,7 +134,7 @@ function puxarDadosChamada(idFuncionario) {
     return database.executar(instrucaoSql);
 }
 
-function puxarTempoChamada(idFuncionario) {
+function puxarTempoChamada(fkFuncionario) {
     console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function descurtir()");
     var instrucaoSql = `
     SELECT tempoChamada FROM chamada where fkFuncionario = ${1}
@@ -143,7 +143,7 @@ function puxarTempoChamada(idFuncionario) {
     return database.executar(instrucaoSql);
 }
 
-function puxarTotalChamada(idFuncionario) {
+function puxarTotalChamada(fkFuncionario) {
     console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function descurtir()");
     var instrucaoSql = `
     SELECT COUNT(*) chamadaRecebida FROM chamada WHERE fkFuncionario = ${1}; 
@@ -152,7 +152,7 @@ function puxarTotalChamada(idFuncionario) {
     return database.executar(instrucaoSql);
 }
 
-function puxarTotalPerdida(idFuncionario) {
+function puxarTotalPerdida(fkFuncionario) {
     console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function descurtir()");
     var instrucaoSql = `
     SELECT COUNT(*) chamadaPerdida FROM chamada WHERE fkFuncionario = ${1} and chamadaPerdida = 1;
@@ -161,7 +161,7 @@ function puxarTotalPerdida(idFuncionario) {
     return database.executar(instrucaoSql);
 }
 
-function puxarTotalAtendida(idFuncionario) {
+function puxarTotalAtendida(fkFuncionario) {
     console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function descurtir()");
     var instrucaoSql = `
     SELECT COUNT(*) AS chamadaAtendida FROM chamada WHERE fkFuncionario = ${1} AND chamadaAtendida IN (2, 3);

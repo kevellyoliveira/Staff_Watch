@@ -146,168 +146,167 @@
         window.location = "index.html"
     }
 
+    var idFuncionarioSelecionado;
+
     function atualizarFeedEquipe() {
-        var fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
-        var fkEquipe = sessionStorage.getItem("equipeSelecionada");
+    const fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
+    const fkEquipe = sessionStorage.getItem("equipeSelecionada");
 
-        console.log(fkEmpresa);
-        console.log(fkEquipe);
-        console.log("---------");
-
-        fetch(`/funcionarios/listarEquipe/${fkEmpresa}/${fkEquipe}`).then(function (resposta) {
+    fetch(`/funcionarios/listarEquipe/${fkEmpresa}/${fkEquipe}`)
+        .then(resposta => {
             if (resposta.ok) {
-                if (resposta.status == 204) {
-                    var feed = document.getElementById("feed_container");
-                    var mensagem = document.createElement("span");
-                    mensagem.innerHTML = "Nenhum resultado encontrado.";
-                    feed.appendChild(mensagem);
-                    throw "Nenhum resultado encontrado!!";
-                }
-
-                resposta.json().then(function (resposta) {
-                    console.log("Dados recebidos: ", JSON.stringify(resposta));
-
-                    var feed = document.getElementById("feed_container");
-                    feed.innerHTML = ""; // Limpa o conteúdo atual do feed
-
-                    for (let i = 0; i < resposta.length; i++) {
-                        var publicacao = resposta[i];
-
-                        // Criando e manipulando elementos do HTML via JavaScript
-                        var divContent = document.createElement("div");
-                        var divPublicacao = document.createElement("div");
-                        var spanID = document.createElement("span");
-                        var spanTitulo = document.createElement("span");
-                        var spanNome = document.createElement("span");
-                        var divDescricao = document.createElement("div");
-                        var divButtons = document.createElement("div");
-                        var btnEditar = document.createElement("button");
-                        var btnDeletar = document.createElement("button");
-
-                        // Definindo conteúdo dos elementos
-
-                        spanID.innerHTML = "<div class='id'> Id Funcionário: <b>" + publicacao.idFuncionario + "</b> </div> <br>";
-                        spanTitulo.innerHTML = "E-mail: <b>" + publicacao.email + "</b>";
-                        spanNome.innerHTML = "Nome: <b>" + publicacao.nome + "</b>";
-                        divDescricao.innerHTML = "Equipe: <b>" + publicacao.fkEquipe + "</b>";
-
-                        // Configurando o botão "Editar"
-                        // btnEditar.innerHTML = '<i class="fa-solid fa-pen"></i>'; // Ícone do botão
-                        // btnEditar.className = "editar"; // Classe do botão
-                        // btnEditar.id = "AbrirModal_" + publicacao.idFuncionario; // ID único baseado no ID do funcionário
-                        let idDaVez = publicacao.idFuncionario;
-                        divPublicacao.addEventListener('click', function () {
-                            abrirModal(idDaVez); // Abre o modal passando o ID do funcionário
-                        });
-
-                        // Configurando o botão "Deletar"
-                        // btnDeletar.innerHTML = '<i class="fa-solid fa-trash"></i>'; // Ícone do botão
-                        // btnDeletar.className = "deletar"; // Classe do botão
-                        // btnDeletar.id = "btnDeletar_" + publicacao.idFuncionario; // ID único
-                        // btnDeletar.addEventListener('click', function () {
-                        //     deletar(idDaVez); // Função 'deletar' com ID do funcionário
-                        // });
-
-                        // Adicionando os botões ao container de botões
-                        divButtons.className = "div-buttons";
-                        divButtons.appendChild(btnEditar);
-                        divButtons.appendChild(btnDeletar);
-
-                        // Adicionando todos os elementos criados ao divPublicacao
-                        divPublicacao.className = "publicacao";
-                        divPublicacao.appendChild(spanID);
-                        divPublicacao.appendChild(spanNome);
-                        divPublicacao.appendChild(spanTitulo);
-                        divPublicacao.appendChild(divDescricao);
-                        divPublicacao.appendChild(divButtons);
-
-                        // Adicionando o card de publicação ao feed
-                        feed.appendChild(divPublicacao);
-                    }
-                });
+                return resposta.json();
+            } else if (resposta.status === 204) {
+                const feed = document.getElementById("feed_container");
+                feed.innerHTML = "<span>Nenhum resultado encontrado.</span>";
+                throw new Error("Nenhum resultado encontrado.");
             } else {
-                throw ('Houve um erro na API!');
+                throw new Error("Erro ao buscar funcionários.");
             }
-        }).catch(function (resposta) {
-            console.error(resposta);
-        });
-    }
-
-    function abrirModal(idFuncionario) {
-    const ctx = document.getElementById("MyChart");
-
-    // Destruir gráfico existente, se houver
-    if (window.myChart instanceof Chart) {
-        window.myChart.destroy();
-    }
-
-    // Exibir mensagem inicial no modal
-    var modalBody = document.getElementById("modal-body");
-    modalBody.innerHTML = "Carregando informações...";
-
-    // Fazer a requisição para obter os dados do funcionário
-    fetch(`/funcionarios/dados/tempoChamada/${idFuncionario}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Erro ao buscar dados do servidor.');
-            }
-            return response.json();
         })
-        .then(data => {
-            console.log("Dados retornados:", data);
+        .then(resposta => {
+            const feed = document.getElementById("feed_container");
+            feed.innerHTML = "";
 
-            // Calcular o tempo médio
-            const tempoTotal = data.reduce((soma, funcionario) => soma + funcionario.tempoChamada, 0);
-            const tempoMedio = (tempoTotal / data.length).toFixed(2);
-
-            console.log("Tempo Médio Calculado:", tempoMedio);
-
-            // Criar o gráfico de barras com uma única barra
-            window.myChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ["Tempo Médio"], // Rótulo único para a barra
-                    datasets: [{
-                        label: "Tempo Médio de Chamada (s)",
-                        data: [tempoMedio], // Valor único
-                        backgroundColor: "#002148",
-                        borderColor: "#002148",
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
+            resposta.forEach(funcionario => {
+                const divPublicacao = document.createElement("div");
+                divPublicacao.className = "publicacao";
+                divPublicacao.innerHTML = `
+                    <span><b>ID Funcionário:</b> ${funcionario.idFuncionario}</span>
+                    <span><b>Nome:</b> ${funcionario.nome}</span>
+                    <span><b>E-mail:</b> ${funcionario.email}</span>
+                    <span><b>Equipe:</b> ${funcionario.fkEquipe}</span>
+                `;
+                divPublicacao.addEventListener("click", () => abrirModal(funcionario.idFuncionario));
+                feed.appendChild(divPublicacao);
             });
-
-            // Remover a mensagem de "Carregando"
-            modalBody.innerHTML = ""; // Limpar conteúdo do modal-body
         })
-        .catch(error => {
-            console.error("Erro ao carregar gráfico:", error);
-            modalBody.innerHTML = "Erro ao carregar os dados do gráfico. Tente novamente mais tarde.";
-        });
+        .catch(console.error);
+}
+    
+function abrirModal(idFuncionario) {
 
-    // Mostrar o modal
-    document.getElementById("fade").classList.remove("hide");
-    document.getElementById("fade").classList.add("show");
-    document.getElementById("modal").classList.remove("hide");
-    document.getElementById("modal").classList.add("show");
+    idFuncionarioSelecionado = idFuncionario;
+    console.log(idFuncionarioSelecionado);
+     
+    const fade = document.getElementById("fade");
+    const modal = document.getElementById("modal");
+
+    fade.classList.remove("hide");
+    fade.classList.add("show");
+    modal.classList.remove("hide");
+    modal.classList.add("show");
+
+    // Exibe informações iniciais no modal (tempo médio de chamada)
+    carregarGrafico("Tempo Médio de Atendimento", "tempoChamada");
 }
 
+function fecharModal() {
+    const fade = document.getElementById("fade");
+    const modal = document.getElementById("modal");
 
-    function fecharModal() {
-        document.getElementById("fade").classList.remove("show");
-        document.getElementById("fade").classList.add("hide");
-        document.getElementById("modal").classList.remove("show");
-        document.getElementById("modal").classList.add("hide");
+    fade.classList.remove("show");
+    fade.classList.add("hide");
+    modal.classList.remove("show");
+    modal.classList.add("hide");
+}
+
+function carregarGrafico(titulo, endpoint) {
+    const modalBody = document.getElementById("modal-body");
+    modalBody.innerHTML = "Carregando gráfico...";
+
+    // Limpa o gráfico anterior antes de carregar um novo
+    const ctx = document.getElementById("MyChart").getContext("2d");
+    if (window.myChart) {
+        window.myChart.destroy(); // Destrói o gráfico anterior
+    }
+    console.log(idFuncionarioSelecionado)
+    fetch(`/funcionarios/dados/${endpoint}/${idFuncionarioSelecionado}`)
+        .then(resposta => {
+            if (!resposta.ok) throw new Error("Erro ao buscar dados do gráfico.");
+            return resposta.json();
+        })
+        .then(dados => {
+    console.log("Dados recebidos:", dados);
+
+    let labels = [];
+    let data = [];
+
+    if (endpoint === "tempoChamada") {
+        labels = ["Tempo de Chamada"];
+        data = [dados[0].tempoChamada];
+    } else if (endpoint === "tempoEspera") {
+        labels = ["Tempo de Espera"];
+        data = [dados[0].tempoEspera];
+    } else if (endpoint === "eficiencia") {
+        labels = ["Chamada Recebida", "Chamada Atendida"];
+        data = [dados[0].chamadaRecebida, dados[0].chamadaAtendida];
+    } else if (endpoint === "totalPerdida") {
+        labels = ["Chamadas Perdidas"];
+        data = [dados[0].chamadaPerdida];
     }
 
+    // Verifique se os dados estão corretos antes de criar o gráfico
+    console.log("Labels:", labels);
+    console.log("Data:", data);
+
+    if (labels.length === 0 || data.length === 0) {
+        modalBody.innerHTML = "Sem dados disponíveis para este gráfico.";
+        return;
+    }
+
+    // Criação do gráfico
+    const ctx = document.getElementById("MyChart").getContext("2d");
+    if (window.myChart) {
+        window.myChart.destroy(); // Destrói o gráfico anterior
+    }
+
+    window.myChart = new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: labels,
+            datasets: [{
+                label: titulo,
+                data: data,
+                backgroundColor: "rgba(0, 33, 72, 0.8)",
+                borderColor: "rgba(0, 33, 72, 1)",
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    modalBody.innerHTML = ""; // Limpa a mensagem de carregando
+})
+        .catch(erro => {
+            console.error(erro);
+            modalBody.innerHTML = "Erro ao carregar os dados. Tente novamente.";
+        });
+}
+
+// Event Listeners para os botões
+document.querySelector(".bloco3").addEventListener("click", () => {
+    carregarGrafico("Tempo Médio de Atendimento", "tempoChamada");
+});
+
+document.querySelector(".bloco4").addEventListener("click", () => {
+    carregarGrafico("Tempo Médio de Espera", "tempoEspera");
+});
+
+document.querySelector(".bloco5").addEventListener("click", () => {
+    carregarGrafico("Eficiência", "eficiencia");
+});
+
+document.querySelector(".bloco6").addEventListener("click", () => {
+    carregarGrafico("Chamadas Perdidas", "totalPerdida");
+});
 
 
     function levarParaDashboard() {

@@ -50,6 +50,10 @@ router.get("/dados/totalAtendida/:fkFuncionario", function (req, res) {
     funcionarioController.puxarTotalAtendida(req, res);
 });
 
+router.get("/dados/:endpoint/:fkFuncionario", function (req, res) {
+    funcionarioController.carregarGrafico(req, res);
+});
+
 
 
                                             // Equipe

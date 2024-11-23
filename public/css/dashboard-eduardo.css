@@ -1523,10 +1523,11 @@ dialog::backdrop {
     background-color: #002147;
     color: white;
     width: 500px;
-    height: 68%;
+    height: 90%;
     padding: 20px;
     text-align: center;
     font-size: 22px;
+    
 }
 
 .publicacao>*:not(:last-child) {
@@ -1555,6 +1556,7 @@ dialog::backdrop {
     border-radius: 5px;
     margin-bottom: 80px;
 }
+
 
 .div-buttons {
     display: flex;
