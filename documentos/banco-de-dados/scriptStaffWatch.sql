@@ -242,8 +242,8 @@ join computador maq on maq.idComputador = ca.fkComputador
 where maq.fkEmpresa = 1;
 
 -- --------------------------- quantidade de alertas por componente em cada equipe 
-create or replace view view_alertasComponenteEquipe as
-select co.nome, count(idAlerta), maq.fkEquipe from alerta a
+-- create or replace view view_alertasComponenteEquipe as
+select co.nome, count(idAlerta) as qtdAlerta, maq.fkEquipe from alerta a
 join captura ca on ca.idCaptura = a.fkCaptura
 join componente co on co.idComponente = ca.fkComponente
 join computador maq on maq.idComputador = ca.fkComputador
