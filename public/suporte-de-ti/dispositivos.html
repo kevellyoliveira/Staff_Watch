@@ -666,10 +666,9 @@
 
     // Função para buscar os dados iniciais
     let dadosRecebidos = []; // Variável para armazenar os dados recebidos
-
+    var fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
     function obterDadosGrafico(idComponente, card = cardId) {
-        var fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
-       
+
         fetch(`/dispositivos/metrica/${fkEmpresa}/${idComponente}/${card}`, {
             cache: 'no-store',
             method: "GET",
@@ -854,7 +853,8 @@
     }
 
     let intervaloAtivo = null; // Armazena o ID do intervalo ativo
-    function atualizarGrafico(idComponente) { // Função para adicionar valores incrementalmente
+
+    function atualizarGrafico(idComponente, card = cardId) {
         let indiceAtual = 0;
 
         if (intervaloAtivo) {
@@ -863,87 +863,97 @@
         }
 
         intervaloAtivo = setInterval(() => {
-            if (!graficoAtual || !graficoAtual.data || !graficoAtual.data.labels) {
-                console.error("GraficoAtual não foi inicializado corretamente.");
-                return;
-            }
+            let dadoObtido = [];
+            fetch(`/dispositivos/tempo-real/${fkEmpresa}/${idComponente}/${card}`, {
+                cache: 'no-store',
+                method: "GET",
+            })
+                .then(function (response) {
+                    if (response.ok) {
+                        response.json().then(function (resposta) {
+                            dadoAtual = resposta; // Atualiza com os dados mais recentes
+                            console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+                            console.log(`Dados recebidos: ${JSON.stringify(resposta.dataCaptura)}`);
 
-            if ((indiceAtual < dadosRecebidos.length) && idComponente != 1) {
-                const dadoAtual = dadosRecebidos[indiceAtual];
-                let momento = dadoAtual.dataCaptura;
-                let temperatura = dadoAtual.captura;
+                            // Verifica se há dados para adicionar ao gráfico
+                            if (dadoAtual.length > 0) {
+                                dadoAtual = dadoAtual[0]
+                                const momento = dadoAtual.dataCaptura;
 
-                // Adiciona os novos dados ao gráfico
-                graficoAtual.data.labels.push(momento);
-                graficoAtual.data.datasets[0].data.push(temperatura);
+                                // Adiciona o novo dado ao gráfico
+                                if (idComponente === 1) {
+                                    // Rede
+                                    let pctEnv = dadoAtual.pctEnv;
+                                    let pctRec = dadoAtual.pctRec;
 
-                // Remove o ponto mais antigo se o gráfico exceder 20 pontos
-                if (graficoAtual.data.labels.length > 20) {
-                    graficoAtual.data.labels.shift();
-                    graficoAtual.data.datasets[0].data.shift();
-                }
+                                    graficoAtual.data.labels.push(momento);
+                                    graficoAtual.data.datasets[0].data.push(pctEnv);
+                                    graficoAtual.data.datasets[1].data.push(pctRec);
+                                } else {
+                                    // Outros componentes (Memória, Disco, CPU)
+                                    let temperatura = dadoAtual.captura;
+                                    graficoAtual.data.labels.push(momento);
+                                    graficoAtual.data.datasets[0].data.push(temperatura);
+                                }
 
-                // Atualiza o gráfico
-                graficoAtual.update();
+                                // Remove o ponto mais antigo se o gráfico exceder 20 pontos
+                                if (graficoAtual.data.labels.length > 20) {
+                                    graficoAtual.data.labels.shift();
+                                    graficoAtual.data.datasets[0].data.shift();
+                                    if (graficoAtual.data.datasets.length > 1) {
+                                        graficoAtual.data.datasets[1].data.shift(); // Caso tenha múltiplos datasets (como Rede)
+                                    }
+                                }
 
-                // Incrementa o índice para o próximo dado
-                indiceAtual++;
+                                // Atualiza o gráfico
+                                graficoAtual.update();
 
-                // Atualiza os KPIs conforme o idComponente
-                if (idComponente == 2) { // memória
-                    memoriaUtilizacao.innerHTML = `${dadoAtual.captura}%`
-                    idNomeComponente.innerHTML = dadoAtual.modelo
+                                // Incrementa o índice para o próximo dado
+                                indiceAtual++;
 
-                    // Média de memória
-                    atualizarMediaGrafico(idComponente);
-                } else if (idComponente == 3) { // disco
-                    discoUtilizacao.innerHTML = `${dadoAtual.media}%`
-                    idNomeComponente.innerHTML = dadoAtual.modelo
+                                // Atualiza os KPIs e cores conforme a captura
+                                if (idComponente == 2) { // Memória
+                                    memoriaUtilizacao.innerHTML = `${dadoAtual.captura}%`;
+                                    idNomeComponente.innerHTML = dadoAtual.modelo;
+                                    atualizarCor(memoriaUtilizacao, dadoAtual.captura);
+                                } else if (idComponente == 3) { // Disco
+                                    discoUtilizacao.innerHTML = `${dadoAtual.captura}%`;
+                                    idNomeComponente.innerHTML = dadoAtual.modelo;
+                                    atualizarCor(discoUtilizacao, dadoAtual.captura);
+                                } else if (idComponente == 4) { // CPU
+                                    cpuUtilizacao.innerHTML = `${dadoAtual.captura}%`;
+                                    idNomeComponente.innerHTML = dadoAtual.modelo;
+                                    atualizarCor(cpuUtilizacao, dadoAtual.captura);
+                                }
+                            }
 
-                    // Média de disco
-                    atualizarMediaGrafico(idComponente);
-                } else if (idComponente == 4) { // CPU
-                    cpuUtilizacao.innerHTML = `${dadoAtual.captura}%`
-                    idNomeComponente.innerHTML = dadoAtual.modelo
-
-                    // Média de CPU
-                    atualizarMediaGrafico(idComponente);
-                }
-
-            } else if (idComponente == 1) {
-                const dadoAtual = dadosRecebidos[indiceAtual];
-                let momento = dadoAtual.dataCaptura;
-                let pctEnv = dadoAtual.pctEnv;
-                let pctRec = dadoAtual.pctRec;
-
-                // Adiciona os novos dados ao gráfico
-                graficoAtual.data.labels.push(momento);
-                graficoAtual.data.datasets[0].data.push(pctEnv);
-                graficoAtual.data.datasets[1].data.push(pctRec);
-
-                // Remove o ponto mais antigo se o gráfico exceder 20 pontos
-                if (graficoAtual.data.labels.length > 20) {
-                    graficoAtual.data.labels.shift();
-                    graficoAtual.data.datasets[0].data.shift();
-                    graficoAtual.data.datasets[1].data.shift();
-                }
-                // Atualiza o gráfico
-                graficoAtual.update();
-
-                // Incrementa o índice para o próximo dado
-                indiceAtual++;
-
-                redeEnviar.innerHTML = dadoAtual.pctEnv
-                redeReceber.innerHTML = dadoAtual.pctRec
-                redePerdido.innerHTML = dadoAtual.perdido
-                idNomeComponente.innerHTML = dadoAtual.modelo
-            }
-            else {
-                console.log('Todos os dados foram exibidos.');
-                clearInterval(intervaloAtivo); // Para o intervalo quando todos os dados forem exibidos
-            }
-        }, 2000); // Intervalo de 2 segundos
+                            // // Quando todos os dados forem exibidos, limpa o intervalo
+                            // if (indiceAtual >= dadoObtido.length) {
+                            //     console.log('Todos os dados foram exibidos.');
+                            //     clearInterval(intervaloAtivo);
+                            // }
+                            atualizarMediaGrafico(idComponente)
+                        });
+                    } else {
+                        console.error('Erro na API ou nenhum dado encontrado');
+                    }
+                })
+                .catch(function (error) {
+                    console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+                });
+        }, 3000); // Intervalo de 2 segundos
     }
+
+    function atualizarCor(elemento, valor) {
+        if (valor > 90) {
+            elemento.style.color = "red"; // Vermelho
+        } else if (valor > 80) {
+            elemento.style.color = "yellow"; // Amarelo
+        } else {
+            elemento.style.color = "green"; // Verde
+        }
+    }
+
 
     function atualizarMediaGrafico(idComponente) {
         const capturasExibidas = graficoAtual.data.datasets[0].data;

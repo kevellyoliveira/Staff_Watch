@@ -4,12 +4,14 @@ function gerarGraficoTempoReal(req, res) {
 
     // var idComputador = req.params.idComputador;
     var idComponente = req.params.idComponente;
+    var fkEmpresa = req.params.fkEmpresa;
+    var idComputador = req.params.idComputador;
 
     // console.log(`Recuperando medidas do computador ${idComputador} e do componente ${idComponente} em tempo real`);
     console.log(`Recuperando medidas do computador em tempo real do componente ${idComponente}`);
 
     // dispositivoModel.gerarGraficoTempoReal(idComputador, idComponente).then(function (resultado) {
-        dispositivoModel.gerarGraficoTempoReal(idComponente).then(function (resultado) {
+        dispositivoModel.gerarGraficoTempoReal(fkEmpresa, idComponente, idComputador).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -28,7 +30,6 @@ function obterDadosGrafico(req, res) {
     var fkEmpresa = req.params.fkEmpresa;
     var idComputador = req.params.idComputador;
 
-    console.log(`fkEmpresa: ${req.params.fkEmpresa}, idComponente: ${req.params.idComponente}, idComputador: ${req.params.idComputador}`);
     console.log(`Recuperando últimas 20 medidas da máquina`);
 
     dispositivoModel.obterDadosGrafico(fkEmpresa, idComponente, idComputador)

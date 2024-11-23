@@ -281,13 +281,32 @@ select * from view_obterAlertasNaListagem where fkEmpresa = 1;
 
 -- --------------------------- gráfico em tempo real: uso de CPU
 create or replace view view_cpuTempoReal as
-select ca.captura, time(ca.dataCaptura) as dataCaptura, ca.modelo, fkComputador, fkEmpresa
+select ca.captura, time(ca.dataCaptura) as dataCaptura, ca.modelo, ca.fkComputador, co.fkEmpresa
 from captura ca
 join computador co on ca.fkComputador = co.idComputador
 where ca.fkComponente = 4 and ca.fkAuxComponente = 12 
 order by dataCaptura limit 100;
 
+select * from view_cpuTempoReal where fkComputador = 2 and fkEmpresa = 1;
+select * from view_cpuTempoReal;
+
+select * from captura where fkAuxComponente = 12;
+
+select ca.captura, time(ca.dataCaptura) as dataCaptura, ca.modelo, fkComputador, fkEmpresa, dataCaptura as dt, idCaptura
+                        from captura ca
+                        join computador co on ca.fkComputador = co.idComputador
+                        where ca.fkComponente = 4 and ca.fkAuxComponente = 12 and
+                        fkEmpresa = 1 and fkComputador = 2
+                        order by dt desc limit 1;
+
 select * from view_cpuTempoReal where fkEmpresa = ? and fkComputador = ?;
+
+-- em tempo real (ta adaptado na model pra todos)------------------------------
+select ca.captura, time(ca.dataCaptura) as dataCaptura, ca.modelo, fkComputador, fkEmpresa
+from captura ca
+join computador co on ca.fkComputador = co.idComputador
+where ca.fkComponente = 4 and ca.fkAuxComponente = 12 and fkEmpresa = 1 and fkComputador = 3
+order by dataCaptura desc limit 1;
 
 -- --------------------------- gráfico em tempo real: uso de Disco e total
 create or replace view view_discoTempoReal as
@@ -313,6 +332,19 @@ join computador co on captura.fkComputador = co.idComputador
 where fkComponente = 1 and fkAuxComponente = 5
 order by idCaptura limit 100;
 
+
+ --  na model de tempo real
+select 
+    (select captura from captura 
+     where fkComponente = 1 and fkComputador = 1 and fkAuxComponente = 4
+     limit 1) as pctRec,
+    captura as pctEnv, 
+    time(dataCaptura) as dataCaptura, modelo, fkComputador, fkEmpresa
+from captura
+join computador co on captura.fkComputador = co.idComputador
+where fkComponente = 1 and fkAuxComponente = 5 and
+fkEmpresa = 1 and fkComputador = 3
+order by idCaptura desc limit 1;
 select * from view_redeTempoReal where fkEmpresa = ? and fkComputador = ?;
 
 -- --------------------------- gráfico em tempo real: uso de memória ram

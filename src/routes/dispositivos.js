@@ -9,8 +9,7 @@ router.get("/metrica/:fkEmpresa/:idComponente/:idComputador", function (req, res
 });
 
 // function do atualizar dados
-// router.get("/tempo-real/:idComputador:idComponente", function (req, res) {
-router.get("/tempo-real/:idComponente", function (req, res) {
+router.get("/tempo-real/:fkEmpresa/:idComponente/:idComputador", function (req, res) {
     dispositivosController.gerarGraficoTempoReal(req, res);
 })
 

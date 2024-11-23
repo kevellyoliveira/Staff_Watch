@@ -223,15 +223,16 @@ def print_system_info(fk_computador):
 
 def main():
     print("Bem-vindo ao monitor de sistema!")
+    
+    fk_computador = int(input("Insira a fkComputador para monitoramento (ou 0 para sair): "))
+    
+    if fk_computador == 0:
+        print("Saindo do programa...")
+        return
+    
     while True:
-        try:
-            fk_computador = int(input("Insira a fkComputador para monitoramento (ou 0 para sair): "))
-            if fk_computador == 0:
-                print("Saindo do programa...")
-                break
-            print_system_info(fk_computador)
-        except ValueError:
-            print("Entrada inválida. Por favor, insira um número inteiro.")
+        print_system_info(fk_computador)
+        time.sleep(2)
 
 if __name__ == "__main__":
     main()
