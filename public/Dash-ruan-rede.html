@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
 
     <title>Dashboard | Staff Watch</title>
 </head>
@@ -44,10 +45,62 @@
         <div class="son1">
             <button class="open-btn" onclick="openMenu()">☰</button>
         </div>
+
+        <h2>Monitoramento de rede</h2>
     </div>
 
-    <div class="cima"> KPI'S</div>
-    <div class="baixo">GRÁFICO</div>
+    <div class="cima">
+        <div class="cima1">
+            <div class="cardKpi">
+                <h3>Nome da KPI (ms)</h3>
+                <span>10</span>
+            </div>
+            <div class="cardKpi">
+                <h3>Nome da KPI<br>
+                    (segundos)
+                </h3>
+                <span>15</span>
+            </div>
+            <div class="cardKpi">
+                <h3>Nome da KPI (%)</h3>
+                <span>20</span>
+            </div>
+        </div>
+        <div class="cima2">
+            <div class="espaco"></div>
+            <div class="regularTempo">
+                <div class="margemTempo">
+                    <!-- aqui vou inserir demais funções como o filtro de tempo -->
+                    <select name="opcoes" class="TEMPO">
+                        <option value="tempo">TEMPO</option>
+                        <option value="dia">DIA</option>
+                        <option value="SEMANA">SEMANA</option>
+                        <option value="MÊS">MÊS</option>
+                        <option value="6MÊS">6 MESES</option>
+                        <option value="ANO">ANO</option>
+                    </select>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="baixo">
+        <!-- <div class="espaco"></div> -->
+        <div class="baixo1">
+            <div class="espaco"></div>
+            <div class="grafico">
+                <canvas id="chart1"></canvas>
+            </div>
+            <div class="miniespaco"></div>
+        </div>
+        <div class="baixo2">
+            <div class="espaco"></div>
+            <div class="grafico">
+                <canvas id="chart2"></canvas>
+            </div>
+            <div class="miniespaco"></div>
+        </div>
+    </div>
 
             <!-- Menu Lateral -->
             <div id="sideMenu" class="side-menu">
@@ -185,6 +238,132 @@
         listarEquipes();  // Chama a função para listar as equipes
         atualizarFeedEquipe();  // Chama a função para atualizar o feed da equipe
     });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // TESTE DE GRÁFICOS PARA VER SE A DIV FICOU NUM BOM TAMANHO
+
+
+
+
+
+    // Dados para o primeiro gráfico
+    const data1 = {
+      labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio'],
+      datasets: [{
+        label: 'Vendas 2023',
+        data: [10, 15, 8, 12, 7],
+        borderColor: 'rgba(75, 192, 192, 1)',
+        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        tension: 0.4 // Suavidade da linha
+      }]
+    };
+
+    // Dados para o segundo gráfico
+    const data2 = {
+      labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio'],
+      datasets: [{
+        label: 'Vendas 2024',
+        data: [12, 18, 5, 10, 14],
+        borderColor: 'rgba(255, 99, 132, 1)',
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        tension: 0.4 // Suavidade da linha
+      }]
+    };
+
+    // Configuração para o primeiro gráfico
+    const config1 = {
+      type: 'line',
+      data: data1,
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: true, position: 'top' },
+          title: { display: true, text: 'Latência média' }
+        },
+        scales: {
+          x: { title: { display: true, text: 'Mês' } },
+          y: { title: { display: true, text: 'Vendas' }, beginAtZero: true }
+        }
+      }
+    };
+
+    // Configuração para o segundo gráfico
+    const config2 = {
+      type: 'line',
+      data: data2,
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: true, position: 'top' },
+          title: { display: true, text: 'Taxa de crescimento de tráfego de rede ' }
+        },
+        scales: {
+          x: { title: { display: true, text: 'Mês' } },
+          y: { title: { display: true, text: 'Vendas' }, beginAtZero: true }
+        }
+      }
+    };
+
+    // Renderizando os gráficos
+    const ctx1 = document.getElementById('chart1').getContext('2d');
+    new Chart(ctx1, config1);
+
+    const ctx2 = document.getElementById('chart2').getContext('2d');
+    new Chart(ctx2, config2);
 
     
 
