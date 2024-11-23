@@ -74,6 +74,10 @@ router.get("/dados/totalAtendida/:fkEquipe", function (req, res) {
 funcionarioController.puxarTotalEquipeAtendida(req, res);
 });
 
+router.get("/dados/eficienciaEquipeChamada/:fkEquipe", function (req, res) {
+funcionarioController.eficienciaEquipeChamada(req, res);
+});
+
 
 router.get("/pesquisar/:mensagem", function (req, res) {
     funcionarioController.pesquisarmensagem(req, res);

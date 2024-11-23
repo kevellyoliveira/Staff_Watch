@@ -376,7 +376,25 @@ function puxarTotalEquipeAtendida(req, res) {
         );
 }
 
+function eficienciaEquipeChamada(req, res){
 
+    const fkEquipe = req.params.fkEquipe;
+
+    funcionarioModel.eficienciaEquipeChamada(fkEquipe)
+        .then(
+            function (resultado) {
+                res.json(resultado);
+            }
+        )
+        .catch(
+            function (erro) {
+                console.log(erro);
+                console.log("Houve um erro ao listar os dados da chamada: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+
+}
 
 
 function plotarGrafico(req, res) {
@@ -399,6 +417,7 @@ function plotarGrafico(req, res) {
 }
 
 
+
 module.exports = {
     listarPorUsuario,
     editar,
@@ -419,4 +438,5 @@ module.exports = {
     puxarTotalEquipePerdida,
     puxarTotalEquipeAtendida,
     plotarGrafico,
+    eficienciaEquipeChamada,
 }

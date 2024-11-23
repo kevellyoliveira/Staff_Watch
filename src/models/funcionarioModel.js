@@ -217,7 +217,12 @@ function puxarTotalEquipeAtendida(fkEquipe) {
 function eficienciaEquipeChamada(fkEquipe){
     console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function descurtir()");
     var instrucaoSql = `
-     SELECT COUNT(*) AS chamadaRecebida FROM chamada WHERE fkEquipe = ${1} AND chamadaAtendida IN (2, 3);`;
+     SELECT 
+    COUNT(*) AS chamadaRecebida,
+    COUNT(CASE WHEN chamadaAtendida IN (2, 3) THEN 1 END) AS chamadaAtendida
+    FROM chamada
+    WHERE fkFuncionario = ${1};
+    `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
@@ -261,5 +266,6 @@ module.exports = {
     puxarTempoEquipeChamada,
     puxarTotalEquipeChamada,
     puxarTotalEquipePerdida,
-    puxarTotalEquipeAtendida
+    puxarTotalEquipeAtendida,
+    eficienciaEquipeChamada
 }
