@@ -4,9 +4,9 @@ var router = express.Router();
 var dispositivosController = require("../controllers/dispositivosController");
 
 // função de obter os dados para exibir nas dashboards
-router.get("/metrica/:fkEmpresa:idComponente:idComputador", function (req, res) {
+router.get("/metrica/:fkEmpresa/:idComponente/:idComputador", function (req, res) {
     dispositivosController.obterDadosGrafico(req, res);
-})
+});
 
 // function do atualizar dados
 // router.get("/tempo-real/:idComputador:idComponente", function (req, res) {

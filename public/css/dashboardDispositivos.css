@@ -212,11 +212,14 @@ header {
 }
 
 /* modal */
-#chartDISCO,
+/* #chartDISCO,
 #chartREDE,
 #chartRAM {
     display: none;
 }
+#chartCPU {
+    display: flex;
+} */
 
 /*Parte com os gráficos e alertas*/
 .main-section {

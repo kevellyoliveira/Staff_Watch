@@ -281,8 +281,9 @@ select * from view_obterAlertasNaListagem where fkEmpresa = 1;
 
 -- --------------------------- gráfico em tempo real: uso de CPU
 create or replace view view_cpuTempoReal as
-select ca.captura, time(ca.dataCaptura) as dataCaptura, ca.modelo, fkComputador
+select ca.captura, time(ca.dataCaptura) as dataCaptura, ca.modelo, fkComputador, fkEmpresa
 from captura ca
+join computador co on ca.fkComputador = co.idComputador
 where ca.fkComponente = 4 and ca.fkAuxComponente = 12 
 order by dataCaptura limit 100;
 
@@ -290,8 +291,9 @@ select * from view_cpuTempoReal where fkEmpresa = ? and fkComputador = ?;
 
 -- --------------------------- gráfico em tempo real: uso de Disco e total
 create or replace view view_discoTempoReal as
-select captura, time(dataCaptura) as dataCaptura, modelo, fkComputador
+select captura, time(dataCaptura) as dataCaptura, modelo, fkComputador, fkEmpresa
 from captura 
+join computador co on captura.fkComputador = co.idComputador
 where fkComponente = 3 and fkAuxComponente = 11
 order by idCaptura limit 100;
 
@@ -305,8 +307,9 @@ select
      where fkComponente = 1 and fkComputador = 1 and fkAuxComponente = 4
      limit 1) as pctRec,
     captura as pctEnv, 
-    time(dataCaptura) as dataCaptura, modelo, fkComputador
+    time(dataCaptura) as dataCaptura, modelo, fkComputador, fkEmpresa
 from captura
+join computador co on captura.fkComputador = co.idComputador
 where fkComponente = 1 and fkAuxComponente = 5
 order by idCaptura limit 100;
 
@@ -315,8 +318,9 @@ select * from view_redeTempoReal where fkEmpresa = ? and fkComputador = ?;
 -- --------------------------- gráfico em tempo real: uso de memória ram
 create or replace view view_ramTempoReal as
 select 
-captura, time(dataCaptura) as dataCaptura, modelo, fkComputador
+captura, time(dataCaptura) as dataCaptura, modelo, fkComputador, fkEmpresa
 from captura 
+join computador co on captura.fkComputador = co.idComputador
 where fkComponente = 2 and fkAuxComponente = 6 
 order by idCaptura limit 100;
 

@@ -25,22 +25,26 @@ function gerarGraficoTempoReal(req, res) {
 function obterDadosGrafico(req, res) {
 
     var idComponente = req.params.idComponente;
-    var fkEmpresa = req.params.fkEmpresa
-    var idComputador = req.params.idComputador
+    var fkEmpresa = req.params.fkEmpresa;
+    var idComputador = req.params.idComputador;
 
+    console.log(`fkEmpresa: ${req.params.fkEmpresa}, idComponente: ${req.params.idComponente}, idComputador: ${req.params.idComputador}`);
     console.log(`Recuperando últimas 20 medidas da máquina`);
 
-    dispositivoModel.obterDadosGrafico(fkEmpresa, idComponente, idComputador).then(function (resultado) {
+    dispositivoModel.obterDadosGrafico(fkEmpresa, idComponente, idComputador)
+    .then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
-            res.status(204).send("Nenhum resultado encontrado!")
+            console.log("Nenhum resultado encontrado no banco de dados.");
+            res.status(204).send("Nenhum resultado encontrado.");
         }
-    }).catch(function (erro) {
-        console.log(erro);
-        console.log("Houve um erro ao buscar as ultimas medidas.", erro.sqlMessage);
-        res.status(500).json(erro.sqlMessage);
+    })
+    .catch(function (erro) {
+        console.error("Erro ao buscar dados no banco:", erro.sqlMessage);
+        res.status(500).json({ error: erro.sqlMessage });
     });
+
 }
 
 //Listando todas as máquinas
