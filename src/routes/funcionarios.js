@@ -83,7 +83,7 @@ funcionarioController.puxarTotalEquipeAtendida(req, res);
 });
 
 
-router.get("/dados/eficienciaEquipe1/:fkEquipe", function (req, res) {
+router.get("/dados/eficiencia/:fkEquipe", function (req, res) {
 funcionarioController.eficienciaEquipeChamada(req, res);
  });
 
