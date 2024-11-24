@@ -84,33 +84,39 @@
                 <div id="feed_container" class="feed-container"></div>
             </div>
         </div>
-            <!-- Modal -->
-            <!-- Modal -->
-            <!-- Modal -->
-            <div id="fade" class="hide"></div>
-            <div id="modal" class="hide">
-                <div class="modal-content">
-                    <!-- Títulos no topo -->
-                    <div id="modal-titles" class="opcoesComponentes">
-                        <h6 class="opcoesMenu" id="cpu" onclick="puxarTempoChamada()">Tempo médio</h6>
-                        <h6 class="opcoesMenu" id="disco" onclick="puxarDadosChamada()">Tempo médio espera</h6>
-                        <h6 class="opcoesMenu" id="rede" onclick="eficienciaEquipeChamada()">Eficiência</h6>
-                        <h6 class="opcoesMenu" id="memoria" onclick="puxarTotalPerdida()">Chamadas perdidas</h6>
-                    </div>
-            
-                    <!-- Gráfico no meio -->
-                    <div class="grafico">
-                        <canvas id="MyChart" style="height: 175px;"></canvas>
-                    </div>
-            
-                    <!-- Corpo do modal -->
-                    <div id="modal-body"></div>
-            
-                    <!-- Botão de fechar -->
-                    <button onclick="fecharModal()" id="botaoSaida">Fechar</button>
+        <!-- Modal -->
+        <!-- Modal -->
+        <!-- Modal -->
+        <div id="fade" class="hide"></div>
+        <div id="modal" class="hide">
+            <div class="modal-content">
+                <!-- Títulos no topo -->
+                <div id="modal-titles" class="opcoesComponentes">
+                    <h6 class="opcoesMenu" id="cpu" onclick="puxarTempoChamada()">Tempo médio</h6>
+                    <h6 class="opcoesMenu" id="disco" onclick="puxarDadosChamada()">Tempo médio espera</h6>
+                    <h6 class="opcoesMenu" id="rede" onclick="eficienciaChamada()">Eficiência</h6>
+                    <h6 class="opcoesMenu" id="memoria" onclick="puxarTotalPerdida()">Chamadas perdidas</h6>
+
                 </div>
+
+                <!-- Gráfico no meio -->
+                <div class="grafico">
+                    <canvas id="MyChart" style="height: 175px;"></canvas>
+                    <button id="btn_novo_grafico" onclick="carregarNovaDashboard()"></button>
+
+                    <!-- <canvas id="graficoEspera"></canvas>
+                        <canvas id="graficoEficiencia"></canvas>
+                        <canvas id="graficoPerdida"></canvas> -->
+                </div>
+
+                <!-- Corpo do modal -->
+                <div id="modal-body"></div>
+
+                <!-- Botão de fechar -->
+                <button onclick="fecharModal()" id="botaoSaida">Fechar</button>
             </div>
-            
+        </div>
+
         <div class="alerta">
             <h1>Alertas</h1>
             <div class="bloco7">Tempo médio de espera:</div>
@@ -147,166 +153,90 @@
     }
 
     var idFuncionarioSelecionado;
+    // const fkEquipe = sessionStorage.getItem("equipeSelecionada");
+    const fkEquipe = 1
 
     function atualizarFeedEquipe() {
-    const fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
-    const fkEquipe = sessionStorage.getItem("equipeSelecionada");
+        const fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
+        const fkEquipe = sessionStorage.getItem("equipeSelecionada");
 
-    fetch(`/funcionarios/listarEquipe/${fkEmpresa}/${fkEquipe}`)
-        .then(resposta => {
-            if (resposta.ok) {
-                return resposta.json();
-            } else if (resposta.status === 204) {
+        fetch(`/funcionarios/listarEquipe/${fkEmpresa}/${fkEquipe}`)
+            .then(resposta => {
+                if (resposta.ok) {
+                    return resposta.json();
+                } else if (resposta.status === 204) {
+                    const feed = document.getElementById("feed_container");
+                    feed.innerHTML = "<span>Nenhum resultado encontrado.</span>";
+                    throw new Error("Nenhum resultado encontrado.");
+                } else {
+                    throw new Error("Erro ao buscar funcionários.");
+                }
+            })
+            .then(resposta => {
                 const feed = document.getElementById("feed_container");
-                feed.innerHTML = "<span>Nenhum resultado encontrado.</span>";
-                throw new Error("Nenhum resultado encontrado.");
-            } else {
-                throw new Error("Erro ao buscar funcionários.");
-            }
-        })
-        .then(resposta => {
-            const feed = document.getElementById("feed_container");
-            feed.innerHTML = "";
+                feed.innerHTML = "";
 
-            resposta.forEach(funcionario => {
-                const divPublicacao = document.createElement("div");
-                divPublicacao.className = "publicacao";
-                divPublicacao.innerHTML = `
+                resposta.forEach(funcionario => {
+                    const divPublicacao = document.createElement("div");
+                    divPublicacao.className = "publicacao";
+                    divPublicacao.innerHTML = `
                     <span><b>ID Funcionário:</b> ${funcionario.idFuncionario}</span>
                     <span><b>Nome:</b> ${funcionario.nome}</span>
                     <span><b>E-mail:</b> ${funcionario.email}</span>
                     <span><b>Equipe:</b> ${funcionario.fkEquipe}</span>
                 `;
-                divPublicacao.addEventListener("click", () => abrirModal(funcionario.idFuncionario));
-                feed.appendChild(divPublicacao);
-            });
-        })
-        .catch(console.error);
-}
-    
-function abrirModal(idFuncionario) {
-
-    idFuncionarioSelecionado = idFuncionario;
-    console.log(idFuncionarioSelecionado);
-     
-    const fade = document.getElementById("fade");
-    const modal = document.getElementById("modal");
-
-    fade.classList.remove("hide");
-    fade.classList.add("show");
-    modal.classList.remove("hide");
-    modal.classList.add("show");
-
-    // Exibe informações iniciais no modal (tempo médio de chamada)
-    carregarGrafico("Tempo Médio de Atendimento", "tempoChamada");
-}
-
-function fecharModal() {
-    const fade = document.getElementById("fade");
-    const modal = document.getElementById("modal");
-
-    fade.classList.remove("show");
-    fade.classList.add("hide");
-    modal.classList.remove("show");
-    modal.classList.add("hide");
-}
-
-function carregarGrafico(titulo, endpoint) {
-    const modalBody = document.getElementById("modal-body");
-    modalBody.innerHTML = "Carregando gráfico...";
-
-    // Limpa o gráfico anterior antes de carregar um novo
-    const ctx = document.getElementById("MyChart").getContext("2d");
-    if (window.myChart) {
-        window.myChart.destroy(); // Destrói o gráfico anterior
-    }
-    console.log(idFuncionarioSelecionado)
-    fetch(`/funcionarios/dados/${endpoint}/${idFuncionarioSelecionado}`)
-        .then(resposta => {
-            if (!resposta.ok) throw new Error("Erro ao buscar dados do gráfico.");
-            return resposta.json();
-        })
-        .then(dados => {
-    console.log("Dados recebidos:", dados);
-
-    let labels = [];
-    let data = [];
-
-    if (endpoint === "tempoChamada") {
-        labels = ["Tempo de Chamada"];
-        data = [dados[0].tempoChamada];
-    } else if (endpoint === "tempoEspera") {
-        labels = ["Tempo de Espera"];
-        data = [dados[0].tempoEspera];
-    } else if (endpoint === "eficiencia") {
-        labels = ["Chamada Recebida", "Chamada Atendida"];
-        data = [dados[0].chamadaRecebida, dados[0].chamadaAtendida];
-    } else if (endpoint === "totalPerdida") {
-        labels = ["Chamadas Perdidas"];
-        data = [dados[0].chamadaPerdida];
+                    divPublicacao.addEventListener("click", () => abrirModal(funcionario.idFuncionario));
+                    feed.appendChild(divPublicacao);
+                });
+            })
+            .catch(console.error);
     }
 
-    // Verifique se os dados estão corretos antes de criar o gráfico
-    console.log("Labels:", labels);
-    console.log("Data:", data);
+    function abrirModal(idFuncionario) {
 
-    if (labels.length === 0 || data.length === 0) {
-        modalBody.innerHTML = "Sem dados disponíveis para este gráfico.";
-        return;
+        idFuncionarioSelecionado = idFuncionario;
+        console.log(idFuncionarioSelecionado);
+
+        const fade = document.getElementById("fade");
+        const modal = document.getElementById("modal");
+
+        fade.classList.remove("hide");
+        fade.classList.add("show");
+        modal.classList.remove("hide");
+        modal.classList.add("show");
+
+        // Exibe informações iniciais no modal (tempo médio de chamada)
+        puxarTempoChamada(idFuncionarioSelecionado)
     }
 
-    // Criação do gráfico
-    const ctx = document.getElementById("MyChart").getContext("2d");
-    if (window.myChart) {
-        window.myChart.destroy(); // Destrói o gráfico anterior
+    function fecharModal() {
+        const fade = document.getElementById("fade");
+        const modal = document.getElementById("modal");
+
+        fade.classList.remove("show");
+        fade.classList.add("hide");
+        modal.classList.remove("show");
+        modal.classList.add("hide");
     }
 
-    window.myChart = new Chart(ctx, {
-        type: "bar",
-        data: {
-            labels: labels,
-            datasets: [{
-                label: titulo,
-                data: data,
-                backgroundColor: "rgba(0, 33, 72, 0.8)",
-                borderColor: "rgba(0, 33, 72, 1)",
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
 
-    modalBody.innerHTML = ""; // Limpa a mensagem de carregando
-})
-        .catch(erro => {
-            console.error(erro);
-            modalBody.innerHTML = "Erro ao carregar os dados. Tente novamente.";
-        });
-}
+    // Event Listeners para os botões
+    // document.querySelector(".bloco3").addEventListener("click", () => {
+    //     carregarGrafico("Tempo Médio de Atendimento", "tempoChamada");
+    // });
 
-// Event Listeners para os botões
-document.querySelector(".bloco3").addEventListener("click", () => {
-    carregarGrafico("Tempo Médio de Atendimento", "tempoChamada");
-});
+    // document.querySelector(".bloco4").addEventListener("click", () => {
+    //     carregarGrafico("Tempo Médio de Espera", "tempoEspera");
+    // });
 
-document.querySelector(".bloco4").addEventListener("click", () => {
-    carregarGrafico("Tempo Médio de Espera", "tempoEspera");
-});
+    // document.querySelector(".bloco5").addEventListener("click", () => {
+    //     carregarGrafico("Eficiência", "eficiencia");
+    // });
 
-document.querySelector(".bloco5").addEventListener("click", () => {
-    carregarGrafico("Eficiência", "eficiencia");
-});
+    // document.querySelector(".bloco6").addEventListener("click", () => {
+    //     carregarGrafico("Chamadas Perdidas", "totalPerdida");
+    // });
 
-document.querySelector(".bloco6").addEventListener("click", () => {
-    carregarGrafico("Chamadas Perdidas", "totalPerdida");
-});
 
 
     function levarParaDashboard() {
@@ -343,50 +273,144 @@ document.querySelector(".bloco6").addEventListener("click", () => {
         }
     }
 
-    function puxarDadosChamada(idFuncionario) {
+    function puxarDadosChamada(idFuncionarioSelecionado) {
+        const modalBody = document.getElementById("modal-body");
+        modalBody.innerHTML = "Carregando gráfico...";
 
-        fetch(`/funcionarios/dados/tempoEspera/${idFuncionario}`, {
-            method: "GET"
-        })
+        // Limpa qualquer gráfico anterior
+        if (window.myChart) {
+            window.myChart.destroy();
+        }
+
+        fetch(`/funcionarios/dados/tempoEspera/${idFuncionarioSelecionado}`, { method: "GET" })
             .then(resposta => {
-                if (resposta.ok) {
-                    // alert("Captura de dados de tempo de Espera de chamada efetuada ");
-                    ; // Atualiza a lista após a exclusão
-                } else {
-                    throw "Não foi possível capturar os dados do funcionário.";
+                if (!resposta.ok) {
+                    throw new Error("Não foi possível capturar os dados do funcionário.");
                 }
+                return resposta.json(); // Processa os dados como JSON
             })
-            .catch(error => {
-                console.error(error);
-                //alert("Ocorreu um erro ao tentar capturar dados do funcionário.");
+            .then(dados => {
+                console.log("Dados recebidos:", dados);
+
+                // Verifica se os dados existem
+                if (!dados || dados.length === 0) {
+                    modalBody.innerHTML = "Nenhum dado disponível para este gráfico.";
+                    return;
+                }
+
+                // Assume que 'dados' é um array de objetos com propriedade 'tempoChamada'
+                const labels = dados.map((_, index) => `Chamada ${index + 1}`);
+                const data = dados.map(funcionario => funcionario.tempoEspera);
+
+                // Calcula o tempo médio
+                const tempoTotal = data.reduce((soma, tempo) => soma + tempo, 0);
+                const tempoMedio = (tempoTotal / data.length).toFixed(2);
+
+                // Exibe o tempo médio no modal
+                modalBody.innerHTML = `<p>Tempo médio de espera até a chamada ser atendida: ${tempoMedio}s</p>`;
+
+                // Configura o gráfico
+                const ctx = document.getElementById("MyChart").getContext("2d");
+                window.myChart = new Chart(ctx, {
+                    type: "bar",
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: "Tempo de Espera (s)",
+                            data: data,
+                            backgroundColor: "rgba(0, 33, 72, 0.8)",
+                            borderColor: "rgba(0, 33, 72, 1)",
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            })
+            .catch(erro => {
+                console.error("Erro ao carregar os dados:", erro);
+                modalBody.innerHTML = "Erro ao carregar os dados. Tente novamente.";
             });
     }
 
-    function puxarTempoChamada(idFuncionario) {
-        fetch(`/funcionarios/dados/tempoChamada/${idFuncionario}`, {
-            method: "GET"
-        })
+    function puxarTempoChamada(idFuncionarioSelecionado) {
+        const modalBody = document.getElementById("modal-body");
+        modalBody.innerHTML = "Carregando gráfico...";
+
+        // Limpa qualquer gráfico anterior
+        if (window.myChart) {
+            window.myChart.destroy();
+        }
+
+        fetch(`/funcionarios/dados/tempoChamada/${idFuncionarioSelecionado}`, { method: "GET" })
             .then(resposta => {
-                if (resposta.ok) {
-                    return resposta.json(); // Corrigido 'response' para 'resposta'
-                } else {
-                    throw "Não foi possível capturar os dados do funcionário.";
+                if (!resposta.ok) {
+                    throw new Error("Não foi possível capturar os dados do funcionário.");
                 }
+                return resposta.json(); // Processa os dados como JSON
             })
-            .then(data => { // Esse 'then' deve ser separado do anterior
-                // const qtdTempoChamada = data[1].tempoChamada; // Acesso aos dados
-                // document.querySelector('.minibloco').textContent = qtdTempoChamada + "s"; // Atualiza o conteúdo
+            .then(dados => {
+                console.log("Dados recebidos:", dados);
+
+                // Verifica se os dados existem
+                if (!dados || dados.length === 0) {
+                    modalBody.innerHTML = "Nenhum dado disponível para este gráfico.";
+                    return;
+                }
+
+                // Assume que 'dados' é um array de objetos com propriedade 'tempoChamada'
+                const labels = dados.map((_, index) => `Chamada ${index + 1}`);
+                const data = dados.map(funcionario => funcionario.tempoChamada);
+
+                // Calcula o tempo médio
+                const tempoTotal = data.reduce((soma, tempo) => soma + tempo, 0);
+                const tempoMedio = (tempoTotal / data.length).toFixed(2);
+
+                // Exibe o tempo médio no modal
+                modalBody.innerHTML = `<p>Tempo médio de chamada: ${tempoMedio}s</p>`;
+
+                // Configura o gráfico
+                const ctx = document.getElementById("MyChart").getContext("2d");
+                window.myChart = new Chart(ctx, {
+                    type: "bar",
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: "Tempo de Chamada (s)",
+                            data: data,
+                            backgroundColor: "rgba(0, 33, 72, 0.8)",
+                            borderColor: "rgba(0, 33, 72, 1)",
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
             })
-            .catch(error => {
-                console.error(error);
-                // alert("Ocorreu um erro ao tentar capturar dados do funcionário.");
+            .catch(erro => {
+                console.error("Erro ao carregar os dados:", erro);
+                modalBody.innerHTML = "Erro ao carregar os dados. Tente novamente.";
             });
     }
 
 
-    function puxarTotalChamada(idFuncionario) {
 
-        fetch(`/funcionarios/dados/totalChamada/${idFuncionario}`, {
+
+    function puxarTotalChamada(idFuncionarioSelecionado) {
+
+        fetch(`/funcionarios/dados/totalChamada/${idFuncionarioSelecionado}`, {
             method: "GET"
         })
             .then(resposta => {
@@ -405,29 +429,86 @@ document.querySelector(".bloco6").addEventListener("click", () => {
     }
 
 
-    function puxarTotalPerdida(idFuncionario) {
+    function puxarTotalPerdida(idFuncionarioSelecionado) {
 
-        fetch(`/funcionarios/dados/totalPerdida/${idFuncionario}`, {
+        console.log(idFuncionarioSelecionado)
+
+        const modalBody = document.getElementById("modal-body");
+        modalBody.innerHTML = "Carregando gráfico...";
+
+        // Limpa qualquer gráfico anterior
+        if (window.myChart) {
+            window.myChart.destroy();
+        }
+
+        fetch(`/funcionarios/dados/totalPerdida/${idFuncionarioSelecionado}`, {
             method: "GET"
         })
-            .then(resposta => {
-                if (resposta.ok) {
-                    console.log(resposta)
-                        //alert("Captura de dados total de chamadas perdida efetuadas ");
-                        ; // Atualiza a lista após a exclusão
-                } else {
-                    throw "Não foi possível capturar o total de chamadas perdidas do funcionário.";
+            .then(resposta => resposta.json())  // Garante que a resposta seja tratada como JSON
+            .then(dados => {
+                console.log("Dados recebidos:", dados);
+
+                // Verifica se os dados existem
+                if (!dados || dados.length === 0) {
+                    modalBody.innerHTML = "Nenhum dado disponível para este gráfico.";
+                    return;
                 }
+
+                // Acessa as chamadas perdidas e recebidas diretamente do objeto
+                const chamadasRecebidas = dados[0].chamadasRecebidas;
+                const chamadasPerdidas = dados[0].chamadasPerdidas;
+
+                // Calcula a porcentagem de chamadas perdidas
+                const totalChamadas = chamadasRecebidas + chamadasPerdidas;
+                const porcentagemPerdida = ((chamadasPerdidas / totalChamadas) * 100).toFixed(2);
+
+                // Exibe a porcentagem no modal e altera a cor se for maior ou igual a 20%
+                let textoPorcentagem = `<p>Total de chamadas perdidas: ${porcentagemPerdida}%</p>`;
+                if (porcentagemPerdida >= 20) {
+                    textoPorcentagem = `<p style="color: red;">Total de chamadas perdidas: ${porcentagemPerdida}%</p>`;
+                }
+                modalBody.innerHTML = textoPorcentagem;
+
+                // Cria o gráfico de barras
+                const ctx = document.getElementById("MyChart").getContext("2d");
+                window.myChart = new Chart(ctx, {
+                    type: "bar",
+                    data: {
+                        labels: ["Chamadas Recebidas", "Chamadas Perdidas"],
+                        datasets: [{
+                            label: "Número de Chamadas",
+                            data: [chamadasRecebidas, chamadasPerdidas],
+                            backgroundColor: [
+                                "rgba(0, 33, 72, 0.8)", // Cor para chamadas recebidas
+                                "rgba(43, 99, 132, 0.8)" // Cor para chamadas perdidas
+                            ],
+                            borderColor: [
+                                "rgba(0, 33, 72, 1)",
+                                "rgba(43, 99, 132, 0.8)"
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
             })
-            .catch(error => {
-                console.error(error);
-                //alert("Ocorreu um erro ao tentar capturar o total de chamadas perdidas do funcionário");
+            .catch(erro => {
+                console.error("Erro ao carregar os dados:", erro);
+                modalBody.innerHTML = "Erro ao carregar os dados. Tente novamente.";
             });
     }
 
-    function puxarTotalAtendida(idFuncionario) {
 
-        fetch(`/funcionarios/dados/totalAtendida/${idFuncionario}`, {
+    function puxarTotalAtendida(idFuncionarioSelecionado) {
+
+        fetch(`/funcionarios/dados/totalAtendida/${idFuncionarioSelecionado}`, {
             method: "GET"
         })
             .then(resposta => {
@@ -444,6 +525,88 @@ document.querySelector(".bloco6").addEventListener("click", () => {
                 //  alert("Ocorreu um erro ao tentar capturar o total de chamadas atendidas do funcionário");
             });
     }
+
+
+    function eficienciaChamada(idFuncionarioSelecionado) {
+
+        console.log(idFuncionarioSelecionado)
+        const modalBody = document.getElementById("modal-body");
+        modalBody.innerHTML = "Carregando gráfico..."; // Exibe a mensagem de carregamento
+
+        // Limpa qualquer gráfico anterior
+        if (window.myChart) {
+            window.myChart.destroy();
+        }
+
+        // Busca os dados de eficiência de chamadas
+        fetch(`/funcionarios/dados/eficiencia/${idFuncionarioSelecionado}`, {
+            method: "GET"
+        })
+            .then(resposta => resposta.json())  // Garante que a resposta seja tratada como JSON
+            .then(dados => {
+                console.log("Dados recebidos:", dados);
+
+                // Verifica se os dados existem
+                if (!dados || dados.length === 0) {
+                    modalBody.innerHTML = "Nenhum dado disponível para este gráfico.";
+                    return;
+                }
+
+                // Acessa as chamadas recebidas e atendidas diretamente do objeto
+                const chamadasRecebidas = dados[0].chamadaRecebida;
+                const chamadasAtendidas = dados[0].chamadaAtendida;
+                console.log(chamadasRecebidas)
+                console.log(chamadasAtendidas)
+
+                // Calcula a eficiência
+                const eficiencia = (chamadasAtendidas / chamadasRecebidas) * 100;
+
+                // Exibe a eficiência no modal
+                let textoEficiencia = `<p>Eficiência de chamadas: ${eficiencia.toFixed(2)}%</p>`;
+                if (eficiencia < 50) {
+                    textoEficiencia = `<p style="color: red;">Eficiência de chamadas: ${eficiencia.toFixed(2)}%</p>`;
+                }
+                modalBody.innerHTML = textoEficiencia;
+
+                // Cria o gráfico de barras
+                const ctx = document.getElementById("MyChart").getContext("2d");
+                window.myChart = new Chart(ctx, {
+                    type: "bar", // Tipo do gráfico (barras)
+                    data: {
+                        labels: ["Chamadas Recebidas", "Chamadas Atendidas"], // Labels para as barras
+                        datasets: [{
+                            label: "Eficiência de Chamadas", // Rótulo para a legenda
+                            data: [chamadasRecebidas, chamadasAtendidas], // Dados das chamadas
+                            backgroundColor: [
+                                "rgba(0, 33, 72, 0.8)", // Cor para chamadas recebidas
+                                "rgba(43, 99, 132, 0.8)" // Cor para chamadas atendidas
+                            ],
+                            borderColor: [
+                                "rgba(0, 33, 72, 1)", // Borda para chamadas recebidas
+                                "rgba(43, 99, 132, 1)" // Borda para chamadas atendidas
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true // Garante que o eixo Y comece do zero
+                            }
+                        }
+                    }
+                });
+            })
+            .catch(erro => {
+                console.error("Erro ao carregar os dados:", erro);
+                modalBody.innerHTML = "Erro ao carregar os dados. Tente novamente."; // Exibe a mensagem de erro
+            });
+    }
+
+
+
+
 
     // equipe
 
@@ -476,6 +639,8 @@ document.querySelector(".bloco6").addEventListener("click", () => {
     }
 
     function puxarTempoEquipeChamada(fkEquipe) {
+        console.log("-")
+        console.log(fkEquipe)
         fetch(`/funcionarios/dados/tempoChamada/${fkEquipe}`, {
             method: "GET"
         })
@@ -538,8 +703,10 @@ document.querySelector(".bloco6").addEventListener("click", () => {
             .then(data => {
                 console.log("Dados recebidos:", data); // Log para verificar o formato dos dados
 
-                if (Array.isArray(data) && data.length > 0) { // Verifica se é um array e contém elementos
-                    const totalChamadasPerdidas = data[0].chamadaPerdida; // Acessa o primeiro objeto do array
+                // Verifica se o array 'data' não está vazio
+                if (Array.isArray(data) && data.length > 0) {
+                    // Acessa as propriedades do primeiro objeto do array
+                    const totalChamadasPerdidas = data[0].chamadasPerdidas;
                     document.querySelector('.minibloco3').textContent = `${totalChamadasPerdidas} chamadas perdidas`;
                 } else {
                     throw new Error("Formato inesperado dos dados recebidos.");
@@ -551,23 +718,31 @@ document.querySelector(".bloco6").addEventListener("click", () => {
             });
     }
 
-    function eficienciaEquipeChamada(fkEquipe) {
-        fetch(`/funcionarios/dados/eficienciaEquipeChamada/${fkEquipe}`, {
-            method: "GET"
-        })
-            .then(resposta => {
-                if (resposta.ok) {
-                    return resposta.json(); // Retorna os dados em JSON
-                } else {
-                    throw new Error("Não foi possível capturar os dados de chamadas da equipe.");
-                }
-            })
-            .then(data => {
-                console.log("Dados recebidos:", data); // Log para verificar o formato dos dados
 
-                if (Array.isArray(data) && data.length > 0) { // Verifica se é um array e contém elementos
-                    const totalChamadas = data[0].chamadaRecebida;
-                    const totalChamadasAtendidas = data[0].chamadaAtendida;
+
+    function eficienciaEquipeChamada(fkEquipe) {
+    fetch(`/funcionarios/dados/eficienciaEquipe1/${fkEquipe}`, {
+        method: "GET"
+    })
+        .then(resposta => {
+            if (resposta.ok) {
+                return resposta.json(); // Retorna os dados em JSON
+            } else {
+                throw new Error("Não foi possível capturar os dados de chamadas perdidas da equipe.");
+            }
+        })
+        .then(data => {
+            console.log("Dados recebidos:", data); // Verifica o formato dos dados
+
+            // Caso os dados sejam um array de objetos
+            if (Array.isArray(data) && data.length > 0) {
+                // Acessa o primeiro item do array
+                const chamadas = data[0];
+
+                // Verifica se as propriedades existem no primeiro objeto
+                if (chamadas.chamadaRecebida !== undefined && chamadas.chamadaAtendida !== undefined) {
+                    const totalChamadas = chamadas.chamadaRecebida;
+                    const totalChamadasAtendidas = chamadas.chamadaAtendida;
 
                     // Garantir que os valores são válidos antes de realizar o cálculo
                     if (totalChamadas > 0) {
@@ -577,15 +752,17 @@ document.querySelector(".bloco6").addEventListener("click", () => {
                         document.querySelector('.minibloco2').textContent = "Não há chamadas registradas."; // Caso não haja chamadas
                     }
                 } else {
-                    throw new Error("Formato inesperado dos dados recebidos.");
+                    throw new Error("Formato inesperado dos dados recebidos: propriedades ausentes.");
                 }
-            })
-            .catch(error => {
-                console.error("Erro:", error.message);
-                document.querySelector('.minibloco2').textContent = `Erro ao carregar dados: ${error.message}`; // Exibe o erro detalhado
-            });
-    }
-
+            } else {
+                throw new Error("Formato inesperado dos dados recebidos: dados não são um array.");
+            }
+        })
+        .catch(error => {
+            console.error("Erro:", error.message);
+            document.querySelector('.minibloco2').textContent = `Erro ao carregar dados: ${error.message}`; // Exibe o erro detalhado
+        });
+}
 
 
 

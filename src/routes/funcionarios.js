@@ -50,6 +50,10 @@ router.get("/dados/totalAtendida/:fkFuncionario", function (req, res) {
     funcionarioController.puxarTotalAtendida(req, res);
 });
 
+router.get("/dados/eficiencia/:fkFuncionario", function (req, res) {
+    funcionarioController.eficienciaChamada(req, res);
+    });
+
 router.get("/dados/:endpoint/:fkFuncionario", function (req, res) {
     funcionarioController.carregarGrafico(req, res);
 });
@@ -78,9 +82,13 @@ router.get("/dados/totalAtendida/:fkEquipe", function (req, res) {
 funcionarioController.puxarTotalEquipeAtendida(req, res);
 });
 
-router.get("/dados/eficienciaEquipeChamada/:fkEquipe", function (req, res) {
+
+router.get("/dados/eficienciaEquipe1/:fkEquipe", function (req, res) {
 funcionarioController.eficienciaEquipeChamada(req, res);
-});
+ });
+
+
+
 
 
 router.get("/pesquisar/:mensagem", function (req, res) {
