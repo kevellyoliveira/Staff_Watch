@@ -275,6 +275,24 @@ function puxarTotalAtendida(req, res) {
         );
 }
 
+function eficienciaChamada(req, res) {
+    const idFuncionario = req.params.idFuncionario;
+
+    funcionarioModel.eficienciaChamada(idFuncionario)
+        .then(
+            function (resultado) {
+                res.json(resultado);
+            }
+        )
+        .catch(
+            function (erro) {
+                console.log(erro);
+                console.log("Houve um erro ao listar os dados da chamada: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+}
+
 
 function carregarGrafico(req, res) {
     const { endpoint, fkFuncionario } = req.params;
@@ -282,13 +300,13 @@ function carregarGrafico(req, res) {
 
     try {
         if (endpoint === "tempoChamada") {
-            dados = funcionarioModel.buscarTempoMedioChamada(fkFuncionario);
+            dados = funcionarioModel.puxarTempoChamada(fkFuncionario);
         } else if (endpoint === "tempoEspera") {
-            dados = funcionarioModel.buscarTempoMedioEspera(fkFuncionario);
+            dados = funcionarioModel.puxarDadosChamada(fkFuncionario);
         } else if (endpoint === "eficiencia") {
-            dados =  funcionarioModel.buscarEficiencia(fkFuncionario);
+            dados = funcionarioModel.eficienciaEquipeChamada(fkFuncionario);
         } else if (endpoint === "totalPerdida") {
-            dados = funcionarioModel.buscarChamadasPerdidas(fkFuncionario);
+            dados = funcionarioModel.puxarTotalPerdida(fkFuncionario);
         } else {
             return res.status(400).json({ erro: "Endpoint inválido." });
         }
@@ -301,7 +319,7 @@ function carregarGrafico(req, res) {
 
 
 
-                                                // Equipe
+// Equipe
 
 function puxarDadosEquipeChamada(req, res) {
     const fkEquipe = req.params.fkEquipe;
@@ -397,7 +415,7 @@ function puxarTotalEquipeAtendida(req, res) {
         );
 }
 
-function eficienciaEquipeChamada(req, res){
+function eficienciaEquipeChamada(req, res) {
 
     const fkEquipe = req.params.fkEquipe;
 
@@ -414,8 +432,9 @@ function eficienciaEquipeChamada(req, res){
                 res.status(500).json(erro.sqlMessage);
             }
         );
-
 }
+
+
 
 
 function plotarGrafico(req, res) {
@@ -453,6 +472,7 @@ module.exports = {
     puxarTotalChamada,
     puxarTotalPerdida,
     puxarTotalAtendida,
+    eficienciaChamada,
     puxarDadosEquipeChamada,
     puxarTempoEquipeChamada,
     puxarTotalEquipeChamada,
