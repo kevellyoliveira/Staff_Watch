@@ -54,18 +54,18 @@
             <div class="cardKpi">
                 <h3>Tempo de inatividade (horas)</h3>
                 <div class="inatividadeValor" id="inatividadeValor" style=" color: white; font-size: 50px;"></div>
-                
+
             </div>
-            
+
             <div class="cardKpi">
-                <h3>Tempo médio entre falhas<br>
-                    (minutos)
+                <h3>Tempo médio entre falhas<br> (Minutos)
                 </h3>
-                <span>15</span>
+                <div class="tempoFalhasValor" id="tempoFalhasValor" style=" color: white; font-size: 50px;"></div>
             </div>
             <div class="cardKpi">
                 <h3>Pacotes Perdidos (%)</h3>
-                <div class="pacotesPerdidosValor" id="pacotesPerdidosValor" style=" color: white; font-size: 50px;"></div>
+                <div class="pacotesPerdidosValor" id="pacotesPerdidosValor" style=" color: white; font-size: 50px;">
+                </div>
             </div>
         </div>
         <div class="cima2">
@@ -107,18 +107,18 @@
     <!-- Menu Lateral -->
     <!-- <button class="open-btn" onclick="openMenu()">☰</button> -->
 
-        <div id="sideMenu" class="side-menu">
-            <button class="close-btn" onclick="closeMenu()">☰</button>
-            <div class="menuLateral">
-                <div class="itens">
-                    <h4 id="home" class="historico" onclick="window.location.href='dashboardPedroPorfirio.html'">Home
-                    </h4>
-                    <!-- Aqui as equipes serão inseridas dinamicamente pelo JavaScript -->
-                    <h4 id="novaEquipe" class="novaequipe" onclick="window.location.href='./novaEquipe.html'">Nova
-                        Equipe</h4>
-                </div>
+    <div id="sideMenu" class="side-menu">
+        <button class="close-btn" onclick="closeMenu()">☰</button>
+        <div class="menuLateral">
+            <div class="itens">
+                <h4 id="home" class="historico" onclick="window.location.href='dashboardPedroPorfirio.html'">Home
+                </h4>
+                <!-- Aqui as equipes serão inseridas dinamicamente pelo JavaScript -->
+                <h4 id="novaEquipe" class="novaequipe" onclick="window.location.href='./novaEquipe.html'">Nova
+                    Equipe</h4>
             </div>
         </div>
+    </div>
 
     <!-- <h1 class="h1Central">Indicadores Gerais</h1>
             <select name="opcoes" class="TEMPO">
@@ -145,24 +145,15 @@
 
     function puxarPacotesPerdidos() {
 
-        console.log("ENTROU NA FUNCAO")
+        console.log("ENTROU NA FUNCAO pacotes perdidos")
 
         fetch(`/redeRuan/pacotesPerdidos`, {
             method: "GET"
         })
             .then(resposta => {
                 if (resposta.ok) {
-                    // console.log(resposta)
-                    // console.log("-------------------------------------------")
-                    //     //alert("Captura de dados total de chamadas perdida efetuadas ");
-                    //     ; // Atualiza a lista após a exclusão
 
-                    // console.log(resposta[0])
                     return resposta.json();
-
-                    
-
-
 
 
                 } else {
@@ -180,7 +171,7 @@
 
                     // Atualiza o conteúdo da div com o último valor
                     document.getElementById("pacotesPerdidosValor").textContent = ultimoValor;
-                   
+
                 } else {
                     console.error("Nenhum dado encontrado.");
                 }
@@ -194,27 +185,121 @@
 
     }
 
-    // setInterval(puxarPacotesPerdidos, 5000);
-
-    // puxarPacotesPerdidos();
+    setInterval(puxarPacotesPerdidos, 5000);
 
 
 
 
+    function puxarInatividade() {
+
+        console.log("ENTROU NA FUNCAO inatividade")
+
+        fetch(`/redeRuan/inatividade`, {
+            method: "GET"
+        })
+            .then(resposta => {
+                if (resposta.ok) {
+
+                    return resposta.json();
 
 
-    // function selecionarItem(elemento) {
-    //     var id = elemento.id;  // Pega o ID da equipe clicada
-    //     if (id == 0) {
-    //         // Redireciona para dashboardGeral.html
-    //         window.location.href = "dashboardGeral-gti.html";
-    //     } else {
-    //         // Armazena o ID correto da equipe no sessionStorage
-    //         sessionStorage.setItem('equipeSelecionada', id);
-    //         // Redireciona para a página da equipe
-    //         window.location.href = 'dashboardEquipe_Eduardo2-go.html';
-    //     }
-    // }
+                } else {
+                    throw "Não foi possível capturar o tempo de inatividade";
+                }
+            })
+
+            .then(dados => {
+                console.log(dados);  // Exibe os dados no console (opcional para debugging)
+
+                // Verifica se existem dados e exibe o último valor
+                if (dados && dados.length > 0) {
+                    const ultimoValor = dados[dados.length - 1].captura;  // Acessa o último item do array
+                    console.log("Último valor:", ultimoValor);  // Exibe no console (opcional)
+
+                    // Atualiza o conteúdo da div com o último valor
+                    document.getElementById("inatividadeValor").textContent = ultimoValor;
+
+                } else {
+                    console.error("Nenhum dado encontrado.");
+                }
+            })
+
+            .catch(error => {
+                console.error(error);
+
+            });
+
+
+    }
+
+    setInterval(puxarInatividade, 5000);
+
+
+
+
+    function puxarTempoFalhas() {
+
+        console.log("ENTROU NA FUNCAO tempo entre falhas")
+
+        fetch(`/redeRuan/tempoFalhas`, {
+            method: "GET"
+        })
+            .then(resposta => {
+                if (resposta.ok) {
+
+                    return resposta.json();
+
+
+                } else {
+                    throw "Não foi possível capturar o tempo entre falhas.";
+                }
+            })
+
+            .then(dados => {
+                console.log(dados);  // Exibe os dados no console (opcional para debugging)
+
+                // Verifica se existem dados e exibe o último valor
+                if (dados && dados.length > 0) {
+                    const ultimoValor = dados[dados.length - 1].captura;  // Acessa o último item do array
+                    console.log("Último valor:", ultimoValor);  // Exibe no console (opcional)
+
+
+
+                    if (ultimoValor == 0 ) {
+                        var txt0 = "Zero falhas"
+                        document.getElementById("tempoFalhasValor").textContent = txt0;
+                        document.getElementById("tempoFalhasValor").style.fontSize = "20px";
+                        document.getElementById("tempoFalhasValor").style.color = "orange";
+                    }
+
+                    if (ultimoValor == 1 ) {
+                        var txt0 = "Apenas uma falha"
+                        document.getElementById("tempoFalhasValor").textContent = txt0;
+                        document.getElementById("tempoFalhasValor").style.fontSize = "20px";
+                        document.getElementById("tempoFalhasValor").style.color = "orange";
+                    }
+
+
+
+                    // Atualiza o conteúdo da div com o último valor
+                    // document.getElementById("tempoFalhasValor").textContent = ultimoValor;
+
+                } else {
+                    console.error("Nenhum dado encontrado.");
+                }
+            })
+
+            .catch(error => {
+                console.error(error);
+
+            });
+
+
+    }
+
+    setInterval(puxarTempoFalhas, 5000);
+
+
 
     function abrirMenu() {
         if (document.getElementById("menu").style.display == "flex") {
@@ -286,13 +371,15 @@
             })
             .catch(erro => {
                 console.error("Erro ao carregar as equipes:", erro);
-            });
-    }
+            });
+    }
 
     window.onload = function () {
         listarEquipes();  // Chama a função para listar as equipes
         // atualizarFeedEquipe();  // Chama a função para atualizar o feed da equipe
         puxarPacotesPerdidos();
+        puxarInatividade();
+        puxarTempoFalhas();
     };
 
 
