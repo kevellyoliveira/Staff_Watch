@@ -128,7 +128,7 @@
                     <div class="down-card cima">
                         <div class="esqCard">
                             <figure class="iconComp">
-                                <img src=".././src/img/icons/indicadoresMaquina/computadorEstavel.png" alt="">
+                                <img src=".././src/img/icons/indicadoresMaquina/computadorBranco.png" alt="">
                             </figure>
                         </div>
 
@@ -471,7 +471,7 @@
                         <div class="down-card cima">
                             <div class="esqCard">
                                 <figure class="iconComp">
-                                    <img src=".././src/img/icons/indicadoresMaquina/computadorEstavel.png" alt="">
+                                    <img src=".././src/img/icons/indicadoresMaquina/computadorBranco.png" alt="">
                                 </figure>
                             </div>
                             <div class="dirCard" id="maquina${publicacao.idComputador}"></div>
@@ -787,7 +787,7 @@
                     const formattedDate = `${dataCaptura.getDate()}/${dataCaptura.getMonth() + 1}/${dataCaptura.getFullYear()} às ${dataCaptura.getHours()}:${dataCaptura.getMinutes()}:${dataCaptura.getSeconds()}`;
 
                     const mensagemFormatada = `<p>
-                     Alerta <span style="background-color: ${tipoAlerta === 'amarelo' ? '#ffd06c' : '#f34949'}; border-radius: 9px; padding: 0 2px;s">${tipoAlerta}</span> <span style="text-decoration: underline;"> em ${formattedDate} </span>
+                     Alerta <span style="background-color: ${tipoAlerta === 'amarelo' ? '#ffd06c' : '#f34949'}; border-radius: 9px; padding: 0 2px; color: ${tipoAlerta === 'amarelo' ? '#000' : '#fff'};">${tipoAlerta}</span> <span style="text-decoration: underline;"> em ${formattedDate} </span>
                      em porcentagem de uso do componente <b style="font-weight: bold;">${componente} --> ${captura}%</b>.
                     </p>`;
                     alertaDiv.innerHTML = mensagemFormatada;
@@ -1150,7 +1150,7 @@
                         <div class="down-card cima">
                             <div class="esqCard">
                                 <figure class="iconComp">
-                                    <img src=".././src/img/icons/indicadoresMaquina/computadorEstavel.png" alt="">
+                                    <img src=".././src/img/icons/indicadoresMaquina/computadorBranco.png" alt="">
                                 </figure>
                             </div>
                             <div class="dirCard" id="maquina${publicacao.idComputador}"></div>
