@@ -33,7 +33,7 @@ header {
 
 .esq {
     display: flex;
-    width: 70%;
+    width: 80%;
     height: 100%;
     align-items: center;
     justify-content: flex-start;
@@ -61,7 +61,7 @@ header {
 }
 
 .logo img {
-    width: 90%;
+    width: 80%;
     cursor: pointer;
 }
 
@@ -75,10 +75,23 @@ header {
 
 .menuCima {
     display: flex;
-    width: 25%;
-    text-decoration: underline;
+    justify-content: flex-start;
+    font-size: 2.2rem;
+    width: 30%;
+    padding-left: 1rem;
+}
+.menuCima.op2 {
     justify-content: center;
-    font-size: 2.4rem;
+    width: auto;
+    gap: 3.5rem;
+}
+
+.menuCima h6 {
+    transition: .4s;
+}
+
+.menuCima h6:hover {
+    transform: scale(1.05);
 }
 
 .opcoesMenu {
@@ -86,8 +99,13 @@ header {
     font-weight: 300;
 }
 
+.opcoesMenu.user {
+    cursor: default;
+}
+
 .opcoesMenu.slct {
     font-weight: 600;
+    text-decoration: underline;
 }
 
 #menu {

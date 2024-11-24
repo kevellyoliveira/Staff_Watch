@@ -23,7 +23,11 @@
                 </div>
 
                 <div class="menuCima" id="itens">
+                    <h6 class="opcoesMenu user"> Olá, <span id="b_usuario">usuário</span>! </h6>
+                </div>
+                <div class="menuCima op2" id="itens">
                     <h6 class="opcoesMenu slct" onclick="window.location.href='dispositivos.html'">Dispositivos</h6>
+                    <h6 class="opcoesMenu" onclick="window.location.href='../dashboard-matheus-cpu.html'">Componentes</h6>
                 </div>
             </div>
 
@@ -162,9 +166,7 @@
                         <h6 class="opcoesMenu" id="disco" onclick="alterarComponente('dashDisco')"> Disco </h6>
                         <h6 class="opcoesMenu" id="rede" onclick="alterarComponente('dashRede')"> Rede </h6>
                         <h6 class="opcoesMenu" id="memoria" onclick="alterarComponente('dashMemoria')"> Memória</h6>
-                        <h6 class="opcoesMenu" id="historico" onclick="alterarComponente('dashHistorico')">
-                            Histórico
-                        </h6>
+                        <h6 class="opcoesMenu" id="historico" onclick="alterarComponente('dashHistorico')"> Histórico</h6>
                     </div>
 
                     <div class="aside">
@@ -344,6 +346,9 @@
 </html>
 
 <script>
+    var fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
+    b_usuario.innerHTML = sessionStorage.NOME_USUARIO
+
     function sair() {
         sessionStorage.clear()
         window.location = "../index.html"
@@ -415,8 +420,6 @@
                 });
         }
     }
-
-    var fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
     let cardId = 0;
     function atualizarFeed() {
         var fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
@@ -518,8 +521,9 @@
                     console.log('Componente recebido:', row.componente);
 
                     // Adiciona a equipe ao eixo X se ainda não estiver incluída
-                    if (!equipes.includes(row.equipe)) {
-                        equipes.push(row.equipe);
+                    const equipeLabel = `Equipe ${row.equipe}`
+                    if (!equipes.includes(equipeLabel)) {
+                        equipes.push(equipeLabel);
                     }
 
                     // Converte o nome do componente para a chave correta no datasets

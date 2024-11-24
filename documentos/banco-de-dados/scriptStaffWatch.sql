@@ -301,7 +301,7 @@ left join auxcomponente aux on aux.idAuxComponente = c.fkAuxComponente
 left join computador maq on maq.idComputador = c.fkComponente;
 
 -- na model
--- select * from view_alertaMaquina where fkEmpresa = 1 and idComputador = ?;
+-- select * from view_obterAlertasNaListagem where fkEmpresa = 1 and idComputador = ?;
 select * from view_obterAlertasNaListagem where fkEmpresa = 1;
 
 -- --------------------------- gráfico em tempo real: uso de CPU
