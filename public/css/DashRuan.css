@@ -240,9 +240,19 @@ header {
     gap: 2rem;
     font-size: 1.3rem;
     align-items: center;
+    text-align: center;
     justify-content: flex-start;
     padding-top: 4.5rem;
 
+}
+
+.itens {
+    text-align: center;
+    font-size: 24px;
+    display: flex;
+    margin-left: 13vh;
+    flex-direction: column;
+    align-items: center;
 }
 
 .itens h4 {
@@ -1293,28 +1303,34 @@ h2 {
 
 .side-menu {
     position: fixed;
-    top: 0;
-    left: -200px; 
+    top: -7px;
+    left: -200px;
+    /* / Fora da tela inicialmente / */
     width: 200px;
-    height: 100vh;
+    height: 100%;
     background-color: #002148;
     color: white;
     overflow-x: hidden;
-    transition: 0.3s; 
+    transition: 0.3s;
+    /* / Animação suave / */
     padding-top: 60px;
-    margin-top: 13vh;
+    margin-top: 14vh;
     text-align: center;
-  }
+    z-index: 100;
+}
 
-  /* Links dentro do menu */
-  .side-menu a {
+/* Links dentro do menu */
+.side-menu a {
     padding: 10px 15px;
     text-decoration: none;
     font-size: 25px;
     color: white;
     display: block;
+    align-items: center;
+
     transition: 0.2s;
-  }
+}
+
 
   .side-menu a:hover {
     background-color: #002148;
@@ -1675,7 +1691,7 @@ h2 {
 }
 
 .cardKpi h3 {
-    font-size: 20px;
+    font-size: 15px;
 
 }
 
@@ -1744,3 +1760,5 @@ h2 {
     align-items: center;
     
 }
+
+

@@ -41,6 +41,8 @@ var enderecoRouter = require("./src/routes/enderecos");
 var medidasRouter = require("./src/routes/medidas");
 var maquinasRouter = require("./src/routes/maquinas");
 var dispositivosRouter = require("./src/routes/dispositivos");
+
+var redeRuanRouter =  require("./src/routes/redeRuan");
 // var empresasRouter = require("./src/routes/empresas");
 
 app.use(express.json());
@@ -59,6 +61,8 @@ app.use("/redesMatheus", redesRouter);
 app.use("/discoMatheus", discoRouter);
 app.use("/memsramMatheus", ramRouter);
 app.use("/dispositivos", dispositivosRouter);
+
+app.use("/redeRuan", redeRuanRouter);
 
 app.use((req, res, next) => {
     console.log(`Recebida solicitação: ${req.method} ${req.path}`);
