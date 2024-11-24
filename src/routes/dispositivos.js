@@ -33,4 +33,9 @@ router.get("/equipes/:fkEmpresa", function (req, res) {
     dispositivosController.equipes(req, res);
 });
 
+//  buscar e listar uma máquina pelo id
+router.get("/buscar/:fkEmpresa/:inputPesquisa", function (req, res) {
+    dispositivosController.buscar(req, res);
+});
+
 module.exports = router;

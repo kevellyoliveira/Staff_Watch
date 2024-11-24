@@ -183,6 +183,40 @@ header {
     min-height: 86.8vh;
 }
 
+/* barra de busca */
+.title {
+    display: flex;
+    justify-content: center;
+    color: #002148;
+    text-align: center;
+}
+
+input {
+    background-color: white;
+    /* height: 25%; */
+    padding: .5rem .3rem;
+    width: 20%;
+    border: none;
+    outline: none;
+    border-radius: 5px 0% 0% 5px;
+    font-family: "Inter";
+}
+
+button {
+    background-color: #002147;
+    color: white;
+    border: none;
+    border-radius: 0% 10% 10% 0%;
+    font-family: "Inter";
+    width: 5%;
+}
+
+button :hover {
+    box-shadow: 0px 0px 10px #8a8785;
+    transform: translate(0px, -5px);
+    transition: transform 0.5s;
+}
+
 /*  modal de histórico */
 .historico {
     display: flex;
@@ -195,6 +229,7 @@ header {
     gap: 1rem;
     overflow: hidden;
 }
+
 .historico h3 {
     color: #002148;
 }
@@ -206,7 +241,7 @@ header {
     height: 100%;
     padding-bottom: 1.5rem;
     gap: 1rem;
-    overflow-y: auto; 
+    overflow-y: auto;
     overflow: hidden;
 }
 
@@ -236,10 +271,12 @@ header {
     gap: 1rem;
     color: #001E42;
 }
+
 .section-grafico img {
     width: 600px;
     height: 200px;
 }
+
 .grafico {
     display: flex;
     width: 90%;
@@ -448,13 +485,6 @@ header {
     color: white;
     gap: .25rem;
     background-color: #001E42;
-}
-
-.title {
-    color: #001E42;
-    display: flex;
-    padding: 2rem 0 0 3rem;
-    font-size: 2rem;
 }
 
 .up-card img {
@@ -696,7 +726,8 @@ body.modal-open {
     display: flex;
 }
 
-#dashMemoria, #dashCpu{
+#dashMemoria,
+#dashCpu {
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 1fr;
 }
@@ -727,7 +758,7 @@ body.modal-open {
 
 .bside {
     display: grid;
-    grid-template-columns: 1fr ;
+    grid-template-columns: 1fr;
     grid-template-rows: 1fr 1fr 1fr;
     width: 40%;
     flex-wrap: wrap;

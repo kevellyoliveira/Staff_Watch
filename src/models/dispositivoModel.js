@@ -140,7 +140,7 @@ function historico(fkEmpresa, idComputador) {
 }
 
 function equipes(fkEmpresa) {
-    console.log("ACESSEI O AVISO  MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function historico()");
+    console.log("ACESSEI O AVISO  MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function equipes()");
     var instrucaoSql = `select maq.fkEquipe as equipe, co.nome as componente, count(a.idAlerta) as qtdAlerta 
                 from componente co 
                 left join captura ca on ca.fkComponente = co.idComponente 
@@ -152,11 +152,24 @@ function equipes(fkEmpresa) {
     return database.executar(instrucaoSql);
 }
 
+//Listar a máquina buscaad
+function buscar(fkEmpresa, idComputador) {
+    console.log("ACESSEI O AVISO  MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function buscar()");
+    var instrucaoSql = ` SELECT c.idComputador,c.status,c.fkEquipe, c.fkEmpresa, c.fkFuncionario, f.nome AS nomeFuncionario, e.nome AS nomeEquipe
+            FROM computador c
+            JOIN funcionario f ON c.fkFuncionario = f.idFuncionario
+            JOIN equipe e ON c.fkEquipe = e.idEquipe 
+            where f.fkCargo = 4 and c.fkEmpresa = ${fkEmpresa} and c.idComputador = ${idComputador} order by status;`;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     gerarGraficoTempoReal,
     obterDadosGrafico,
     listar,
     listarAlertas,
     historico,
-    equipes
+    equipes,
+    buscar
 };

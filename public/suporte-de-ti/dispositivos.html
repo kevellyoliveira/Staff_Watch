@@ -5,6 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href=".././css/dashboardDispositivos.css">
+    <!-- style do input de pesquisa -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="shortcut icon" href=".././src/img/logoB.png" type="image/x-icon" />
 
     <title> Dispositivos | Staff Watch</title>
@@ -46,6 +50,12 @@
                     <canvas id="graficoEquipe"></canvas>
                 </div>
             </section>
+
+            <article class="title">
+                <input type="text" name="Pesquisar" id="pesquisar_input" required="required" autocomplete="off"
+                    placeholder="Pesquisar máquina pelo ID"><button onclick="listarPorUsuario()"><i
+                        class="fa-solid fa-magnifying-glass"></i></button>
+            </article>
 
             <section class="sectioncard" id="sectioncard">
 
@@ -1091,35 +1101,74 @@
         }
     }
 
-    // enviando alerta para o slack caso o dado seja alerta (teste, não vai ser usado assim depois)
+    function listarPorUsuario() {
+        const inputPesquisa = document.getElementById("pesquisar_input").value;
 
-    // if (dadoPublic > 90) {
+        fetch(`/dispositivos/buscar/${fkEmpresa}/${inputPesquisa}`)
+            .then(function (resposta) {
+                if (resposta.ok) {
+                    if (resposta.status == 204) {
+                        var feed = document.getElementById("sectioncard");
+                        feed.innerHTML = "";
+                        var mensagem = document.createElement("span");
+                        mensagem.innerHTML = "Nenhum resultado encontrado.";
+                        feed.appendChild(mensagem);
+                        throw "Nenhum resultado encontrado!";
+                    }
+                    return resposta.json();
+                } else {
+                    throw 'Houve um erro na API!';
+                }
+            })
+            .then(function (resposta) {
+                console.log("Dados recebidos: ", JSON.stringify(resposta));
 
-    //     // const axios = require('axios/dist/node/axios.cjs');
-    //     // var qs = requer('qs');
+                var feed = document.getElementById("sectioncard");
+                feed.innerHTML = ""; // Limpa o conteúdo atual do feed
+                resposta.forEach(publicacao => {
+                    var card = document.createElement("div");
+                    card.setAttribute("id", publicacao.idComputador);
+                    card.classList.add("card");
 
-    //     var mensagemAlerta = "A máquina 1 está com o uso da CPU alto!"
+                    // Adicionando o evento para abrir o modal
+                    card.addEventListener("click", function () {
+                        cardId = this.id
+                        console.log("Card clicado. cardId:", this.id);
+                        alterarComponente('dashCpu', this.id);
+                        toggleModal(event);
+                    });
 
-    //     var dados = new URLSearchParams();
-    //     dados.append('payload', `{"channel": "#alertas", "username": "incoming-webhook", "text": "${mensagemAlerta}", "icon_emoji": ":ghost:"}`);
+                    let status = publicacao.status === 1 ? "Em atividade" : "Inativo";
+                    let statusColor = publicacao.status === 1 ? "#12FF39" : "#FF7557";
 
-    //     var configuração = {
-    //         method: 'post',
-    //         url: 'https://hooks.slack.com/services/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',
-    //         headers: {
-    //             'Content-Type': 'application/x-www-form-urlencoded'
-    //         },
-    //         data: dados
-    //     };
-
-    //     axios(configuração)
-    //         .then(function (response) {
-    //             console.log("Notificação enviada com sucesso:", response.data);
-    //         })
-    //         .catch(function (error) {
-    //             console.error("Erro ao enviar notificação:", error.response ? error.response.data : error.message);
-    //         });
-    // }
-    // }
-
+                    // Adicionando o conteúdo do card
+                    card.innerHTML = `
+                        <div class="down-card cima">
+                            <div class="esqCard">
+                                <figure class="iconComp">
+                                    <img src=".././src/img/icons/indicadoresMaquina/computadorEstavel.png" alt="">
+                                </figure>
+                            </div>
+                            <div class="dirCard" id="maquina${publicacao.idComputador}"></div>
+                        </div>
+                        <div class="down-card">
+                            <div class="content-card">
+                                <p><b>ID:</b> ${publicacao.idComputador}</p>
+                                <p><b>Equipe:</b> ${publicacao.fkEquipe}</p>
+                                <p><b>Funcionário:</b> ${publicacao.nomeFuncionario}</p>
+                                <p><b>Status:</b> <span style="color: ${statusColor};">${status}</span></p>
+                            </div>
+                            <div id="editar" class="up-card">
+                                <img src=".././src/img/icons/editar.svg" id="editar" onclick="atualizarMaquina(${publicacao.idComputador})">
+                                <img src=".././src/img/icons/excluir.svg" id="editar" onclick="deletar(${publicacao.idComputador})">
+                            </div>
+                        </div>
+                    `;
+                    feed.appendChild(card);
+                });
+            })
+            .catch(function (erro) {
+                console.error("Erro ao atualizar o feed:", erro);
+            });
+    }
 </script>
