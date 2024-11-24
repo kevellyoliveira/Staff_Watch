@@ -126,7 +126,7 @@ def print_system_info(fk_computador):
             dados_alerta = [idObtido[0]]  # Usa o primeiro elemento da tupla
             cursor.execute(inserirAlerta, dados_alerta)
             mydb.commit()
-            print(cursor.rowcount, "alerta vermelho inserido - memória")
+            print(cursor.rowcount, "alerta vermelho inserido - disco")
 
         else: # entre 80 e 89
             buscarID = ("""SELECT idCaptura FROM captura WHERE 
@@ -140,7 +140,7 @@ def print_system_info(fk_computador):
             dados_alerta = [idObtido[0]]  # Usa o primeiro elemento da tupla
             cursor.execute(inserirAlerta, dados_alerta)
             mydb.commit()
-            print(cursor.rowcount, "alerta amarelo inserido - memória")
+            print(cursor.rowcount, "alerta amarelo inserido - disco")
 
     # --------------------------------------------------------------------------------
     # Obtém e exibe o uso da CPU
@@ -172,7 +172,7 @@ def print_system_info(fk_computador):
             dados_alerta = [idObtido[0]]  # Usa o primeiro elemento da tupla
             cursor.execute(inserirAlerta, dados_alerta)
             mydb.commit()
-            print(cursor.rowcount, "alerta vermelho inserido - memória")
+            print(cursor.rowcount, "alerta vermelho inserido - cpu")
 
         else: # entre 80 e 89
             buscarID = ("""SELECT idCaptura FROM captura WHERE 
@@ -186,7 +186,7 @@ def print_system_info(fk_computador):
             dados_alerta = [idObtido[0]]  # Usa o primeiro elemento da tupla
             cursor.execute(inserirAlerta, dados_alerta)
             mydb.commit()
-            print(cursor.rowcount, "alerta amarelo inserido - memória")
+            print(cursor.rowcount, "alerta amarelo inserido - cpu")
 
     # --------------------------------------------------------------------------------
     # Obtém e exibe o uso da rede

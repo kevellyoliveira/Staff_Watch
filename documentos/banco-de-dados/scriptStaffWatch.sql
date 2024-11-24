@@ -211,22 +211,24 @@ REFERENCES empresa(idEmpresa)
 insert into funcionario values
 (default, "teste", "teste@gmail.com", "11956782706", MD5("Aa1!"), 1,1, null, 1);
 
+insert into equipe values
+(default, 'bacanas', 'produto', 1),
+(default,'legais', 'suporte', 1),
+(default,'estudiosos', 'comercial', 1);
+
 insert into funcionario (idFuncionario, nome, email, telefone, fkEmpresa, fkEquipe, fkCargo) values
 (3, "Ana Clara", "anaclara@gmail.com", "11956782736", 1, 1, 4),
-(4, "Júlio Cesar", "julio@gmail.com", "11956781234", 1, 1, 4),
-(5, "Beatriz Angola", "bea@gmail.com", "11951234736", 1, 1, 4),
-(6, "Sérgio Lucas", "sergio@gmail.com", "11990082736", 1, 1, 4);
+(4, "Júlio Cesar", "julio@gmail.com", "11956781234", 1, 3, 4),
+(5, "Beatriz Angola", "bea@gmail.com", "11951234736", 1, 4, 4),
+(6, "Sérgio Lucas", "sergio@gmail.com", "11990082736", 1, 1, 4),
+(7, "Marcio Marçal", "marco@gmail.com", "11916782736", 1, 2, 4);
 
 insert into computador (fkEquipe, fkEmpresa, fkFuncionario) values
 (1, 1, 3),
-(1, 1, 4),
-(1, 1, 5),
-(1, 1, 6);
-
-desc captura;
-desc componente;
-desc auxcomponente;
-select * from captura where fkComputador = 4 order by idCaptura desc limit 3;
+(3, 1, 4),
+(4, 1, 5),
+(1, 1, 6),
+(2, 1, 7);
 
 -- --------------------------- VIEWS - TELA DE DISPOSITIVOS --------------------------------------------------------------------------------
 -- exibindo detalhes a serem exibidos na tela dos alertas!
@@ -250,7 +252,7 @@ SELECT CONCAT('Alerta ',
         ' em ', IF(aux.idAuxComponente in (8, 11, 12), 'porcentagem de uso', 'pacotes enviados e recebidos'),
         ' do componente ', co.nome, ' --> ', ca.captura, '', aux.descricao
     ) AS mensagem, maq.idComputador, 
-    (SELECT COUNT(*) 
+    (SELECT COUNT(*) -- outra subquery do mesmo select pra obter a contagem de linhas retornadas!!
      FROM captura ca2
      RIGHT JOIN alerta a2 ON a2.fkCaptura = ca2.idCaptura
      JOIN auxcomponente aux2 ON aux2.idAuxComponente = ca2.fkAuxComponente
@@ -263,19 +265,15 @@ JOIN computador maq ON maq.idComputador = ca.fkComputador
 WHERE maq.fkEmpresa = 1 AND fkComputador = 2
 group by mensagem, maq.idComputador;
 
-select * from auxComponente;
-
-
-
-
 -- --------------------------- quantidade de alertas por componente em cada equipe 
 -- create or replace view view_alertasComponenteEquipe as
-select co.nome, count(idAlerta) as qtdAlerta, maq.fkEquipe from alerta a
-join captura ca on ca.idCaptura = a.fkCaptura
-join componente co on co.idComponente = ca.fkComponente
-join computador maq on maq.idComputador = ca.fkComputador
-where maq.fkEmpresa = 1
-group by co.idComponente, maq.fkEquipe;
+select maq.fkEquipe as equipe, co.nome as componente, count(a.idAlerta) as qtdAlerta 
+from componente co 
+left join captura ca on ca.fkComponente = co.idComponente 
+left join alerta a on a.fkCaptura = ca.idCaptura 
+left join computador maq on maq.idComputador = ca.fkComputador 
+where maq.fkEmpresa = 1 
+group by maq.fkEquipe, co.nome order by maq.fkEquipe, co.nome;
 
 select * from view_alertasComponenteEquipe;
 
@@ -385,6 +383,16 @@ order by idCaptura limit 100;
 
 -- na model
 select * from view_ramTempoReal where fkEmpresa = 1 and fkComputador = ?;
+
+-- --------------------------- gráfico barras: qtd de alertas em cada componente por equipe
+select maq.fkEquipe as equipe, co.nome as componente, count(a.idAlerta) as qtdAlerta 
+from componente co 
+left join captura ca on ca.fkComponente = co.idComponente 
+left join alerta a on a.fkCaptura = ca.idCaptura 
+left join computador maq on maq.idComputador = ca.fkComputador 
+where maq.fkEmpresa = 1 
+group by maq.fkEquipe, co.nome 
+order by maq.fkEquipe, co.nome;
 
 -- ----------------------------------------------------------------   comandos ----------------------------------------------------------------
 desc captura;

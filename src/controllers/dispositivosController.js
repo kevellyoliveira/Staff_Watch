@@ -102,11 +102,28 @@ function historico(req, res) {
         });
 }
 
+function equipes(req, res) {
+    var fkEmpresa = req.params.fkEmpresa;
+
+    dispositivoModel.equipes(fkEmpresa)
+        .then(function (resultado) {
+            if (resultado.length > 0) {
+                res.status(200).json(resultado);
+            } else {
+                res.status(204).send("Nenhum resultado encontrado!");
+            }
+        }).catch(function (erro) {
+            console.log(erro);
+            console.log("Houve um erro ao buscar os alertas no banco: ", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
 
 module.exports = {
     gerarGraficoTempoReal,
     obterDadosGrafico,
     listar,
     listarAlertas,
-    historico
+    historico,
+    equipes
 }

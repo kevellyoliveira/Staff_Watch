@@ -28,4 +28,9 @@ router.get("/historico/:fkEmpresa/:idComputador", function (req, res) {
     dispositivosController.historico(req, res);
 });
 
+//  gráfico de barras na parte de cima de equipes
+router.get("/equipes/:fkEmpresa", function (req, res) {
+    dispositivosController.equipes(req, res);
+});
+
 module.exports = router;

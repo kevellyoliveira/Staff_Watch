@@ -108,9 +108,11 @@ function obterDadosGrafico(fkEmpresa, idComponente, idComputador) {
 //Listar todas as máquinas
 function listar(fkEmpresa) {
     console.log("ACESSEI O AVISO  MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listar()");
-    var instrucaoSql = `
-    SELECT * FROM view_computador_funcionario_equipe WHERE fkEmpresa = ${fkEmpresa}
-   `;
+    var instrucaoSql = ` SELECT c.idComputador,c.status,c.fkEquipe, c.fkEmpresa, c.fkFuncionario, f.nome AS nomeFuncionario, e.nome AS nomeEquipe
+            FROM computador c
+            JOIN funcionario f ON c.fkFuncionario = f.idFuncionario
+            JOIN equipe e ON c.fkEquipe = e.idEquipe 
+            where f.fkCargo = 4 and c.fkEmpresa = ${fkEmpresa} order by status;`;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
@@ -126,21 +128,26 @@ function listarAlertas(fkEmpresa, idComputador) {
 
 function historico(fkEmpresa, idComputador) {
     console.log("ACESSEI O AVISO  MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function historico()");
-    var instrucaoSql = `SELECT 
-                    a.tipoAlerta,
-                    ca.dataCaptura,
-                    aux.idAuxComponente,
-                    co.nome AS nomeComponente,
-                    ca.captura,
-                    aux.descricao,
-                    maq.idComputador
-            FROM captura ca
-            RIGHT JOIN alerta a ON a.fkCaptura = ca.idCaptura
-            JOIN componente co ON co.idComponente = ca.fkComponente
-            JOIN auxcomponente aux ON aux.idAuxComponente = ca.fkAuxComponente
-            JOIN computador maq ON maq.idComputador = ca.fkComputador
-            WHERE maq.fkEmpresa = ${fkEmpresa} 
-            AND fkComputador = ${idComputador};`;
+    var instrucaoSql = `select a.tipoAlerta, ca.dataCaptura, ca.captura, aux.idAuxComponente, co.nome AS nomeComponente, aux.descricao, maq.idComputador
+            from captura ca
+            right join alerta a on a.fkCaptura = ca.idCaptura
+            join componente co on co.idComponente = ca.fkComponente
+            join auxcomponente aux on aux.idAuxComponente = ca.fkAuxComponente
+            join computador maq on maq.idComputador = ca.fkComputador
+            where maq.fkEmpresa = ${fkEmpresa} and fkComputador = ${idComputador};`;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function equipes(fkEmpresa) {
+    console.log("ACESSEI O AVISO  MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function historico()");
+    var instrucaoSql = `select maq.fkEquipe as equipe, co.nome as componente, count(a.idAlerta) as qtdAlerta 
+                from componente co 
+                left join captura ca on ca.fkComponente = co.idComponente 
+                left join alerta a on a.fkCaptura = ca.idCaptura 
+                left join computador maq on maq.idComputador = ca.fkComputador 
+                where maq.fkEmpresa = ${fkEmpresa}
+                group by maq.fkEquipe, co.nome order by maq.fkEquipe, co.nome;`;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
@@ -150,5 +157,6 @@ module.exports = {
     obterDadosGrafico,
     listar,
     listarAlertas,
-    historico
+    historico,
+    equipes
 };
