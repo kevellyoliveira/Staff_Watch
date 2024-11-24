@@ -233,13 +233,40 @@ select * from captura where fkComputador = 4 order by idCaptura desc limit 3;
 select ca.captura, ca.dataCaptura, 
 co.nome, aux.unidadeMedida, aux.descricao,
 ca.fkComputador, 
-maq.fkEquipe 
+maq.fkEquipe,
+a.tipoAlerta
 from captura ca
 right join alerta a on a.fkCaptura = ca.idCaptura
 join componente co on co.idComponente = ca.fkComponente
 join auxcomponente aux on aux.idAuxComponente = ca.fkAuxComponente
 join computador maq on maq.idComputador = ca.fkComputador
-where maq.fkEmpresa = 1;
+where maq.fkEmpresa = 1 and fkComputador = 2;
+
+
+-- teste texto
+SELECT CONCAT('Alerta ',
+        IF(a.tipoAlerta = 1, 'amarelo', 'vermelho'),
+        ' em ', DATE_FORMAT(ca.dataCaptura, '%d/%m/%Y'), ' às ', DATE_FORMAT(ca.dataCaptura, '%H:%i:%s'),
+        ' em ', IF(aux.idAuxComponente in (8, 11, 12), 'porcentagem de uso', 'pacotes enviados e recebidos'),
+        ' do componente ', co.nome, ' --> ', ca.captura, '', aux.descricao
+    ) AS mensagem, maq.idComputador, 
+    (SELECT COUNT(*) 
+     FROM captura ca2
+     RIGHT JOIN alerta a2 ON a2.fkCaptura = ca2.idCaptura
+     JOIN auxcomponente aux2 ON aux2.idAuxComponente = ca2.fkAuxComponente
+     WHERE ca2.fkComputador = maq.idComputador AND maq.fkEmpresa = 1 AND ca2.fkComputador = 2) AS qtdAlertas
+FROM captura ca
+RIGHT JOIN alerta a ON a.fkCaptura = ca.idCaptura
+JOIN componente co ON co.idComponente = ca.fkComponente
+JOIN auxcomponente aux ON aux.idAuxComponente = ca.fkAuxComponente
+JOIN computador maq ON maq.idComputador = ca.fkComputador
+WHERE maq.fkEmpresa = 1 AND fkComputador = 2
+group by mensagem, maq.idComputador;
+
+select * from auxComponente;
+
+
+
 
 -- --------------------------- quantidade de alertas por componente em cada equipe 
 -- create or replace view view_alertasComponenteEquipe as

@@ -124,9 +124,31 @@ function listarAlertas(fkEmpresa, idComputador) {
     return database.executar(instrucaoSql);
 }
 
+function historico(fkEmpresa, idComputador) {
+    console.log("ACESSEI O AVISO  MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function historico()");
+    var instrucaoSql = `SELECT 
+                    a.tipoAlerta,
+                    ca.dataCaptura,
+                    aux.idAuxComponente,
+                    co.nome AS nomeComponente,
+                    ca.captura,
+                    aux.descricao,
+                    maq.idComputador
+            FROM captura ca
+            RIGHT JOIN alerta a ON a.fkCaptura = ca.idCaptura
+            JOIN componente co ON co.idComponente = ca.fkComponente
+            JOIN auxcomponente aux ON aux.idAuxComponente = ca.fkAuxComponente
+            JOIN computador maq ON maq.idComputador = ca.fkComputador
+            WHERE maq.fkEmpresa = ${fkEmpresa} 
+            AND fkComputador = ${idComputador};`;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     gerarGraficoTempoReal,
     obterDadosGrafico,
     listar,
-    listarAlertas
+    listarAlertas,
+    historico
 };

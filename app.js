@@ -60,6 +60,11 @@ app.use("/discoMatheus", discoRouter);
 app.use("/memsramMatheus", ramRouter);
 app.use("/dispositivos", dispositivosRouter);
 
+app.use((req, res, next) => {
+    console.log(`Recebida solicitação: ${req.method} ${req.path}`);
+    next();
+});
+
 // app.use("/empresas", empresasRouter);
 
 app.listen(PORTA_APP, function () {

@@ -152,7 +152,9 @@
                         <h6 class="opcoesMenu" id="disco" onclick="alterarComponente('dashDisco')"> Disco </h6>
                         <h6 class="opcoesMenu" id="rede" onclick="alterarComponente('dashRede')"> Rede </h6>
                         <h6 class="opcoesMenu" id="memoria" onclick="alterarComponente('dashMemoria')"> Memória</h6>
-                        <h6 class="opcoesMenu" id="historico" onclick="alterarComponente('historico')"> Histórico</h6>
+                        <h6 class="opcoesMenu" id="historico" onclick="alterarComponente('dashHistorico')">
+                            Histórico
+                        </h6>
                     </div>
 
                     <div class="aside">
@@ -213,7 +215,6 @@
                             </div>
                         </div> -->
                     </div>
-
                     <div id="dashDisco" class="bside">
                         <div class="dado">
                             <h3> Utilização: </h3>
@@ -244,7 +245,6 @@
                             </div>
                         </div> -->
                     </div>
-
                     <div id="dashRede" class="bside">
                         <div class="dado">
                             <h3> Pacotes Enviados: </h3>
@@ -268,7 +268,6 @@
                         </div> -->
 
                     </div>
-
                     <div id="dashMemoria" class="bside">
 
                         <div class="dado">
@@ -313,6 +312,14 @@
                             </div>
                         </div> -->
                     </div>
+                    <!-- tela de histórico -->
+                    <div id="dashHistorico" class="historico">
+                        <h3 id="idMaquina">Histórico de alertas da máquina X</h3>
+                        <div class="listaAlertas">
+                            <p>Nenhum alerta emitido.</p>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -335,7 +342,6 @@
     function toggleModal(event) {
         // Verifica se o elemento clicado possui a classe 'cimaCard'
         if (event.target.id === "editar") {
-            console.log("Div com ID 'editar' clicada. Saindo da função...");
             return;
         }
 
@@ -344,14 +350,17 @@
 
         modal.classList.toggle("hide");
         fade.classList.toggle("hide");
+        document.body.classList.add("modal-open");
     }
 
     // Função para fechar o modal clicando fora ou no botão de fechar
     function closeModal() {
         document.getElementById("fade").classList.add("hide");
         document.getElementById("modal").classList.add("hide");
+        document.body.classList.remove("modal-open");
+
     }
-    
+
     function atualizarMaquina(idComputador) {
         editarAlgo = true
         // Redireciona o usuário para a página de edição com o ID do funcionário como parâmetro na URL
@@ -538,13 +547,18 @@
     let idComponente = 0
     let idComputador = 0;
     function alterarComponente(componenteId, card = cardId) {
-        console.log(`cardId em alterarComponente: ${card}`)
-        const dashComponentes = ["dashCpu", "dashDisco", "dashRede", "dashMemoria"];
+        console.log(`Componente encontrado: ${componenteId}`);
+
+        const aside = document.querySelector(".aside");
+        aside.style.display = 'flex';
+
+        const dashComponentes = ["dashCpu", "dashDisco", "dashRede", "dashMemoria", "dashHistorico"];
         const componentes = {
             "dashCpu": "CPU",
             "dashDisco": "Disco",
             "dashRede": "Rede",
-            "dashMemoria": "Memória"
+            "dashMemoria": "Memória",
+            "dashHistorico": "Histórico de alertas"
         };
 
         const nomeComponentes = {
@@ -576,12 +590,19 @@
             } else {
                 console.log(`Elemento não encontrado para o ID no menu: ${id.replace("dash", "").toLowerCase()}`);
             }
+            const elementHist = document.getElementById("dashHistorico");
+            if (elementHist) {
+                elementHist.style.fontWeight = (id === componenteId) ? "700" : "500";
+            } else {
+                console.log(`Elemento não encontrado para o ID no menu: ${id.replace("dash", "").toLowerCase()}`);
+            }
         });
 
         // Mostra a div do componente selecionado e o gráfico
         // div: 
         const selectedComponent = document.getElementById(componenteId);
-        // console.log("Componente a ser exibido: ", selectedComponent);
+        console.log("Componente a ser exibido: ", selectedComponent);
+
         if (selectedComponent) {
             selectedComponent.style.display = "grid"; // Garante que o componente é mostrado
         } else {
@@ -608,6 +629,8 @@
         else if (componenteId == "dashMemoria") {
             idComponente = 2
         }
+
+
         // grafico:
         // Exibe o gráfico correspondente
         let graficoAtivoId;
@@ -633,8 +656,95 @@
             }
         }
 
-        obterDadosGrafico(idComponente, cardId)
+        if (componenteId === "dashHistorico") {
+            carregarHistoricoAlertas(cardId);
+            return;
+        } else {
+            obterDadosGrafico(idComponente, cardId)
+        }
     }
+
+    function carregarHistoricoAlertas(idComputador = cardId) {
+        console.log(`idComputador em carregarHistorico: ${idComputador} e cardid: ${cardId}`)
+        if (intervaloAtivo) {
+            clearInterval(intervaloAtivo);
+            intervaloAtivo = null;
+        }
+        const aside = document.querySelector(".aside");
+        const bside = document.querySelector(".bside");
+        const historico = document.getElementById("dashHistorico");
+        aside.style.display = 'none';
+        bside.style.display = 'none';
+        historico.style.display = 'flex';
+
+        console.log(`URL gerada: /dispositivos/historico/1/3`);
+        fetch(`/dispositivos/historico/${fkEmpresa}/${cardId}`, {
+            cache: 'no-store',
+            method: "GET",
+        })
+            .then(response => {
+                console.log(response);
+                const listaAlertas = document.querySelector(".listaAlertas");
+                const idMaquina = document.getElementById("idMaquina"); // Acha o elemento idMaquina
+
+                if (response.ok) {
+                    if (response.status == 204) {
+                        // Exibe a mensagem quando não há alertas
+                        listaAlertas.innerHTML = `Nenhum alerta encontrado.`;
+                        idMaquina.innerHTML = `Histórico de alertas da máquina ${idComputador} - Total: 0 alertas.`;
+                        return; // Sai do processamento aqui, já que não há dados
+                    }
+                    return response.json(); // Retorna o JSON com os alertas
+                } else {
+                    throw new Error("Erro ao buscar histórico de alertas.");
+                }
+            })
+            .then(alertas => {
+                const listaAlertas = document.querySelector(".listaAlertas");
+                const idMaquina = document.getElementById("idMaquina");
+
+                // Verifica se a resposta está vazia
+                if (alertas.length === 0) {
+                    listaAlertas.innerHTML = `Nenhum alerta encontrado.`;
+                    idMaquina.innerHTML = `Histórico de alertas da máquina ${idComputador} - Total: ${alertas.length} alertas.`;
+                    return; // Sai da função se não houver dados
+                }
+
+                // Limpa a lista de alertas para adicionar os novos
+                listaAlertas.innerHTML = "";
+
+                // Exibe cada alerta
+                alertas.forEach(alerta => {
+                    const alertaDiv = document.createElement("div");
+                    alertaDiv.classList.add("historicoAlerta");
+
+                    // Formata a mensagem com as cores e negrito
+                    const tipoAlerta = alerta.tipoAlerta === 1 ? 'amarelo' : 'vermelho';
+                    const componente = alerta.nomeComponente;
+                    const captura = alerta.captura;
+                    const descricao = alerta.descricao;
+                    const dataCaptura = new Date(alerta.dataCaptura);
+                    const formattedDate = `${dataCaptura.getDate()}/${dataCaptura.getMonth() + 1}/${dataCaptura.getFullYear()} às ${dataCaptura.getHours()}:${dataCaptura.getMinutes()}:${dataCaptura.getSeconds()}`;
+
+                    const mensagemFormatada = `<p>
+                     Alerta <span style="background-color: ${tipoAlerta === 'amarelo' ? '#ffd06c' : '#f34949'}; border-radius: 9px; padding: 0 2px;s">${tipoAlerta}</span> <span style="text-decoration: underline;"> em ${formattedDate} </span>
+                     em porcentagem de uso do componente <b style="font-weight: bold;">${componente} --> ${captura}%</b>.
+                    </p>`;
+                    alertaDiv.innerHTML = mensagemFormatada;
+
+                    // Atualiza o texto do idMaquina com a quantidade de alertas
+                    idMaquina.innerHTML = `Histórico de alertas da máquina ${alerta.idComputador} - Total: ${alertas.length} alertas.`;
+
+                    // Adiciona o alerta à lista
+                    listaAlertas.appendChild(alertaDiv);
+                });
+            })
+            .catch(error => {
+                console.error("Erro ao carregar histórico:", error);
+            });
+
+    }
+
 
     // Função para buscar os dados iniciais
     let dadosRecebidos = []; // Variável para armazenar os dados recebidos
@@ -863,6 +973,11 @@
                                     }
                                 }
 
+                                redeEnviar.innerHTML = dadoAtual.pctEnv;
+                                redeReceber.innerHTML = dadoAtual.pctRec;
+                                idNomeComponente.innerHTML = dadoAtual.modelo;
+                                atualizarCor(memoriaUtilizacao, dadoAtual.captura);
+
                                 // Atualiza o gráfico
                                 graficoAtual.update();
 
@@ -901,7 +1016,7 @@
                 });
         }, 3000); // Intervalo de 2 segundos
     }
-    
+
     function atualizarCor(elemento, valor) {
         if (valor > 90) {
             elemento.style.color = "red"; // Vermelho
