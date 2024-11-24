@@ -152,9 +152,10 @@
         window.location = "index.html"
     }
 
-    var idFuncionarioSelecionado;
+    let idFuncionarioSelecionado;
     // const fkEquipe = sessionStorage.getItem("equipeSelecionada");
     const fkEquipe = 1
+    idFuncionario = 1;
 
     function atualizarFeedEquipe() {
         const fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
@@ -273,7 +274,7 @@
         }
     }
 
-    function puxarDadosChamada(idFuncionarioSelecionado) {
+    function puxarDadosChamada(idFuncionario) {
         const modalBody = document.getElementById("modal-body");
         modalBody.innerHTML = "Carregando gráfico...";
 
@@ -282,7 +283,7 @@
             window.myChart.destroy();
         }
 
-        fetch(`/funcionarios/dados/tempoEspera/${idFuncionarioSelecionado}`, { method: "GET" })
+        fetch(`/funcionarios/dados/tempoEspera/${1}`, { method: "GET" })
             .then(resposta => {
                 if (!resposta.ok) {
                     throw new Error("Não foi possível capturar os dados do funcionário.");
@@ -339,7 +340,7 @@
             });
     }
 
-    function puxarTempoChamada(idFuncionarioSelecionado) {
+    function puxarTempoChamada(idFuncionario) {
         const modalBody = document.getElementById("modal-body");
         modalBody.innerHTML = "Carregando gráfico...";
 
@@ -348,7 +349,7 @@
             window.myChart.destroy();
         }
 
-        fetch(`/funcionarios/dados/tempoChamada/${idFuncionarioSelecionado}`, { method: "GET" })
+        fetch(`/funcionarios/dados/tempoChamada/${1}`, { method: "GET" })
             .then(resposta => {
                 if (!resposta.ok) {
                     throw new Error("Não foi possível capturar os dados do funcionário.");
@@ -408,9 +409,9 @@
 
 
 
-    function puxarTotalChamada(idFuncionarioSelecionado) {
+    function puxarTotalChamada(idFuncionario) {
 
-        fetch(`/funcionarios/dados/totalChamada/${idFuncionarioSelecionado}`, {
+        fetch(`/funcionarios/dados/totalChamada/${1}`, {
             method: "GET"
         })
             .then(resposta => {
@@ -429,9 +430,9 @@
     }
 
 
-    function puxarTotalPerdida(idFuncionarioSelecionado) {
+    function puxarTotalPerdida(idFuncionario) {
 
-        console.log(idFuncionarioSelecionado)
+        console.log(idFuncionario)
 
         const modalBody = document.getElementById("modal-body");
         modalBody.innerHTML = "Carregando gráfico...";
@@ -441,7 +442,7 @@
             window.myChart.destroy();
         }
 
-        fetch(`/funcionarios/dados/totalPerdida/${idFuncionarioSelecionado}`, {
+        fetch(`/funcionarios/dados/totalPerdida/${1}`, {
             method: "GET"
         })
             .then(resposta => resposta.json())  // Garante que a resposta seja tratada como JSON
@@ -506,9 +507,9 @@
     }
 
 
-    function puxarTotalAtendida(idFuncionarioSelecionado) {
+    function puxarTotalAtendida(idFuncionario) {
 
-        fetch(`/funcionarios/dados/totalAtendida/${idFuncionarioSelecionado}`, {
+        fetch(`/funcionarios/dados/totalAtendida/${1}`, {
             method: "GET"
         })
             .then(resposta => {
@@ -527,7 +528,7 @@
     }
 
 
-    function eficienciaChamada(idFuncionarioSelecionado) {
+    function eficienciaChamada(idFuncionario) {
 
         console.log(idFuncionarioSelecionado)
         const modalBody = document.getElementById("modal-body");
@@ -539,7 +540,7 @@
         }
 
         // Busca os dados de eficiência de chamadas
-        fetch(`/funcionarios/dados/eficiencia/${idFuncionarioSelecionado}`, {
+        fetch(`/funcionarios/dados/eficiencia/${1}`, {
             method: "GET"
         })
             .then(resposta => resposta.json())  // Garante que a resposta seja tratada como JSON
@@ -613,7 +614,7 @@
 
     function puxarDadosEquipeChamada(fkEquipe) {
 
-        fetch(`/funcionarios/dados/tempoEspera/${fkEquipe}`, {
+        fetch(`/funcionarios/dados/tempoEspera/${1}`, {
             method: "GET"
         })
             .then(resposta => {
@@ -641,7 +642,7 @@
     function puxarTempoEquipeChamada(fkEquipe) {
         console.log("-")
         console.log(fkEquipe)
-        fetch(`/funcionarios/dados/tempoChamada/${fkEquipe}`, {
+        fetch(`/funcionarios/dados/tempoChamada/${1}`, {
             method: "GET"
         })
             .then(resposta => {
@@ -670,7 +671,7 @@
 
     function puxarTotalEquipeChamada(fkEquipe) {
 
-        fetch(`/funcionarios/dados/totalChamada/${fkEquipe}`, {
+        fetch(`/funcionarios/dados/totalChamada/${1}`, {
             method: "GET"
         })
             .then(resposta => {
@@ -690,7 +691,7 @@
 
 
     function puxarTotalEquipePerdida(fkEquipe) {
-        fetch(`/funcionarios/dados/totalPerdida/${fkEquipe}`, {
+        fetch(`/funcionarios/dados/totalPerdida/${1}`, {
             method: "GET"
         })
             .then(resposta => {
@@ -721,7 +722,7 @@
 
 
     function eficienciaEquipeChamada(fkEquipe) {
-    fetch(`/funcionarios/dados/eficienciaEquipe1/${fkEquipe}`, {
+    fetch(`/funcionarios/dados/eficiencia/${1}`, {
         method: "GET"
     })
         .then(resposta => {
@@ -770,7 +771,7 @@
 
     function puxarTotalEquipeAtendida(fkEquipe) {
 
-        fetch(`/funcionarios/dados/totalAtendida/${fkEquipe}`, {
+        fetch(`/funcionarios/dados/totalAtendida/${1}`, {
             method: "GET"
         })
             .then(resposta => {
