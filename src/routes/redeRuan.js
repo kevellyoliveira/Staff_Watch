@@ -16,6 +16,14 @@ router.get("/tempoFalhas", function (req, res) {
     redeRuanController.puxarTempoFalhas(req, res);
 });
 
+router.get("/graficoLatencia", function (req, res) {
+    redeRuanController.puxarGraficoLatencia(req, res);
+});
+
+router.get("/graficoTrafego", function (req, res) {
+    redeRuanController.puxarGraficoTrafego(req, res);
+});
+
 
 
 
