@@ -74,12 +74,12 @@
                 <div class="margemTempo">
                     <!-- aqui vou inserir demais funções como o filtro de tempo -->
                     <select name="opcoes" class="TEMPO">
-                        <option value="tempo">TEMPO</option>
-                        <option value="dia">DIA</option>
-                        <option value="SEMANA">SEMANA</option>
-                        <option value="MÊS">MÊS</option>
-                        <option value="6MÊS">6 MESES</option>
-                        <option value="ANO">ANO</option>
+                        <option value="tempo">Filtro de tempo</option>
+                        <option value="DIA">Ultimas 24 horas</option>
+                        <option value="SEMANA">Ultimos 7 dias</option>
+                        <option value="MÊS">Ultimos 30 dias</option>
+                        <option value="6MES">Ultimos 6 meses</option>
+                        <option value="ANO">Ultimo ano</option>
                     </select>
 
                 </div>
@@ -186,7 +186,7 @@
 
     }
 
-    // setInterval(puxarPacotesPerdidos, 5000);
+    setInterval(puxarPacotesPerdidos, 5000);
 
 
 
@@ -255,7 +255,7 @@
 
     }
 
-    // setInterval(puxarInatividade, 5000);
+    setInterval(puxarInatividade, 5000);
 
 
 
@@ -320,7 +320,7 @@
 
     }
 
-    // setInterval(puxarTempoFalhas, 5000);
+    setInterval(puxarTempoFalhas, 5000);
 
 
 
@@ -502,6 +502,9 @@
 
 
     }
+
+
+    setInterval(puxarGraficoLatencia, 5000);
 
 
 
