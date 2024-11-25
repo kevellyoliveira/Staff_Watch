@@ -98,7 +98,8 @@
         <div class="baixo2">
             <div class="espaco"></div>
             <div class="grafico">
-                <canvas id="chart2"></canvas>
+                <canvas id="graficoLatencia"></canvas>
+
             </div>
             <div class="miniespaco"></div>
         </div>
@@ -185,7 +186,7 @@
 
     }
 
-    setInterval(puxarPacotesPerdidos, 5000);
+    // setInterval(puxarPacotesPerdidos, 5000);
 
 
 
@@ -209,15 +210,37 @@
             })
 
             .then(dados => {
+                console.log(dados);
+                console.log(dados);
+                console.log(dados);
                 console.log(dados);  // Exibe os dados no console (opcional para debugging)
 
                 // Verifica se existem dados e exibe o último valor
                 if (dados && dados.length > 0) {
-                    const ultimoValor = dados[dados.length - 1].captura;  // Acessa o último item do array
-                    console.log("Último valor:", ultimoValor);  // Exibe no console (opcional)
+                    // const ultimoValor = dados[dados.length - 1].captura;  // Acessa o último item do array
+                    // console.log("Último valor:", ultimoValor);  // Exibe no console (opcional)
+
+                    let total = 0
+
+                    for (let i = 0; i < dados.length; i++) {
+                        const ultimoValor = dados[i].captura;
+                        console.log(ultimoValor);
+                        console.log(ultimoValor);
+                        console.log(ultimoValor);
+
+
+
+                        if (typeof ultimoValor === "number") {
+                            total += ultimoValor;  // Soma o valor
+                            console.log(`Captura [${i}] = ${ultimoValor}. Total acumulado: ${total}`);
+                        } else {
+                            console.log(`Valor inválido em captura [${i}]: ${ultimoValor}`);
+                        }
+
+                    }
 
                     // Atualiza o conteúdo da div com o último valor
-                    document.getElementById("inatividadeValor").textContent = ultimoValor;
+                    document.getElementById("inatividadeValor").textContent = `${total}`;
 
                 } else {
                     console.error("Nenhum dado encontrado.");
@@ -232,7 +255,7 @@
 
     }
 
-    setInterval(puxarInatividade, 5000);
+    // setInterval(puxarInatividade, 5000);
 
 
 
@@ -265,14 +288,14 @@
 
 
 
-                    if (ultimoValor == 0 ) {
+                    if (ultimoValor == 0) {
                         var txt0 = "Zero falhas"
                         document.getElementById("tempoFalhasValor").textContent = txt0;
                         document.getElementById("tempoFalhasValor").style.fontSize = "20px";
                         document.getElementById("tempoFalhasValor").style.color = "orange";
                     }
 
-                    if (ultimoValor == 1 ) {
+                    if (ultimoValor == 1) {
                         var txt0 = "Apenas uma falha"
                         document.getElementById("tempoFalhasValor").textContent = txt0;
                         document.getElementById("tempoFalhasValor").style.fontSize = "20px";
@@ -297,7 +320,399 @@
 
     }
 
-    setInterval(puxarTempoFalhas, 5000);
+    // setInterval(puxarTempoFalhas, 5000);
+
+
+
+
+
+
+
+
+    // Graficos
+
+
+
+
+    function puxarGraficoLatencia() {
+
+        console.log("ENTROU NA FUNCAO graficoLatencia")
+
+        fetch(`/redeRuan/graficoLatencia`, {
+            method: "GET"
+        })
+            .then(resposta => {
+                if (resposta.ok) {
+
+                    return resposta.json();
+
+
+                } else {
+                    throw "Não foi possível plotar o gráfico de latencia.";
+                }
+            })
+
+            .then(dados => {
+                console.log(dados);  // Exibe os dados no console (opcional para debugging)
+
+                // Verifica se existem dados e exibe o último valor
+                if (dados && dados.length > 0) {
+
+
+
+
+                    function processarDados(dados) {
+                        const labels = [];  // Para os valores no eixo X (data)
+                        const valoresCaptura = [];  // Para os valores no eixo Y (captura)
+
+                        // Vamos pegar a primeira data e calcular as diferenças
+                        let primeiroTempo = new Date(dados[0].dataCaptura);  // Primeira data de captura
+
+                        // Função para formatar a data para o formato 'DD/MM/YYYY HH:mm'
+                        function formatarData(data) {
+                            const dia = data.getDate().toString().padStart(2, '0');
+                            const mes = (data.getMonth() + 1).toString().padStart(2, '0');
+                            const ano = data.getFullYear();
+                            const hora = data.getHours().toString().padStart(2, '0');
+                            const minuto = data.getMinutes().toString().padStart(2, '0');
+                            return `${dia}/${mes}/${ano} ${hora}:${minuto}`;
+                        }
+
+                        // Para cada entrada de dados, calcular a diferença em milissegundos e formatar
+                        dados.forEach((item) => {
+                            const captura = item.captura.toFixed(2);
+                            const dataCaptura = new Date(item.dataCaptura);
+
+                            // Formatar a data para o formato desejado (dia, mês, ano, hora:minuto)
+                            const tempoFormatado = formatarData(dataCaptura);
+
+                            // Adiciona os dados para o gráfico
+                            labels.push(tempoFormatado);  // Eixo X: data formatada (DD/MM/YYYY HH:mm)
+                            valoresCaptura.push(captura);  // Eixo Y: captura (quantidade de pacotes)
+                        });
+
+                        return { labels, valoresCaptura };
+                    }
+
+                    function plotarGrafico(dados) {
+                        const { labels, valoresCaptura } = processarDados(dados);
+
+                        // Configuração do gráfico no Chart.js
+                        const ctx = document.getElementById('graficoLatencia').getContext('2d');
+                        const grafico = new Chart(ctx, {
+                            type: 'line',  // Tipo de gráfico: linha
+                            data: {
+                                labels: labels,  // Eixo X: data formatada
+                                datasets: [{
+                                    label: 'Latência (ms)',
+                                    data: valoresCaptura,  // Eixo Y: quantidade de pacotes
+                                    borderColor: 'rgba(75, 192, 192, 1)',  // Cor da linha
+                                    fill: false,  // Não preencher a área sob a linha
+                                    tension: 0.1  // Para suavizar as linhas
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                plugins: {
+                                    title: {  // Adiciona o título do gráfico
+                                        display: true,
+                                        text: 'Latência ao longo do tempo',  // Título do gráfico
+                                        font: {
+                                            size: 18,  // Tamanho do título
+                                            weight: 'bold',  // Peso da fonte
+                                            family: 'Arial, sans-serif'  // Família da fonte
+                                        },
+                                        color: '#ffffff'
+                                    },
+                                    legend: {
+                                        labels: {
+                                            color: '#ffffff', // Cor da label 'Captura (latência)'
+                                            font: {
+                                                size: 14, // Tamanho da fonte da legenda
+                                                family: 'Arial, sans-serif' // Fonte personalizada
+                                            }
+                                        }  // Cor do título
+                                    },
+                                    tooltip: {
+                                        enabled: true,  // Exibir informações ao passar o mouse
+                                        callbacks: {
+                                            label: function (tooltipItem) {
+                                                return `Latência: ${tooltipItem.raw} ms`;  // Formatação personalizada do tooltip
+                                            }
+                                        }
+                                    }
+                                },
+                                scales: {
+                                    x: {
+                                        type: 'category',  // Tipo de escala do eixo X: categoria (para datas)
+                                        title: {
+                                            display: true,
+                                            text: 'Intervalo de tempo entre a data mais antiga e a mais recente',
+                                            color: '#ffffff',
+                                            font: {
+                                                size: 14,  // Tamanho da fonte do título do eixo X
+                                                family: 'Arial, sans-serif',  // Fonte do título (opcional)
+                                                weight: 'bold'  // Peso da fonte (opcional)
+                                            }
+                                        },
+                                        ticks: {
+                                            // maxRotation: 45, // Rotaciona as labels para melhor visualização
+                                            // minRotation: 30
+                                            display: false,
+                                            color: '#ffffff'
+                                        },
+                                        grid: {
+                                            color: 'gray' // Cor das linhas de grade no eixo X
+                                        }
+                                    },
+                                    y: {
+                                        title: {
+                                            display: true,
+                                            text: 'Captura (Pacotes)',
+                                            color: '#ffffff' // Cor do título do eixo Y
+                                        },
+                                        ticks: {
+                                            color: '#ffffff' // Cor dos rótulos no eixo Y
+                                        },
+                                        grid: {
+                                            color: 'gray' // Cor das linhas de grade no eixo Y
+                                        }
+                                        // beginAtZero: true  // Começar o eixo Y do zero
+                                    }
+                                }
+                            }
+                        });
+                    }
+
+
+
+
+                    plotarGrafico(dados);
+
+
+                } else {
+                    console.error("Nenhum dado encontrado.");
+                }
+            })
+
+            .catch(error => {
+                console.error(error);
+
+            });
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function puxarGraficoTrafego() {
+
+console.log("ENTROU NA FUNCAO graficoTrafego")
+
+fetch(`/redeRuan/graficoTrafego`, {
+    method: "GET"
+})
+    .then(resposta => {
+        if (resposta.ok) {
+
+            return resposta.json();
+
+
+        } else {
+            throw "Não foi possível plotar o gráfico tráfego de rede";
+        }
+    })
+
+    .then(dados => {
+        console.log(dados);  // Exibe os dados no console (opcional para debugging)
+
+        // Verifica se existem dados e exibe o último valor
+        if (dados && dados.length > 0) {
+
+
+
+
+            // function processarDados(dados) {
+            //     const labels = [];  // Para os valores no eixo X (data)
+            //     const valoresCaptura = [];  // Para os valores no eixo Y (captura)
+
+            //     // Vamos pegar a primeira data e calcular as diferenças
+            //     let primeiroTempo = new Date(dados[0].dataCaptura);  // Primeira data de captura
+
+            //     // Função para formatar a data para o formato 'DD/MM/YYYY HH:mm'
+            //     function formatarData(data) {
+            //         const dia = data.getDate().toString().padStart(2, '0');
+            //         const mes = (data.getMonth() + 1).toString().padStart(2, '0');
+            //         const ano = data.getFullYear();
+            //         const hora = data.getHours().toString().padStart(2, '0');
+            //         const minuto = data.getMinutes().toString().padStart(2, '0');
+            //         return `${dia}/${mes}/${ano} ${hora}:${minuto}`;
+            //     }
+
+            //     // Para cada entrada de dados, calcular a diferença em milissegundos e formatar
+            //     dados.forEach((item) => {
+            //         const captura = item.captura.toFixed(2);
+            //         const dataCaptura = new Date(item.dataCaptura);
+
+            //         // Formatar a data para o formato desejado (dia, mês, ano, hora:minuto)
+            //         const tempoFormatado = formatarData(dataCaptura);
+
+            //         // Adiciona os dados para o gráfico
+            //         labels.push(tempoFormatado);  // Eixo X: data formatada (DD/MM/YYYY HH:mm)
+            //         valoresCaptura.push(captura);  // Eixo Y: captura (quantidade de pacotes)
+            //     });
+
+            //     return { labels, valoresCaptura };
+            // }
+
+            // function plotarGrafico(dados) {
+            //     const { labels, valoresCaptura } = processarDados(dados);
+
+            //     // Configuração do gráfico no Chart.js
+            //     const ctx = document.getElementById('graficoLatencia').getContext('2d');
+            //     const grafico = new Chart(ctx, {
+            //         type: 'line',  // Tipo de gráfico: linha
+            //         data: {
+            //             labels: labels,  // Eixo X: data formatada
+            //             datasets: [{
+            //                 label: 'Latência (ms)',
+            //                 data: valoresCaptura,  // Eixo Y: quantidade de pacotes
+            //                 borderColor: 'rgba(75, 192, 192, 1)',  // Cor da linha
+            //                 fill: false,  // Não preencher a área sob a linha
+            //                 tension: 0.1  // Para suavizar as linhas
+            //             }]
+            //         },
+            //         options: {
+            //             responsive: true,
+            //             plugins: {
+            //                 title: {  // Adiciona o título do gráfico
+            //                     display: true,
+            //                     text: 'Latência ao longo do tempo',  // Título do gráfico
+            //                     font: {
+            //                         size: 18,  // Tamanho do título
+            //                         weight: 'bold',  // Peso da fonte
+            //                         family: 'Arial, sans-serif'  // Família da fonte
+            //                     },
+            //                     color: '#ffffff'
+            //                 },
+            //                 legend: {
+            //                     labels: {
+            //                         color: '#ffffff', // Cor da label 'Captura (latência)'
+            //                         font: {
+            //                             size: 14, // Tamanho da fonte da legenda
+            //                             family: 'Arial, sans-serif' // Fonte personalizada
+            //                         }
+            //                     }  // Cor do título
+            //                 },
+            //                 tooltip: {
+            //                     enabled: true,  // Exibir informações ao passar o mouse
+            //                     callbacks: {
+            //                         label: function (tooltipItem) {
+            //                             return `Latência: ${tooltipItem.raw} ms`;  // Formatação personalizada do tooltip
+            //                         }
+            //                     }
+            //                 }
+            //             },
+            //             scales: {
+            //                 x: {
+            //                     type: 'category',  // Tipo de escala do eixo X: categoria (para datas)
+            //                     title: {
+            //                         display: true,
+            //                         text: 'Intervalo de tempo entre a data mais antiga e a mais recente',
+            //                         color: '#ffffff',
+            //                         font: {
+            //                             size: 14,  // Tamanho da fonte do título do eixo X
+            //                             family: 'Arial, sans-serif',  // Fonte do título (opcional)
+            //                             weight: 'bold'  // Peso da fonte (opcional)
+            //                         }
+            //                     },
+            //                     ticks: {
+            //                         // maxRotation: 45, // Rotaciona as labels para melhor visualização
+            //                         // minRotation: 30
+            //                         display: false,
+            //                         color: '#ffffff'
+            //                     },
+            //                     grid: {
+            //                         color: 'gray' // Cor das linhas de grade no eixo X
+            //                     }
+            //                 },
+            //                 y: {
+            //                     title: {
+            //                         display: true,
+            //                         text: 'Captura (Pacotes)',
+            //                         color: '#ffffff' // Cor do título do eixo Y
+            //                     },
+            //                     ticks: {
+            //                         color: '#ffffff' // Cor dos rótulos no eixo Y
+            //                     },
+            //                     grid: {
+            //                         color: 'gray' // Cor das linhas de grade no eixo Y
+            //                     }
+            //                     // beginAtZero: true  // Começar o eixo Y do zero
+            //                 }
+            //             }
+            //         }
+            //     });
+            // }
+
+
+
+
+            // plotarGrafico(dados);
+
+
+        } else {
+            console.error("Nenhum dado encontrado.");
+        }
+    })
+
+    .catch(error => {
+        console.error(error);
+
+    });
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // --------------------------------------------------------------------------------------------------------------------------------------
+
+
+
 
 
 
@@ -380,6 +795,8 @@
         puxarPacotesPerdidos();
         puxarInatividade();
         puxarTempoFalhas();
+        puxarGraficoLatencia();
+        puxarGraficoTrafego();
     };
 
 
@@ -520,6 +937,83 @@
 
     const ctx2 = document.getElementById('chart2').getContext('2d');
     new Chart(ctx2, config2);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // TENTATIVA DE PLOTAR OS GRÁFICOS EM TEMPO REAL - RUAN
+
+
+
+
+
+
+
+
+
+
+
 
 
 

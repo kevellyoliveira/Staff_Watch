@@ -61,8 +61,58 @@ function puxarTempoFalhas(req, res) {
 }
 
 
+
+// Gráficos da Dashboard
+
+
+
+function puxarGraficoLatencia(req, res) {
+    // const idFuncionario = req.params.idFuncionario;
+
+    redeRuanModel.puxarGraficoLatencia()
+        .then(
+            function (resultado) {
+                res.json(resultado);
+            }
+        )
+        .catch(
+            function (erro) {
+                console.log(erro);
+                console.log("Houve um erro ao plotar gráfico latencia", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+
+
+}
+
+
+
+function puxarGraficoTrafego(req, res) {
+    // const idFuncionario = req.params.idFuncionario;
+
+    redeRuanModel.puxarGraficoTrafego()
+        .then(
+            function (resultado) {
+                res.json(resultado);
+            }
+        )
+        .catch(
+            function (erro) {
+                console.log(erro);
+                console.log("Houve um erro ao plotar gráfico trafego de rede", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+
+
+}
+
+
 module.exports = {
     puxarPacotesPerdidos,
     puxarInatividade,
-    puxarTempoFalhas
+    puxarTempoFalhas,
+    puxarGraficoLatencia,
+    puxarGraficoTrafego
 }
