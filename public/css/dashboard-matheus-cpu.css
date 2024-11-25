@@ -326,10 +326,10 @@ header {
 
 .direita .box {
     width: 90%;
-    height: 6rem;
+    height: 3rem;
     background-color: #e7ecef;
     border-radius: 15px;
-    margin-top: 20px;
+    margin-top: 40px;
     display: flex;
     align-items: center;
     justify-content: center;

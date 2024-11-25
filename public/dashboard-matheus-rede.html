@@ -260,22 +260,59 @@ fetch(`/redesMatheus/maquinasBuscarRede/:fkComponente`)
 
 
 function mensagemAlerta(){
+    fetch(`/enderecos/funcaoGeral/:fkComponente`) 
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Erro ao buscar o número total de servidores");
+        }
+        return response.json();
+    })
+    .then(data => {
+        // Limpa o conteúdo atual das divs de alerta
+        const container = document.querySelector('.direita');
+        container.innerHTML = ''; // Limpa o container para não duplicar as mensagens
+        container.innerHTML = '<h1 style="color: white;"> Alertas Gerais </h1>'; // Adiciona o título
+        console.log(data)
 
-fetch(`/enderecos/funcaoGeral/:fkComponente`) 
-.then(response => {
-    if (!response.ok) {
-        throw new Error("Erro ao buscar o número total de servidores");
-    }
-    return response.json();
-})
-.then(data => {
-    // Acessando o valor da chave 'count(*)' do primeiro objeto
-    const mensagem_Alerta = data[0].mensagemAlerta;
-    document.querySelector(".box").textContent = mensagem_Alerta;
-})
-.catch(error => {
-    console.error("Erro:", error);
-});
+        // Itera sobre os dados de alerta recebidos
+        data.forEach(alerta => {
+            // Cria uma nova div para cada alerta
+            const div = document.createElement("div");
+            div.className = "box"; // Adiciona a classe "box" para estilização
+
+            // Cria o elemento <p> para o texto do alerta
+            const p = document.createElement("p");
+
+            // O texto do alerta está no banco de dados
+            let alertMessage = alerta.mensagemAlerta;
+            console.log(alertMessage)
+            // Encontra o nome do componente na mensagem (ex: "CPU")
+            var nomeComponente = alerta.fkComponente;
+            console.log(nomeComponente) // Aqui você pode ajustar para pegar o nome do componente dinamicamente
+
+            // Verifica o tipo de alerta para decidir a cor
+            const tipoAlerta = alerta.tipoAlerta; // 1 para normal, 2 para crítico
+
+            // Substitui a palavra do componente pela palavra com a cor
+            if (tipoAlerta === "red") {
+                alertMessage = alertMessage.replace(`<p style="color: red;">${nomeComponente}</p>`);
+            } else if (tipoAlerta === "yellow") {
+                alertMessage = alertMessage.replace(`<p style="color: orange;">${nomeComponente}</p>`);
+            }
+
+            // Converte a string HTML em elementos DOM
+            p.innerHTML = alertMessage;  // Usando innerHTML para aplicar a cor ao componente
+
+            // Adiciona o elemento <p> à div
+            div.appendChild(p);
+
+            // Adiciona a nova div ao container
+            container.appendChild(div);
+        });
+    })
+    .catch(error => {
+        console.error("Erro:", error);
+    });
 }
 
 

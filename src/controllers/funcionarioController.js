@@ -307,5 +307,5 @@ function puxarTotalAtendida(req, res){
         puxarTotalChamada,
         puxarTotalPerdida,
         puxarTotalAtendida,
-        plotarGrafico,z
+        plotarGrafico
     }
