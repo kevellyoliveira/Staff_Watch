@@ -49,25 +49,10 @@ JOIN captura AS c ON a.fkCaptura = c.idCaptura where fkComponente = 4;
 function funcaoGeral(fkComponente) {
     console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listarPorUsuario()");
     var instrucaoSql = `
-   SELECT 
-    captura.fkComputador AS idComputador, captura.fkComponente,
-    CASE 
-        WHEN captura.fkComponente = 1 THEN 
-            CONCAT(COUNT(alerta.idAlerta), ' alertas relacionados à Rede na máquina ', captura.fkComputador)
-        WHEN captura.fkComponente = 2 THEN 
-            CONCAT(COUNT(alerta.idAlerta), ' alertas relacionados à Memória na máquina ', captura.fkComputador)
-        WHEN captura.fkComponente = 3 THEN 
-            CONCAT(COUNT(alerta.idAlerta), ' alertas relacionados ao Disco na máquina ', captura.fkComputador)
-        WHEN captura.fkComponente = 4 THEN 
-            CONCAT(COUNT(alerta.idAlerta), ' alertas relacionados à CPU na máquina ', captura.fkComputador)
-        ELSE 
-            CONCAT(COUNT(alerta.idAlerta), ' alertas de componente desconhecido na máquina ', captura.fkComputador)
-    END AS mensagemAlerta,
-    CASE 
-        WHEN alerta.tipoAlerta = 1 THEN 'yellow'   -- Tipo de alerta amarelo
-        WHEN alerta.tipoAlerta = 2 THEN 'red'      -- Tipo de alerta vermelho
-        ELSE 'green'                               -- Outros tipos de alerta (por padrão verde)
-    END AS tipoAlerta
+SELECT 
+    captura.fkComputador AS idComputador,
+        captura.fkComponente, alerta.tipoAlerta,
+		COUNT(alerta.idAlerta) as QuantidadeAlertas
 FROM 
     alerta
 JOIN 

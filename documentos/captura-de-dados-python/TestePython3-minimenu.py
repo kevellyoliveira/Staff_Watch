@@ -10,7 +10,7 @@ from ping3 import ping
 
 config = {
     'user': 'root',
-    'password': 'sptech',
+    'password': '#Gf47722899846',
     'host': 'localhost',
     'database': 'StaffWatch'
 }
@@ -131,7 +131,7 @@ def print_system_info(fk_computador):
     mydb.commit()
     print(cursor.rowcount, "registro inserido - cpu")
 
-    if cpu_percent >= 80:
+    if cpu_percent >= 0:
         if cpu_percent >= 90:
             buscarID = ("""SELECT idCaptura FROM captura WHERE 
                     fkComponente = 4 AND fkAuxComponente = 12 
@@ -170,26 +170,26 @@ def print_system_info(fk_computador):
 
     #------------------------------------ Nova biblioteca para dados de rede ------------------------------------
     #daq para baixo adaptar no menu python
-    host = "8.8.8.8"  # DNS do Google como exemplo
+    # host = "8.8.8.8"  # DNS do Google como exemplo
 
-    # Tempo de resposta
-    latencia = medir_tempo_resposta(host)
-    print(f"Tempo de resposta: {latencia:.2f} ms")
+    # # Tempo de resposta
+    # latencia = medir_tempo_resposta(host)
+    # print(f"Tempo de resposta: {latencia:.2f} ms")
 
-    # Perda de pacotes
-    perda = calcular_perda_pacotes(host, pacotes=10)
-    print(f"Perda de pacotes: {perda:.2f}%")
+    # # Perda de pacotes
+    # perda = calcular_perda_pacotes(host, pacotes=10)
+    # print(f"Perda de pacotes: {perda:.2f}%")
 
     
 
-    # Tempo médio entre falhas
-    tempo_medio_falhas = monitorar_falhas(host, intervalo=5, duracao=20)
+    # # Tempo médio entre falhas
+    # tempo_medio_falhas = monitorar_falhas(host, intervalo=5, duracao=20)
 
-    print(f"Tempo médio entre falhas: {tempo_medio_falhas:.2f} segundos")
-    if isinstance(tempo_medio_falhas, float):
-        print(f"Tempo médio entre falhas: {tempo_medio_falhas:.2f} segundos")
-    else:
-        print(tempo_medio_falhas)
+    # print(f"Tempo médio entre falhas: {tempo_medio_falhas:.2f} segundos")
+    # if isinstance(tempo_medio_falhas, float):
+    #     print(f"Tempo médio entre falhas: {tempo_medio_falhas:.2f} segundos")
+    # else:
+    #     print(tempo_medio_falhas)
     #------------------------------------------------------------------------------------------------------------
 
     if os.name == 'posix':
