@@ -251,9 +251,71 @@ function eficienciaEquipeChamada(fkEquipe) {
     return database.executar(instrucaoSql);
 }
 
+// Empresa
 
+function puxarDadosEmpresaChamada(fkEmpresa) {
+    console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function descurtir()");
+    var instrucaoSql = `
+   SELECT tempoEspera FROM chamada 
+   INNER JOIN funcionario ON chamada.fkFuncionario = funcionario.idFuncionario
+   where funcionario.fkEmpresa = ${1}`;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
 
+function puxarTempoEmpresaChamada(fkEmpresa) {
+    console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function descurtir()");
+    var instrucaoSql = `
+    SELECT tempoChamada FROM chamada
+    INNER JOIN funcionario ON chamada.fkFuncionario = funcionario.idFuncionario
+     where funcionario.fkEmpresa = ${1}`;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
 
+function puxarTotalEmpresaChamada(fkEmpresa) {
+    console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function descurtir()");
+    var instrucaoSql = `
+SELECT COUNT(*) chamadaRecebida FROM chamada
+ INNER JOIN funcionario ON chamada.fkFuncionario = funcionario.idFuncionario
+    WHERE funcionario.fkEmpresa = ${1}`;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function puxarTotalEmpresaPerdida(fkEmpresa) {
+    console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function descurtir()");
+    var instrucaoSql = `
+   SELECT COUNT(*) AS chamadaPerdida FROM chamada
+    INNER JOIN funcionario ON chamada.fkFuncionario = funcionario.idFuncionario
+    WHERE chamada.chamadaPerdida = 1
+    AND funcionario.fkEmpresa = ${1};`
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function puxarTotalEmpresaAtendida(fkEmpresa) {
+    console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function descurtir()");
+    var instrucaoSql = `
+     SELECT COUNT(*) AS chamadaAtendida FROM chamada
+     INNER JOIN funcionario ON chamada.fkFuncionario = funcionario.idFuncionario
+      WHERE funcionario.fkEmpresa = ${1} AND chamadaAtendida IN(2, 3); `;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function eficienciaEmpresaChamada(fkEmpresa) {
+    console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function descurtir()");
+    var instrucaoSql = `
+      SELECT
+    COUNT(*) AS chamadaRecebida,
+        COUNT(CASE WHEN chamadaAtendida IN(2, 3) THEN 1 END) AS chamadaAtendida
+        FROM chamada
+    INNER JOIN funcionario ON chamada.fkFuncionario = funcionario.idFuncionario
+        WHERE funcionario.fkEmpresa = ${1};`;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
 
 
 function plotarGrafico(fkEmpresa) {
@@ -293,5 +355,11 @@ module.exports = {
     puxarTotalEquipeChamada,
     puxarTotalEquipePerdida,
     puxarTotalEquipeAtendida,
-    eficienciaEquipeChamada
+    eficienciaEquipeChamada,
+    puxarDadosEmpresaChamada,
+    puxarTempoEmpresaChamada,
+    puxarTotalEmpresaChamada,
+    puxarTotalEmpresaPerdida,
+    puxarTotalEmpresaAtendida,
+    eficienciaEmpresaChamada
 }

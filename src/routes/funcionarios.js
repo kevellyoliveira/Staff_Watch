@@ -52,7 +52,7 @@ router.get("/dados/totalAtendida/:fkFuncionario", function (req, res) {
 
 router.get("/dados/eficiencia/:fkFuncionario", function (req, res) {
     funcionarioController.eficienciaChamada(req, res);
-    });
+});
 
 router.get("/dados/:endpoint/:fkFuncionario", function (req, res) {
     funcionarioController.carregarGrafico(req, res);
@@ -60,32 +60,58 @@ router.get("/dados/:endpoint/:fkFuncionario", function (req, res) {
 
 
 
-                                            // Equipe
+// Equipe
 
 router.get("/dados/tempoEspera/:fkEquipe", function (req, res) {
-funcionarioController.puxarDadosEquipeChamada(req, res);
+    funcionarioController.puxarDadosEquipeChamada(req, res);
 });
-                                            
+
 router.get("/dados/tempoChamada/:fkEquipe", function (req, res) {
-funcionarioController.puxarTempoEquipeChamada(req, res);
+    funcionarioController.puxarTempoEquipeChamada(req, res);
 });
-                                            
+
 router.get("/dados/totalChamada/:fkEquipe", function (req, res) {
-funcionarioController.puxarTotalEquipeChamada(req, res);
+    funcionarioController.puxarTotalEquipeChamada(req, res);
 });
-                                            
+
 router.get("/dados/totalPerdida/:fkEquipe", function (req, res) {
-funcionarioController.puxarTotalEquipePerdida(req, res);
+    funcionarioController.puxarTotalEquipePerdida(req, res);
 });
-                                            
+
 router.get("/dados/totalAtendida/:fkEquipe", function (req, res) {
-funcionarioController.puxarTotalEquipeAtendida(req, res);
+    funcionarioController.puxarTotalEquipeAtendida(req, res);
 });
 
 
 router.get("/dados/eficiencia/:fkEquipe", function (req, res) {
-funcionarioController.eficienciaEquipeChamada(req, res);
- });
+    funcionarioController.eficienciaEquipeChamada(req, res);
+});
+
+// Empresa
+
+router.get("/dados/tempoEspera/:fkEmpresa", function (req, res) {
+    funcionarioController.puxarDadosEmpresaChamada(req, res);
+});
+
+router.get("/dados/tempoChamada/:fkEmpresa", function (req, res) {
+    funcionarioController.puxarTempoEmpresaChamada(req, res);
+});
+
+router.get("/dados/totalChamada/:fkEmpresa", function (req, res) {
+    funcionarioController.puxarTotalEmpresaChamada(req, res);
+});
+
+router.get("/dados/totalPerdida/:fkEmpresa", function (req, res) {
+    funcionarioController.puxarTotalEmpresaPerdida(req, res);
+});
+
+router.get("/dados/totalAtendida/:fkEmpresa", function (req, res) {
+    funcionarioController.puxarTotalEmpresaAtendida(req, res);
+});
+
+router.get("/dados/eficiencia/:fkEmpresa", function (req, res) {
+    funcionarioController.eficienciaEmpresaChamada(req, res);
+});
 
 
 
