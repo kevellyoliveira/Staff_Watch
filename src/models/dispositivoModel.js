@@ -8,13 +8,13 @@ function gerarGraficoTempoReal(fkEmpresa, idComponente, idComputador) {
     if (idComponente == 1) {
         var instrucaoSql = `select 
                 (select captura from captura 
-                where fkComponente = 1 and fkComputador = 1 and fkAuxComponente = 4
-                limit 1) as pctRec,
-                captura as pctEnv, 
+                where fkComponente = 1 and fkComputador = ${idComputador} and fkAuxComponente = 20
+                limit 1) as latencia,
+                captura as pctPerd, 
                 time(dataCaptura) as dataCaptura, modelo, fkComputador, fkEmpresa
             from captura
             join computador co on captura.fkComputador = co.idComputador
-            where fkComponente = 1 and fkAuxComponente = 5 and
+            where fkComponente = 1 and fkAuxComponente = 21 and
             fkEmpresa = ${fkEmpresa} and fkComputador = ${idComputador}
             order by idCaptura desc limit 1;`;
 
@@ -60,13 +60,13 @@ function obterDadosGrafico(fkEmpresa, idComponente, idComputador) {
     if (idComponente == 1) {
         var instrucaoSql = `select 
                 (select captura from captura 
-                where fkComponente = 1 and fkComputador = 1 and fkAuxComponente = 4
-                limit 1) as pctRec,
-                captura as pctEnv, 
+                where fkComponente = 1 and fkComputador = ${idComputador} and fkAuxComponente = 20
+                limit 1) as latencia,
+                captura as pctPerd, 
                 time(dataCaptura) as dataCaptura, modelo, fkComputador, fkEmpresa
             from captura
             join computador co on captura.fkComputador = co.idComputador
-            where fkComponente = 1 and fkAuxComponente = 5 and
+            where fkComponente = 1 and fkAuxComponente = 20 and
             fkEmpresa = ${fkEmpresa} and fkComputador = ${idComputador}
             order by idCaptura limit 30;`;
         console.log("Executando a instrução SQL: \n" + instrucaoSql);
@@ -134,7 +134,7 @@ function historico(fkEmpresa, idComputador) {
             join componente co on co.idComponente = ca.fkComponente
             join auxcomponente aux on aux.idAuxComponente = ca.fkAuxComponente
             join computador maq on maq.idComputador = ca.fkComputador
-            where maq.fkEmpresa = ${fkEmpresa} and fkComputador = ${idComputador};`;
+            where maq.fkEmpresa = ${fkEmpresa} and fkComputador = ${idComputador} order by idCaptura desc;`;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }

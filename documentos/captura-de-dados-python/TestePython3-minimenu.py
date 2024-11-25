@@ -5,6 +5,7 @@ import mysql.connector
 from datetime import datetime
 import pytz 
 from cpuinfo import get_cpu_info
+from ping3 import ping
 
 config = {
     'user': 'root',
@@ -205,21 +206,100 @@ def print_system_info(fk_computador):
         lines = output.splitlines()
         network_model = lines[2].strip()
 
+    # obtendo ping
+    host = "google.com"
+    latency = ping(host)
+    if latency is None:
+        latency = -1
+    else:
+        latency = round(latency * 1000, 2)
+
+    # obtendo pacotes perdidos
+    lost = 0
+    for _ in range(5):
+        response = ping(host, timeout=2)
+        if response is None:
+            lost += 1
+    packet_loss = (lost / 5) * 100
+    print(packet_loss, "perda de pacotes------------------------")
+
     add_rede = ("""INSERT INTO captura
                 (idCaptura, captura, dataCaptura, fkAuxComponente,fkComponente, fkComputador, modelo) VALUES 
                 (default,%s,%s,2,1,%s,%s),
                 (default,%s,%s,3,1,%s,%s),
                 (default,%s,%s,4,1,%s,%s),
-                (default,%s,%s,5,1,%s,%s)""")
+                (default,%s,%s,5,1,%s,%s),
+                (default,%s,%s,20,1,%s,%s),
+                (default,%s,%s,21,1,%s,%s);""")
 
     data_rede = [bytesEnv, agora, fk_computador, network_model,
                  bytesReceb, agora, fk_computador, network_model,
                  pctReceb, agora, fk_computador, network_model,
-                 pctEnv, agora, fk_computador, network_model]
+                 pctEnv, agora, fk_computador, network_model,
+                 latency, agora, fk_computador, network_model,
+                 packet_loss, agora, fk_computador, network_model]
 
     cursor.execute(add_rede, data_rede)
     mydb.commit()
     print(cursor.rowcount, "registro inserido - rede")
+
+    if latency >= 50:
+        if latency >= 100:
+            buscarID = ("""SELECT idCaptura FROM captura WHERE 
+                    fkComponente = 1 AND fkAuxComponente = 20 
+                    ORDER BY idCaptura DESC LIMIT 1""")
+            cursor.execute(buscarID)
+            idObtido = cursor.fetchone() # obtém o resultado do select de buscarID!!!
+
+            inserirAlerta = ("""INSERT INTO alerta (tipoAlerta, fkCaptura) 
+                                VALUES (2, %s)""")
+            dados_alerta = [idObtido[0]]  # Usa o primeiro elemento da tupla
+            cursor.execute(inserirAlerta, dados_alerta)
+            mydb.commit()
+            print(cursor.rowcount, "alerta vermelho inserido - rede latency")
+
+        else: # entre 80 e 89
+            buscarID = ("""SELECT idCaptura FROM captura WHERE 
+                    fkComponente = 1 AND fkAuxComponente = 20 
+                    ORDER BY idCaptura DESC LIMIT 1""")
+            cursor.execute(buscarID)
+            idObtido = cursor.fetchone() # obtém o resultado do select de buscarID!!!
+
+            inserirAlerta = ("""INSERT INTO alerta (tipoAlerta, fkCaptura) 
+                                VALUES (1, %s)""")
+            dados_alerta = [idObtido[0]]  # Usa o primeiro elemento da tupla
+            cursor.execute(inserirAlerta, dados_alerta)
+            mydb.commit()
+            print(cursor.rowcount, "alerta amarelo inserido - rede latency")
+
+    if packet_loss >= 2:
+        if packet_loss >= 4:
+            buscarID = ("""SELECT idCaptura FROM captura WHERE 
+                    fkComponente = 1 AND fkAuxComponente = 21 
+                    ORDER BY idCaptura DESC LIMIT 1""")
+            cursor.execute(buscarID)
+            idObtido = cursor.fetchone() # obtém o resultado do select de buscarID!!!
+
+            inserirAlerta = ("""INSERT INTO alerta (tipoAlerta, fkCaptura) 
+                                VALUES (2, %s)""")
+            dados_alerta = [idObtido[0]]  # Usa o primeiro elemento da tupla
+            cursor.execute(inserirAlerta, dados_alerta)
+            mydb.commit()
+            print(cursor.rowcount, "alerta vermelho inserido - rede pctPerdidos")
+
+        else: # entre 80 e 89
+            buscarID = ("""SELECT idCaptura FROM captura WHERE 
+                    fkComponente = 1 AND fkAuxComponente = 21 
+                    ORDER BY idCaptura DESC LIMIT 1""")
+            cursor.execute(buscarID)
+            idObtido = cursor.fetchone() # obtém o resultado do select de buscarID!!!
+
+            inserirAlerta = ("""INSERT INTO alerta (tipoAlerta, fkCaptura) 
+                                VALUES (1, %s)""")
+            dados_alerta = [idObtido[0]]  # Usa o primeiro elemento da tupla
+            cursor.execute(inserirAlerta, dados_alerta)
+            mydb.commit()
+            print(cursor.rowcount, "alerta amarelo inserido - rede pctPerdidos")
 
 def main():
     print("Bem-vindo ao monitor de sistema!")

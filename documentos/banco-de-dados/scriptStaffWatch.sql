@@ -31,9 +31,6 @@ insert into auxComponente values
 (default,"redeRecebidos","bytes", 1),
 (default,"pacoteRecebidos","qte", 1),
 (default,"pacoteEnviados","qte", 1),
-(default,"pacoteEnviados","qte", 1),
-(default,"pacoteEnviados","qte", 1),
-(default,"pacoteEnviados","qte", 1),
 
 
 (default,"memoriaUso","byte", 2),
@@ -51,8 +48,10 @@ insert into auxComponente values
 (default,"pacoteRecebidosLooca","qte", 1),
 (default,"totalServiçosLooca","qte", 5),
 (default,"totalProcessosLooca","qte", 5),
-(default,"tempoAtividadeLooca","segundos", 5);
+(default,"tempoAtividadeLooca","segundos", 5),
 
+(default,"latencia", "ms", 1),
+(default,"pacotesPerdidos", "%",1);
 
 CREATE TABLE IF NOT EXISTS empresa (
 idEmpresa INT PRIMARY KEY AUTO_INCREMENT,
@@ -345,16 +344,16 @@ select * from view_discoTempoReal where fkEmpresa = ? and fkComputador = ?;
 
 
 -- --------------------------- gráfico em tempo real: rede - pacotes enviados e recebidos 
-create or replace view view_redeTempoReal as
+create or replace view view_redeTempoReal as;
 select 
     (select captura from captura 
-     where fkComponente = 1 and fkComputador = 1 and fkAuxComponente = 4
-     limit 1) as pctRec,
-    captura as pctEnv, 
+     where fkComponente = 1 and fkAuxComponente = 20
+     limit 1) as latencia,
+    captura as pctPerd, 
     time(dataCaptura) as dataCaptura, modelo, fkComputador, fkEmpresa
 from captura
 join computador co on captura.fkComputador = co.idComputador
-where fkComponente = 1 and fkAuxComponente = 5
+where fkComponente = 1 and fkAuxComponente = 21
 order by idCaptura limit 100;
 
 
@@ -409,7 +408,7 @@ select modelo, fkComputador, equipe.nome from captura join computador as c on c.
  WHERE equipe.fkEmpresa = 1 AND captura.fkComponente = 3;
  
  select * from alerta;
- select * from captura;
+ select * from captura where fkComponente = 1 and fkAuxComponente = 21 order by idCaptura desc;
  select * from computador;
  
 

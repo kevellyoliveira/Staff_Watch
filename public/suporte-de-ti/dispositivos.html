@@ -27,7 +27,8 @@
                 </div>
                 <div class="menuCima op2" id="itens">
                     <h6 class="opcoesMenu slct" onclick="window.location.href='dispositivos.html'">Dispositivos</h6>
-                    <h6 class="opcoesMenu" onclick="window.location.href='../dashboard-matheus-cpu.html'">Componentes</h6>
+                    <h6 class="opcoesMenu" onclick="window.location.href='../dashboard-matheus-cpu.html'">Componentes
+                    </h6>
                 </div>
             </div>
 
@@ -166,7 +167,8 @@
                         <h6 class="opcoesMenu" id="disco" onclick="alterarComponente('dashDisco')"> Disco </h6>
                         <h6 class="opcoesMenu" id="rede" onclick="alterarComponente('dashRede')"> Rede </h6>
                         <h6 class="opcoesMenu" id="memoria" onclick="alterarComponente('dashMemoria')"> Memória</h6>
-                        <h6 class="opcoesMenu" id="historico" onclick="alterarComponente('dashHistorico')"> Histórico</h6>
+                        <h6 class="opcoesMenu" id="historico" onclick="alterarComponente('dashHistorico')"> Histórico
+                        </h6>
                     </div>
 
                     <div class="aside">
@@ -259,16 +261,16 @@
                     </div>
                     <div id="dashRede" class="bside">
                         <div class="dado">
-                            <h3> Pacotes Enviados: </h3>
+                            <h3> Latência: </h3>
                             <div class="dadoInfo">
-                                <h2> <span id="redeEnviar"> -- </span> </h2>
+                                <h2> <span id="redeLatencia"> -- </span> </h2>
                             </div>
                         </div>
 
                         <div class="dado">
-                            <h3> Pacotes Recebidos: </h3>
+                            <h3> Pacotes Perdidos: </h3>
                             <div class="dadoInfo">
-                                <h2> <span id="redeReceber"> -- </span> </h2>
+                                <h2> <span id="redePerdido"> -- </span> </h2>
                             </div>
                         </div>
 
@@ -786,9 +788,19 @@
                     const dataCaptura = new Date(alerta.dataCaptura);
                     const formattedDate = `${dataCaptura.getDate()}/${dataCaptura.getMonth() + 1}/${dataCaptura.getFullYear()} às ${dataCaptura.getHours()}:${dataCaptura.getMinutes()}:${dataCaptura.getSeconds()}`;
 
+                    const descricaoAdicional = componente.toLowerCase() === 'rede'
+                        ? (descricao.toLowerCase() === 'latencia' ? 'latência' : 'pacotes perdidos')
+                        : `porcentagem de uso`;
+
                     const mensagemFormatada = `<p>
-                     Alerta <span style="background-color: ${tipoAlerta === 'amarelo' ? '#ffd06c' : '#f34949'}; border-radius: 9px; padding: 0 2px; color: ${tipoAlerta === 'amarelo' ? '#000' : '#fff'};">${tipoAlerta}</span> <span style="text-decoration: underline;"> em ${formattedDate} </span>
-                     em porcentagem de uso do componente <b style="font-weight: bold;">${componente} --> ${captura}%</b>.
+                        Alerta <span style="background-color: ${tipoAlerta === 'amarelo' ? '#ffd06c' : '#f34949'}; 
+                        border-radius: 9px; 
+                        padding: 0 2px; 
+                        color: ${tipoAlerta === 'amarelo' ? '#000' : '#fff'};">
+                            ${tipoAlerta}
+                        </span> 
+                        <span style="text-decoration: underline;">em ${formattedDate}</span>
+                        em ${descricaoAdicional} do componente <b style="font-weight: bold;">${componente} --> ${captura}%</b>.
                     </p>`;
                     alertaDiv.innerHTML = mensagemFormatada;
 
@@ -845,8 +857,8 @@
             if (window.chartREDE instanceof Chart) {
                 window.chartREDE.destroy();
             }
-            const ultimosPctEnv = dadosRecebidos.slice(-20).map(item => item.pctEnv);
-            const ultimosPctRec = dadosRecebidos.slice(-20).map(item => item.pctRec);
+            const ultimosPctPerd = dadosRecebidos.slice(-20).map(item => item.pctPerd);
+            const ultimosLat = dadosRecebidos.slice(-20).map(item => item.latencia);
             const ultimasDatas = dadosRecebidos.slice(-20).map(item => item.dataCaptura);
 
             // Inicialização do gráfico vazio
@@ -855,20 +867,12 @@
                 data: {
                     labels: ultimasDatas, // Inicialmente vazio
                     datasets: [{
-                        label: 'Pacotes enviados',
-                        data: ultimosPctEnv, // Inicialmente vazio
+                        label: 'Latência (ms)',
+                        data: ultimosLat, // Inicialmente vazio
                         borderWidth: 1,
                         borderColor: "#FF6384",
                         backgroundColor: "rgba(255, 99, 132, 0.2)"
-                    },
-                    {
-                        label: 'Pacotes Recebidos',
-                        data: ultimosPctRec, // Inicialmente vazio
-                        borderWidth: 1,
-                        borderColor: "#36A2EB",
-                        backgroundColor: "rgba(54, 162, 235, 0.2)"
-                    }
-                    ]
+                    }]
                 },
                 options: {
                     scales: {
@@ -1011,12 +1015,10 @@
                                 // Adiciona o novo dado ao gráfico
                                 if (idComponente === 1) {
                                     // Rede
-                                    let pctEnv = dadoAtual.pctEnv;
-                                    let pctRec = dadoAtual.pctRec;
+                                    let latencia = dadoAtual.latencia;
 
                                     graficoAtual.data.labels.push(momento);
-                                    graficoAtual.data.datasets[0].data.push(pctEnv);
-                                    graficoAtual.data.datasets[1].data.push(pctRec);
+                                    graficoAtual.data.datasets[0].data.push(latencia);
                                 } else {
                                     // Outros componentes (Memória, Disco, CPU)
                                     let temperatura = dadoAtual.captura;
@@ -1033,10 +1035,11 @@
                                     }
                                 }
 
-                                redeEnviar.innerHTML = dadoAtual.pctEnv;
-                                redeReceber.innerHTML = dadoAtual.pctRec;
+                                redeLatencia.innerHTML = `${dadoAtual.latencia}ms`;
+                                redePerdido.innerHTML = `${dadoAtual.pctPerd}%`;
                                 idNomeComponente.innerHTML = dadoAtual.modelo;
-                                atualizarCor(memoriaUtilizacao, dadoAtual.captura);
+                                atualizarCor(redeLatencia, dadoAtual.captura);
+                                atualizarCor(redePerdido, dadoAtual.captura);
 
                                 // Atualiza o gráfico
                                 graficoAtual.update();
@@ -1078,7 +1081,29 @@
     }
 
     function atualizarCor(elemento, valor) {
-        if (valor > 90) {
+        if (elemento == redeLatencia) {
+            if (valor >= 50) {
+                if (valor >= 100) {
+                    elemento.style.color = "red";
+                } else {
+                    elemento.style.color = "yellow";
+                }
+            } else {
+                elemento.style.color = "green";
+            }
+        }
+        else if (elemento == redePerdido) {
+            if (valor >= 2) {
+                if (valor >= 4) {
+                    elemento.style.color = "red";
+                } else {
+                    elemento.style.color = "yellow";
+                }
+            } else {
+                elemento.style.color = "green";
+            }
+        }
+        else if (valor > 90) {
             elemento.style.color = "red"; // Vermelho
         } else if (valor > 80) {
             elemento.style.color = "yellow"; // Amarelo
