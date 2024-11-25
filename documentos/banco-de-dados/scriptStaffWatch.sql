@@ -48,8 +48,9 @@ insert into auxComponente values
 (default,"pacoteRecebidosLooca","qte", 1),
 (default,"totalServiçosLooca","qte", 5),
 (default,"totalProcessosLooca","qte", 5),
-(default,"tempoAtividadeLooca","segundos", 5),
+(default,"tempoAtividadeLooca","segundos", 5);
 
+insert into auxComponente values
 (default,"latencia", "ms", 1),
 (default,"pacotesPerdidos", "%",1);
 
@@ -501,5 +502,8 @@ GROUP BY
     captura.fkComputador, captura.fkComponente
 ORDER BY 
     captura.fkComputador;
+    
+    
+
 
 -- --------------------------------------------------------------------------------------------------------------------

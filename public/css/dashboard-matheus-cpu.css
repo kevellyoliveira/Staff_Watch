@@ -6,7 +6,7 @@
     box-sizing: border-box;
     font-family: 'Inter';
     font-weight: 500;
-    overflow-y: hidden;
+    /* overflow-y: hidden; */
 
 }
 
@@ -210,10 +210,13 @@ header {
     text-align: center;
     display: flex;
     margin-left: 1340px;
-    margin-top: -40px;
-    
+    margin-top: -110px;
+    box-shadow:2px 5px rgba(0, 0, 0, 0.3);
 
 }
+    
+
+
 
 .dropdown:hover{
     cursor: pointer;
@@ -321,21 +324,136 @@ header {
     flex-direction: column;
     align-items: center;
     height: 455px;
-    margin-left: 15px;
+    margin-left: 10px;
+    overflow: hidden;
+    overflow-y: scroll;
 }
 
 .direita .box {
     width: 90%;
-    height: 3rem;
+    height: auto;
     background-color: #e7ecef;
     border-radius: 15px;
-    margin-top: 40px;
+    margin-top: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    padding: 10px;
     text-align: center;
 }
+
+.atencao {
+    position: relative;
+    height: 8vh;
+    width: 20vh;
+    font-size: 20px;
+    background-color: #ffd06c;
+    border-radius: 1vh;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:5px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transform: translateZ(0);
+}
+
+.atencao:hover{
+    height: 10vh;
+    width: 23vh;
+    transition: 0.4s;
+    transform: translateZ(30px); 
+    box-shadow: 5px 10px rgba(0, 0, 0, 0.3); 
+    }
+
+.critico {
+    position: relative;
+    height: 8vh;
+    width: 20vh;
+    background-color: #f34949;
+    border-radius: 1vh;
+    font-size: 20px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:5px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transform: translateZ(0);
+}
+
+.critico:hover{
+    height: 10vh;
+    width: 23vh;
+    transition: 0.4s;
+    transform: translateZ(30px); 
+    box-shadow: 5px 10px rgba(0, 0, 0, 0.3); 
+    }
+
+
+    .card10 {
+        position: absolute;
+        font-size: 20px;
+        top: -80%; /* Posiciona o card abaixo da div */
+        left: -110%;
+        transform: translateX(-50%);
+        width: 320px;
+        background-color: white;
+        color: black;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        padding: 15px;
+        opacity: 0; /* Esconde o card inicialmente */
+        pointer-events: none; /* Previne interações quando invisível */
+        transition: opacity 0.3s ease, transform 0.3s ease; /* Transição suave */
+      }
+    
+      .atencao:hover .card10 {
+        opacity: 1; /* Mostra o card */
+        pointer-events: auto; /* Permite interação quando visível */
+        transform: translateX(-50%) translateY(0); /* Animação suave */
+      }
+    
+      .card11 {
+        position: absolute;
+        top: 110%; 
+        left: 60%;
+        font-size: 20px;
+        transform: translateX(-50%);
+        width: 320px;
+        background-color: white;
+        color: black;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        padding: 15px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+      }
+    
+      .critico:hover .card11 {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateX(-50%) translateY(0);
+      }
+
+      .son2 {
+        height: 18vh; 
+    display: flex;
+    justify-content: end;
+    gap: 5vh;
+    margin-top: -56px;
+    margin-right: 240px;
+    }
+
+    .son2 h4{
+
+font-size: 14px;
+
+
+
+    }
 
 
 

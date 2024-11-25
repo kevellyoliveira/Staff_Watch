@@ -10,7 +10,7 @@ from ping3 import ping
 
 config = {
     'user': 'root',
-    'password': 'sptech',
+    'password': '#Gf47722899846',
     'host': 'localhost',
     'database': 'StaffWatch'
 }
@@ -131,7 +131,7 @@ def print_system_info(fk_computador):
     mydb.commit()
     print(cursor.rowcount, "registro inserido - cpu")
 
-    if cpu_percent >= 80:
+    if cpu_percent >= 0:
         if cpu_percent >= 90:
             buscarID = ("""SELECT idCaptura FROM captura WHERE 
                     fkComponente = 4 AND fkAuxComponente = 12 
