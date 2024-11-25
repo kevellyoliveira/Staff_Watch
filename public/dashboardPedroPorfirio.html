@@ -13,7 +13,7 @@
     <title>Dashboard | Staff Watch</title>
 </head>
 
-<body >
+<body>
     <header>
         <div class="opcoes">
             <div class="esq">
@@ -101,12 +101,12 @@
             <div class="bloco1">Tempo médio atendimento:
                 <div class="minibloco"></div>
             </div>
-            <div class="bloco2">Eficiência:
+            <div class="bloco2">Tempo médio espera:
                 <div class="minibloco1"></div>
             </div>
         </div>
         <div class="son4">
-            <div class="bloco3">Tempo médio espera:
+            <div class="bloco3">Eficiência:
                 <div class="minibloco2"></div>
             </div>
             <div class="bloco4">Chamadas perdidas:
@@ -241,8 +241,6 @@
     }
 
 
-
-
     function listarEquipes() {
 
         const fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
@@ -337,7 +335,7 @@
                 if (resposta.ok) {
                     return resposta.json(); // Retorna os dados em JSON
                 } else {
-                    throw new Error("Não foi possível capturar os dados do funcionário.");
+                    throw new Error("Não foi possível capturar os dados de chamada da empresa.");
                 }
             })
             .then(data => {
@@ -368,7 +366,7 @@
                         // alert("Captura de dados total de chamadas efetuadas ");
                         ; // Atualiza a lista após a exclusão
                 } else {
-                    throw "Não foi possível capturar o total de chamadas do funcionário.";
+                    throw "Não foi possível capturar o total de chamadas da empresa.";
                 }
             })
             .catch(error => {
@@ -417,7 +415,7 @@
                 if (resposta.ok) {
                     return resposta.json(); // Retorna os dados em JSON
                 } else {
-                    throw new Error("Não foi possível capturar os dados de chamadas perdidas da Empresa.");
+                    throw new Error("Não foi possível capturar os dados de chamadas da Empresa.");
                 }
             })
             .then(data => {
@@ -453,10 +451,6 @@
             });
     }
 
-
-
-
-
     function puxarTotalEmpresaAtendida(fkEmpresa) {
 
         fetch(`/funcionarios/dados/totalAtendida/${1}`, {
@@ -468,7 +462,7 @@
                         //  alert("Captura de dados total de chamadas atendida efetuadas ");
                         ; // Atualiza a lista após a exclusão
                 } else {
-                    throw "Não foi possível capturar o total de chamadas atendidas do funcionário.";
+                    throw "Não foi possível capturar o total de chamadas atendidas da empresa";
                 }
             })
             .catch(error => {
@@ -478,31 +472,20 @@
     }
 
 
-    window.onload = function () {
-        const fkEmpresa = 1
-        listarEquipes();  // Chama a função para listar as equipes
-        atualizarFeedEquipe();
-        puxarDadosEmpresaChamada(fkEmpresa);
-        puxarTempoEmpresaChamada(fkEmpresa);
-        puxarTotalEmpresaChamada(fkEmpresa);
-        puxarTotalEmpresaPerdida(fkEmpresa);
-        eficienciaEmpresaChamada(fkEmpresa);
-        puxarTotalEmpresaAtendida(fkEmpresa);  // Chama a função para atualizar o feed da equipe
-        // plotarGrafico();
-    };
-
-
-    document.addEventListener('DOMContentLoaded', function () {
-        listarEquipes();  // Chama a função para listar as equipes
-        atualizarFeedEquipe();
+    document.addEventListener("DOMContentLoaded", function () {
+        const fkEmpresa = sessionStorage.getItem("ID_EMPRESA") || 1; // Usa 1 como fallback
+        listarEquipes();
+        // Remova esta linha caso não exista a função:
+        // atualizarFeedEquipe();
         puxarDadosEmpresaChamada(fkEmpresa);
         puxarTempoEmpresaChamada(fkEmpresa);
         puxarTotalEmpresaChamada(fkEmpresa);
         puxarTotalEmpresaPerdida(fkEmpresa);
         eficienciaEmpresaChamada(fkEmpresa);
         puxarTotalEmpresaAtendida(fkEmpresa);
-        // Chama a função para atualizar o feed da equipe
     });
+
+
 
 
     // Função para abrir o menu header

@@ -435,6 +435,123 @@ function eficienciaEquipeChamada(req, res) {
         );
 }
 
+                                            // Empresa
+
+function puxarDadosEmpresaChamada(req, res) {
+
+    const fkEmpresa = req.params.fkEmpresa;
+
+    funcionarioModel.puxarDadosEmpresaChamada(fkEmpresa)
+        .then(
+            function (resultado) {
+                res.json(resultado);
+            }
+        )
+        .catch(
+            function (erro) {
+                console.log(erro);
+                console.log("Houve um erro ao listar os dados da chamada: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+}
+
+function puxarTempoEmpresaChamada(req, res) {
+
+    const fkEmpresa = req.params.fkEmpresa;
+
+    funcionarioModel.puxarTempoEmpresaChamada(fkEmpresa)
+        .then(
+            function (resultado) {
+                res.json(resultado);
+            }
+        )
+        .catch(
+            function (erro) {
+                console.log(erro);
+                console.log("Houve um erro ao listar os dados da chamada: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+}
+
+function puxarTotalEmpresaChamada(req, res) {
+
+    const fkEmpresa = req.params.fkEmpresa;
+
+    funcionarioModel.puxarTotalEmpresaChamada(fkEmpresa)
+        .then(
+            function (resultado) {
+                res.json(resultado);
+            }
+        )
+        .catch(
+            function (erro) {
+                console.log(erro);
+                console.log("Houve um erro ao listar os dados da chamada: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+}
+
+function puxarTotalEmpresaPerdida(req, res) {
+    
+    const fkEmpresa = req.params.fkEmpresa;
+
+    funcionarioModel.puxarTotalEmpresaPerdida(fkEmpresa)
+        .then(
+            function (resultado) {
+                res.json(resultado);
+            }
+        )
+        .catch(
+            function (erro) {
+                console.log(erro);
+                console.log("Houve um erro ao listar os dados da chamada: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+
+
+}
+
+function puxarTotalEmpresaAtendida(req, res) {
+
+    const fkEmpresa = req.params.fkEmpresa;
+
+    funcionarioModel.puxarTotalEmpresaAtendida(fkEmpresa)
+        .then(
+            function (resultado) {
+                res.json(resultado);
+            }
+        )
+        .catch(
+            function (erro) {
+                console.log(erro);
+                console.log("Houve um erro ao listar os dados da chamada: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+}
+
+function eficienciaEmpresaChamada(req, res) {
+
+    const fkEmpresa = req.params.fkEmpresa;
+
+    funcionarioModel.eficienciaEmpresaChamada(fkEmpresa)
+        .then(
+            function (resultado) {
+                res.json(resultado);
+            }
+        )
+        .catch(
+            function (erro) {
+                console.log(erro);
+                console.log("Houve um erro ao listar os dados da chamada: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+}
 
 
 
@@ -479,8 +596,14 @@ module.exports = {
     puxarTotalEquipeChamada,
     puxarTotalEquipePerdida,
     puxarTotalEquipeAtendida,
-    plotarGrafico,
+    puxarDadosEmpresaChamada,
+    puxarTempoEmpresaChamada,
+    puxarTotalEmpresaChamada,
+    puxarTotalEmpresaPerdida,
+    puxarTotalEmpresaAtendida,
+    eficienciaEmpresaChamada,
     eficienciaEquipeChamada,
     carregarGrafico,
+    plotarGrafico,
 }
 
