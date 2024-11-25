@@ -6,10 +6,11 @@ import mysql.connector
 from datetime import datetime
 import pytz
 from cpuinfo import get_cpu_info
+from ping3 import ping
 
 config = {
     'user': 'root',
-    'password': '#Gf47722899846',
+    'password': 'sptech',
     'host': 'localhost',
     'database': 'StaffWatch'
 }
@@ -84,7 +85,37 @@ def print_system_info(fk_computador):
     mydb.commit()
     print(cursor.rowcount, "registro inserido - disco")
 
-    # --------------------- Uso de CPU ---------------------
+    if discoPerc >= 80:
+        if discoPerc >= 90:
+            buscarID = ("""SELECT idCaptura FROM captura WHERE 
+                    fkComponente = 3 AND fkAuxComponente = 11
+                    ORDER BY idCaptura DESC LIMIT 1""")
+            cursor.execute(buscarID)
+            idObtido = cursor.fetchone() # obtém o resultado do select de buscarID!!!
+
+            inserirAlerta = ("""INSERT INTO alerta (tipoAlerta, fkCaptura) 
+                                VALUES (2, %s)""")
+            dados_alerta = [idObtido[0]]  # Usa o primeiro elemento da tupla
+            cursor.execute(inserirAlerta, dados_alerta)
+            mydb.commit()
+            print(cursor.rowcount, "alerta vermelho inserido - disco")
+
+        else: # entre 80 e 89
+            buscarID = ("""SELECT idCaptura FROM captura WHERE 
+                    fkComponente = 3 AND fkAuxComponente = 11 
+                    ORDER BY idCaptura DESC LIMIT 1""")
+            cursor.execute(buscarID)
+            idObtido = cursor.fetchone() # obtém o resultado do select de buscarID!!!
+
+            inserirAlerta = ("""INSERT INTO alerta (tipoAlerta, fkCaptura) 
+                                VALUES (1, %s)""")
+            dados_alerta = [idObtido[0]]  # Usa o primeiro elemento da tupla
+            cursor.execute(inserirAlerta, dados_alerta)
+            mydb.commit()
+            print(cursor.rowcount, "alerta amarelo inserido - disco")
+
+    # --------------------------------------------------------------------------------
+    # Obtém e exibe o uso da CPU
     cpu_percent = psutil.cpu_percent(interval=None)
     cpu_info = get_cpu_info()
     modelo_cpu = cpu_info['brand_raw']
@@ -100,7 +131,37 @@ def print_system_info(fk_computador):
     mydb.commit()
     print(cursor.rowcount, "registro inserido - cpu")
 
-    # --------------------- Uso de Rede ---------------------
+    if cpu_percent >= 80:
+        if cpu_percent >= 90:
+            buscarID = ("""SELECT idCaptura FROM captura WHERE 
+                    fkComponente = 4 AND fkAuxComponente = 12 
+                    ORDER BY idCaptura DESC LIMIT 1""")
+            cursor.execute(buscarID)
+            idObtido = cursor.fetchone() # obtém o resultado do select de buscarID!!!
+
+            inserirAlerta = ("""INSERT INTO alerta (tipoAlerta, fkCaptura) 
+                                VALUES (2, %s)""")
+            dados_alerta = [idObtido[0]]  # Usa o primeiro elemento da tupla
+            cursor.execute(inserirAlerta, dados_alerta)
+            mydb.commit()
+            print(cursor.rowcount, "alerta vermelho inserido - cpu")
+
+        else: # entre 80 e 89
+            buscarID = ("""SELECT idCaptura FROM captura WHERE 
+                    fkComponente = 4 AND fkAuxComponente = 12 
+                    ORDER BY idCaptura DESC LIMIT 1""")
+            cursor.execute(buscarID)
+            idObtido = cursor.fetchone() # obtém o resultado do select de buscarID!!!
+
+            inserirAlerta = ("""INSERT INTO alerta (tipoAlerta, fkCaptura) 
+                                VALUES (1, %s)""")
+            dados_alerta = [idObtido[0]]  # Usa o primeiro elemento da tupla
+            cursor.execute(inserirAlerta, dados_alerta)
+            mydb.commit()
+            print(cursor.rowcount, "alerta amarelo inserido - cpu")
+
+    # --------------------------------------------------------------------------------
+    # Obtém e exibe o uso da rede
     net_io = psutil.net_io_counters()
     bytesReceb = net_io.bytes_recv / (1024 ** 2)
     bytesEnv = net_io.bytes_sent / (1024 ** 2)
@@ -140,92 +201,113 @@ def print_system_info(fk_computador):
         lines = output.splitlines()
         network_model = lines[2].strip()
 
+    # obtendo ping
+    host = "google.com"
+    latency = ping(host)
+    if latency is None:
+        latency = -1
+    else:
+        latency = round(latency * 1000, 2)
+
+    # obtendo pacotes perdidos
+    lost = 0
+    for _ in range(5):
+        response = ping(host, timeout=2)
+        if response is None:
+            lost += 1
+    packet_loss = (lost / 5) * 100
+    print(packet_loss, "perda de pacotes------------------------")
+
     add_rede = ("""INSERT INTO captura
                 (idCaptura, captura, dataCaptura, fkAuxComponente,fkComponente, fkComputador, modelo) VALUES 
                 (default,%s,%s,2,1,%s,%s),
                 (default,%s,%s,3,1,%s,%s),
                 (default,%s,%s,4,1,%s,%s),
                 (default,%s,%s,5,1,%s,%s),
-                (default,%s,%s,23,1,%s,%s),
-                (default,%s,%s,24,1,%s,%s),
-                (default,%s,%s,25,1,%s,%s)""")
+                (default,%s,%s,20,1,%s,%s),
+                (default,%s,%s,21,1,%s,%s);""")
 
     data_rede = [bytesEnv, agora, fk_computador, network_model,
                  bytesReceb, agora, fk_computador, network_model,
                  pctReceb, agora, fk_computador, network_model,
                  pctEnv, agora, fk_computador, network_model,
-                 latencia, agora, fk_computador, network_model,
-                 perda, agora, fk_computador, network_model,
-                 tempo_medio_falhas, agora, fk_computador, network_model]
+                 latency, agora, fk_computador, network_model,
+                 packet_loss, agora, fk_computador, network_model]
 
     cursor.execute(add_rede, data_rede)
     mydb.commit()
     print(cursor.rowcount, "registro inserido - rede")
 
-# 1. Tempo de resposta (latência)
-def medir_tempo_resposta(host="8.8.8.8"):
-    """
-    Mede o tempo de resposta (latência) para um host específico.
-    """
-    resposta = ping(host, timeout=1)
-    if resposta is None:
-        return -1
-    return int(resposta * 1000)  # Convertido para milissegundos
+    if latency >= 50:
+        if latency >= 100:
+            buscarID = ("""SELECT idCaptura FROM captura WHERE 
+                    fkComponente = 1 AND fkAuxComponente = 20 
+                    ORDER BY idCaptura DESC LIMIT 1""")
+            cursor.execute(buscarID)
+            idObtido = cursor.fetchone() # obtém o resultado do select de buscarID!!!
 
-# 2. Perda de pacotes
-def calcular_perda_pacotes(host="8.8.8.8", pacotes=10):  # Para monitorar de forma mais realista, deve-se aumentar os pacotes (por exemplo, pacotes=100)
-    """
-    Calcula a porcentagem de pacotes perdidos para um host específico.
-    """
-    pacotes_perdidos = 0
-    for _ in range(pacotes):
-        if ping(host, timeout=1) is None:
-            pacotes_perdidos += 1
-    return int((pacotes_perdidos / pacotes) * 100)  # Percentual de pacotes perdidos
+            inserirAlerta = ("""INSERT INTO alerta (tipoAlerta, fkCaptura) 
+                                VALUES (2, %s)""")
+            dados_alerta = [idObtido[0]]  # Usa o primeiro elemento da tupla
+            cursor.execute(inserirAlerta, dados_alerta)
+            mydb.commit()
+            print(cursor.rowcount, "alerta vermelho inserido - rede latency")
 
-# 3. Tempo médio entre falhas
-def monitorar_falhas(host="8.8.8.8", intervalo=10, duracao=20):  
-    """
-    Monitora falhas de conexão em um host específico e calcula o tempo médio entre falhas em minutos.
-    """
-    falhas = []
-    inicio = time.time()
-    while time.time() - inicio < duracao:
-        if ping(host, timeout=1) is None:
-            falhas.append(time.time())
-        time.sleep(intervalo)
+        else: # entre 80 e 89
+            buscarID = ("""SELECT idCaptura FROM captura WHERE 
+                    fkComponente = 1 AND fkAuxComponente = 20 
+                    ORDER BY idCaptura DESC LIMIT 1""")
+            cursor.execute(buscarID)
+            idObtido = cursor.fetchone() # obtém o resultado do select de buscarID!!!
 
-    if len(falhas) > 1:
-        # Calcula os intervalos entre falhas e converte para minutos
-        tempos_entre_falhas = [(falhas[i] - falhas[i-1]) / 60 for i in range(1, len(falhas))]
-        return int(sum(tempos_entre_falhas) / len(tempos_entre_falhas))  # Média em minutos
-    elif len(falhas) == 1:
-        return 1
-    else:
-        return 0
+            inserirAlerta = ("""INSERT INTO alerta (tipoAlerta, fkCaptura) 
+                                VALUES (1, %s)""")
+            dados_alerta = [idObtido[0]]  # Usa o primeiro elemento da tupla
+            cursor.execute(inserirAlerta, dados_alerta)
+            mydb.commit()
+            print(cursor.rowcount, "alerta amarelo inserido - rede latency")
+
+    if packet_loss >= 2:
+        if packet_loss >= 4:
+            buscarID = ("""SELECT idCaptura FROM captura WHERE 
+                    fkComponente = 1 AND fkAuxComponente = 21 
+                    ORDER BY idCaptura DESC LIMIT 1""")
+            cursor.execute(buscarID)
+            idObtido = cursor.fetchone() # obtém o resultado do select de buscarID!!!
+
+            inserirAlerta = ("""INSERT INTO alerta (tipoAlerta, fkCaptura) 
+                                VALUES (2, %s)""")
+            dados_alerta = [idObtido[0]]  # Usa o primeiro elemento da tupla
+            cursor.execute(inserirAlerta, dados_alerta)
+            mydb.commit()
+            print(cursor.rowcount, "alerta vermelho inserido - rede pctPerdidos")
+
+        else: # entre 80 e 89
+            buscarID = ("""SELECT idCaptura FROM captura WHERE 
+                    fkComponente = 1 AND fkAuxComponente = 21 
+                    ORDER BY idCaptura DESC LIMIT 1""")
+            cursor.execute(buscarID)
+            idObtido = cursor.fetchone() # obtém o resultado do select de buscarID!!!
+
+            inserirAlerta = ("""INSERT INTO alerta (tipoAlerta, fkCaptura) 
+                                VALUES (1, %s)""")
+            dados_alerta = [idObtido[0]]  # Usa o primeiro elemento da tupla
+            cursor.execute(inserirAlerta, dados_alerta)
+            mydb.commit()
+            print(cursor.rowcount, "alerta amarelo inserido - rede pctPerdidos")
 
 def main():
     print("Bem-vindo ao monitor de sistema!")
-    try:
-        fk_computador = int(input("Insira a fkComputador para monitoramento (ou 0 para sair): "))
-        if fk_computador == 0:
-            print("Saindo do programa...")
-            return
-
-        print(f"Iniciando o monitoramento para fkComputador: {fk_computador}")
-        while True:
-            print_system_info(fk_computador)
-            time.sleep(10)  # Aguarda 10 segundos entre capturas
-
-    except ValueError:
-        print("Entrada inválida. Por favor, insira um número inteiro.")
-    except KeyboardInterrupt:
-        print("\nMonitoramento interrompido pelo usuário.")
-    finally:
-        if mydb.is_connected():
-            mydb.close()
-            print("Conexão com o banco de dados encerrada.")
-
+    
+    fk_computador = int(input("Insira a fkComputador para monitoramento (ou 0 para sair): "))
+    
+    if fk_computador == 0:
+        print("Saindo do programa...")
+        return
+    
+    while True:
+        print_system_info(fk_computador)
+        time.sleep(2)
 
 if __name__ == "__main__":
     main()

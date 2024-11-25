@@ -240,9 +240,19 @@ header {
     gap: 2rem;
     font-size: 1.3rem;
     align-items: center;
+    text-align: center;
     justify-content: flex-start;
     padding-top: 4.5rem;
 
+}
+
+.itens {
+    text-align: center;
+    font-size: 24px;
+    display: flex;
+    margin-left: 13vh;
+    flex-direction: column;
+    align-items: center;
 }
 
 .itens h4 {
@@ -1031,23 +1041,21 @@ h2 {
     font-weight: 500;
 }
 
-.cima{
-    width: 100%;
-    height: 24.8%;
-    background-color: #000;
-    color: white;
-}
-.baixo{
-    width: 100%;
-    height: 50%;
-    background-color: #001E42;
-    color: white;
-}
+
 
 .mom {
     /* background-color: #C43302; */
     display: flex;
-    align-items: flex-end;
+    align-items: center;
+    /* justify-content: center; */
+    text-align: center;
+    flex-direction: row;
+    
+}
+
+.mom h2 {
+    padding-left: 30px;
+    font-size: 40px;
 }
 
 .son1 {
@@ -1295,28 +1303,34 @@ h2 {
 
 .side-menu {
     position: fixed;
-    top: 0;
-    left: -200px; 
+    top: -7px;
+    left: -200px;
+    /* / Fora da tela inicialmente / */
     width: 200px;
-    height: 100vh;
+    height: 100%;
     background-color: #002148;
     color: white;
     overflow-x: hidden;
-    transition: 0.3s; 
+    transition: 0.3s;
+    /* / Animação suave / */
     padding-top: 60px;
-    margin-top: 13vh;
+    margin-top: 14vh;
     text-align: center;
-  }
+    z-index: 100;
+}
 
-  /* Links dentro do menu */
-  .side-menu a {
+/* Links dentro do menu */
+.side-menu a {
     padding: 10px 15px;
     text-decoration: none;
     font-size: 25px;
     color: white;
     display: block;
+    align-items: center;
+
     transition: 0.2s;
-  }
+}
+
 
   .side-menu a:hover {
     background-color: #002148;
@@ -1467,3 +1481,284 @@ h2 {
     pointer-events: auto; 
     transform: translateX(-50%) translateY(0);
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Dashboard Ruan - Personalização própria */
+
+.cima{
+    width: 100%;
+    height: 22.8%;
+    /* background-color: #000; */
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.cima1 {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    /* background-color: peru; */
+    height: 100%;
+    width: 60%;
+}
+
+.cima2{
+    /* background-color: pink; */
+    height: 100%;
+    width: 40%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row-reverse;
+}
+
+.regularTempo {
+    /* background-color: #1662c0; */
+    height: 100%;
+    width: 73vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+}
+
+.margemTempo {
+    /* background-color: #3CF211; */
+    height: 75%;
+    width: 90%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cardKpi {
+    background-color: #001E42;
+    height: 75%;
+    width: 27vh;
+    border-radius: 15px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: column;
+    align-items: center;
+
+    text-align: center;
+
+}
+
+.cardKpi h3 {
+    font-size: 15px;
+
+}
+
+.cardKpi span {
+    font-size: 50px;
+}
+
+.baixo{
+    width: 100%;
+    height: 52%;
+    /* background-color: #001E42; */
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.baixo1 {
+    /* background-color: blue; */
+    height: 100%;
+    width: 50%;
+    
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+
+    padding-bottom: 10px;
+}
+
+.baixo2 {
+    /* background-color: yellow; */
+    height: 100%;
+    width: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row-reverse;
+
+    padding-bottom: 10px;
+}
+
+.espaco {
+    /* background-color: #001E42; */
+    height: 100%;
+    width: 11.3vh;
+}
+
+.miniespaco {
+    /* background-color: #001E42; */
+    height: 100%;
+    width: 1vh;
+}
+
+.grafico {
+    background-color: #001E42;
+    height: 100%;
+    width: 93vh;
+    border-radius: 15px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+

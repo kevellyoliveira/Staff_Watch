@@ -11,42 +11,27 @@
 #feed_container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    /* Sempre 2 colunas */
     gap: 20px;
-    /* Espaçamento entre os cards */
     padding: 16px;
     width: 100%;
-    /* Garante que o container ocupe toda a largura */
     max-width: 1200px;
-    /* Opcional: limite para o tamanho do container */
     margin: 0 auto;
-    /* Centraliza o container na tela */
     margin-left: 40px;
 }
 
 /* Estilo de cada card */
 .publicacao {
     background-color: #f4f4f4;
-    /* Fundo claro */
     border: 1px solid #ddd;
-    /* Borda cinza */
     border-radius: 8px;
-    /* Bordas arredondadas */
     padding: 25px;
-    /* Espaço interno */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    /* Sombra */
     box-sizing: border-box;
-    /* Inclui borda e padding no tamanho total */
     display: flex;
     flex-direction: column;
-    /* Organiza o conteúdo em coluna */
     justify-content: space-between;
-    /* Espaça o conteúdo interno */
     align-items: flex-start;
-
 }
-
 
 .div-results .feed-container {
     background-color: #212124;
@@ -55,7 +40,6 @@
 }
 
 * {
-    
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -63,20 +47,13 @@
     font-weight: 500;
 }
 
-:root {
-    --verde: #3CF211;
-    /* ou qualquer outro código de cor verde */
-}
-
 .pai {
     display: flex;
     flex-direction: row;
     width: 100%;
-    background-color:  #B7ADC4;
+    background-color: #B7ADC4;
 }
-
 /* HEADER */
-
 header {
     display: flex;
     flex-direction: row;
@@ -176,21 +153,6 @@ header {
     transition: 0.4s;
 }
 
-.sair h6:hover {
-    color: #C43302;
-}
-
-/* MENU LATERAL */
-.menuLateral {
-    display: flex;
-    flex-direction: column;
-    background-color: #002148;
-    color: #fff;
-    width: 26%;
-    min-height: 100%;
-    position: relative;
-}
-
 .itens {
     display: flex;
     flex-direction: column;
@@ -200,17 +162,17 @@ header {
     text-align: center;
     justify-content: flex-start;
     padding-top: 4.5rem;
- 
+
 }
 
-.itens{
+.itens {
     text-align: center;
     font-size: 24px;
     display: flex;
     margin-left: 13vh;
     flex-direction: column;
     align-items: center;
-  }
+}
 
 .itens h4 {
     cursor: pointer;
@@ -1426,7 +1388,7 @@ dialog::backdrop {
     padding: 0px;
 }
 
-.editMaquina2 {
+/* .editMaquina2 {
     width: 100%;
     height: 100%;
     background-color: #002147;
@@ -1436,7 +1398,7 @@ dialog::backdrop {
     flex-direction: column;
     gap: 10px;
 
-}
+} */
 
 .editMaquina2 h1 {
     font-size: 40px;
@@ -1550,64 +1512,6 @@ dialog::backdrop {
 
 /*Funcionários*/
 
-@import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
-.label-captura {
-    display: flex;
-    justify-content: center;
-}
-
-.dash-right .avisos {
-    width: 100%;
-    color: rgb(216, 216, 216);
-    font-family: 'Barlow', 'Segoe UI', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-.dash-right .avisos .container {
-    display: flex;
-    align-items: center;
-}
-
-.dash-right .avisos .container .div-form {
-    width: 95%;
-}
-
-.dash-right .avisos .container .div-form #form_postagem {
-    width: 95%;
-}
-
-.dash-right .avisos .div-form label {
-    width: 95%;
-}
-
-.dash-right .avisos .div-form input {
-    width: 95%;
-    border-radius: 5px;
-    height: 30px;
-}
-
-.dash-right .avisos .div-form textarea {
-    width: 95%;
-    border: 3px solid #002147;
-    background-color: white;
-    border-radius: 5px;
-}
-
-.dash-right .avisos .div-form button {
-    cursor: pointer;
-    font-family: "Inter";
-    border: 0;
-    border-radius: 5px;
-    font-weight: 600;
-    font-size: 18px;
-    padding: 10px 15px;
-    color: white;
-    background-color: #002147;
-    width: 120px;
-}
-
-
-
 .publicacao {
     display: grid;
     align-content: center;
@@ -1619,10 +1523,11 @@ dialog::backdrop {
     background-color: #002147;
     color: white;
     width: 500px;
-    height: 68%;
+    height: 90%;
     padding: 20px;
     text-align: center;
     font-size: 22px;
+    
 }
 
 .publicacao>*:not(:last-child) {
@@ -1651,6 +1556,7 @@ dialog::backdrop {
     border-radius: 5px;
     margin-bottom: 80px;
 }
+
 
 .div-buttons {
     display: flex;
@@ -1691,28 +1597,29 @@ dialog::backdrop {
 .alerta {
     margin-top: 30px;
     margin-left: 80px;
-    margin-right:30px;
+    margin-right: 30px;
     align-items: end;
     height: 525px;
     width: 100vh;
-    background-color: #002148 ;
+    background-color: #002148;
     flex-direction: row;
     border-radius: 2vh;
 }
 
-.alerta h1{
+.alerta h1 {
     text-align: center;
     justify-content: center;
     align-items: center;
     color: white;
 }
 
-.id{
+.id {
     margin-left: 150px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
+
 #modal-content {
     display: flex;
     flex-direction: column;
@@ -1728,7 +1635,7 @@ dialog::backdrop {
 #MyChart {
     max-width: 600px;
     width: 100%;
-    height: 400px;
+    height: 900px;
     margin-top: 20px;
 }
 
@@ -1770,6 +1677,7 @@ button {
     padding-top: 2vh;
     color: white;
 }
+
 .bloco5 {
     display: flex;
     flex-direction: column;
@@ -1806,7 +1714,7 @@ button {
     margin-top: 5vh;
     margin-left: 25px;
     color: black;
-    
+
 }
 
 .bloco8 {
@@ -1819,18 +1727,18 @@ button {
     padding-top: 2vh;
     margin-top: 5vh;
     margin-left: 25px;
-    color: black;   
+    color: black;
 }
 
-#pesquisar_input{
-height: 30px;
-margin-left: 30px;
-display: flex;
-justify-content: center;
-align-items: center;
+#pesquisar_input {
+    height: 30px;
+    margin-left: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.minibloco{
+.minibloco {
     background-color: whitesmoke;
     display: flex;
     align-items: center;
@@ -1838,11 +1746,12 @@ align-items: center;
     width: 150px;
     height: 90px;
     margin-left: 55px;
-    margin-top: 10px; 
+    margin-top: 10px;
     border-radius: 9px;
     color: #000;
 }
-.minibloco1{
+
+.minibloco1 {
     background-color: whitesmoke;
     display: flex;
     align-items: center;
@@ -1850,11 +1759,12 @@ align-items: center;
     width: 150px;
     height: 90px;
     margin-left: 55px;
-    margin-top: 23px; 
+    margin-top: 23px;
     border-radius: 9px;
     color: #000;
 }
-.minibloco2{
+
+.minibloco2 {
     background-color: whitesmoke;
     display: flex;
     align-items: center;
@@ -1862,12 +1772,12 @@ align-items: center;
     width: 150px;
     height: 90px;
     margin-left: 50px;
-    margin-top: 22px; 
+    margin-top: 22px;
     border-radius: 9px;
     color: #000;
 }
 
-.minibloco3{
+.minibloco3 {
     background-color: whitesmoke;
     display: flex;
     align-items: center;
@@ -1875,7 +1785,7 @@ align-items: center;
     width: 150px;
     height: 90px;
     margin-left: 55px;
-    margin-top: 20px; 
+    margin-top: 20px;
     border-radius: 9px;
     color: #000;
 }
@@ -1883,18 +1793,20 @@ align-items: center;
 .side-menu {
     position: fixed;
     top: -7px;
-    left: -200px; /* Fora da tela inicialmente */
+    left: -200px;
+    /* Fora da tela inicialmente */
     width: 200px;
     height: 100%;
     background-color: #002148;
     color: white;
     overflow-x: hidden;
-    transition: 0.3s; /* Animação suave */
+    transition: 0.3s;
+    /* Animação suave */
     padding-top: 60px;
     margin-top: 14vh;
     text-align: center;
     z-index: 100;
-  }
+}
 
 .menuLateral {
     display: flex;
@@ -1909,20 +1821,22 @@ align-items: center;
 .side-menu {
     position: fixed;
     top: -7px;
-    left: -200px; /* Fora da tela inicialmente */
+    left: -200px;
+    /* Fora da tela inicialmente */
     width: 200px;
     height: 100%;
     background-color: #002148;
     color: white;
     overflow-x: hidden;
-    transition: 0.3s; /* Animação suave */
+    transition: 0.3s;
+    /* Animação suave */
     padding-top: 60px;
     margin-top: 14vh;
     text-align: center;
-  }
+}
 
-  /* Links dentro do menu */
-  .side-menu a {
+/* Links dentro do menu */
+.side-menu a {
     padding: 10px 15px;
     text-decoration: none;
     font-size: 25px;
@@ -1931,14 +1845,14 @@ align-items: center;
     align-items: center;
 
     transition: 0.2s;
-  }
+}
 
-  .side-menu a:hover {
+.side-menu a:hover {
     background-color: #002148;
-  }
+}
 
-  /* Botão para abrir o menu */
-  .open-btn {
+/* Botão para abrir o menu */
+.open-btn {
     font-size: 20px;
     cursor: pointer;
     background-color: #002148;
@@ -1948,15 +1862,15 @@ align-items: center;
     width: 120px;
     border-radius: 5px;
     margin-left: 20px;
-  }
+}
 
-  .open-btn:hover{
+.open-btn:hover {
     background-color: #1662c0;
     box-shadow: 0 0 8px rgb(11, 21, 109);
-  }
+}
 
-  /* Estilo para fechar o menu */
-  .close-btn {
+/* Estilo para fechar o menu */
+.close-btn {
     position: absolute;
     top: 10px;
     right: 25px;
@@ -1965,4 +1879,86 @@ align-items: center;
     color: white;
     border: none;
     cursor: pointer;
-  }
+}
+
+.dashboard-btn {
+    padding: 10px 20px;
+    margin: 0 5px;
+    background-color: #007BFF;
+    color: #E7ECEF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.dashboard-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Modal Content */
+.modal-content {
+    display: flex;
+    flex-direction: column;
+    /* Organiza os itens verticalmente */
+    align-items: center;
+    /* Alinha o conteúdo ao centro */
+    justify-content: flex-start;
+    /* Começa com os itens no topo */
+    width: 80%;
+    max-width: 500px;
+    margin: 50px auto;
+    /* Centraliza horizontalmente */
+    padding: 20px;
+    background-color: #E7ECEF;
+    border-radius: 8px;
+
+}
+
+/* Títulos no topo */
+#modal-titles {
+    display: flex;
+    justify-content: center;
+    /* Espaçamento uniforme entre os itens */
+    gap: 30px;
+    /* Espaçamento entre os itens */
+    margin-bottom: 10px;
+}
+
+#modal-titles h6 {
+    margin-top: -35px;
+    font-size: 20px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: color 0.3s, border-bottom 0.3s;
+}
+
+#modal-titles h6:hover {
+    color: #002148;
+    border-bottom: 2px solid #002148;
+}
+
+/* Gráfico no meio */
+.grafico {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Centraliza o gráfico verticalmente */
+    margin: 20px 0;
+    /* Espaçamento vertical para o gráfico */
+    width: 100%;
+    height: 100%;
+}
+
+.grafico canvas {
+    width: 100%;
+    height: 100%;
+    /* Ajusta o gráfico para ocupar toda a largura disponível */
+    max-width: 800px;
+    /* Largura máxima */
+    height: auto;
+    /* Altura proporcional */
+}
+
+#botaoSaida{
+    width: 110px;
+}

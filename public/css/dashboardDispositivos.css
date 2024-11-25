@@ -33,7 +33,7 @@ header {
 
 .esq {
     display: flex;
-    width: 70%;
+    width: 80%;
     height: 100%;
     align-items: center;
     justify-content: flex-start;
@@ -61,7 +61,7 @@ header {
 }
 
 .logo img {
-    width: 90%;
+    width: 80%;
     cursor: pointer;
 }
 
@@ -75,10 +75,23 @@ header {
 
 .menuCima {
     display: flex;
-    width: 25%;
-    text-decoration: underline;
+    justify-content: flex-start;
+    font-size: 2.2rem;
+    width: 30%;
+    padding-left: 1rem;
+}
+.menuCima.op2 {
     justify-content: center;
-    font-size: 2.4rem;
+    width: auto;
+    gap: 3.5rem;
+}
+
+.menuCima h6 {
+    transition: .4s;
+}
+
+.menuCima h6:hover {
+    transform: scale(1.05);
 }
 
 .opcoesMenu {
@@ -86,8 +99,13 @@ header {
     font-weight: 300;
 }
 
+.opcoesMenu.user {
+    cursor: default;
+}
+
 .opcoesMenu.slct {
     font-weight: 600;
+    text-decoration: underline;
 }
 
 #menu {
@@ -183,10 +201,81 @@ header {
     min-height: 86.8vh;
 }
 
+/* barra de busca */
+.title {
+    display: flex;
+    justify-content: center;
+    color: #002148;
+    text-align: center;
+}
+
+input {
+    background-color: white;
+    /* height: 25%; */
+    padding: .5rem .3rem;
+    width: 20%;
+    border: none;
+    outline: none;
+    border-radius: 5px 0% 0% 5px;
+    font-family: "Inter";
+}
+
+button {
+    background-color: #002147;
+    color: white;
+    border: none;
+    border-radius: 0% 10% 10% 0%;
+    font-family: "Inter";
+    width: 5%;
+}
+
+button :hover {
+    box-shadow: 0px 0px 10px #8a8785;
+    transform: translate(0px, -5px);
+    transition: transform 0.5s;
+}
+
+/*  modal de histórico */
+.historico {
+    display: flex;
+    width: 85%;
+    height: 85%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    gap: 1rem;
+    overflow: hidden;
+}
+
+.historico h3 {
+    color: #002148;
+}
+
+.listaAlertas {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    padding-bottom: 1.5rem;
+    gap: 1rem;
+    overflow-y: auto;
+    overflow: hidden;
+}
+
+.historicoAlerta {
+    display: flex;
+    width: 100%;
+    color: #001E42;
+    padding: .7rem;
+    border-radius: 11px;
+    border: 2px solid #001E42;
+    font-size: 1.3rem;
+    overflow: hidden;
+}
+
 /* ====================================================================================================================== */
 
-
-/* BODY  */
 
 .section-grafico {
     width: 100%;
@@ -200,10 +289,12 @@ header {
     gap: 1rem;
     color: #001E42;
 }
+
 .section-grafico img {
     width: 600px;
     height: 200px;
 }
+
 .grafico {
     display: flex;
     width: 90%;
@@ -212,6 +303,16 @@ header {
     align-items: center;
     /* background-color: #a3b4bfa4; */
 }
+
+/* modal */
+/* #chartDISCO,
+#chartREDE,
+#chartRAM {
+    display: none;
+}
+#chartCPU {
+    display: flex;
+} */
 
 /*Parte com os gráficos e alertas*/
 .main-section {
@@ -404,13 +505,6 @@ header {
     background-color: #001E42;
 }
 
-.title {
-    color: #001E42;
-    display: flex;
-    padding: 2rem 0 0 3rem;
-    font-size: 2rem;
-}
-
 .up-card img {
     width: 30px;
     height: 30px;
@@ -601,6 +695,10 @@ header {
 
 /* MODAL - DASHBOARD EQUIPE DO GERENTE DE OPERAÇÕES */
 
+body.modal-open {
+    overflow: hidden;
+}
+
 #modal {
     display: flex;
     flex-direction: row-reverse;
@@ -616,8 +714,8 @@ header {
     transform: translate(-50%, -50%);
     z-index: 10;
     overflow: hidden;
-    /* Impedir o overflow */
     align-items: flex-start;
+    overflow-y: scroll;
 }
 
 .opcoesComponentes.menu {
@@ -646,7 +744,8 @@ header {
     display: flex;
 }
 
-#dashMemoria, #dashCpu{
+#dashMemoria,
+#dashCpu {
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 1fr;
 }
@@ -677,7 +776,7 @@ header {
 
 .bside {
     display: grid;
-    grid-template-columns: 1fr ;
+    grid-template-columns: 1fr;
     grid-template-rows: 1fr 1fr 1fr;
     width: 40%;
     flex-wrap: wrap;

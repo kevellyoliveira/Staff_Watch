@@ -5,6 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href=".././css/dashboardDispositivos.css">
+    <!-- style do input de pesquisa -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="shortcut icon" href=".././src/img/logoB.png" type="image/x-icon" />
 
     <title> Dispositivos | Staff Watch</title>
@@ -19,7 +23,12 @@
                 </div>
 
                 <div class="menuCima" id="itens">
+                    <h6 class="opcoesMenu user"> Olá, <span id="b_usuario">usuário</span>! </h6>
+                </div>
+                <div class="menuCima op2" id="itens">
                     <h6 class="opcoesMenu slct" onclick="window.location.href='dispositivos.html'">Dispositivos</h6>
+                    <h6 class="opcoesMenu" onclick="window.location.href='../dashboard-matheus-cpu.html'">Componentes
+                    </h6>
                 </div>
             </div>
 
@@ -38,8 +47,6 @@
             </div>
         </div> -->
 
-        <!-- reutilizando da página de máquinas -->
-
         <main class="main-section">
             <section class="section-grafico">
                 <h4> Quantidade de alertas por componente em cada equipe </h4>
@@ -48,6 +55,12 @@
                     <canvas id="graficoEquipe"></canvas>
                 </div>
             </section>
+
+            <article class="title">
+                <input type="text" name="Pesquisar" id="pesquisar_input" required="required" autocomplete="off"
+                    placeholder="Pesquisar máquina pelo ID"><button onclick="listarPorUsuario()"><i
+                        class="fa-solid fa-magnifying-glass"></i></button>
+            </article>
 
             <section class="sectioncard" id="sectioncard">
 
@@ -116,7 +129,7 @@
                     <div class="down-card cima">
                         <div class="esqCard">
                             <figure class="iconComp">
-                                <img src=".././src/img/icons/indicadoresMaquina/computadorEstavel.png" alt="">
+                                <img src=".././src/img/icons/indicadoresMaquina/computadorBranco.png" alt="">
                             </figure>
                         </div>
 
@@ -154,7 +167,8 @@
                         <h6 class="opcoesMenu" id="disco" onclick="alterarComponente('dashDisco')"> Disco </h6>
                         <h6 class="opcoesMenu" id="rede" onclick="alterarComponente('dashRede')"> Rede </h6>
                         <h6 class="opcoesMenu" id="memoria" onclick="alterarComponente('dashMemoria')"> Memória</h6>
-                        <h6 class="opcoesMenu" id="historico" onclick="alterarComponente('historico')"> Histórico</h6>
+                        <h6 class="opcoesMenu" id="historico" onclick="alterarComponente('dashHistorico')"> Histórico
+                        </h6>
                     </div>
 
                     <div class="aside">
@@ -169,7 +183,10 @@
 
                         <div class="graficoComponente">
                             <div class="graficoChart">
-                                <canvas id="myChart"></canvas>
+                                <canvas id="chartDISCO"></canvas>
+                                <canvas id="chartREDE"></canvas>
+                                <canvas id="chartRAM"></canvas>
+                                <canvas id="chartCPU"></canvas>
                             </div>
                         </div>
                     </div>
@@ -212,7 +229,6 @@
                             </div>
                         </div> -->
                     </div>
-
                     <div id="dashDisco" class="bside">
                         <div class="dado">
                             <h3> Utilização: </h3>
@@ -243,19 +259,18 @@
                             </div>
                         </div> -->
                     </div>
-
                     <div id="dashRede" class="bside">
                         <div class="dado">
-                            <h3> Pacotes Enviados: </h3>
+                            <h3> Latência: </h3>
                             <div class="dadoInfo">
-                                <h2> <span id="redeEnviar"> -- </span> </h2>
+                                <h2> <span id="redeLatencia"> -- </span> </h2>
                             </div>
                         </div>
 
                         <div class="dado">
-                            <h3> Pacotes Recebidos: </h3>
+                            <h3> Pacotes Perdidos: </h3>
                             <div class="dadoInfo">
-                                <h2> <span id="redeReceber"> -- </span> </h2>
+                                <h2> <span id="redePerdido"> -- </span> </h2>
                             </div>
                         </div>
 
@@ -267,8 +282,6 @@
                         </div> -->
 
                     </div>
-
-
                     <div id="dashMemoria" class="bside">
 
                         <div class="dado">
@@ -313,6 +326,14 @@
                             </div>
                         </div> -->
                     </div>
+                    <!-- tela de histórico -->
+                    <div id="dashHistorico" class="historico">
+                        <h3 id="idMaquina">Histórico de alertas da máquina X</h3>
+                        <div class="listaAlertas">
+                            <p>Nenhum alerta emitido.</p>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -327,267 +348,35 @@
 </html>
 
 <script>
-    let editarAlgo = false
-    // ==========  FUNÇÕES DO MODAL  ================================================================================================================================================
-   // Função para abrir e fechar o modal
-function toggleModal() {
-    const modal = document.querySelector("#modal");
-    const fade = document.querySelector("#fade");
+    var fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
+    b_usuario.innerHTML = sessionStorage.NOME_USUARIO
 
-    modal.classList.toggle("hide");
-    fade.classList.toggle("hide");
-}
-
-// Função para fechar o modal clicando fora ou no botão de fechar
-function closeModal() {
-    document.getElementById("fade").classList.add("hide");
-    document.getElementById("modal").classList.add("hide");
-}
-
-// Exemplo de outras funções como deletar e atualizar
-function atualizarMaquina(idComputador) {
-    console.log(`Atualizando máquina com ID: ${idComputador}`);
-    toggleModal();
-}
-
-function deletar(idComputador) {
-    console.log(`Deletando máquina com ID: ${idComputador}`);
-    toggleModal();
-}
-
-
-
-    // =================================================================================================================
-
-    // =============== FUNÇÕES DE GRÁFICOS ========================================================================================
-    let idComponente = 0
-
-    // essa função serve pra mudar as métricas na tela de acordo com o componente selecionado no header
-    // quando o item for selecionado, a div correspondente aparece e as outras são escondidas.
-    function alterarComponente(componenteId) {
-        const dashComponentes = ["dashCpu", "dashDisco", "dashRede", "dashMemoria"];
-        const componentes = {
-            "dashCpu": "CPU",
-            "dashDisco": "Disco",
-            "dashRede": "Rede",
-            "dashMemoria": "Memória"
-        };
-
-        const nomeComponentes = {
-            "dashCpu": "Modelo da CPU não obtido.",
-            "dashDisco": "Modelo do Disco não obtido.",
-            "dashRede": "Modelo da placa de rede não obtido.",
-            "dashMemoria": "Armazenamento total não obtido."
-        };
-
-        console.log("ID do componente selecionado: ", componenteId);
-
-        // Esconde a div de todos os componentes
-        dashComponentes.forEach(id => {
-            const element = document.getElementById(id);
-            if (element) {
-                element.style.display = "none"; // Garante que o elemento existe antes de manipular
-            } else {
-                console.log(`Elemento não encontrado para ID: ${id}`);
-            }
-        });
-
-        // Define o peso da fonte de todos os elementos
-        dashComponentes.forEach(id => {
-            const element = document.getElementById(id.replace("dash", "").toLowerCase());
-            if (element) {
-                element.style.fontWeight = (id === componenteId) ? "700" : "500";
-            } else {
-                console.log(`Elemento não encontrado para o ID no menu: ${id.replace("dash", "").toLowerCase()}`);
-            }
-        });
-
-        // Mostra a div do componente selecionado
-        const selectedComponent = document.getElementById(componenteId);
-        if (editarAlgo) {
+    function sair() {
+        sessionStorage.clear()
+        window.location = "../index.html"
+    }
+    // Função para abrir e fechar o modal
+    function toggleModal(event) {
+        // Verifica se o elemento clicado possui a classe 'cimaCard'
+        if (event.target.id === "editar") {
             return;
         }
-        console.log("Componente a ser exibido: ", selectedComponent);
-        if (selectedComponent) {
-            selectedComponent.style.display = "grid"; // Garante que o componente é mostrado
-        } else {
-            console.log(`Elemento não encontrado para o ID: ${componenteId}`);
-        }
 
-        // Atualiza o nome do componente no aside
-        const componentName = nomeComponentes[componenteId];
-        const nomeComponenteElem = document.getElementById("idNomeComponente");
-        if (nomeComponenteElem) {
-            nomeComponenteElem.innerHTML = componentName;
-        } else {
-            console.log("Elemento 'idNomeComponente' não encontrado.");
-        }
+        const modal = document.querySelector("#modal");
+        const fade = document.querySelector("#fade");
 
-        if (componenteId == "dashCpu") {
-            idComponente = 4
-        } else if (componenteId == "dashDisco") {
-            idComponente = 3
-        }
-        else if (componenteId == "dashRede") {
-            idComponente = 1
-        }
-        else if (componenteId == "dashMemoria") {
-            idComponente = 2
-        }
-
-        obterDadosGrafico(idComponente)
-        console.log(`idComponente em alterarComponente: ${idComponente}`)
-
+        modal.classList.toggle("hide");
+        fade.classList.toggle("hide");
+        document.body.classList.add("modal-open");
     }
 
-    // ============= FUNÇÃO DE ATUALIZAR O FEED - LISTAR MÁQUINAS
+    // Função para fechar o modal clicando fora ou no botão de fechar
+    function closeModal() {
+        document.getElementById("fade").classList.add("hide");
+        document.getElementById("modal").classList.add("hide");
+        document.body.classList.remove("modal-open");
 
-    function atualizarFeed() {
-        var fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
-        // console.log(fkEmpresa);
-        fetch(`/dispositivos/listar/${fkEmpresa}`)
-            .then(function (resposta) {
-                if (resposta.ok) {
-                    if (resposta.status == 204) {
-                        var feed = document.getElementById("sectioncard");
-                        var mensagem = document.createElement("span");
-                        mensagem.innerHTML = "Nenhum resultado encontrado.";
-                        feed.appendChild(mensagem);
-                        throw "Nenhum resultado encontrado!";
-                    }
-
-                    return resposta.json();
-                } else {
-                    throw 'Houve um erro na API!';
-                }
-            })
-            .then(function (resposta) {
-                // console.log("Dados recebidos: ", JSON.stringify(resposta));
-
-                var feed = document.getElementById("sectioncard");
-                feed.innerHTML = ""; // Limpa o conteúdo atual do feed
-                resposta.forEach(publicacao => {
-                    var card = document.createElement("div");
-                    card.classList.add("card"); // Adiciona a classe para abrir o modal
-
-                    // Adicionando o evento para abrir o modal
-                    card.addEventListener("click", function () {
-                        alterarComponente('dashCpu');  // Altera o componente
-                        toggleModal();  // Abre o modal após alterar o componente
-                    });
-
-                    // Atualiza o status baseado no valor numérico
-                    let status = publicacao.status === 1 ? "Em atividade" : "Inativo";
-
-                    // Adicionando o conteúdo HTML do card
-                    card.innerHTML = `
-                        <div class="down-card cima">
-                            <div class="esqCard">
-                                <figure class="iconComp">
-                                    <img src=".././src/img/icons/indicadoresMaquina/computadorEstavel.png" alt="">
-                                </figure>
-                            </div>
-                            <div class="dirCard" id="maquina${publicacao.idComputador}"></div>
-                        </div>
-                        <div class="down-card">
-                            <div class="content-card">
-                                <p><b>ID:</b> ${publicacao.idComputador}</p>
-                                <p><b>Equipe:</b> ${publicacao.fkEquipe}</p>
-                                <p><b>Funcionário:</b> ${publicacao.nomeFuncionario}</p>
-                                <p><b>Status:</b> ${status}</p>
-                            </div>
-                            <div id="editar" class="up-card">
-                                <img src=".././src/img/icons/editar.svg" onclick="atualizarMaquina(${publicacao.idComputador})">
-                                <img src=".././src/img/icons/excluir.svg" onclick="deletar(${publicacao.idComputador})">
-                            </div>
-                        </div>
-                    `;
-                    feed.appendChild(card);
-                });
-            })
-            .catch(function (erro) {
-                console.error("Erro ao atualizar o feed:", erro);
-            });
     }
-
-
-
-    // ============================================================================================================
-
-
-
-    // ============ SIMULAÇÃO DO GRÁFICO DA PARTE SUPERIOR DA TELA ==============================================
-
-    // Gerar valores aleatórios entre 2 e 19
-
-    function getRandomValues() {
-        return [Math.floor(Math.random() * 18) + 2, Math.floor(Math.random() * 18) + 2, Math.floor(Math.random() * 18) + 2, Math.floor(Math.random() * 18) + 2];
-    }
-
-    const data = {
-        labels: ['Equipe 1', 'Equipe 2', 'Equipe 3', 'Equipe 4'],
-        datasets: [
-            {
-                label: 'CPU',
-                data: getRandomValues(),
-                backgroundColor: 'rgba(255, 99, 132, 0.6)',
-                borderColor: 'rgba(255, 99, 132, 1)',
-                borderWidth: 1
-            },
-            {
-                label: 'Rede',
-                data: getRandomValues(),
-                backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1
-            },
-            {
-                label: 'RAM',
-                data: getRandomValues(),
-                backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1
-            },
-            {
-                label: 'Disco',
-                data: getRandomValues(),
-                backgroundColor: 'rgba(153, 102, 255, 0.6)',
-                borderColor: 'rgba(153, 102, 255, 1)',
-                borderWidth: 1
-            }
-        ]
-    };
-
-    const config = {
-        type: 'bar',
-        data: data,
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    position: 'top', // Posição da legenda à esquerda
-                    align: 'center',  // Centraliza a legenda verticalmente
-                }
-            },
-            scales: {
-                x: {
-                    stacked: false
-                },
-                y: {
-                    beginAtZero: true,
-                    max: 20
-                }
-            },
-        }
-    };
-
-    new Chart(
-        document.getElementById('graficoEquipe'),
-        config
-    );
-
-    // funcoes do card da equipe: editar e remover máquina
 
     function atualizarMaquina(idComputador) {
         editarAlgo = true
@@ -633,41 +422,408 @@ function deletar(idComputador) {
                 });
         }
     }
+    let cardId = 0;
+    function atualizarFeed() {
+        var fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
 
-    function sair() {
-        sessionStorage.clear()
-        window.location = "../index.html"
+        // ao carregar a página, também plota o gráfico de cima dos componentes por equipes!!
+        gerarGraficoEquipes(fkEmpresa)
+
+        // console.log(fkEmpresa);
+        fetch(`/dispositivos/listar/${fkEmpresa}`)
+            .then(function (resposta) {
+                if (resposta.ok) {
+                    if (resposta.status == 204) {
+                        var feed = document.getElementById("sectioncard");
+                        var mensagem = document.createElement("span");
+                        mensagem.innerHTML = "Nenhum resultado encontrado.";
+                        feed.appendChild(mensagem);
+                        throw "Nenhum resultado encontrado!";
+                    }
+
+                    return resposta.json();
+                } else {
+                    throw 'Houve um erro na API!';
+                }
+            })
+            .then(function (resposta) {
+                // console.log("Dados recebidos: ", JSON.stringify(resposta));
+
+                var feed = document.getElementById("sectioncard");
+                feed.innerHTML = ""; // Limpa o conteúdo atual do feed
+                resposta.forEach(publicacao => {
+                    var card = document.createElement("div");
+                    card.setAttribute("id", publicacao.idComputador); // Define o ID
+                    card.classList.add("card"); // Adiciona a classe para abrir o modal
+
+                    // Adicionando o evento para abrir o modal
+                    card.addEventListener("click", function () {
+                        cardId = this.id
+                        console.log("Card clicado. cardId:", this.id);
+                        alterarComponente('dashCpu', this.id);  // Altera o componente
+                        toggleModal(event);  // Abre o modal após alterar o componente
+                    });
+
+                    // Atualiza o status baseado no valor numérico
+                    let status = publicacao.status === 1 ? "Em atividade" : "Inativo";
+                    let statusColor = publicacao.status === 1 ? "#12FF39" : "#FF7557";
+
+                    // Adicionando o conteúdo HTML do card
+                    card.innerHTML = `
+                        <div class="down-card cima">
+                            <div class="esqCard">
+                                <figure class="iconComp">
+                                    <img src=".././src/img/icons/indicadoresMaquina/computadorBranco.png" alt="">
+                                </figure>
+                            </div>
+                            <div class="dirCard" id="maquina${publicacao.idComputador}"></div>
+                        </div>
+                        <div class="down-card">
+                            <div class="content-card">
+                                <p><b>ID:</b> ${publicacao.idComputador}</p>
+                                <p><b>Equipe:</b> ${publicacao.fkEquipe}</p>
+                                <p><b>Funcionário:</b> ${publicacao.nomeFuncionario}</p>
+                                <p><b>Status:</b> <span style="color: ${statusColor};">${status}</span></p>
+                            </div>
+                            <div id="editar" class="up-card">
+                                <img src=".././src/img/icons/editar.svg" id="editar" onclick="atualizarMaquina(${publicacao.idComputador})">
+                                <img src=".././src/img/icons/excluir.svg" id="editar" onclick="deletar(${publicacao.idComputador})">
+                            </div>
+                        </div>
+                    `;
+                    feed.appendChild(card);
+                });
+            })
+            .catch(function (erro) {
+                console.error("Erro ao atualizar o feed:", erro);
+            });
     }
 
-    function selecionarItem(elemento) {
-        // Salvar o id do item selecionado no localStorage
-        localStorage.setItem('equipeSelecionada', elemento.id);
+    function gerarGraficoEquipes(fkEmpresa) {
+        fetch(`/dispositivos/equipes/${fkEmpresa}`)
+            .then(response => response.json())
+            .then(result => {
+                const equipes = [];
+                const datasets = {
+                    CPU: [],
+                    Rede: [],
+                    RAM: [],
+                    Disco: []
+                };
 
-        // Remover a classe 'slc' de todos os h4
-        var itens = document.querySelectorAll('.menuLateral .itens h4');
-        itens.forEach(function (item) {
-            item.classList.remove('slc');
-        });
+                // Mapeamento de nomes retornados para as chaves corretas do datasets
+                const componenteMap = {
+                    cpu: 'CPU',
+                    rede: 'Rede',
+                    memória: 'RAM',
+                    disco: 'Disco'
+                };
 
-        // Adicionar a classe 'slc' ao item clicado
-        elemento.classList.add('slc');
+                result.forEach(row => {
+                    console.log('Componente recebido:', row.componente);
 
+                    // Adiciona a equipe ao eixo X se ainda não estiver incluída
+                    const equipeLabel = `Equipe ${row.equipe}`
+                    if (!equipes.includes(equipeLabel)) {
+                        equipes.push(equipeLabel);
+                    }
+
+                    // Converte o nome do componente para a chave correta no datasets
+                    const datasetKey = componenteMap[row.componente.toLowerCase()];
+                    if (datasetKey) {
+                        datasets[datasetKey].push(row.qtdAlerta);
+                    } else {
+                        console.warn(`Componente desconhecido: ${row.componente}`);
+                    }
+                });
+
+                const data = {
+                    labels: equipes,
+                    datasets: [
+                        {
+                            label: 'CPU',
+                            data: datasets.CPU,
+                            backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Rede',
+                            data: datasets.Rede,
+                            backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'RAM',
+                            data: datasets.RAM,
+                            backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Disco',
+                            data: datasets.Disco,
+                            backgroundColor: 'rgba(153, 102, 255, 0.6)',
+                            borderColor: 'rgba(153, 102, 255, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                };
+
+                // Criação do gráfico
+                const config = {
+                    type: 'bar',
+                    data: data,
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                                align: 'center'
+                            }
+                        },
+                        scales: {
+                            x: {
+                                stacked: false
+                            },
+                            y: {
+                                beginAtZero: true,
+                                max: 20
+                            }
+                        },
+                    }
+                };
+
+                // Renderiza o gráfico
+                const ctx = document.getElementById('graficoEquipe').getContext('2d');
+                new Chart(ctx, config);
+            })
+            .catch(error => console.error('Erro ao carregar os dados:', error));
     }
-    // lembrar de chamar essa funcao pra exibir os graficos dinamicos
-    //         alterarComponente("dashCpu");
-    //          Chama a função que recarrega a dashboard para a equipe selecionada
-    // carregarDashboard(elemento.id);
+
+
 
     //============== GRÁFICO DE MONITORAMENTO EM TEMPO REAL  ==================================================================================
+    let idComponente = 0
+    let idComputador = 0;
+    function alterarComponente(componenteId, card = cardId) {
+        console.log(`Componente encontrado: ${componenteId}`);
+
+        const aside = document.querySelector(".aside");
+        aside.style.display = 'flex';
+
+        const dashComponentes = ["dashCpu", "dashDisco", "dashRede", "dashMemoria", "dashHistorico"];
+        const componentes = {
+            "dashCpu": "CPU",
+            "dashDisco": "Disco",
+            "dashRede": "Rede",
+            "dashMemoria": "Memória",
+            "dashHistorico": "Histórico de alertas"
+        };
+
+        const nomeComponentes = {
+            "dashCpu": "Modelo da CPU não obtido.",
+            "dashDisco": "Modelo do Disco não obtido.",
+            "dashRede": "Modelo da placa de rede não obtido.",
+            "dashMemoria": "Armazenamento total não obtido."
+        };
+        // console.log("ID do componente selecionado: ", componenteId);
+
+        // Esconde a div e os gráficos de todos os componentes
+        dashComponentes.forEach(id => {
+            const element = document.getElementById(id);
+            element.style.display = "none"; // Garante que o elemento existe antes de manipular
+
+        });
+        // Esconde todos os gráficos
+        const graficoIds = ["chartCPU", "chartDISCO", "chartREDE", "chartRAM"];
+        graficoIds.forEach(graficoId => {
+            const graficoElem = document.getElementById(graficoId);
+            graficoElem.style.display = "none"; // Oculta todos os gráficos
+        });
+
+        // Define o peso da fonte de todos os elementos
+        dashComponentes.forEach(id => {
+            const element = document.getElementById(id.replace("dash", "").toLowerCase());
+            if (element) {
+                element.style.fontWeight = (id === componenteId) ? "700" : "500";
+            } else {
+                console.log(`Elemento não encontrado para o ID no menu: ${id.replace("dash", "").toLowerCase()}`);
+            }
+            const elementHist = document.getElementById("dashHistorico");
+            if (elementHist) {
+                elementHist.style.fontWeight = (id === componenteId) ? "700" : "500";
+            } else {
+                console.log(`Elemento não encontrado para o ID no menu: ${id.replace("dash", "").toLowerCase()}`);
+            }
+        });
+
+        // Mostra a div do componente selecionado e o gráfico
+        // div: 
+        const selectedComponent = document.getElementById(componenteId);
+        console.log("Componente a ser exibido: ", selectedComponent);
+
+        if (selectedComponent) {
+            selectedComponent.style.display = "grid"; // Garante que o componente é mostrado
+        } else {
+            console.log(`Elemento não encontrado para o ID: ${componenteId}`);
+        }
+
+        // Atualiza o nome do componente no aside
+        const componentName = nomeComponentes[componenteId];
+        const nomeComponenteElem = document.getElementById("idNomeComponente");
+        if (nomeComponenteElem) {
+            nomeComponenteElem.innerHTML = componentName;
+        } else {
+            console.log("Elemento 'idNomeComponente' não encontrado.");
+        }
+
+        if (componenteId == "dashCpu") {
+            idComponente = 4
+        } else if (componenteId == "dashDisco") {
+            idComponente = 3
+        }
+        else if (componenteId == "dashRede") {
+            idComponente = 1
+        }
+        else if (componenteId == "dashMemoria") {
+            idComponente = 2
+        }
+
+
+        // grafico:
+        // Exibe o gráfico correspondente
+        let graficoAtivoId;
+        if (componenteId === "dashCpu") {
+            graficoAtivoId = "chartCPU";
+            idComponente = 4;
+        } else if (componenteId === "dashDisco") {
+            graficoAtivoId = "chartDISCO";
+            idComponente = 3;
+        } else if (componenteId === "dashRede") {
+            graficoAtivoId = "chartREDE";
+            idComponente = 1;
+        } else if (componenteId === "dashMemoria") {
+            graficoAtivoId = "chartRAM";
+            idComponente = 2;
+        }
+        if (graficoAtivoId) {
+            const graficoAtivoElem = document.getElementById(graficoAtivoId);
+            if (graficoAtivoElem) {
+                graficoAtivoElem.style.display = "flex"; // Exibe o gráfico ativo
+            } else {
+                console.log(`Gráfico ativo não encontrado: ${graficoAtivoId}`);
+            }
+        }
+
+        if (componenteId === "dashHistorico") {
+            carregarHistoricoAlertas(cardId);
+            return;
+        } else {
+            obterDadosGrafico(idComponente, cardId)
+        }
+    }
+
+    function carregarHistoricoAlertas(idComputador = cardId) {
+        console.log(`idComputador em carregarHistorico: ${idComputador} e cardid: ${cardId}`)
+        if (intervaloAtivo) {
+            clearInterval(intervaloAtivo);
+            intervaloAtivo = null;
+        }
+        const aside = document.querySelector(".aside");
+        const bside = document.querySelector(".bside");
+        const historico = document.getElementById("dashHistorico");
+        aside.style.display = 'none';
+        bside.style.display = 'none';
+        historico.style.display = 'flex';
+
+        console.log(`URL gerada: /dispositivos/historico/1/3`);
+        fetch(`/dispositivos/historico/${fkEmpresa}/${cardId}`, {
+            cache: 'no-store',
+            method: "GET",
+        })
+            .then(response => {
+                console.log(response);
+                const listaAlertas = document.querySelector(".listaAlertas");
+                const idMaquina = document.getElementById("idMaquina"); // Acha o elemento idMaquina
+
+                if (response.ok) {
+                    if (response.status == 204) {
+                        // Exibe a mensagem quando não há alertas
+                        listaAlertas.innerHTML = `Nenhum alerta encontrado.`;
+                        idMaquina.innerHTML = `Histórico de alertas da máquina ${idComputador} - Total: 0 alertas.`;
+                        return; // Sai do processamento aqui, já que não há dados
+                    }
+                    return response.json(); // Retorna o JSON com os alertas
+                } else {
+                    throw new Error("Erro ao buscar histórico de alertas.");
+                }
+            })
+            .then(alertas => {
+                const listaAlertas = document.querySelector(".listaAlertas");
+                const idMaquina = document.getElementById("idMaquina");
+
+                // Verifica se a resposta está vazia
+                if (alertas.length === 0) {
+                    listaAlertas.innerHTML = `Nenhum alerta encontrado.`;
+                    idMaquina.innerHTML = `Histórico de alertas da máquina ${idComputador} - Total: ${alertas.length} alertas.`;
+                    return; // Sai da função se não houver dados
+                }
+
+                // Limpa a lista de alertas para adicionar os novos
+                listaAlertas.innerHTML = "";
+
+                // Exibe cada alerta
+                alertas.forEach(alerta => {
+                    const alertaDiv = document.createElement("div");
+                    alertaDiv.classList.add("historicoAlerta");
+
+                    // Formata a mensagem com as cores e negrito
+                    const tipoAlerta = alerta.tipoAlerta === 1 ? 'amarelo' : 'vermelho';
+                    const componente = alerta.nomeComponente;
+                    const captura = alerta.captura;
+                    const descricao = alerta.descricao;
+                    const dataCaptura = new Date(alerta.dataCaptura);
+                    const formattedDate = `${dataCaptura.getDate()}/${dataCaptura.getMonth() + 1}/${dataCaptura.getFullYear()} às ${dataCaptura.getHours()}:${dataCaptura.getMinutes()}:${dataCaptura.getSeconds()}`;
+
+                    const descricaoAdicional = componente.toLowerCase() === 'rede'
+                        ? (descricao.toLowerCase() === 'latencia' ? 'latência' : 'pacotes perdidos')
+                        : `porcentagem de uso`;
+
+                    const mensagemFormatada = `<p>
+                        Alerta <span style="background-color: ${tipoAlerta === 'amarelo' ? '#ffd06c' : '#f34949'}; 
+                        border-radius: 9px; 
+                        padding: 0 2px; 
+                        color: ${tipoAlerta === 'amarelo' ? '#000' : '#fff'};">
+                            ${tipoAlerta}
+                        </span> 
+                        <span style="text-decoration: underline;">em ${formattedDate}</span>
+                        em ${descricaoAdicional} do componente <b style="font-weight: bold;">${componente} --> ${captura}%</b>.
+                    </p>`;
+                    alertaDiv.innerHTML = mensagemFormatada;
+
+                    // Atualiza o texto do idMaquina com a quantidade de alertas
+                    idMaquina.innerHTML = `Histórico de alertas da máquina ${alerta.idComputador} - Total: ${alertas.length} alertas.`;
+
+                    // Adiciona o alerta à lista
+                    listaAlertas.appendChild(alertaDiv);
+                });
+            })
+            .catch(error => {
+                console.error("Erro ao carregar histórico:", error);
+            });
+
+    }
+
 
     // Função para buscar os dados iniciais
-    // let indiceAtual = 0; // Variável global para rastrear o índice atual
     let dadosRecebidos = []; // Variável para armazenar os dados recebidos
-    // let myChart = null;
-    console.log(`mychart: ${myChart}`)
+    var fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
+    function obterDadosGrafico(idComponente, card = cardId) {
 
-    function obterDadosGrafico(idComponente) {
-        fetch(`/dispositivos/metrica/${idComponente}`, {
+        fetch(`/dispositivos/metrica/${fkEmpresa}/${idComponente}/${card}`, {
             cache: 'no-store',
             method: "GET",
         })
@@ -676,7 +832,7 @@ function deletar(idComputador) {
                     response.json().then(function (resposta) {
                         console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
                         dadosRecebidos = resposta; // Salva os dados recebidos
-                        gerarGraficoTempoReal(idComponente); // Inicia o gráfico
+                        gerarGraficoTempoReal(idComponente, cardId); // Inicia o gráfico
                     });
                 } else {
                     console.error('Nenhum dado encontrado ou erro na API');
@@ -687,48 +843,150 @@ function deletar(idComputador) {
             });
     }
 
-    function gerarGraficoTempoReal(idComponente) {
-        const ctx = document.getElementById('myChart').getContext('2d');
+    let graficoAtual;
+    function gerarGraficoTempoReal(idComponente, card = cardId) {
+        // console.log(`Gerando gráfico em tempo real para o card: ${cardId} com o idCOmponente = ${idComponente}`);
 
-        if (window.myChart instanceof Chart) {
-            window.myChart.destroy();
-        }
-
-
-        // Ajustar os dados recebidos para o gráfico
-        // const labels = dadosRecebidos.map(item => item.timestamp); // Supondo que cada item tenha um timestamp
-        // const data = dadosRecebidos.map(item => item.uso); // Supondo que "uso" seja o valor que você quer plotar
+        const cCpu = document.getElementById('chartCPU');
+        const cDisco = document.getElementById('chartDISCO');
+        const cRam = document.getElementById('chartRAM');
+        const cRede = document.getElementById('chartREDE');
 
 
-        // Inicialização do gráfico vazio
-        window.myChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: [], // Inicialmente vazio
-                datasets: [{
-                    label: '% de uso',
-                    data: [], // Inicialmente vazio
-                    borderWidth: 1,
-                    borderColor: "#C7D",
-                    backgroundColor: "#C7D"
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
+        if (idComponente == 1) { // rede
+            if (window.chartREDE instanceof Chart) {
+                window.chartREDE.destroy();
+            }
+            const ultimosPctPerd = dadosRecebidos.slice(-20).map(item => item.pctPerd);
+            const ultimosLat = dadosRecebidos.slice(-20).map(item => item.latencia);
+            const ultimasDatas = dadosRecebidos.slice(-20).map(item => item.dataCaptura);
+
+            // Inicialização do gráfico vazio
+            window.chartREDE = new Chart(cRede, {
+                type: 'line',
+                data: {
+                    labels: ultimasDatas, // Inicialmente vazio
+                    datasets: [{
+                        label: 'Latência (ms)',
+                        data: ultimosLat, // Inicialmente vazio
+                        borderWidth: 1,
+                        borderColor: "#FF6384",
+                        backgroundColor: "rgba(255, 99, 132, 0.2)"
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
                     }
                 }
+            });
+            // Garante que o gráfico foi criado antes de chamar a atualização
+            console.log("myChart inicializado:", chartREDE);
+            graficoAtual = window.chartREDE;
+            atualizarGrafico(idComponente)
+
+        } else if (idComponente == 2) { // memoria RAM
+            if (window.chartRAM instanceof Chart) {
+                window.chartRAM.destroy();
             }
-        });
-        // Garante que o gráfico foi criado antes de chamar a atualização
-        console.log("myChart inicializado:", myChart);
-        atualizarGrafico(idComponente)
+            const ultimosDados = dadosRecebidos.slice(-20).map(item => item.captura);
+            const ultimasDatas = dadosRecebidos.slice(-20).map(item => item.dataCaptura);
+
+            window.chartRAM = new Chart(cRam, {
+                type: 'line',
+                data: {
+                    labels: ultimasDatas, // Inicialmente vazio
+                    datasets: [{
+                        label: '% de uso',
+                        data: ultimosDados, // Inicialmente vazio
+                        borderWidth: 1,
+                        borderColor: "#C7D",
+                        backgroundColor: "#C7D"
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            // Garante que o gráfico foi criado antes de chamar a atualização
+            console.log("myChart inicializado:", chartRAM);
+            graficoAtual = window.chartRAM;
+            atualizarGrafico(idComponente)
+
+        } else if (idComponente == 3) { // disco
+            if (window.chartDISCO instanceof Chart) {
+                window.chartDISCO.destroy();
+            }
+            const ultimosDados = dadosRecebidos.slice(-20).map(item => item.captura);
+            const ultimasDatas = dadosRecebidos.slice(-20).map(item => item.dataCaptura);
+
+            window.chartDISCO = new Chart(cDisco, {
+                type: 'line',
+                data: {
+                    labels: ultimasDatas, // Inicialmente vazio
+                    datasets: [{
+                        label: '% de uso',
+                        data: ultimosDados, // Inicialmente vazio
+                        borderWidth: 1,
+                        borderColor: "rgba(75, 192, 192, 1)",
+                        backgroundColor: "rgba(75, 192, 192, 0.6)"
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            // Garante que o gráfico foi criado antes de chamar a atualização
+            console.log("myChart inicializado:", chartDISCO);
+            graficoAtual = window.chartDISCO;
+            atualizarGrafico(idComponente)
+        }
+        else if (idComponente == 4) { // cpu
+            if (window.chartCPU instanceof Chart) {
+                window.chartCPU.destroy();
+            }
+            const ultimosDados = dadosRecebidos.slice(-20).map(item => item.captura);
+            const ultimasDatas = dadosRecebidos.slice(-20).map(item => item.dataCaptura);
+
+            window.chartCPU = new Chart(cCpu, {
+                type: 'line',
+                data: {
+                    labels: ultimasDatas, // Inicialmente vazio
+                    datasets: [{
+                        label: '% de uso',
+                        data: ultimosDados, // Inicialmente vazio
+                        borderWidth: 1,
+                        borderColor: "rgba(54, 162, 235, 1)",
+                        backgroundColor: "rgba(54, 162, 235, 0.6)"
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            // Garante que o gráfico foi criado antes de chamar a atualização
+            console.log("myChart inicializado:", chartCPU);
+            graficoAtual = window.chartCPU;
+            atualizarGrafico(idComponente)
+        }
     }
 
-    let intervaloAtivo = null; // Armazena o ID do intervalo ativo
-    // Função para adicionar valores incrementalmente
-    function atualizarGrafico(idComponente) {
+    let intervaloAtivo = null;
+    function atualizarGrafico(idComponente, card = cardId) {
         let indiceAtual = 0;
 
         if (intervaloAtivo) {
@@ -737,159 +995,209 @@ function deletar(idComputador) {
         }
 
         intervaloAtivo = setInterval(() => {
-            if (!myChart) {
-                console.warn("myChart ainda não foi inicializado. Tentando novamente...");
-                return; // Aguarde até que myChart seja inicializado
-            }
+            let dadoObtido = [];
+            fetch(`/dispositivos/tempo-real/${fkEmpresa}/${idComponente}/${card}`, {
+                cache: 'no-store',
+                method: "GET",
+            })
+                .then(function (response) {
+                    if (response.ok) {
+                        response.json().then(function (resposta) {
+                            dadoAtual = resposta; // Atualiza com os dados mais recentes
+                            console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+                            console.log(`Dados recebidos: ${JSON.stringify(resposta.dataCaptura)}`);
 
-            if ((indiceAtual < dadosRecebidos.length) && idComponente != 1) {
-                const dadoAtual = dadosRecebidos[indiceAtual];
-                let momento = dadoAtual.dataCaptura;
-                let temperatura = dadoAtual.captura;
+                            // Verifica se há dados para adicionar ao gráfico
+                            if (dadoAtual.length > 0) {
+                                dadoAtual = dadoAtual[0]
+                                const momento = dadoAtual.dataCaptura;
 
-                // Adiciona os novos dados ao gráfico
-                myChart.data.labels.push(momento);
-                myChart.data.datasets[0].data.push(temperatura);
+                                // Adiciona o novo dado ao gráfico
+                                if (idComponente === 1) {
+                                    // Rede
+                                    let latencia = dadoAtual.latencia;
 
-                // Remove o ponto mais antigo se o gráfico exceder 20 pontos
-                if (myChart.data.labels.length > 20) {
-                    myChart.data.labels.shift();
-                    myChart.data.datasets[0].data.shift();
-                }
+                                    graficoAtual.data.labels.push(momento);
+                                    graficoAtual.data.datasets[0].data.push(latencia);
+                                } else {
+                                    // Outros componentes (Memória, Disco, CPU)
+                                    let temperatura = dadoAtual.captura;
+                                    graficoAtual.data.labels.push(momento);
+                                    graficoAtual.data.datasets[0].data.push(temperatura);
+                                }
 
-                // Atualiza o gráfico
-                myChart.update();
+                                // Remove o ponto mais antigo se o gráfico exceder 20 pontos
+                                if (graficoAtual.data.labels.length > 20) {
+                                    graficoAtual.data.labels.shift();
+                                    graficoAtual.data.datasets[0].data.shift();
+                                    if (graficoAtual.data.datasets.length > 1) {
+                                        graficoAtual.data.datasets[1].data.shift(); // Caso tenha múltiplos datasets (como Rede)
+                                    }
+                                }
 
-                // Incrementa o índice para o próximo dado
-                indiceAtual++;
+                                redeLatencia.innerHTML = `${dadoAtual.latencia}ms`;
+                                redePerdido.innerHTML = `${dadoAtual.pctPerd}%`;
+                                idNomeComponente.innerHTML = dadoAtual.modelo;
+                                atualizarCor(redeLatencia, dadoAtual.captura);
+                                atualizarCor(redePerdido, dadoAtual.captura);
 
-                // Atualiza os KPIs conforme o idComponente
-                if (idComponente == 2) { // memória
-                    memoriaUtilizacao.innerHTML = `${dadoAtual.captura}%`
-                    idNomeComponente.innerHTML = dadoAtual.modelo
+                                // Atualiza o gráfico
+                                graficoAtual.update();
 
-                    // Média de memória
-                    atualizarMediaGrafico(idComponente);
-                } else if (idComponente == 3) { // disco
-                    discoUtilizacao.innerHTML = `${dadoAtual.captura}%`
-                    idNomeComponente.innerHTML = dadoAtual.modelo
+                                // Incrementa o índice para o próximo dado
+                                indiceAtual++;
 
-                    // Média de disco
-                    atualizarMediaGrafico(idComponente);
-                } else if (idComponente == 4) { // CPU
-                    cpuUtilizacao.innerHTML = `${dadoAtual.captura}%`
-                    idNomeComponente.innerHTML = dadoAtual.modelo
+                                // Atualiza os KPIs e cores conforme a captura
+                                if (idComponente == 2) { // Memória
+                                    memoriaUtilizacao.innerHTML = `${dadoAtual.captura}%`;
+                                    idNomeComponente.innerHTML = dadoAtual.modelo;
+                                    atualizarCor(memoriaUtilizacao, dadoAtual.captura);
+                                } else if (idComponente == 3) { // Disco
+                                    discoUtilizacao.innerHTML = `${dadoAtual.captura}%`;
+                                    idNomeComponente.innerHTML = dadoAtual.modelo;
+                                    atualizarCor(discoUtilizacao, dadoAtual.captura);
+                                } else if (idComponente == 4) { // CPU
+                                    cpuUtilizacao.innerHTML = `${dadoAtual.captura}%`;
+                                    idNomeComponente.innerHTML = dadoAtual.modelo;
+                                    atualizarCor(cpuUtilizacao, dadoAtual.captura);
+                                }
+                            }
 
-                    // Média de CPU
-                    atualizarMediaGrafico(idComponente);
-                }
-
-            } else if (idComponente == 1) {
-                const dadoAtual = dadosRecebidos[indiceAtual];
-                let momento = dadoAtual.dataCaptura;
-                let pctEnv = dadoAtual.pctEnv;
-                let pctRec = dadoAtual.pctRec;
-
-                if (myChart.data.datasets.length === 1) {
-                    myChart.data.datasets = [
-                        {
-                            label: 'Pacotes enviados',
-                            data: [], // Inicialmente vazio
-                            borderWidth: 1,
-                            borderColor: "#FF6384",
-                            backgroundColor: "rgba(255, 99, 132, 0.2)"
-                        },
-                        {
-                            label: 'Pacotes recebidos',
-                            data: [], // Inicialmente vazio
-                            borderWidth: 1,
-                            borderColor: "#36A2EB",
-                            backgroundColor: "rgba(54, 162, 235, 0.2)"
-                        }
-                    ];
-                }
-
-                // Adiciona os novos dados ao gráfico
-                myChart.data.labels.push(momento);
-                myChart.data.datasets[0].data.push(pctEnv);
-                myChart.data.datasets[1].data.push(pctRec);
-
-                // Remove o ponto mais antigo se o gráfico exceder 20 pontos
-                if (myChart.data.labels.length > 20) {
-                    myChart.data.labels.shift();
-                    myChart.data.datasets[0].data.shift();
-                    myChart.data.datasets[1].data.shift();
-                }
-                // Atualiza o gráfico
-                myChart.update();
-
-                // Incrementa o índice para o próximo dado
-                indiceAtual++;
-
-                redeEnviar.innerHTML = dadoAtual.pctEnv
-                redeReceber.innerHTML = dadoAtual.pctRec
-                redePerdido.innerHTML = dadoAtual.perdido
-                idNomeComponente.innerHTML = dadoAtual.modelo
-            }
-            else {
-                console.log('Todos os dados foram exibidos.');
-                clearInterval(intervaloAtivo); // Para o intervalo quando todos os dados forem exibidos
-            }
-        }, 2000); // Intervalo de 2 segundos
+                            // // Quando todos os dados forem exibidos, limpa o intervalo
+                            // if (indiceAtual >= dadoObtido.length) {
+                            //     console.log('Todos os dados foram exibidos.');
+                            //     clearInterval(intervaloAtivo);
+                            // }
+                            atualizarMediaGrafico(idComponente)
+                        });
+                    } else {
+                        console.error('Erro na API ou nenhum dado encontrado');
+                    }
+                })
+                .catch(function (error) {
+                    console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+                });
+        }, 3000); // Intervalo de 2 segundos
     }
-    // Atualiza o gráfico a cada 2 segundos
-    // const intervalo = setInterval(atualizarGrafico, 2000);
 
+    function atualizarCor(elemento, valor) {
+        if (elemento == redeLatencia) {
+            if (valor >= 50) {
+                if (valor >= 100) {
+                    elemento.style.color = "red";
+                } else {
+                    elemento.style.color = "yellow";
+                }
+            } else {
+                elemento.style.color = "green";
+            }
+        }
+        else if (elemento == redePerdido) {
+            if (valor >= 2) {
+                if (valor >= 4) {
+                    elemento.style.color = "red";
+                } else {
+                    elemento.style.color = "yellow";
+                }
+            } else {
+                elemento.style.color = "green";
+            }
+        }
+        else if (valor > 90) {
+            elemento.style.color = "red"; // Vermelho
+        } else if (valor > 80) {
+            elemento.style.color = "yellow"; // Amarelo
+        } else {
+            elemento.style.color = "green"; // Verde
+        }
+    }
 
     function atualizarMediaGrafico(idComponente) {
-        const capturasExibidas = myChart.data.datasets[0].data;
+        const capturasExibidas = graficoAtual.data.datasets[0].data;
         const soma = capturasExibidas.reduce((acumulador, valor) => acumulador + valor, 0);
         const media = soma / capturasExibidas.length;
 
         // Atualiza a média conforme o idComponente
         if (idComponente == 2) { // Memória
+            atualizarCor(memoriaMedia, media);
             memoriaMedia.innerHTML = `${Math.round(media)}%`;
         } else if (idComponente == 3) { // Disco
+            atualizarCor(discoMediaUso, media);
             discoMediaUso.innerHTML = `${Math.round(media)}%`;
         } else if (idComponente == 4) { // CPU
+            atualizarCor(cpuMedia, media);
             cpuMedia.innerHTML = `${Math.round(media)}%`;
         }
     }
 
+    function listarPorUsuario() {
+        const inputPesquisa = document.getElementById("pesquisar_input").value;
 
+        fetch(`/dispositivos/buscar/${fkEmpresa}/${inputPesquisa}`)
+            .then(function (resposta) {
+                if (resposta.ok) {
+                    if (resposta.status == 204) {
+                        var feed = document.getElementById("sectioncard");
+                        feed.innerHTML = "";
+                        var mensagem = document.createElement("span");
+                        mensagem.innerHTML = "Nenhum resultado encontrado.";
+                        feed.appendChild(mensagem);
+                        throw "Nenhum resultado encontrado!";
+                    }
+                    return resposta.json();
+                } else {
+                    throw 'Houve um erro na API!';
+                }
+            })
+            .then(function (resposta) {
+                console.log("Dados recebidos: ", JSON.stringify(resposta));
 
+                var feed = document.getElementById("sectioncard");
+                feed.innerHTML = ""; // Limpa o conteúdo atual do feed
+                resposta.forEach(publicacao => {
+                    var card = document.createElement("div");
+                    card.setAttribute("id", publicacao.idComputador);
+                    card.classList.add("card");
 
-    // enviando alerta para o slack caso o dado seja alerta (teste, não vai ser usado assim depois)
+                    // Adicionando o evento para abrir o modal
+                    card.addEventListener("click", function () {
+                        cardId = this.id
+                        console.log("Card clicado. cardId:", this.id);
+                        alterarComponente('dashCpu', this.id);
+                        toggleModal(event);
+                    });
 
-    // if (dadoPublic > 90) {
+                    let status = publicacao.status === 1 ? "Em atividade" : "Inativo";
+                    let statusColor = publicacao.status === 1 ? "#12FF39" : "#FF7557";
 
-    //     // const axios = require('axios/dist/node/axios.cjs');
-    //     // var qs = requer('qs');
-
-    //     var mensagemAlerta = "A máquina 1 está com o uso da CPU alto!"
-
-    //     var dados = new URLSearchParams();
-    //     dados.append('payload', `{"channel": "#alertas", "username": "incoming-webhook", "text": "${mensagemAlerta}", "icon_emoji": ":ghost:"}`);
-
-    //     var configuração = {
-    //         method: 'post',
-    //         url: 'https://hooks.slack.com/services/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',
-    //         headers: {
-    //             'Content-Type': 'application/x-www-form-urlencoded'
-    //         },
-    //         data: dados
-    //     };
-
-    //     axios(configuração)
-    //         .then(function (response) {
-    //             console.log("Notificação enviada com sucesso:", response.data);
-    //         })
-    //         .catch(function (error) {
-    //             console.error("Erro ao enviar notificação:", error.response ? error.response.data : error.message);
-    //         });
-    // }
-    // }
-
-    // FIM DO GRÁFICO EM TEMPO REAL ==================================================================================
-
+                    // Adicionando o conteúdo do card
+                    card.innerHTML = `
+                        <div class="down-card cima">
+                            <div class="esqCard">
+                                <figure class="iconComp">
+                                    <img src=".././src/img/icons/indicadoresMaquina/computadorBranco.png" alt="">
+                                </figure>
+                            </div>
+                            <div class="dirCard" id="maquina${publicacao.idComputador}"></div>
+                        </div>
+                        <div class="down-card">
+                            <div class="content-card">
+                                <p><b>ID:</b> ${publicacao.idComputador}</p>
+                                <p><b>Equipe:</b> ${publicacao.fkEquipe}</p>
+                                <p><b>Funcionário:</b> ${publicacao.nomeFuncionario}</p>
+                                <p><b>Status:</b> <span style="color: ${statusColor};">${status}</span></p>
+                            </div>
+                            <div id="editar" class="up-card">
+                                <img src=".././src/img/icons/editar.svg" id="editar" onclick="atualizarMaquina(${publicacao.idComputador})">
+                                <img src=".././src/img/icons/excluir.svg" id="editar" onclick="deletar(${publicacao.idComputador})">
+                            </div>
+                        </div>
+                    `;
+                    feed.appendChild(card);
+                });
+            })
+            .catch(function (erro) {
+                console.error("Erro ao atualizar o feed:", erro);
+            });
+    }
 </script>

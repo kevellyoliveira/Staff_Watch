@@ -11,6 +11,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+
     <title>Dashboard | Staff Watch</title>
 </head>
 
@@ -44,28 +45,83 @@
         <div class="son1">
             <button class="open-btn" onclick="openMenu()">☰</button>
         </div>
+
+        <h2>Monitoramento de rede</h2>
     </div>
 
-    <div class="cima"> KPI'S</div>
-    <div class="baixo">GRÁFICO</div>
+    <div class="cima">
+        <div class="cima1">
+            <div class="cardKpi">
+                <h3>Tempo de inatividade (horas)</h3>
+                <div class="inatividadeValor" id="inatividadeValor" style=" color: white; font-size: 50px;"></div>
 
-            <!-- Menu Lateral -->
-            <div id="sideMenu" class="side-menu">
-                <button class="close-btn" onclick="closeMenu()">☰</button>
-                <div class="menuLateral">
-                    <div class="itens1">
-                        <h4 id="0" class="hist2" onclick="window.location.href='dashboardGeral-gti.html'">Home</h4>
-                        <!-- Histórico Fixo -->
+            </div>
 
-                        <!-- As equipes serão carregadas dinamicamente aqui -->
-
-                        <h4 class="hist3" onclick="window.location.href='./novaEquipe.html'">NovaEquipe</h4>
-                        <!-- Nova equipe Fixa -->
-                    </div>
+            <div class="cardKpi">
+                <h3>Tempo médio entre falhas<br> (Minutos)
+                </h3>
+                <div class="tempoFalhasValor" id="tempoFalhasValor" style=" color: white; font-size: 50px;"></div>
+            </div>
+            <div class="cardKpi">
+                <h3>Pacotes Perdidos (%)</h3>
+                <div class="pacotesPerdidosValor" id="pacotesPerdidosValor" style=" color: white; font-size: 50px;">
                 </div>
             </div>
-            
-            <!-- <h1 class="h1Central">Indicadores Gerais</h1>
+        </div>
+        <div class="cima2">
+            <div class="espaco"></div>
+            <div class="regularTempo">
+                <div class="margemTempo">
+                    <!-- aqui vou inserir demais funções como o filtro de tempo -->
+                    <select name="opcoes" class="TEMPO">
+                        <option value="tempo">Filtro de tempo</option>
+                        <option value="DIA">Ultimas 24 horas</option>
+                        <option value="SEMANA">Ultimos 7 dias</option>
+                        <option value="MÊS">Ultimos 30 dias</option>
+                        <option value="6MES">Ultimos 6 meses</option>
+                        <option value="ANO">Ultimo ano</option>
+                    </select>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="baixo">
+        <!-- <div class="espaco"></div> -->
+        <div class="baixo1">
+            <div class="espaco"></div>
+            <div class="grafico">
+                <canvas id="chart1"></canvas>
+            </div>
+            <div class="miniespaco"></div>
+        </div>
+        <div class="baixo2">
+            <div class="espaco"></div>
+            <div class="grafico">
+                <canvas id="graficoLatencia"></canvas>
+
+            </div>
+            <div class="miniespaco"></div>
+        </div>
+    </div>
+
+    <!-- Menu Lateral -->
+    <!-- <button class="open-btn" onclick="openMenu()">☰</button> -->
+
+    <div id="sideMenu" class="side-menu">
+        <button class="close-btn" onclick="closeMenu()">☰</button>
+        <div class="menuLateral">
+            <div class="itens">
+                <h4 id="home" class="historico" onclick="window.location.href='dashboardPedroPorfirio.html'">Home
+                </h4>
+                <!-- Aqui as equipes serão inseridas dinamicamente pelo JavaScript -->
+                <h4 id="novaEquipe" class="novaequipe" onclick="window.location.href='./novaEquipe.html'">Nova
+                    Equipe</h4>
+            </div>
+        </div>
+    </div>
+
+    <!-- <h1 class="h1Central">Indicadores Gerais</h1>
             <select name="opcoes" class="TEMPO">
                 <option value="tempo">TEMPO</option>
                 <option value="dia">DIA</option>
@@ -74,9 +130,9 @@
                 <option value="6MÊS">6 MESES</option>
                 <option value="ANO">ANO</option>
             </select> -->
-        </div>
-       
-        
+    </div>
+
+
 </body>
 
 
@@ -86,18 +142,582 @@
 
 
 
-    function selecionarItem(elemento) {
-        var id = elemento.id;  // Pega o ID da equipe clicada
-        if (id == 0) {
-            // Redireciona para dashboardGeral.html
-            window.location.href = "dashboardGeral-gti.html";
-        } else {
-            // Armazena o ID correto da equipe no sessionStorage
-            sessionStorage.setItem('equipeSelecionada', id);
-            // Redireciona para a página da equipe
-            window.location.href = 'dashboardEquipe_Eduardo2-go.html';
-        }
+
+
+    function puxarPacotesPerdidos() {
+
+        console.log("ENTROU NA FUNCAO pacotes perdidos")
+
+        fetch(`/redeRuan/pacotesPerdidos`, {
+            method: "GET"
+        })
+            .then(resposta => {
+                if (resposta.ok) {
+
+                    return resposta.json();
+
+
+                } else {
+                    throw "Não foi possível capturar o percentual de pacotes perdidos.";
+                }
+            })
+
+            .then(dados => {
+                console.log(dados);  // Exibe os dados no console (opcional para debugging)
+
+                // Verifica se existem dados e exibe o último valor
+                if (dados && dados.length > 0) {
+                    const ultimoValor = dados[dados.length - 1].captura;  // Acessa o último item do array
+                    console.log("Último valor:", ultimoValor);  // Exibe no console (opcional)
+
+                    // Atualiza o conteúdo da div com o último valor
+                    document.getElementById("pacotesPerdidosValor").textContent = ultimoValor;
+
+                } else {
+                    console.error("Nenhum dado encontrado.");
+                }
+            })
+
+            .catch(error => {
+                console.error(error);
+
+            });
+
+
     }
+
+    setInterval(puxarPacotesPerdidos, 5000);
+
+
+
+
+    function puxarInatividade() {
+
+        console.log("ENTROU NA FUNCAO inatividade")
+
+        fetch(`/redeRuan/inatividade`, {
+            method: "GET"
+        })
+            .then(resposta => {
+                if (resposta.ok) {
+
+                    return resposta.json();
+
+
+                } else {
+                    throw "Não foi possível capturar o tempo de inatividade";
+                }
+            })
+
+            .then(dados => {
+                console.log(dados);
+                console.log(dados);
+                console.log(dados);
+                console.log(dados);  // Exibe os dados no console (opcional para debugging)
+
+                // Verifica se existem dados e exibe o último valor
+                if (dados && dados.length > 0) {
+                    // const ultimoValor = dados[dados.length - 1].captura;  // Acessa o último item do array
+                    // console.log("Último valor:", ultimoValor);  // Exibe no console (opcional)
+
+                    let total = 0
+
+                    for (let i = 0; i < dados.length; i++) {
+                        const ultimoValor = dados[i].captura;
+                        console.log(ultimoValor);
+                        console.log(ultimoValor);
+                        console.log(ultimoValor);
+
+
+
+                        if (typeof ultimoValor === "number") {
+                            total += ultimoValor;  // Soma o valor
+                            console.log(`Captura [${i}] = ${ultimoValor}. Total acumulado: ${total}`);
+                        } else {
+                            console.log(`Valor inválido em captura [${i}]: ${ultimoValor}`);
+                        }
+
+                    }
+
+                    // Atualiza o conteúdo da div com o último valor
+                    document.getElementById("inatividadeValor").textContent = `${total}`;
+
+                } else {
+                    console.error("Nenhum dado encontrado.");
+                }
+            })
+
+            .catch(error => {
+                console.error(error);
+
+            });
+
+
+    }
+
+    setInterval(puxarInatividade, 5000);
+
+
+
+
+    function puxarTempoFalhas() {
+
+        console.log("ENTROU NA FUNCAO tempo entre falhas")
+
+        fetch(`/redeRuan/tempoFalhas`, {
+            method: "GET"
+        })
+            .then(resposta => {
+                if (resposta.ok) {
+
+                    return resposta.json();
+
+
+                } else {
+                    throw "Não foi possível capturar o tempo entre falhas.";
+                }
+            })
+
+            .then(dados => {
+                console.log(dados);  // Exibe os dados no console (opcional para debugging)
+
+                // Verifica se existem dados e exibe o último valor
+                if (dados && dados.length > 0) {
+                    const ultimoValor = dados[dados.length - 1].captura;  // Acessa o último item do array
+                    console.log("Último valor:", ultimoValor);  // Exibe no console (opcional)
+
+
+
+                    if (ultimoValor == 0) {
+                        var txt0 = "Zero falhas"
+                        document.getElementById("tempoFalhasValor").textContent = txt0;
+                        document.getElementById("tempoFalhasValor").style.fontSize = "20px";
+                        document.getElementById("tempoFalhasValor").style.color = "orange";
+                    }
+
+                    if (ultimoValor == 1) {
+                        var txt0 = "Apenas uma falha"
+                        document.getElementById("tempoFalhasValor").textContent = txt0;
+                        document.getElementById("tempoFalhasValor").style.fontSize = "20px";
+                        document.getElementById("tempoFalhasValor").style.color = "orange";
+                    }
+
+
+
+                    // Atualiza o conteúdo da div com o último valor
+                    // document.getElementById("tempoFalhasValor").textContent = ultimoValor;
+
+                } else {
+                    console.error("Nenhum dado encontrado.");
+                }
+            })
+
+            .catch(error => {
+                console.error(error);
+
+            });
+
+
+    }
+
+    setInterval(puxarTempoFalhas, 5000);
+
+
+
+
+
+
+
+
+    // Graficos
+
+
+
+
+    function puxarGraficoLatencia() {
+
+        console.log("ENTROU NA FUNCAO graficoLatencia")
+
+        fetch(`/redeRuan/graficoLatencia`, {
+            method: "GET"
+        })
+            .then(resposta => {
+                if (resposta.ok) {
+
+                    return resposta.json();
+
+
+                } else {
+                    throw "Não foi possível plotar o gráfico de latencia.";
+                }
+            })
+
+            .then(dados => {
+                console.log(dados);  // Exibe os dados no console (opcional para debugging)
+
+                // Verifica se existem dados e exibe o último valor
+                if (dados && dados.length > 0) {
+
+
+
+
+                    function processarDados(dados) {
+                        const labels = [];  // Para os valores no eixo X (data)
+                        const valoresCaptura = [];  // Para os valores no eixo Y (captura)
+
+                        // Vamos pegar a primeira data e calcular as diferenças
+                        let primeiroTempo = new Date(dados[0].dataCaptura);  // Primeira data de captura
+
+                        // Função para formatar a data para o formato 'DD/MM/YYYY HH:mm'
+                        function formatarData(data) {
+                            const dia = data.getDate().toString().padStart(2, '0');
+                            const mes = (data.getMonth() + 1).toString().padStart(2, '0');
+                            const ano = data.getFullYear();
+                            const hora = data.getHours().toString().padStart(2, '0');
+                            const minuto = data.getMinutes().toString().padStart(2, '0');
+                            return `${dia}/${mes}/${ano} ${hora}:${minuto}`;
+                        }
+
+                        // Para cada entrada de dados, calcular a diferença em milissegundos e formatar
+                        dados.forEach((item) => {
+                            const captura = item.captura.toFixed(2);
+                            const dataCaptura = new Date(item.dataCaptura);
+
+                            // Formatar a data para o formato desejado (dia, mês, ano, hora:minuto)
+                            const tempoFormatado = formatarData(dataCaptura);
+
+                            // Adiciona os dados para o gráfico
+                            labels.push(tempoFormatado);  // Eixo X: data formatada (DD/MM/YYYY HH:mm)
+                            valoresCaptura.push(captura);  // Eixo Y: captura (quantidade de pacotes)
+                        });
+
+                        return { labels, valoresCaptura };
+                    }
+
+                    function plotarGrafico(dados) {
+                        const { labels, valoresCaptura } = processarDados(dados);
+
+                        // Configuração do gráfico no Chart.js
+                        const ctx = document.getElementById('graficoLatencia').getContext('2d');
+                        const grafico = new Chart(ctx, {
+                            type: 'line',  // Tipo de gráfico: linha
+                            data: {
+                                labels: labels,  // Eixo X: data formatada
+                                datasets: [{
+                                    label: 'Latência (ms)',
+                                    data: valoresCaptura,  // Eixo Y: quantidade de pacotes
+                                    borderColor: 'rgba(75, 192, 192, 1)',  // Cor da linha
+                                    fill: false,  // Não preencher a área sob a linha
+                                    tension: 0.1  // Para suavizar as linhas
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                plugins: {
+                                    title: {  // Adiciona o título do gráfico
+                                        display: true,
+                                        text: 'Latência ao longo do tempo',  // Título do gráfico
+                                        font: {
+                                            size: 18,  // Tamanho do título
+                                            weight: 'bold',  // Peso da fonte
+                                            family: 'Arial, sans-serif'  // Família da fonte
+                                        },
+                                        color: '#ffffff'
+                                    },
+                                    legend: {
+                                        labels: {
+                                            color: '#ffffff', // Cor da label 'Captura (latência)'
+                                            font: {
+                                                size: 14, // Tamanho da fonte da legenda
+                                                family: 'Arial, sans-serif' // Fonte personalizada
+                                            }
+                                        }  // Cor do título
+                                    },
+                                    tooltip: {
+                                        enabled: true,  // Exibir informações ao passar o mouse
+                                        callbacks: {
+                                            label: function (tooltipItem) {
+                                                return `Latência: ${tooltipItem.raw} ms`;  // Formatação personalizada do tooltip
+                                            }
+                                        }
+                                    }
+                                },
+                                scales: {
+                                    x: {
+                                        type: 'category',  // Tipo de escala do eixo X: categoria (para datas)
+                                        title: {
+                                            display: true,
+                                            text: 'Intervalo de tempo entre a data mais antiga e a mais recente',
+                                            color: '#ffffff',
+                                            font: {
+                                                size: 14,  // Tamanho da fonte do título do eixo X
+                                                family: 'Arial, sans-serif',  // Fonte do título (opcional)
+                                                weight: 'bold'  // Peso da fonte (opcional)
+                                            }
+                                        },
+                                        ticks: {
+                                            // maxRotation: 45, // Rotaciona as labels para melhor visualização
+                                            // minRotation: 30
+                                            display: false,
+                                            color: '#ffffff'
+                                        },
+                                        grid: {
+                                            color: 'gray' // Cor das linhas de grade no eixo X
+                                        }
+                                    },
+                                    y: {
+                                        title: {
+                                            display: true,
+                                            text: 'Captura (Pacotes)',
+                                            color: '#ffffff' // Cor do título do eixo Y
+                                        },
+                                        ticks: {
+                                            color: '#ffffff' // Cor dos rótulos no eixo Y
+                                        },
+                                        grid: {
+                                            color: 'gray' // Cor das linhas de grade no eixo Y
+                                        }
+                                        // beginAtZero: true  // Começar o eixo Y do zero
+                                    }
+                                }
+                            }
+                        });
+                    }
+
+
+
+
+                    plotarGrafico(dados);
+
+
+                } else {
+                    console.error("Nenhum dado encontrado.");
+                }
+            })
+
+            .catch(error => {
+                console.error(error);
+
+            });
+
+
+    }
+
+
+    setInterval(puxarGraficoLatencia, 5000);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function puxarGraficoTrafego() {
+
+console.log("ENTROU NA FUNCAO graficoTrafego")
+
+fetch(`/redeRuan/graficoTrafego`, {
+    method: "GET"
+})
+    .then(resposta => {
+        if (resposta.ok) {
+
+            return resposta.json();
+
+
+        } else {
+            throw "Não foi possível plotar o gráfico tráfego de rede";
+        }
+    })
+
+    .then(dados => {
+        console.log(dados);  // Exibe os dados no console (opcional para debugging)
+
+        // Verifica se existem dados e exibe o último valor
+        if (dados && dados.length > 0) {
+
+
+
+
+            // function processarDados(dados) {
+            //     const labels = [];  // Para os valores no eixo X (data)
+            //     const valoresCaptura = [];  // Para os valores no eixo Y (captura)
+
+            //     // Vamos pegar a primeira data e calcular as diferenças
+            //     let primeiroTempo = new Date(dados[0].dataCaptura);  // Primeira data de captura
+
+            //     // Função para formatar a data para o formato 'DD/MM/YYYY HH:mm'
+            //     function formatarData(data) {
+            //         const dia = data.getDate().toString().padStart(2, '0');
+            //         const mes = (data.getMonth() + 1).toString().padStart(2, '0');
+            //         const ano = data.getFullYear();
+            //         const hora = data.getHours().toString().padStart(2, '0');
+            //         const minuto = data.getMinutes().toString().padStart(2, '0');
+            //         return `${dia}/${mes}/${ano} ${hora}:${minuto}`;
+            //     }
+
+            //     // Para cada entrada de dados, calcular a diferença em milissegundos e formatar
+            //     dados.forEach((item) => {
+            //         const captura = item.captura.toFixed(2);
+            //         const dataCaptura = new Date(item.dataCaptura);
+
+            //         // Formatar a data para o formato desejado (dia, mês, ano, hora:minuto)
+            //         const tempoFormatado = formatarData(dataCaptura);
+
+            //         // Adiciona os dados para o gráfico
+            //         labels.push(tempoFormatado);  // Eixo X: data formatada (DD/MM/YYYY HH:mm)
+            //         valoresCaptura.push(captura);  // Eixo Y: captura (quantidade de pacotes)
+            //     });
+
+            //     return { labels, valoresCaptura };
+            // }
+
+            // function plotarGrafico(dados) {
+            //     const { labels, valoresCaptura } = processarDados(dados);
+
+            //     // Configuração do gráfico no Chart.js
+            //     const ctx = document.getElementById('graficoLatencia').getContext('2d');
+            //     const grafico = new Chart(ctx, {
+            //         type: 'line',  // Tipo de gráfico: linha
+            //         data: {
+            //             labels: labels,  // Eixo X: data formatada
+            //             datasets: [{
+            //                 label: 'Latência (ms)',
+            //                 data: valoresCaptura,  // Eixo Y: quantidade de pacotes
+            //                 borderColor: 'rgba(75, 192, 192, 1)',  // Cor da linha
+            //                 fill: false,  // Não preencher a área sob a linha
+            //                 tension: 0.1  // Para suavizar as linhas
+            //             }]
+            //         },
+            //         options: {
+            //             responsive: true,
+            //             plugins: {
+            //                 title: {  // Adiciona o título do gráfico
+            //                     display: true,
+            //                     text: 'Latência ao longo do tempo',  // Título do gráfico
+            //                     font: {
+            //                         size: 18,  // Tamanho do título
+            //                         weight: 'bold',  // Peso da fonte
+            //                         family: 'Arial, sans-serif'  // Família da fonte
+            //                     },
+            //                     color: '#ffffff'
+            //                 },
+            //                 legend: {
+            //                     labels: {
+            //                         color: '#ffffff', // Cor da label 'Captura (latência)'
+            //                         font: {
+            //                             size: 14, // Tamanho da fonte da legenda
+            //                             family: 'Arial, sans-serif' // Fonte personalizada
+            //                         }
+            //                     }  // Cor do título
+            //                 },
+            //                 tooltip: {
+            //                     enabled: true,  // Exibir informações ao passar o mouse
+            //                     callbacks: {
+            //                         label: function (tooltipItem) {
+            //                             return `Latência: ${tooltipItem.raw} ms`;  // Formatação personalizada do tooltip
+            //                         }
+            //                     }
+            //                 }
+            //             },
+            //             scales: {
+            //                 x: {
+            //                     type: 'category',  // Tipo de escala do eixo X: categoria (para datas)
+            //                     title: {
+            //                         display: true,
+            //                         text: 'Intervalo de tempo entre a data mais antiga e a mais recente',
+            //                         color: '#ffffff',
+            //                         font: {
+            //                             size: 14,  // Tamanho da fonte do título do eixo X
+            //                             family: 'Arial, sans-serif',  // Fonte do título (opcional)
+            //                             weight: 'bold'  // Peso da fonte (opcional)
+            //                         }
+            //                     },
+            //                     ticks: {
+            //                         // maxRotation: 45, // Rotaciona as labels para melhor visualização
+            //                         // minRotation: 30
+            //                         display: false,
+            //                         color: '#ffffff'
+            //                     },
+            //                     grid: {
+            //                         color: 'gray' // Cor das linhas de grade no eixo X
+            //                     }
+            //                 },
+            //                 y: {
+            //                     title: {
+            //                         display: true,
+            //                         text: 'Captura (Pacotes)',
+            //                         color: '#ffffff' // Cor do título do eixo Y
+            //                     },
+            //                     ticks: {
+            //                         color: '#ffffff' // Cor dos rótulos no eixo Y
+            //                     },
+            //                     grid: {
+            //                         color: 'gray' // Cor das linhas de grade no eixo Y
+            //                     }
+            //                     // beginAtZero: true  // Começar o eixo Y do zero
+            //                 }
+            //             }
+            //         }
+            //     });
+            // }
+
+
+
+
+            // plotarGrafico(dados);
+
+
+        } else {
+            console.error("Nenhum dado encontrado.");
+        }
+    })
+
+    .catch(error => {
+        console.error(error);
+
+    });
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // --------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
 
     function abrirMenu() {
         if (document.getElementById("menu").style.display == "flex") {
@@ -124,68 +744,280 @@
 
     function listarEquipes() {
         const fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
+        // const fkEmpresa = 1
 
         fetch(`funcionarios/listarEquipes/${fkEmpresa}`)
-            .then(function (resposta) {
+            .then(resposta => {
                 if (resposta.ok) {
-                    return resposta.json(); // Se a resposta for ok, tenta converter para JSON
+                    return resposta.json(); // Se a resposta for válida, converte para JSON
                 } else {
                     console.error("Erro ao carregar equipes, status:", resposta.status);
-                    return []; // Se não retornar sucesso, retorna um array vazio
+                    return [];
                 }
             })
-            .then(function (dados) {
-                // Verificando se dados está correto
+            .then(dados => {
                 console.log("Equipes carregadas:", dados);
 
+                // Seleciona o menu lateral e os itens fixos
                 const menuLateral = document.querySelector(".menuLateral .itens");
+                const historicoItem = document.querySelector("#home");
+                const novaEquipeItem = document.querySelector("#novaEquipe");
 
-                // Limpa o conteúdo atual do menu (exceto os itens fixos)
-                const historicoItem = document.querySelector(".historico"); // Seleciona o item Histórico pela classe
-                const novaEquipeItem = document.querySelector(".novaequipe"); // Seleciona o item Nova Equipe pela classe
+                // Limpa o menu sem remover os itens fixos
+                menuLateral.innerHTML = ''; // Limpa todos os itens
+                menuLateral.appendChild(historicoItem); // Reinsere o item "Home"
 
-                // Re-adiciona o item "Histórico" de volta
-                menuLateral.innerHTML = ''; // Limpa a lista para evitar duplicação
-
-                // Adiciona o Histórico novamente
-                menuLateral.appendChild(historicoItem);
-
-                // Adiciona as equipes (se houver)
-                if (dados && dados.length > 0) {
-                    dados.forEach(function (equipe) {
+                // Adiciona as equipes dinamicamente
+                if (dados.length > 0) {
+                    dados.forEach(equipe => {
                         const h4 = document.createElement("h4");
-                        h4.textContent = equipe.nome;  // O nome da equipe
-                        h4.onclick = function () {
-                            selecionarItem(equipe.id);  // Quando clicar, chama a função de seleção
-                        };
-                        menuLateral.appendChild(h4); // Adiciona a equipe ao menu
+                        h4.textContent = equipe.nome;
+                        h4.classList.add("equipe"); // Adiciona uma classe para estilização
+                        h4.onclick = () => selecionarItem(equipe.id);
+                        menuLateral.appendChild(h4);
                     });
                 } else {
-                    // Se não houver equipes, exibe uma mensagem
+                    // Exibe mensagem caso não existam equipes
                     const noTeamsMessage = document.createElement("h4");
                     noTeamsMessage.textContent = "Nenhuma equipe encontrada.";
+                    noTeamsMessage.classList.add("sem-equipes");
                     menuLateral.appendChild(noTeamsMessage);
                 }
 
-                // Re-adiciona a opção "Nova equipe"
+                // Reinsere a opção "Nova Equipe"
                 menuLateral.appendChild(novaEquipeItem);
             })
-            .catch(function (erro) {
+            .catch(erro => {
                 console.error("Erro ao carregar as equipes:", erro);
             });
     }
 
     window.onload = function () {
         listarEquipes();  // Chama a função para listar as equipes
-        atualizarFeedEquipe();  // Chama a função para atualizar o feed da equipe
+        // atualizarFeedEquipe();  // Chama a função para atualizar o feed da equipe
+        puxarPacotesPerdidos();
+        puxarInatividade();
+        puxarTempoFalhas();
+        puxarGraficoLatencia();
+        puxarGraficoTrafego();
     };
 
 
     document.addEventListener('DOMContentLoaded', function () {
         listarEquipes();  // Chama a função para listar as equipes
-        atualizarFeedEquipe();  // Chama a função para atualizar o feed da equipe
+        // atualizarFeedEquipe();
+        // puxarPacotesPerdidos();  // Chama a função para atualizar o feed da equipe
     });
 
-    
+    const fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // TESTE DE GRÁFICOS PARA VER SE A DIV FICOU NUM BOM TAMANHO
+
+
+
+
+
+    // Dados para o primeiro gráfico
+    const data1 = {
+        labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio'],
+        datasets: [{
+            label: 'Vendas 2023',
+            data: [10, 15, 8, 12, 7],
+            borderColor: 'rgba(75, 192, 192, 1)',
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            tension: 0.4 // Suavidade da linha
+        }]
+    };
+
+    // Dados para o segundo gráfico
+    const data2 = {
+        labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio'],
+        datasets: [{
+            label: 'Vendas 2024',
+            data: [12, 18, 5, 10, 14],
+            borderColor: 'rgba(255, 99, 132, 1)',
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            tension: 0.4 // Suavidade da linha
+        }]
+    };
+
+    // Configuração para o primeiro gráfico
+    const config1 = {
+        type: 'line',
+        data: data1,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: true, position: 'top' },
+                title: { display: true, text: 'Latência média' }
+            },
+            scales: {
+                x: { title: { display: true, text: 'Mês' } },
+                y: { title: { display: true, text: 'Vendas' }, beginAtZero: true }
+            }
+        }
+    };
+
+    // Configuração para o segundo gráfico
+    const config2 = {
+        type: 'line',
+        data: data2,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: true, position: 'top' },
+                title: { display: true, text: 'Taxa de crescimento de tráfego de rede ' }
+            },
+            scales: {
+                x: { title: { display: true, text: 'Mês' } },
+                y: { title: { display: true, text: 'Vendas' }, beginAtZero: true }
+            }
+        }
+    };
+
+    // Renderizando os gráficos
+    const ctx1 = document.getElementById('chart1').getContext('2d');
+    new Chart(ctx1, config1);
+
+    const ctx2 = document.getElementById('chart2').getContext('2d');
+    new Chart(ctx2, config2);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // TENTATIVA DE PLOTAR OS GRÁFICOS EM TEMPO REAL - RUAN
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 </script>
