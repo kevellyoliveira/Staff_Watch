@@ -296,6 +296,8 @@ def print_system_info(fk_computador):
             mydb.commit()
             print(cursor.rowcount, "alerta amarelo inserido - rede pctPerdidos")
 
+            # tempo_medio_falhas = monitorar_falhas('8.8.8.8', 5, 20)
+
 def main():
     print("Bem-vindo ao monitor de sistema!")
     
