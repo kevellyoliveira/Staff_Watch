@@ -131,7 +131,7 @@ def print_system_info(fk_computador):
     mydb.commit()
     print(cursor.rowcount, "registro inserido - cpu")
 
-    if cpu_percent >= 0:
+    if cpu_percent >= 80:
         if cpu_percent >= 90:
             buscarID = ("""SELECT idCaptura FROM captura WHERE 
                     fkComponente = 4 AND fkAuxComponente = 12 
@@ -198,7 +198,11 @@ def print_system_info(fk_computador):
     elif os.name == 'nt':
         output = os.popen("wmic nic get Description").read()
         lines = output.splitlines()
-        network_model = lines[2].strip()
+        network_model = lines[4].strip()
+
+        print('--------------------------------------------')
+        print("network_model ", network_model)
+
 
     # obtendo ping
     host = "google.com"
