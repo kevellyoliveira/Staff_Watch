@@ -180,7 +180,6 @@ def print_system_info(fk_computador):
     # perda = calcular_perda_pacotes(host, pacotes=10)
     # print(f"Perda de pacotes: {perda:.2f}%")
 
-    
 
     # # Tempo médio entre falhas
     # tempo_medio_falhas = monitorar_falhas(host, intervalo=5, duracao=20)
@@ -207,7 +206,9 @@ def print_system_info(fk_computador):
     if latency is None:
         latency = -1
     else:
-        latency = round(latency * 1000, 2)
+        latency = round(latency * 1000, 0)
+        print(latency, "latencia de rede------------------------")
+
 
     # obtendo pacotes perdidos
     lost = 0

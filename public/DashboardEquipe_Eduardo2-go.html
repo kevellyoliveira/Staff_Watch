@@ -56,7 +56,7 @@
             <h1 class="TITULO">Monitoramento da equipe</h1>
             <div class="Dashboard-chamada">
                 <div class="son6">
-                    <div class="bloco3">Tempo médio atendimento:
+                    <div class="bloco3">Tempo médio chamada:
                         <div class="minibloco"></div>
                     </div>
 
@@ -119,8 +119,8 @@
 
         <div class="alerta">
             <h1>Alertas</h1>
-            <div class="bloco7">Tempo médio de espera:</div>
-            <div class="bloco8">Tempo médio de espera:</div>
+            <!-- <div class="bloco7" id="cardAlerta1"></div>
+            <div class="bloco8" id="cardAlerta2"></div> -->
         </div>
     </div>
 </body>
@@ -245,6 +245,9 @@
             window.location.href = "/dashboardGeral-gti.html";
         } else if (fkCargo == 2) {
             window.location.href = "/dashboardPedroPorfirio.html";
+        } else {
+            window.location.href = "/dashboardPedroPorfirio.html";
+
         }
 
     }
@@ -431,9 +434,8 @@
 
 
     function puxarTotalPerdida(idFuncionario) {
-
-        console.log(idFuncionario)
-
+        console.log(idFuncionario);
+        const alertaContainer = document.querySelector(".alerta"); // Seleciona a div alerta
         const modalBody = document.getElementById("modal-body");
         modalBody.innerHTML = "Carregando gráfico...";
 
@@ -442,7 +444,7 @@
             window.myChart.destroy();
         }
 
-        fetch(`/funcionarios/dados/totalPerdida/${1}`, {
+        fetch(`/funcionarios/dados/totalPerdida/${idFuncionario}`, {
             method: "GET"
         })
             .then(resposta => resposta.json())  // Garante que a resposta seja tratada como JSON
@@ -463,12 +465,28 @@
                 const totalChamadas = chamadasRecebidas + chamadasPerdidas;
                 const porcentagemPerdida = ((chamadasPerdidas / totalChamadas) * 100).toFixed(2);
 
-                // Exibe a porcentagem no modal e altera a cor se for maior ou igual a 20%
+                // Atualiza o modal com o texto da porcentagem
                 let textoPorcentagem = `<p>Total de chamadas perdidas: ${porcentagemPerdida}%</p>`;
-                if (porcentagemPerdida >= 20) {
-                    textoPorcentagem = `<p style="color: red;">Total de chamadas perdidas: ${porcentagemPerdida}%</p>`;
-                }
                 modalBody.innerHTML = textoPorcentagem;
+
+                // Verifica se a porcentagem perdida é maior ou igual a 20%
+                if (porcentagemPerdida >= 20) {
+                    // Cria um novo "card" de alerta
+                    const novoCard = document.createElement("div");
+                    novoCard.className = "bloco7"; // Classe para o novo card
+                    novoCard.id = `cardAlerta`; // ID único baseado no funcionário
+
+                    // Define o conteúdo do card
+                    novoCard.innerHTML = `
+                <p>Funcionário ${idFuncionario} está com uma alta porcentagem de chamadas perdidas.</p>
+                
+                `;
+                    let textoPorcentagem = `<p style="color: red;">Porcentagem de chamadas perdidas: ${porcentagemPerdida}%</p>`;
+                    modalBody.innerHTML = textoPorcentagem;
+
+                    // Adiciona o novo card à div de alertas
+                    alertaContainer.appendChild(novoCard);
+                }
 
                 // Cria o gráfico de barras
                 const ctx = document.getElementById("MyChart").getContext("2d");
@@ -529,7 +547,8 @@
 
 
     function eficienciaChamada(idFuncionario) {
-
+        const alertaBody = document.getElementById("cardAlerta2")
+        const alertaContainer = document.querySelector(".alerta");
         console.log(idFuncionarioSelecionado)
         const modalBody = document.getElementById("modal-body");
         modalBody.innerHTML = "Carregando gráfico..."; // Exibe a mensagem de carregamento
@@ -564,8 +583,23 @@
 
                 // Exibe a eficiência no modal
                 let textoEficiencia = `<p>Eficiência de chamadas: ${eficiencia.toFixed(2)}%</p>`;
-                if (eficiencia < 50) {
-                    textoEficiencia = `<p style="color: red;">Eficiência de chamadas: ${eficiencia.toFixed(2)}%</p>`;
+
+                if (eficiencia <= 80) {
+                    // Cria um novo "card" de alerta
+                    const novoCard = document.createElement("div");
+                    novoCard.className = "bloco7"; // Classe para o novo card
+                    novoCard.id = `cardAlerta`; // ID único baseado no funcionário
+
+                    // Define o conteúdo do card
+                    novoCard.innerHTML = `
+                <p>Funcionário ${1} está com uma baixa eficiência.</p>
+                
+                `;
+                    let textoEficiencia = `<p style="color: red;">Porcentagem de eficiência: ${eficiencia}%</p>`;
+                    modalBody.innerHTML = textoEficiencia;
+
+                    // Adiciona o novo card à div de alertas
+                    alertaContainer.appendChild(novoCard);
                 }
                 modalBody.innerHTML = textoEficiencia;
 
@@ -722,48 +756,48 @@
 
 
     function eficienciaEquipeChamada(fkEquipe) {
-    fetch(`/funcionarios/dados/eficiencia/${1}`, {
-        method: "GET"
-    })
-        .then(resposta => {
-            if (resposta.ok) {
-                return resposta.json(); // Retorna os dados em JSON
-            } else {
-                throw new Error("Não foi possível capturar os dados de chamadas perdidas da equipe.");
-            }
+        fetch(`/funcionarios/dados/eficiencia/${1}`, {
+            method: "GET"
         })
-        .then(data => {
-            console.log("Dados recebidos:", data); // Verifica o formato dos dados
+            .then(resposta => {
+                if (resposta.ok) {
+                    return resposta.json(); // Retorna os dados em JSON
+                } else {
+                    throw new Error("Não foi possível capturar os dados de chamadas perdidas da equipe.");
+                }
+            })
+            .then(data => {
+                console.log("Dados recebidos:", data); // Verifica o formato dos dados
 
-            // Caso os dados sejam um array de objetos
-            if (Array.isArray(data) && data.length > 0) {
-                // Acessa o primeiro item do array
-                const chamadas = data[0];
+                // Caso os dados sejam um array de objetos
+                if (Array.isArray(data) && data.length > 0) {
+                    // Acessa o primeiro item do array
+                    const chamadas = data[0];
 
-                // Verifica se as propriedades existem no primeiro objeto
-                if (chamadas.chamadaRecebida !== undefined && chamadas.chamadaAtendida !== undefined) {
-                    const totalChamadas = chamadas.chamadaRecebida;
-                    const totalChamadasAtendidas = chamadas.chamadaAtendida;
+                    // Verifica se as propriedades existem no primeiro objeto
+                    if (chamadas.chamadaRecebida !== undefined && chamadas.chamadaAtendida !== undefined) {
+                        const totalChamadas = chamadas.chamadaRecebida;
+                        const totalChamadasAtendidas = chamadas.chamadaAtendida;
 
-                    // Garantir que os valores são válidos antes de realizar o cálculo
-                    if (totalChamadas > 0) {
-                        const eficiencia = (totalChamadasAtendidas / totalChamadas) * 100; // Calcula a eficiência
-                        document.querySelector('.minibloco2').textContent = `${eficiencia.toFixed(2)}%`; // Exibe a eficiência formatada
+                        // Garantir que os valores são válidos antes de realizar o cálculo
+                        if (totalChamadas > 0) {
+                            const eficiencia = (totalChamadasAtendidas / totalChamadas) * 100; // Calcula a eficiência
+                            document.querySelector('.minibloco2').textContent = `${eficiencia.toFixed(2)}%`; // Exibe a eficiência formatada
+                        } else {
+                            document.querySelector('.minibloco2').textContent = "Não há chamadas registradas."; // Caso não haja chamadas
+                        }
                     } else {
-                        document.querySelector('.minibloco2').textContent = "Não há chamadas registradas."; // Caso não haja chamadas
+                        throw new Error("Formato inesperado dos dados recebidos: propriedades ausentes.");
                     }
                 } else {
-                    throw new Error("Formato inesperado dos dados recebidos: propriedades ausentes.");
+                    throw new Error("Formato inesperado dos dados recebidos: dados não são um array.");
                 }
-            } else {
-                throw new Error("Formato inesperado dos dados recebidos: dados não são um array.");
-            }
-        })
-        .catch(error => {
-            console.error("Erro:", error.message);
-            document.querySelector('.minibloco2').textContent = `Erro ao carregar dados: ${error.message}`; // Exibe o erro detalhado
-        });
-}
+            })
+            .catch(error => {
+                console.error("Erro:", error.message);
+                document.querySelector('.minibloco2').textContent = `Erro ao carregar dados: ${error.message}`; // Exibe o erro detalhado
+            });
+    }
 
 
 
@@ -917,6 +951,12 @@
         puxarTotalEquipePerdida();
         puxarTotalEquipeAtendida();
         eficienciaEquipeChamada();
+        puxarDadosChamada(),
+            puxarTempoChamada(),
+            puxarTotalChamada(),
+            puxarTotalPerdida(),
+            puxarTotalAtendida(),
+            eficienciaChamada()
     };
 
 

@@ -1455,3 +1455,55 @@ h2 {
     justify-content: center;
     align-items: center;
   }
+
+  .minibloco {
+    background-color: whitesmoke;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    height: 80px;
+    margin-left: 29px;
+    margin-top: 5px;
+    border-radius: 9px;
+    color: #000;
+}
+
+.minibloco1 {
+    background-color: whitesmoke;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    height: 90px;
+    margin-left: 30px;
+    margin-top: 15px;
+    border-radius: 9px;
+    color: #000;
+}
+
+.minibloco2 {
+    background-color: whitesmoke;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    height: 90px;
+    margin-left: 30px;
+    margin-top: 15px;
+    border-radius: 9px;
+    color: #000;
+}
+
+.minibloco3 {
+    background-color: whitesmoke;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    height: 90px;
+    margin-left: 30px;
+    margin-top: 15px;
+    border-radius: 9px;
+    color: #000;
+}
