@@ -22,15 +22,15 @@ class DiscoRepository {
     }
 
     fun listarDiscoUso(): List<Int> {
-        return jdbcTemplate.queryForList("SELECT captura FROM Captura WHERE fkComponente = 3 AND fkAuxComponente = 9 AND captura >= 15000000", Int::class.java)
+        return jdbcTemplate.queryForList("SELECT captura FROM Captura WHERE fkComponente = 3 AND fkAuxComponente = 9 AND captura >= 15000000 ORDER BY idCaptura DESC LIMIT 1", Int::class.java)
     }
 
     fun listarDiscoTotal(): List<Int> {
-        return jdbcTemplate.queryForList("SELECT captura FROM Captura WHERE fkComponente = 3 AND fkAuxComponente =10 AND captura >= 15000000", Int::class.java)
+        return jdbcTemplate.queryForList("SELECT captura FROM Captura WHERE fkComponente = 3 AND fkAuxComponente =10 AND captura >= 15000000 ORDER BY idCaptura DESC LIMIT 1", Int::class.java)
     }
 
     fun listarDiscoPorcent(): List<Int> {
-        return jdbcTemplate.queryForList("SELECT captura FROM Captura WHERE fkComponente = 3 AND fkAuxComponente = 11 AND captura >= 80", Int::class.java)
+        return jdbcTemplate.queryForList("SELECT captura FROM Captura WHERE fkComponente = 3 AND fkAuxComponente = 11 AND captura >= 80 ORDER BY idCaptura DESC LIMIT 1", Int::class.java)
     }
 
 

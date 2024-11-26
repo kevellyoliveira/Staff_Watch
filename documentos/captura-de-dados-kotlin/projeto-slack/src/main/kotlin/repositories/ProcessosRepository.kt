@@ -22,15 +22,15 @@ class ProcessosRepository {
     }
 
     fun listarTotalServicos(): List<Int> {
-        return jdbcTemplate.queryForList("SELECT captura FROM Captura WHERE fkComponente = 5 AND fkAuxComponente = 17 AND captura >= 10000", Int::class.java)
+        return jdbcTemplate.queryForList("SELECT captura FROM Captura WHERE fkComponente = 5 AND fkAuxComponente = 17 AND captura >= 10000 ORDER BY idCaptura DESC LIMIT 1", Int::class.java)
     }
 
     fun listarTotalProcessos(): List<Int> {
-        return jdbcTemplate.queryForList("SELECT captura FROM Captura WHERE fkComponente = 5 AND fkAuxComponente = 18 AND captura >= 10000", Int::class.java)
+        return jdbcTemplate.queryForList("SELECT captura FROM Captura WHERE fkComponente = 5 AND fkAuxComponente = 18 AND captura >= 10000 ORDER BY idCaptura DESC LIMIT 1", Int::class.java)
     }
 
     fun listarTempoAtividade(): List<Int> {
-        return jdbcTemplate.queryForList("SELECT captura FROM Captura WHERE fkComponente = 5 AND fkAuxComponente = 19 AND captura >= 600", Int::class.java)
+        return jdbcTemplate.queryForList("SELECT captura FROM Captura WHERE fkComponente = 5 AND fkAuxComponente = 19 AND captura >= 600 ORDER BY idCaptura DESC LIMIT 1", Int::class.java)
     }
 
 

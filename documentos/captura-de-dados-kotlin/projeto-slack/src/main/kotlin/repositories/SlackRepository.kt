@@ -23,7 +23,7 @@ class SlackRepository {
     }
 
     fun listarDadosAcima(): List<Int> {
-        return jdbcTemplate.queryForList("SELECT captura FROM Captura WHERE captura >= 100", Int::class.java)
+        return jdbcTemplate.queryForList("SELECT captura FROM Captura WHERE captura >= 100 ORDER BY idCaptura DESC LIMIT 1", Int::class.java)
     }
 
     fun verificarEdispararAlerta() {

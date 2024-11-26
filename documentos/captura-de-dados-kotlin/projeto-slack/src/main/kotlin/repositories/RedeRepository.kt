@@ -22,19 +22,19 @@ class RedeRepository {
     }
 
     fun listarRedeRecebidos(): List<Int> {
-        return jdbcTemplate.queryForList("SELECT captura FROM Captura WHERE fkComponente = 1 AND fkAuxComponente = 13 AND captura >= 100", Int::class.java)
+        return jdbcTemplate.queryForList("SELECT captura FROM Captura WHERE fkComponente = 1 AND fkAuxComponente = 13 AND captura >= 100 ORDER BY idCaptura DESC LIMIT 1", Int::class.java)
     }
 
     fun listarRedeEnviados(): List<Int> {
-        return jdbcTemplate.queryForList("SELECT captura FROM Captura WHERE fkComponente = 1 AND fkAuxComponente = 14 AND captura >= 100", Int::class.java)
+        return jdbcTemplate.queryForList("SELECT captura FROM Captura WHERE fkComponente = 1 AND fkAuxComponente = 14 AND captura >= 100 ORDER BY idCaptura DESC LIMIT 1", Int::class.java)
     }
 
     fun listarPacoteEnviados(): List<Int> {
-        return jdbcTemplate.queryForList("SELECT captura FROM Captura WHERE fkComponente = 1 AND fkAuxComponente = 15 AND captura >= 100", Int::class.java)
+        return jdbcTemplate.queryForList("SELECT captura FROM Captura WHERE fkComponente = 1 AND fkAuxComponente = 15 AND captura >= 100 ORDER BY idCaptura DESC LIMIT 1", Int::class.java)
     }
 
     fun listarPacoteRecebido(): List<Int> {
-        return jdbcTemplate.queryForList("SELECT captura FROM Captura WHERE fkComponente = 1 AND fkAuxComponente = 16 AND captura >= 100", Int::class.java)
+        return jdbcTemplate.queryForList("SELECT captura FROM Captura WHERE fkComponente = 1 AND fkAuxComponente = 16 AND captura >= 100 ORDER BY idCaptura DESC LIMIT 1", Int::class.java)
     }
 
 

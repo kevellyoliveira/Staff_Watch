@@ -22,15 +22,15 @@ class MemoriaRepository {
     }
 
     fun listarMemoriaUso(): List<Int> {
-        return jdbcTemplate.queryForList("SELECT captura FROM Captura WHERE fkComponente = 2 AND fkAuxComponente = 6 AND captura >= 15000000", Int::class.java)
+        return jdbcTemplate.queryForList("SELECT captura FROM Captura WHERE fkComponente = 2 AND fkAuxComponente = 6 AND captura >= 15000000 ORDER BY idCaptura DESC LIMIT 1", Int::class.java)
     }
 
     fun listarMemoriaTotal(): List<Int> {
-        return jdbcTemplate.queryForList("SELECT captura FROM Captura WHERE fkComponente = 2 AND fkAuxComponente = 7 AND captura >= 15000000", Int::class.java)
+        return jdbcTemplate.queryForList("SELECT captura FROM Captura WHERE fkComponente = 2 AND fkAuxComponente = 7 AND captura >= 15000000 ORDER BY idCaptura DESC LIMIT 1", Int::class.java)
     }
 
     fun listarMemoriaPorcent(): List<Int> {
-        return jdbcTemplate.queryForList("SELECT captura FROM Captura WHERE fkComponente = 2 AND fkAuxComponente = 8 AND captura >= 80", Int::class.java)
+        return jdbcTemplate.queryForList("SELECT captura FROM Captura WHERE fkComponente = 2 AND fkAuxComponente = 8 AND captura >= 80 ORDER BY idCaptura DESC LIMIT 1", Int::class.java)
     }
 
 
