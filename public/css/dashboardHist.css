@@ -1043,7 +1043,7 @@ h2 {
     color: rgb(0, 0, 0);
     display: flex;
     align-items: center;
-    gap: 6vh;
+    gap: 4vh;
 }
 
 .son2 {
@@ -1123,9 +1123,28 @@ h2 {
     box-shadow: 0 0 8px rgb(11, 21, 109);
   }
 
+  .botaoTemp{
+    height: 7vh;
+    width: 10vh;
+    border: none;
+    border-radius: 1vh;
+    background-color: #002148;
+    color: white;
+    box-shadow:5px 10px rgba(0, 0, 0, 0.3);
+  }
+
+  .botaoTemp:hover{
+    background-color: #1662c0;
+    height: 10vh;
+    width: 13vh;
+    transition: 0.4s;
+    transform: translateZ(50px); 
+    box-shadow: 10px 20px rgba(0, 0, 0, 0.3); 
+  }
+
 
 .h1Central {
-    font-size: 7vh;
+    font-size: 6vh;
 }
 
 .estavel {

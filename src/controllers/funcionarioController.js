@@ -184,9 +184,9 @@ function abrirModal(req, res) {
 }
 
 function puxarDadosChamada(req, res) {
-    const idFuncionario = req.params.idFunc;
+    const idFunc = req.params.idFunc;
 
-    funcionarioModel.puxarDadosChamada(idFuncionario)
+    funcionarioModel.puxarDadosChamada(idFunc)
         .then(
             function (resultado) {
                 res.json(resultado);
@@ -202,9 +202,9 @@ function puxarDadosChamada(req, res) {
 }
 
 function puxarTempoChamada(req, res) {
-    const idFuncionario = req.params.idFunc;
+    const idFunc = req.params.idFunc;
 
-    funcionarioModel.puxarTempoChamada(idFuncionario)
+    funcionarioModel.puxarTempoChamada(idFunc)
         .then(
             function (resultado) {
                 res.json(resultado);
@@ -220,9 +220,9 @@ function puxarTempoChamada(req, res) {
 }
 
 function puxarTotalChamada(req, res) {
-    const idFuncionario = req.params.idFunc;
+    const idFunc = req.params.idFunc;
 
-    funcionarioModel.puxarTotalChamada(idFuncionario)
+    funcionarioModel.puxarTotalChamada(idFunc)
         .then(
             function (resultado) {
                 res.json(resultado);
@@ -238,9 +238,9 @@ function puxarTotalChamada(req, res) {
 }
 
 function puxarTotalPerdida(req, res) {
-    const idFuncionario = req.params.idFunc;
+    const idFunc = req.params.idFunc;
 
-    funcionarioModel.puxarTotalPerdida(idFuncionario)
+    funcionarioModel.puxarTotalPerdida(idFunc)
         .then(
             function (resultado) {
                 res.json(resultado);
@@ -258,9 +258,9 @@ function puxarTotalPerdida(req, res) {
 }
 
 function puxarTotalAtendida(req, res) {
-    const idFuncionario = req.params.idFunc;
+    const idFunc = req.params.idFunc;
 
-    funcionarioModel.puxarTotalAtendida(idFuncionario)
+    funcionarioModel.puxarTotalAtendida(idFunc)
         .then(
             function (resultado) {
                 res.json(resultado);
@@ -276,9 +276,9 @@ function puxarTotalAtendida(req, res) {
 }
 
 function eficienciaChamada(req, res) {
-    const idFuncionario = req.params.idFunc;
+    const idFunc = req.params.idFunc;
 
-    funcionarioModel.eficienciaChamada(idFuncionario)
+    funcionarioModel.eficienciaChamada(idFunc)
         .then(
             function (resultado) {
                 res.json(resultado);

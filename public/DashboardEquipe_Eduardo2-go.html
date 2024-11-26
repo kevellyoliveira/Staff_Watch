@@ -155,7 +155,6 @@
     let idFuncionarioSelecionado;
     // const fkEquipe = sessionStorage.getItem("equipeSelecionada");
     const fkEquipe = 1
-    idFuncionario = 1;
 
     function atualizarFeedEquipe() {
         const fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
@@ -291,7 +290,7 @@
             window.myChart.destroy();
         }
 
-        fetch(`/funcionarios/dados/tempoEspera/${idFuncionarioSelecionado}`, { method: "GET" })
+        fetch(`/funcionarios/dados/tempoEspera/${idFunc}`, { method: "GET" })
             .then(resposta => {
                 if (!resposta.ok) {
                     throw new Error("Não foi possível capturar os dados do funcionário.");
@@ -318,8 +317,8 @@
                 // Exibe o tempo médio no modal
                 modalBody.innerHTML = `<p>Tempo médio de espera até a chamada ser atendida: ${tempoMedio}s</p>`;
 
-                if(tempoMedio >= 72){
-                    
+                if (tempoMedio >= 72) {
+
                     // Cria um novo "card" de alerta
                     const novoCard = document.createElement("div");
                     novoCard.className = "bloco7"; // Classe para o novo card
@@ -327,7 +326,7 @@
 
                     // Define o conteúdo do card
                     novoCard.innerHTML = `
-                <p>Funcionário ${idFuncionario} está com uma média de tempo de espera alta.</p>
+                <p>Funcionário ${idFunc} está com uma média de tempo de espera alta.</p>
                 
                 `;
                     let textoTempoEspera = `<p style="color: red;">Tempo médio de chamada: ${tempoMedio}s</p>`;
@@ -335,8 +334,8 @@
 
                     // Adiciona o novo card à div de alertas
                     alertaContainer.appendChild(novoCard);
-            
-                } 
+
+                }
                 // Configura o gráfico
                 const ctx = document.getElementById("MyChart").getContext("2d");
                 window.myChart = new Chart(ctx, {
@@ -368,7 +367,7 @@
     }
 
 
-    function puxarTempoChamada(idFunc = idFuncionario) {
+    function puxarTempoChamada(idFunc = idFuncionarioSelecionado) {
         console.log(idFunc)
 
         const alertaContainer = document.querySelector(".alerta"); // Seleciona a div alerta
@@ -381,7 +380,7 @@
             window.myChart.destroy();
         }
 
-        fetch(`/funcionarios/dados/tempoChamada/${1}`, { method: "GET" })
+        fetch(`/funcionarios/dados/tempoChamada/${idFunc}`, { method: "GET" })
             .then(resposta => {
                 if (!resposta.ok) {
                     throw new Error("Não foi possível capturar os dados do funcionário.");
@@ -416,7 +415,7 @@
 
                     // Define o conteúdo do card
                     novoCard.innerHTML = `
-                <p>Funcionário ${idFuncionario} está com uma média de chamada alta.</p>
+                <p>Funcionário ${idFunc} está com uma média de chamada alta.</p>
                 
                 `;
                     let textoTempoChamada = `<p style="color: red;">Tempo médio de chamada: ${tempoMedio}s</p>`;
@@ -479,8 +478,8 @@
     }
 
 
-    function puxarTotalPerdida(idFunc = idFuncionarioSelecionado ) {
-        console.log(idFunc);
+        function puxarTotalPerdida(idFunc = idFuncionarioSelecionado) {
+            console.log(idFunc);
         const alertaContainer = document.querySelector(".alerta"); // Seleciona a div alerta
         const modalBody = document.getElementById("modal-body");
         modalBody.innerHTML = "Carregando gráfico...";
@@ -490,7 +489,7 @@
             window.myChart.destroy();
         }
 
-        fetch(`/funcionarios/dados/totalPerdida/${idFuncionario}`, {
+        fetch(`/funcionarios/dados/totalPerdida/${idFunc}`, {
             method: "GET"
         })
             .then(resposta => resposta.json())  // Garante que a resposta seja tratada como JSON
@@ -524,7 +523,7 @@
 
                     // Define o conteúdo do card
                     novoCard.innerHTML = `
-                <p>Funcionário ${idFuncionario} está com uma alta porcentagem de chamadas perdidas.</p>
+                <p>Funcionário ${idFunc} está com uma alta porcentagem de chamadas perdidas.</p>
                 
                 `;
                     let textoPorcentagem = `<p style="color: red;">Porcentagem de chamadas perdidas: ${porcentagemPerdida}%</p>`;
@@ -592,7 +591,7 @@
     }
 
 
-    function eficienciaChamada(idFunc = idFuncionario) {
+    function eficienciaChamada(idFunc = idFuncionarioSelecionado) {
         console.log(idFunc)
         const alertaBody = document.getElementById("cardAlerta2")
         const alertaContainer = document.querySelector(".alerta");
@@ -606,7 +605,7 @@
         }
 
         // Busca os dados de eficiência de chamadas
-        fetch(`/funcionarios/dados/eficiencia/${1}`, {
+        fetch(`/funcionarios/dados/eficiencia/${idFunc}`, {
             method: "GET"
         })
             .then(resposta => resposta.json())  // Garante que a resposta seja tratada como JSON
@@ -629,7 +628,7 @@
                 const eficiencia = (chamadasAtendidas / chamadasRecebidas) * 100;
 
                 // Exibe a eficiência no modal
-                
+
 
                 if (eficiencia <= 70) {
                     // Cria um novo "card" de alerta
@@ -644,14 +643,14 @@
                 `;
                     let textoEficiencia = `<p style="color: red;">Porcentagem de eficiência: ${eficiencia.toFixed(2)}%</p>`;
                     modalBody.innerHTML = textoEficiencia;
-                    
+
                     // Adiciona o novo card à div de alertas
                     alertaContainer.appendChild(novoCard);
-                }else{
+                } else {
                     let textoEficiencia = `<p>Eficiência de chamadas: ${eficiencia.toFixed(2)}%</p>`;
                     modalBody.innerHTML = textoEficiencia;
                 }
-               
+
 
                 // Cria o gráfico de barras
                 const ctx = document.getElementById("MyChart").getContext("2d");

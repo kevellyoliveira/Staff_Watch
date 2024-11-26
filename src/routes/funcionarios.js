@@ -30,31 +30,31 @@ router.get("/detalhes/:fkFuncionario", function (req, res) {
     funcionarioController.abrirModal(req, res);
 });
 
-router.get("/dados/tempoEspera/:fkFuncionario", function (req, res) {
+router.get("/dados/tempoEspera/:idFunc", function (req, res) {
     funcionarioController.puxarDadosChamada(req, res);
 });
 
-router.get("/dados/tempoChamada/:fkFuncionario", function (req, res) {
+router.get("/dados/tempoChamada/:idFunc", function (req, res) {
     funcionarioController.puxarTempoChamada(req, res);
 });
 
-router.get("/dados/totalChamada/:fkFuncionario", function (req, res) {
+router.get("/dados/totalChamada/:idFunc", function (req, res) {
     funcionarioController.puxarTotalChamada(req, res);
 });
 
-router.get("/dados/totalPerdida/:fkFuncionario", function (req, res) {
+router.get("/dados/totalPerdida/:idFunc", function (req, res) {
     funcionarioController.puxarTotalPerdida(req, res);
 });
 
-router.get("/dados/totalAtendida/:fkFuncionario", function (req, res) {
+router.get("/dados/totalAtendida/:idFunc", function (req, res) {
     funcionarioController.puxarTotalAtendida(req, res);
 });
 
-router.get("/dados/eficiencia/:fkFuncionario", function (req, res) {
+router.get("/dados/eficiencia/:idFunc", function (req, res) {
     funcionarioController.eficienciaChamada(req, res);
 });
 
-router.get("/dados/:endpoint/:fkFuncionario", function (req, res) {
+router.get("/dados/:endpoint/:idFunc", function (req, res) {
     funcionarioController.carregarGrafico(req, res);
 });
 
