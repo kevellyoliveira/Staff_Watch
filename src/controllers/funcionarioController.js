@@ -184,7 +184,7 @@ function abrirModal(req, res) {
 }
 
 function puxarDadosChamada(req, res) {
-    const idFuncionario = req.params.idFuncionario;
+    const idFuncionario = req.params.idFunc;
 
     funcionarioModel.puxarDadosChamada(idFuncionario)
         .then(
@@ -202,7 +202,7 @@ function puxarDadosChamada(req, res) {
 }
 
 function puxarTempoChamada(req, res) {
-    const idFuncionario = req.params.idFuncionario;
+    const idFuncionario = req.params.idFunc;
 
     funcionarioModel.puxarTempoChamada(idFuncionario)
         .then(
@@ -220,7 +220,7 @@ function puxarTempoChamada(req, res) {
 }
 
 function puxarTotalChamada(req, res) {
-    const idFuncionario = req.params.idFuncionario;
+    const idFuncionario = req.params.idFunc;
 
     funcionarioModel.puxarTotalChamada(idFuncionario)
         .then(
@@ -238,7 +238,7 @@ function puxarTotalChamada(req, res) {
 }
 
 function puxarTotalPerdida(req, res) {
-    const idFuncionario = req.params.idFuncionario;
+    const idFuncionario = req.params.idFunc;
 
     funcionarioModel.puxarTotalPerdida(idFuncionario)
         .then(
@@ -258,7 +258,7 @@ function puxarTotalPerdida(req, res) {
 }
 
 function puxarTotalAtendida(req, res) {
-    const idFuncionario = req.params.idFuncionario;
+    const idFuncionario = req.params.idFunc;
 
     funcionarioModel.puxarTotalAtendida(idFuncionario)
         .then(
@@ -276,7 +276,7 @@ function puxarTotalAtendida(req, res) {
 }
 
 function eficienciaChamada(req, res) {
-    const idFuncionario = req.params.idFuncionario;
+    const idFuncionario = req.params.idFunc;
 
     funcionarioModel.eficienciaChamada(idFuncionario)
         .then(

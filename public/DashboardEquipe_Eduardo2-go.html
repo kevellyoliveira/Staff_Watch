@@ -197,6 +197,7 @@
 
         idFuncionarioSelecionado = idFuncionario;
         console.log(idFuncionarioSelecionado);
+        console.log("------");
 
         const fade = document.getElementById("fade");
         const modal = document.getElementById("modal");
@@ -277,7 +278,8 @@
         }
     }
 
-    function puxarDadosChamada(idFuncionario) {
+    function puxarDadosChamada(idFunc = idFuncionarioSelecionado) {
+        console.log(idFunc)
         const modalBody = document.getElementById("modal-body");
         modalBody.innerHTML = "Carregando gráfico...";
 
@@ -286,7 +288,7 @@
             window.myChart.destroy();
         }
 
-        fetch(`/funcionarios/dados/tempoEspera/${1}`, { method: "GET" })
+        fetch(`/funcionarios/dados/tempoEspera/${idFuncionarioSelecionado}`, { method: "GET" })
             .then(resposta => {
                 if (!resposta.ok) {
                     throw new Error("Não foi possível capturar os dados do funcionário.");
@@ -343,7 +345,8 @@
             });
     }
 
-    function puxarTempoChamada(idFuncionario) {
+    function puxarTempoChamada(idFunc = idFuncionario) {
+        console.log(idFunc)
         const modalBody = document.getElementById("modal-body");
         modalBody.innerHTML = "Carregando gráfico...";
 
@@ -433,8 +436,8 @@
     }
 
 
-    function puxarTotalPerdida(idFuncionario) {
-        console.log(idFuncionario);
+    function puxarTotalPerdida(idFunc = idFuncionarioSelecionado ) {
+        console.log(idFunc);
         const alertaContainer = document.querySelector(".alerta"); // Seleciona a div alerta
         const modalBody = document.getElementById("modal-body");
         modalBody.innerHTML = "Carregando gráfico...";
@@ -546,7 +549,8 @@
     }
 
 
-    function eficienciaChamada(idFuncionario) {
+    function eficienciaChamada(idFunc = idFuncionario) {
+        console.log(idFunc)
         const alertaBody = document.getElementById("cardAlerta2")
         const alertaContainer = document.querySelector(".alerta");
         console.log(idFuncionarioSelecionado)
