@@ -113,9 +113,13 @@ router.get("/dados/eficiencia/:fkEmpresa", function (req, res) {
     funcionarioController.eficienciaEmpresaChamada(req, res);
 });
 
+// Filtro
 
+router.get("/dados/tempo/:dataSelecionada/:fkEmpresa", function (req, res) {
+    funcionarioController.filtrarTempoChamadaMedia(req, res);
+});
 
-
+// Outro projeto
 
 router.get("/pesquisar/:mensagem", function (req, res) {
     funcionarioController.pesquisarmensagem(req, res);

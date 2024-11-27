@@ -574,7 +574,19 @@ function plotarGrafico(req, res) {
         );
 }
 
+function filtrarTempoChamadaMedia(req, res) {
+    const dataSelecionada = req.params.dataSelecionada;
+    const fkEmpresa = req.params.fkEmpresa;
 
+    funcionarioModel.eficienciaEmpresaChamada(dataSelecionada, fkEmpresa)
+        .then((resultado) => {
+            res.json(resultado);
+        })
+        .catch((erro) => {
+            console.error("Erro ao listar dados da chamada: ", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
 
 module.exports = {
     listarPorUsuario,
@@ -605,5 +617,6 @@ module.exports = {
     eficienciaEquipeChamada,
     carregarGrafico,
     plotarGrafico,
+    filtrarTempoChamadaMedia,
 }
 

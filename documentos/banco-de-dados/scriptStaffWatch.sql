@@ -151,7 +151,11 @@ REFERENCES computador(idComputador),
 
 fkAuxComponente INT,
 CONSTRAINT capturaAuxComponente FOREIGN KEY (fkAuxComponente)
-REFERENCES auxComponente(idAuxComponente)
+REFERENCES auxComponente(idAuxComponente),
+
+fkEmpresa INT,
+CONSTRAINT capturaEmpresa FOREIGN KEY (fkEmpresa)
+REFERENCES Empresa(idEmpresa)
 );
 
 CREATE TABLE IF NOT EXISTS alerta(
@@ -503,7 +507,18 @@ GROUP BY
 ORDER BY 
     captura.fkComputador;
     
+    use staffwatch;
     
+    select * from chamada;
+    select * from captura;
+    
+       SELECT ch.tempoChamada 
+FROM chamada AS ch
+INNER JOIN funcionario AS f ON ch.fkFuncionario = f.idFuncionario
+INNER JOIN captura AS cap ON cap.fkFuncionario = f.idFuncionario
+WHERE cap.dataCaptura >= "2024-11-26 15:06:45" 
+  AND f.fkEmpresa = 1;
 
-
+desc captura;
+desc funcionario;
 -- --------------------------------------------------------------------------------------------------------------------

@@ -58,14 +58,11 @@
             </div>
 
             <h1 class="h1Central">Indicadores Gerais</h1>
-            <select name="opcoes" class="TEMPO">
-                <option value="tempo">TEMPO</option>
-                <option value="dia">DIA</option>
-                <option value="SEMANA">SEMANA</option>
-                <option value="MÊS">MÊS</option>
-                <option value="6MÊS">6 MESES</option>
-                <option value="ANO">ANO</option>
-            </select>
+            <div class="filtro-container">
+                <input type="date" id="dataEscolhida">
+                <button class="btn-filtrar" onclick="filtrarTempo()">Filtrar Tempo</button>
+            </div>
+
         </div>
         <div class="son2">
             <div class="estavel">ESTÁVEL
@@ -120,8 +117,9 @@
             </div>
         </div>
         <div class="son5">
-            <div class="equipAlert">Equipes em alerta<h2 style="color:#FFA400 ;">Dos</h2></div>
-            
+            <div class="equipAlert">Equipes em alerta<h2 style="color:#FFA400 ;">Dos</h2>
+            </div>
+
         </div>
     </div>
 </body>
@@ -486,6 +484,44 @@
         puxarTotalEmpresaAtendida(fkEmpresa);
     });
 
+
+    function filtrarTempo() {
+    const dataSelecionada = document.getElementById('dataEscolhida').value;
+    const fkEmpresa = 1; // Defina ou obtenha fkEmpresa corretamente
+
+    if (dataSelecionada) {
+        alert(`Data escolhida: ${dataSelecionada}`);
+        filtrarTempoChamadaMedia(dataSelecionada, fkEmpresa);
+    } else {
+        alert('Por favor, selecione uma data.');
+    }
+}
+
+function filtrarTempoChamadaMedia(dataSelecionada, fkEmpresa) {
+    fetch(`/funcionarios/dados/tempo/${dataSelecionada}/${fkEmpresa}`, { // Incluindo data na URL
+        method: "GET"
+    })
+    .then(resposta => {
+        if (resposta.ok) {
+            return resposta.json();
+        } else {
+            throw new Error("Não foi possível capturar os dados de chamada da empresa.");
+        }
+    })
+    .then(data => {
+        if (data && Array.isArray(data)) {
+            const tempoTotal = data.reduce((soma, funcionario) => soma + funcionario.tempoChamada, 0);
+            const tempoMedio = (tempoTotal / data.length).toFixed(2);
+            document.querySelector('.minibloco').textContent = `${tempoMedio}s`;
+        } else {
+            throw new Error("Dados inesperados recebidos do servidor.");
+        }
+    })
+    .catch(error => {
+        console.error("Erro:", error.message);
+        document.querySelector('.minibloco').textContent = "Erro ao carregar dados.";
+    });
+}
 
 
 
