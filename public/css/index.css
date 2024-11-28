@@ -58,17 +58,6 @@ body {
     width: 100%;
 }
 
-@media screen and (max-width: 768px) {
-    .manual-navigation {
-        position: absolute;
-        display: flex;
-        justify-content: center;
-
-        top: 95%;
-        width: 100%;
-    }
-}
-
 .manual-btn {
     border: solid 2px white;
     cursor: pointer;
@@ -118,26 +107,6 @@ body {
 
 }
 
-@media screen and (max-width: 768px) {
-    .text-overlay {
-        position: absolute;
-        top: 45%;
-        left: 20%;
-        /* transform: translate(-50%, -50%); */
-        color: white;
-        font-size: medium;
-        z-index: 10;
-        font-family: "Inter", sans-serif;
-        text-align: center;
-        pointer-events: none;
-
-    }
-}
-
-/* FIM CARROSSEL  */
-
-/* APLICACAO */
-
 .aplicacao {
     display: flex;
     justify-content: space-around;
@@ -145,13 +114,6 @@ body {
     width: 100%;
     height: 100vh;
     flex-wrap: nowrap;
-}
-
-@media screen and (max-width: 768px) {
-    .aplicacao {
-        flex-direction: column-reverse;
-        /* Muda a direção do flexbox para coluna */
-    }
 }
 
 
@@ -172,18 +134,6 @@ body {
 
     content: "";
     background: #00000094;
-}
-
-@media screen and (max-width: 768px) {
-    .aplicacao .img:after {
-        position: absolute;
-
-        width: 0%;
-        height: 0vh;
-
-        content: "";
-        background: #00000094;
-    }
 }
 
 .aplicacao .textos {
@@ -473,58 +423,6 @@ nav {
 
 }
 
-@media (max-width: 768px) {
-    .nav-links {
-        display: none;
-        flex-direction: column;
-        width: 100%;
-        position: absolute;
-        top: 60px;
-        left: 0;
-        background-color: #333;
-        align-items: center;
-        /* Alinha os itens no centro na versão móvel */
-    }
-
-    .nav-links.active {
-        display: flex;
-        background-color: #e7ecef;
-        margin-left: 160px;
-        border-radius: 5px;
-        padding-top: 5px;
-        border: #333 2px solid;
-        font-size: medium;
-        z-index: 100;
-    }
-
-    .logo img {
-        width: 0%;
-    }
-
-    .toggle-menu {
-        display: flex;
-        /* margin-left: 135px; */
-    }
-
-    .cadastroEntrar {
-        display: none
-    }
-
-    .cadastroEntrarResposivo {
-        display: flex;
-        flex-direction: column;
-        align-items: end;
-        justify-content: start;
-
-    }
-
-    .cadastroEntrarResposivo li {
-        font-style: normal;
-        list-style-type: none;
-
-    }
-}
-
 /* BENEFICIOS  */
 
 .beneficios {
@@ -572,9 +470,12 @@ nav {
 .main-article p {
     font-family: "Inter", sans-serif;
     font-weight: 300;
+    text-align: center;
     font-size: 1.3rem;
-    text-align: left;
     width: 100%;
+    word-wrap: break-word; /* Quebra palavras longas */
+    overflow-wrap: break-word; /* Adapta quebra para palavras */
+    max-width: 100%;
 }
 
 .main-article h2 {
@@ -583,6 +484,9 @@ nav {
     font-size: 1.3rem;
     text-align: center;
     width: 80%;
+    word-wrap: break-word; /* Quebra palavras longas */
+    overflow-wrap: break-word; /* Adapta quebra para palavras */
+    max-width: 100%;
 }
 
 .card_one {
@@ -599,6 +503,7 @@ nav {
     text-align: center;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     font-size: 2rem;
+    overflow: hidden;
 }
 
 /* SOBRE NOS  */
@@ -657,60 +562,6 @@ nav {
     object-fit: contain;
 }
 
-/* Responsivo para telas menores */
-/* Responsivo para telas menores */
-@media (max-width: 768px) {
-    .container_master {
-        display: flex;
-        flex-direction: column-reverse;
-        justify-content: center;
-        width: 100%;
-        height: 100%;
-        /* background: linear-gradient(to right, #001E42 0%, #ffffff 0%); */
-        background-color: transparent;
-
-    }
-
-    .container_one {
-        width: 100%;
-        height: 50%;
-        background-color: #001E42;
-        display: flex;
-        justify-content: center;
-    }
-
-    .container_one h3 {
-        color: #fff;
-        font-family: "Inter", sans-serif;
-        font-weight: 600;
-        font-size: xx-large;
-        /* width: 70%; */
-
-    }
-
-    .container_one p {
-        /* margin-bottom: 10px; */
-        font-size: medium;
-        font-family: 'Inter', sans-serif;
-        font-weight: 200;
-        color: #fff;
-        /* width: 70%; */
-
-    }
-
-    .container_two {
-        width: 100%;
-        height: 50%;
-        background-color: #E7ECEF;
-        /* display: flex;
-        justify-content: center; */
-    }
-
-    .logo_principal {
-        object-fit: fill;
-        width: 50%;
-    }
-}
 
 /* FOOTER */
 :root {
@@ -1046,6 +897,18 @@ h4 {
     font-size: 1.5rem;
 }
 
+
+@media (max-width:400px) {
+    .card_one {
+        width: auto;
+    }
+
+    .main-article {
+        padding: 3.125rem 1rem;
+        align-items: center;
+    }
+}
+
 @media (max-width: 570px) {
     .form {
         flex-direction: column;
@@ -1060,6 +923,7 @@ h4 {
     .main-article {
         flex-direction: column;
         align-items: center;
+        height: auto !important;
     }
 
     .beneficios {
@@ -1076,8 +940,7 @@ h4 {
     }
 
     .card_one {
-        height: auto;
-        width: 25rem;
+        height: auto !important;
         padding: 1.3rem 0;
         gap: .4rem;
     }
@@ -1090,14 +953,161 @@ h4 {
     }
 }
 
-@media (max-width:400px) {
-    .card_one {
-        width: auto;
-    }
+
+@media (max-width: 780px) {
 
     .main-article {
-        padding: 3.125rem 1rem;
+        height: auto;
+    }
+
+    .main-article p {
+        font-size: 0.8rem !important;
+    }
+
+    .card_one {
+        height: auto;
+        padding: 1rem .5rem;
+        gap: 1rem;
+    }
+    .beneficios {
+        height: auto;
+    }
+
+    .text-overlay {
+        position: absolute;
+        top: 45%;
+        left: 20%;
+        color: white;
+        font-size: medium;
+        z-index: 10;
+        font-family: "Inter", sans-serif;
+        text-align: center;
+        pointer-events: none;
+    }
+
+    .aplicacao {
+        flex-direction: column-reverse;
+        /* Muda a direção do flexbox para coluna */
+    }
+
+    .manual-navigation {
+        position: absolute;
+        display: flex;
+        justify-content: center;
+
+        top: 95%;
+        width: 100%;
+    }
+
+    .container_master {
+        display: flex;
+        flex-direction: column-reverse;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        /* background: linear-gradient(to right, #001E42 0%, #ffffff 0%); */
+        background-color: transparent;
+
+    }
+
+    .container_one {
+        width: 100%;
+        height: 50%;
+        background-color: #001E42;
+        display: flex;
+        justify-content: center;
+    }
+
+    .container_one h3 {
+        color: #fff;
+        font-family: "Inter", sans-serif;
+        font-weight: 600;
+        font-size: xx-large;
+        /* width: 70%; */
+
+    }
+
+    .container_one p {
+        /* margin-bottom: 10px; */
+        font-size: medium;
+        font-family: 'Inter', sans-serif;
+        font-weight: 200;
+        color: #fff;
+        /* width: 70%; */
+
+    }
+
+    .container_two {
+        width: 100%;
+        height: 50%;
+        background-color: #E7ECEF;
+        /* display: flex;
+        justify-content: center; */
+    }
+
+    .logo_principal {
+        object-fit: fill;
+        width: 50%;
+    }
+
+    .aplicacao .img:after {
+        position: absolute;
+
+        width: 0%;
+        height: 0vh;
+
+        content: "";
+        background: #00000094;
+    }
+
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        background-color: #333;
         align-items: center;
+        /* Alinha os itens no centro na versão móvel */
+    }
+
+    .nav-links.active {
+        display: flex;
+        background-color: #e7ecef;
+        margin-left: 160px;
+        border-radius: 5px;
+        padding-top: 5px;
+        border: #333 2px solid;
+        font-size: medium;
+        z-index: 100;
+    }
+
+    .logo img {
+        width: 0%;
+    }
+
+    .toggle-menu {
+        display: flex;
+        /* margin-left: 135px; */
+    }
+
+    .cadastroEntrar {
+        display: none
+    }
+
+    .cadastroEntrarResposivo {
+        display: flex;
+        flex-direction: column;
+        align-items: end;
+        justify-content: start;
+
+    }
+
+    .cadastroEntrarResposivo li {
+        font-style: normal;
+        list-style-type: none;
+
     }
 }
 
@@ -1110,5 +1120,3 @@ h4 {
         height: 25rem;
     }
 }
-
-/* fim estilização email */
