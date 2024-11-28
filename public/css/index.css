@@ -565,60 +565,41 @@ nav {
     justify-content: center;
     align-items: flex-start;
     flex-direction: row;
-    padding-top: 50px;
-    gap: 40px;
+    padding-top: 3.125rem;
+    gap: 2.5rem;
 }
 
 .main-article p {
     font-family: "Inter", sans-serif;
     font-weight: 300;
-    font-size: x-large;
+    font-size: 1.3rem;
+    text-align: left;
+    width: 100%;
+}
+
+.main-article h2 {
+    font-family: "Inter", sans-serif;
+    font-weight: 700;
+    font-size: 1.3rem;
     text-align: center;
     width: 80%;
-    padding-left: 10%;
 }
 
 .card_one {
-    width: 400px;
-    height: 355px;
+    width: 23rem;
+    height: 27rem;
+    padding: 1.5rem;
+    gap: 2rem;
     background-color: #fff;
     border-radius: 12px;
-    display: grid;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
     align-items: center;
-    justify-content: center;
     text-align: center;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    font-size: 2rem;
 }
-
-.card_two {
-    width: 400px;
-    height: 355px;
-    background-color: #fff;
-    border-radius: 12px;
-    display: grid;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.card_tree {
-    width: 400px;
-    height: 355px;
-    background-color: #fff;
-    border-radius: 12px;
-    display: grid;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.footer-link .aviso {
-    height: 20%;
-}
-
-
 
 /* SOBRE NOS  */
 
@@ -864,7 +845,7 @@ footer {
     /* background-color: #E7ECEF; */
     /* background: radial-gradient(ellipse 100% 50% at left, #001E42 20%, #ffffff 80%); */
 
-    
+
 
     /* overflow-x: hidden; */
     /* height: 100%; */
@@ -1063,6 +1044,71 @@ h4 {
 
 .contact_us h4 {
     font-size: 1.5rem;
+}
+
+@media (max-width: 570px) {
+    .form {
+        flex-direction: column;
+        align-items: center;
+        width: auto;
+    }
+
+    .contact_us {
+        text-align: center;
+    }
+
+    .main-article {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .beneficios {
+        height: auto;
+        padding-bottom: 2rem;
+    }
+
+    .input-field {
+        padding: .5rem 1rem;
+    }
+
+    .input-container {
+        width: auto;
+    }
+
+    .card_one {
+        height: auto;
+        width: 25rem;
+        padding: 1.3rem 0;
+        gap: .4rem;
+    }
+    .main-article p {
+        font-size: .9rem;
+    }
+    
+    .main-article h2 {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width:400px) {
+    .card_one {
+        width: auto;
+    }
+
+    .main-article {
+        padding: 3.125rem 1rem;
+        align-items: center;
+    }
+}
+
+@media (max-width: 1010px) {
+    .main-article p {
+        font-size: 1.2rem;
+    }
+    .main-article {
+        gap: 1rem;
+        height: 25rem;
+    }
 }
 
 /* fim estilização email */

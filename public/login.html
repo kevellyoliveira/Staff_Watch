@@ -108,7 +108,6 @@
                 if (resposta.ok) {
                     console.log(resposta);
                     resposta.json().then(json => {
-                        console.log(json);
                         console.log(JSON.stringify(json));
                         sessionStorage.ID_USUARIO = json.id;
                         sessionStorage.EMAIL_USUARIO = json.email;
@@ -122,13 +121,15 @@
                         }
                         
                         else if(json.fkCargo == 3){
-                            window.location.href = "/dashboardGeral-gti.html";
-                            console.log(`idUser: ${ID_USUARIO}\n email: ${NOME_USUARIO}\n nome: ${NOME_USUARIO}\n idEmpresa: ${ID_EMPRESA}\n fkCargo: ${FK_CARGO}`)
+                            window.location.href = "/dashboard.html";
+                            console.log(`gerente de TI logado! redirecionando para ...`)
                         } else if (json.fkCargo == 2){
-                            window.location.href = "/dashboardGeral-go.html";
-                            console.log(`idUser: ${ID_USUARIO}\n email: ${NOME_USUARIO}\n nome: ${NOME_USUARIO}\n idEmpresa: ${ID_EMPRESA}\n fkCargo: ${FK_CARGO}`)
+                            window.location.href = "/dashboardEquipe_Eduardo2.html";
+                            console.log(`gerente de operações logado! redirecionando para dashboardEquipe_Eduardo2...`)
+                        } else if (json.fkCargo == 1) {
+                            window.location.href = "/dashboard-matheus-cpu.html";
+                            console.log(`suporte de TI logado! redirecionando para dashboard-matheus-cpu.html...`)
                         }
-                        
                     });
                 } else {
 
@@ -144,7 +145,6 @@
                 console.log(erro);
             })
             return false;
-
         }
     }
 </script>
