@@ -6,6 +6,7 @@ import mysql.connector
 from datetime import datetime
 import pytz
 from cpuinfo import get_cpu_info
+import asyncio
 
 config = {
     'user': 'root',
@@ -23,7 +24,7 @@ except mysql.connector.Error as err:
     print(f'Erro: {err}')
 
 
-def print_system_info(fk_computador):
+async def print_system_info(fk_computador):
     cursor = mydb.cursor()
     fuso_sao_paulo = pytz.timezone("America/Sao_Paulo")
     agora = datetime.now(fuso_sao_paulo)
@@ -181,17 +182,10 @@ def print_system_info(fk_computador):
 
     # obtendo tempo médio entre falhas
     host = "8.8.8.8"
-    tempo_medio_falhas = monitorar_falhas(host, intervalo=5, duracao=20)
-    print(f"Tempo médio entre falhas: {tempo_medio_falhas:.2f} segundos")
-    if isinstance(tempo_medio_falhas, float):
-        print(f"Tempo médio entre falhas: {tempo_medio_falhas:.2f} segundos")
-    else:
-        print(tempo_medio_falhas)
-
+    task_falhas = asyncio.create_task(monitorar_falhas(fk_computador, host, intervalo=5, duracao=20))
     
     # obtendo tempo de inatividade
-    inatividade = monitorar_inatividade(host="8.8.8.8", intervalo=5, duracao=30)
-    print(f"Tempo total de inatividade: {inatividade:.2f} horas")
+    task_inatividade = asyncio.create_task(monitorar_inatividade(fk_computador, host="8.8.8.8", intervalo=5, duracao=30))
 
     # obtendo ping
     host = "google.com"
@@ -220,9 +214,7 @@ def print_system_info(fk_computador):
                 (default,%s,%s,5,1,%s,%s),
                 (default,%s,%s,20,1,%s,%s),
                 (default,%s,%s,21,1,%s,%s),
-                (default,%s,%s,24,1,%s,%s),
-                (default,%s,%s,22,1,%s,%s),
-                (default,%s,%s,23,1,%s,%s);""")
+                (default,%s,%s,24,1,%s,%s);""")
 
     data_rede = [bytesEnv, agora, fk_computador, network_model,
                  bytesReceb, agora, fk_computador, network_model,
@@ -230,9 +222,7 @@ def print_system_info(fk_computador):
                  pctEnv, agora, fk_computador, network_model,
                  latency, agora, fk_computador, network_model,
                  packet_loss, agora, fk_computador, network_model,
-                 trafegoRede, agora, fk_computador, network_model,
-                 tempo_medio_falhas, agora, fk_computador, network_model,
-                 inatividade, agora, fk_computador, network_model,]
+                 trafegoRede, agora, fk_computador, network_model]
 
     cursor.execute(add_rede, data_rede)
     mydb.commit()
@@ -300,21 +290,22 @@ def print_system_info(fk_computador):
 
             # tempo_medio_falhas = monitorar_falhas('8.8.8.8', 5, 20)
 
-def main():
+async def main():
     print("Bem-vindo ao monitor de sistema!")
-    
     fk_computador = int(input("Insira a fkComputador para monitoramento (ou 0 para sair): "))
-    
     if fk_computador == 0:
         print("Saindo do programa...")
         return
-    
+
     while True:
-        print_system_info(fk_computador)
-        time.sleep(2)
+        await print_system_info(fk_computador)
+        await asyncio.sleep(2)
 
 # Tempo médio entre falhas
-def monitorar_falhas(host="8.8.8.8", intervalo=10, duracao=20):  
+async def monitorar_falhas(fk_computador, host="8.8.8.8", intervalo=10, duracao=20):  
+    cursor = mydb.cursor()
+    fuso_sao_paulo = pytz.timezone("America/Sao_Paulo")
+    agora = datetime.now(fuso_sao_paulo)
     """
     Monitora falhas de conexão em um host específico e calcula o tempo médio entre falhas em minutos.
     """
@@ -323,19 +314,31 @@ def monitorar_falhas(host="8.8.8.8", intervalo=10, duracao=20):
     while time.time() - inicio < duracao:
         if ping(host, timeout=1) is None:
             falhas.append(time.time())
-        time.sleep(intervalo)
-
+        await asyncio.sleep(intervalo)  
+        
     if len(falhas) > 1:
         # Calcula os intervalos entre falhas e converte para minutos
         tempos_entre_falhas = [(falhas[i] - falhas[i-1]) / 60 for i in range(1, len(falhas))]
-        return int(sum(tempos_entre_falhas) / len(tempos_entre_falhas))  # Média em minutos
+        tempo_medio = int(sum(tempos_entre_falhas) / len(tempos_entre_falhas))  # Média em minutos
     elif len(falhas) == 1:
-        return 1
+        tempo_medio = 1
     else:
-        return 0
+        tempo_medio = 0
+    
+    # Inserir o resultado no banco
+    add_falhas = """INSERT INTO captura
+                    (idCaptura, captura, dataCaptura, fkAuxComponente, fkComponente, fkComputador, modelo)
+                    VALUES
+                    (default, %s, %s, 22, 1, %s, 'Monitoramento de Falhas')"""
+    cursor.execute(add_falhas, [tempo_medio, agora, fk_computador])
+    mydb.commit()
+    print("Dados de falhas inseridos no banco.")
     
 # 4. Tempo de inatividade
-def monitorar_inatividade(host="8.8.8.8", intervalo=10, duracao=20):
+async def monitorar_inatividade(fk_computador, host="8.8.8.8", intervalo=10, duracao=20):
+    cursor = mydb.cursor()
+    fuso_sao_paulo = pytz.timezone("America/Sao_Paulo")
+    agora = datetime.now(fuso_sao_paulo)
     """
     Monitora falhas de conexão em um host específico e calcula o tempo de inatividade em horas.
     """
@@ -344,21 +347,23 @@ def monitorar_inatividade(host="8.8.8.8", intervalo=10, duracao=20):
     while time.time() - inicio < duracao:
         if ping(host, timeout=1) is None:
             falhas.append(time.time())
-        time.sleep(intervalo)
+        await asyncio.sleep(intervalo)
 
-    # Se houver falhas, calcula o tempo total de inatividade
     if len(falhas) > 1:
-        # Calcula o tempo total de inatividade em segundos
         inatividade_total_segundos = sum([falhas[i] - falhas[i-1] for i in range(1, len(falhas))])
-        
-        # Converte o tempo de inatividade de segundos para horas
-        inatividade_total_horas = inatividade_total_segundos / 3600  # 1 hora = 3600 segundos
-        
-        return inatividade_total_horas  # Tempo total de inatividade em horas
+        inatividade_total_horas = inatividade_total_segundos / 3600
     else:
-        return 0  # Nenhuma falha foi detectada
+        inatividade_total_horas = 0
+
+    # Inserir o resultado no banco
+    add_inatividade = """INSERT INTO captura
+                         (idCaptura, captura, dataCaptura, fkAuxComponente, fkComponente, fkComputador, modelo)
+                         VALUES (default, %s, %s, 23, 1, %s, 'Monitoramento de Inatividade')"""
+    cursor.execute(add_inatividade, [inatividade_total_horas, agora, fk_computador])
+    mydb.commit()
+    print("Dados de inatividade inseridos no banco.")
     
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
