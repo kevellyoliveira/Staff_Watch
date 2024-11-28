@@ -119,6 +119,22 @@ router.get("/dados/tempo/:dataSelecionada/:fkEmpresa", function (req, res) {
     funcionarioController.filtrarTempoChamadaMedia(req, res);
 });
 
+router.get("/dados/tempoEficiencia/:dataSelecionada/:fkEmpresa", function (req, res) {
+    funcionarioController.filtrarTempoEficiencia(req, res);
+});
+
+router.get("/dados/tempoEspera/:dataSelecionada/:fkEmpresa", function (req, res) {
+    funcionarioController.filtrarTempoMedioEspera(req, res);
+});
+
+router.get("/dados/tempoPerdida/:dataSelecionada/:fkEmpresa", function (req, res) {
+    funcionarioController.filtrarTempoChamadaPerdida(req, res);
+});
+
+router.get("/dados/grafico/:dataSelecionada/:fkEmpresa", function (req, res) {
+    funcionarioController.filtrarTempoGrafico(req, res);
+});
+
 // Outro projeto
 
 router.get("/pesquisar/:mensagem", function (req, res) {
