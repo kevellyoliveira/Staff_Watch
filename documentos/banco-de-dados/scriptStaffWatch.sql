@@ -23,15 +23,14 @@ insert into componente values
 (default,"disco"),
 (default,"cpu"),
 (default, "processos");
--- select * from auxComponente;
--- select count(*) from computador where idComputador = 1;
+
+
 insert into auxComponente values
 (default,"redeUso","%", 1),
 (default,"redeEnvio","bytes", 1),
 (default,"redeRecebidos","bytes", 1),
 (default,"pacoteRecebidos","qte", 1),
 (default,"pacoteEnviados","qte", 1),
-
 
 (default,"memoriaUso","byte", 2),
 (default,"memoriaTotal","byte", 2),
@@ -48,11 +47,17 @@ insert into auxComponente values
 (default,"pacoteRecebidosLooca","qte", 1),
 (default,"totalServiçosLooca","qte", 5),
 (default,"totalProcessosLooca","qte", 5),
-(default,"tempoAtividadeLooca","segundos", 5);
+(default,"tempoAtividadeLooca","segundos", 5),
 
-insert into auxComponente values
-(default,"latencia", "ms", 1),
-(default,"pacotesPerdidos", "%",1);
+-- insert into auxComponente values
+(20,"latencia", "ms", 1), -- é o tempoRespostaPing3 antigo | id atual = 20
+(21,"pacotesPerdidos", "%",1), -- é o perdaPacotesPing3 antigo | id atual= 21
+
+(25,"tempoFalhas","segundos",1), -- é o tempoFalhasPing3 antigo | manteve o ID
+(26,"inatividade","horas",1), -- é o inatividadePing3 antigo | manteve o ID
+(27,"trafegoRede","MB",1); -- é o trafegoRede antigo | manteve o ID
+
+select * from auxComponente;
 
 CREATE TABLE IF NOT EXISTS empresa (
 idEmpresa INT PRIMARY KEY AUTO_INCREMENT,

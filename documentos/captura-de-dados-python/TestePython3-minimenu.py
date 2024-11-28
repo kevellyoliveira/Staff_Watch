@@ -6,17 +6,13 @@ import mysql.connector
 from datetime import datetime
 import pytz
 from cpuinfo import get_cpu_info
-from ping3 import ping
 
 config = {
     'user': 'root',
-    'password': '#Gf47722899846',
+    'password': 'sptech',
     'host': 'localhost',
     'database': 'StaffWatch'
 }
-
-
-
 
 # Estabelecendo a conexão
 try:
@@ -168,28 +164,7 @@ def print_system_info(fk_computador):
     pctReceb = net_io.packets_recv
     pctEnv = net_io.packets_sent
 
-    #------------------------------------ Nova biblioteca para dados de rede ------------------------------------
-    #daq para baixo adaptar no menu python
-    # host = "8.8.8.8"  # DNS do Google como exemplo
-
-    # # Tempo de resposta
-    # latencia = medir_tempo_resposta(host)
-    # print(f"Tempo de resposta: {latencia:.2f} ms")
-
-    # # Perda de pacotes
-    # perda = calcular_perda_pacotes(host, pacotes=10)
-    # print(f"Perda de pacotes: {perda:.2f}%")
-
-
-    # # Tempo médio entre falhas
-    # tempo_medio_falhas = monitorar_falhas(host, intervalo=5, duracao=20)
-
-    # print(f"Tempo médio entre falhas: {tempo_medio_falhas:.2f} segundos")
-    # if isinstance(tempo_medio_falhas, float):
-    #     print(f"Tempo médio entre falhas: {tempo_medio_falhas:.2f} segundos")
-    # else:
-    #     print(tempo_medio_falhas)
-    #------------------------------------------------------------------------------------------------------------
+    trafegoRede = bytesReceb + bytesEnv
 
     if os.name == 'posix':
         output = os.popen("lshw -C network | grep 'product'").read()
@@ -203,6 +178,20 @@ def print_system_info(fk_computador):
         print('--------------------------------------------')
         print("network_model ", network_model)
 
+
+    # obtendo tempo médio entre falhas
+    host = "8.8.8.8"
+    tempo_medio_falhas = monitorar_falhas(host, intervalo=5, duracao=20)
+    print(f"Tempo médio entre falhas: {tempo_medio_falhas:.2f} segundos")
+    if isinstance(tempo_medio_falhas, float):
+        print(f"Tempo médio entre falhas: {tempo_medio_falhas:.2f} segundos")
+    else:
+        print(tempo_medio_falhas)
+
+    
+    # obtendo tempo de inatividade
+    inatividade = monitorar_inatividade(host="8.8.8.8", intervalo=5, duracao=30)
+    print(f"Tempo total de inatividade: {inatividade:.2f} horas")
 
     # obtendo ping
     host = "google.com"
@@ -230,19 +219,27 @@ def print_system_info(fk_computador):
                 (default,%s,%s,4,1,%s,%s),
                 (default,%s,%s,5,1,%s,%s),
                 (default,%s,%s,20,1,%s,%s),
-                (default,%s,%s,21,1,%s,%s);""")
+                (default,%s,%s,21,1,%s,%s),
+                (default,%s,%s,24,1,%s,%s),
+                (default,%s,%s,22,1,%s,%s),
+                (default,%s,%s,23,1,%s,%s);""")
 
     data_rede = [bytesEnv, agora, fk_computador, network_model,
                  bytesReceb, agora, fk_computador, network_model,
                  pctReceb, agora, fk_computador, network_model,
                  pctEnv, agora, fk_computador, network_model,
                  latency, agora, fk_computador, network_model,
-                 packet_loss, agora, fk_computador, network_model]
+                 packet_loss, agora, fk_computador, network_model,
+                 trafegoRede, agora, fk_computador, network_model,
+                 tempo_medio_falhas, agora, fk_computador, network_model,
+                 inatividade, agora, fk_computador, network_model,]
 
     cursor.execute(add_rede, data_rede)
     mydb.commit()
     print(cursor.rowcount, "registro inserido - rede")
 
+
+# inserindo alertas de rede
     if latency >= 50:
         if latency >= 100:
             buscarID = ("""SELECT idCaptura FROM captura WHERE 
@@ -315,6 +312,53 @@ def main():
     while True:
         print_system_info(fk_computador)
         time.sleep(2)
+
+# Tempo médio entre falhas
+def monitorar_falhas(host="8.8.8.8", intervalo=10, duracao=20):  
+    """
+    Monitora falhas de conexão em um host específico e calcula o tempo médio entre falhas em minutos.
+    """
+    falhas = []
+    inicio = time.time()
+    while time.time() - inicio < duracao:
+        if ping(host, timeout=1) is None:
+            falhas.append(time.time())
+        time.sleep(intervalo)
+
+    if len(falhas) > 1:
+        # Calcula os intervalos entre falhas e converte para minutos
+        tempos_entre_falhas = [(falhas[i] - falhas[i-1]) / 60 for i in range(1, len(falhas))]
+        return int(sum(tempos_entre_falhas) / len(tempos_entre_falhas))  # Média em minutos
+    elif len(falhas) == 1:
+        return 1
+    else:
+        return 0
+    
+# 4. Tempo de inatividade
+def monitorar_inatividade(host="8.8.8.8", intervalo=10, duracao=20):
+    """
+    Monitora falhas de conexão em um host específico e calcula o tempo de inatividade em horas.
+    """
+    falhas = []
+    inicio = time.time()
+    while time.time() - inicio < duracao:
+        if ping(host, timeout=1) is None:
+            falhas.append(time.time())
+        time.sleep(intervalo)
+
+    # Se houver falhas, calcula o tempo total de inatividade
+    if len(falhas) > 1:
+        # Calcula o tempo total de inatividade em segundos
+        inatividade_total_segundos = sum([falhas[i] - falhas[i-1] for i in range(1, len(falhas))])
+        
+        # Converte o tempo de inatividade de segundos para horas
+        inatividade_total_horas = inatividade_total_segundos / 3600  # 1 hora = 3600 segundos
+        
+        return inatividade_total_horas  # Tempo total de inatividade em horas
+    else:
+        return 0  # Nenhuma falha foi detectada
+    
+
 
 if __name__ == "__main__":
     main()
