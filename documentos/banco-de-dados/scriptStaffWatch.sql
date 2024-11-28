@@ -196,6 +196,8 @@ chamadaAtendida INT,
 chamadaPerdida int,
 tempoChamada int,
 tempoEspera int,
+dataCaptura DATETIME,
+
 
 fkFuncionario INT,
 CONSTRAINT funcionarioChamada FOREIGN KEY(fkFuncionario)
@@ -503,7 +505,15 @@ GROUP BY
 ORDER BY 
     captura.fkComputador;
     
+    use staffwatch;
     
+    select * from chamada;
+    select * from captura;
+    
+       SELECT tempoChamada FROM chamada AS ch
+WHERE dataCaptura <= "2024-11-26 15:06:45" 
+  AND fkEmpresa = 1;
 
-
+desc captura;
+desc funcionario;
 -- --------------------------------------------------------------------------------------------------------------------
