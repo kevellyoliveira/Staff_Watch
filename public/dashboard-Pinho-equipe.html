@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="./css/dashboardHist.css"> -->
+    <link rel="stylesheet" href="./css/dashboardPinho.css">
+    <link rel="shortcut icon" href="./src/img/logoB.png" type="image/x-icon" />
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <title>Dashboard | Staff Watch</title>
+</head>
+
+<body>
+    <header>
+        <div class="opcoes">
+            <div class="esq">
+                <div class="logo">
+                    <img href="index.html" src="./src/img/logoB.png" alt="logo">
+                </div>
+
+                <div class="opcoesComponentes" id="itens">
+                    <h6 class="opcoesMenu slct" onclick="window.location.href='dashboardGeral-gti.html'">Home</h6>
+                    <h6 class="opcoesMenu associMenu" onclick="abrirMenu()">Associados <img
+                            src="./src/img/icons/seta.png" alt="icone menu vertical"></h6>
+                    <h6 class="opcoesMenu" onclick="window.location.href='cadastroFuncionario.html'">Cadastrar</h6>
+                    <div id="menu">
+                        <h4 onclick="window.location.href='pagina-operario2.html'">Funcionários</h4>
+                        <h4 onclick="window.location.href='pagina-maquina.html'">Dispositivos</h4>
+                        <h4 onclick="window.location.href='cadastroEquipe.html'">Equipe</h4>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sair">
+                <h6 class="opcoesMenu sair" onclick="sair()"> Sair </h6>
+            </div>
+        </div>
+    </header>
+    <div class="corpo">
+        
+        <!-- Menu Lateral -->
+        <div id="sideMenu" class="side-menu">
+            <button class="close-btn" onclick="closeMenu()">☰</button>
+            <div class="menuLateral">
+                <div class="itens1">
+                    <h4 id="0" class="hist1" onclick="window.location.href='dashboardPedroPorfirio.html'">Home</h4>
+                    <!-- Histórico Fixo -->
+
+                    <!-- As equipes serão carregadas dinamicamente aqui -->
+
+                    <h4 class="hist1" onclick="window.location.href='./novaEquipe.html'">NovaEquipe</h4>
+                    <!-- Nova equipe Fixa -->
+                </div>
+            </div>
+        </div>
+
+        <!-- <div id="menu" class="menuLateral">
+            <div class="itens">
+                <h4 id="0" class="slc" onclick="window.location.href='dashboardEquipe-gti.html'">Visão Geral</h4>
+                <h4 id="1" onclick="selecionarItem(this)">Equipe 1</h4>
+                <h4 id="2" onclick="selecionarItem(this)">Equipe 2</h4>
+                <h4 id="3" onclick="selecionarItem(this)">Equipe 3</h4>
+                <h4 id="4" onclick="selecionarItem(this)">Equipe 4</h4>
+                <h4 class="slc novaequipe" onclick="window.location.href='./novaEquipe.html'">Nova equipe</h4>
+            </div>
+        </div> -->
+        
+        <main class="main-section">
+            <div class="section-up">
+                <button class="open-btn" onclick="openMenu()">☰</button>
+            <div class="section-title">
+                <div class="title">Histórico dos componentes - Equipe 1 </div>
+                <select  id="">
+                    <option value="#">Tempo</option>
+                    <option value="1">1 Dia</option>
+                    <option value="2">1 Semana</option>
+                    <option value="3">1 Mês</option>
+                    <option value="4">3 Meses</option>
+                    <option value="5">6 Meses</option>
+                    <option value="6">1 Ano</option>
+                </select>
+            </div>
+            </div>
+            
+            <!-- <div class="section-info"></div> -->
+            <div class="left-section">
+              
+                <div class="grafico">
+                    <div class="grafico-text"><p>Percentual de uso de CPU</p></div>
+                    <canvas id="myChartCanvas"></canvas>
+                </div>
+                <div class="grafico">
+                    <div class="grafico-text"><p>Percentual de uso da memória RAM</p></div>
+                    <canvas id="myChartCanvas2"></canvas>
+                </div>
+              <div class="grafico"> 
+                <div class="grafico-text"><p>Bytes lidos e escritos do Disco</p></div>
+                <canvas id="myChartCanvas3"></canvas>
+            </div>
+              <div class="grafico">
+                <div class="grafico-text"><p>Leituras e escritas no Discos</p></div>
+                <canvas id="myChartCanvas4"></canvas>
+            </div>
+              
+            </div>
+            <div class="right-section">
+                <div class="section-alertas">
+                    <div class="grafico-text">
+                        <p>Alertas 
+                            <select id="">
+                                <option value="" disabled selected>Selecione o Componente</option>
+                                <option value="">CPU</option>
+                            </select>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+    </div>
+    </body>
+
+    
+</html>
+<script>
+
+
+
+    function selecionarItem(elemento) {
+        var id = elemento.id;  // Pega o ID da equipe clicada
+        if (id == 0) {
+            // Redireciona para dashboardGeral.html
+            window.location.href = "dashboardGeral-go.html";
+        } else {
+            // Armazena o ID correto da equipe no sessionStorage
+            sessionStorage.setItem('equipeSelecionada', id);
+            // Redireciona para a página da equipe
+            window.location.href = 'dashboardEquipe_Eduardo2-go.html';
+        }
+    }
+
+    function abrirMenu() {
+        if (document.getElementById("menu").style.display == "flex") {
+            document.getElementById("menu").style.display = "none";
+        } else {
+            document.getElementById("menu").style.display = "flex"
+        }
+    }
+
+    function sair() {
+        sessionStorage.clear()
+        window.location = "index.html"
+    }
+
+
+    // Função para abrir o menu
+    function openMenu() {
+        document.getElementById("sideMenu").style.left = "0";
+    }
+
+    // Função para fechar o menu
+    function closeMenu() {
+        document.getElementById("sideMenu").style.left = "-250px";
+    }
+
+    function listarEquipes() {
+        const fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
+
+        fetch(`funcionarios/listarEquipes/${fkEmpresa}`)
+            .then(function (resposta) {
+                if (resposta.ok) {
+                    return resposta.json(); // Se a resposta for ok, tenta converter para JSON
+                } else {
+                    console.error("Erro ao carregar equipes, status:", resposta.status);
+                    return []; // Se não retornar sucesso, retorna um array vazio
+                }
+            })
+            .then(function (dados) {
+                // Verificando se dados está correto
+                console.log("Equipes carregadas:", dados);
+
+                const menuLateral = document.querySelector(".menuLateral .itens");
+
+                // Limpa o conteúdo atual do menu (exceto os itens fixos)
+                const historicoItem = document.querySelector(".historico"); // Seleciona o item Histórico pela classe
+                const novaEquipeItem = document.querySelector(".novaequipe"); // Seleciona o item Nova Equipe pela classe
+
+                // Re-adiciona o item "Histórico" de volta
+                menuLateral.innerHTML = ''; // Limpa a lista para evitar duplicação
+
+                // Adiciona o Histórico novamente
+                menuLateral.appendChild(historicoItem);
+
+                // Adiciona as equipes (se houver)
+                if (dados && dados.length > 0) {
+                    dados.forEach(function (equipe) {
+                        const h4 = document.createElement("h4");
+                        h4.textContent = equipe.nome;  // O nome da equipe
+                        h4.onclick = function () {
+                            selecionarItem(equipe.id);  // Quando clicar, chama a função de seleção
+                        };
+                        menuLateral.appendChild(h4); // Adiciona a equipe ao menu
+                    });
+                } else {
+                    // Se não houver equipes, exibe uma mensagem
+                    const noTeamsMessage = document.createElement("h4");
+                    noTeamsMessage.textContent = "Nenhuma equipe encontrada.";
+                    menuLateral.appendChild(noTeamsMessage);
+                }
+
+                // Re-adiciona a opção "Nova equipe"
+                menuLateral.appendChild(novaEquipeItem);
+            })
+            .catch(function (erro) {
+                console.error("Erro ao carregar as equipes:", erro);
+            });
+    }
+
+    window.onload = function () {
+        listarEquipes();  // Chama a função para listar as equipes
+        atualizarFeedEquipe();  // Chama a função para atualizar o feed da equipe
+    };
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        listarEquipes();  // Chama a função para listar as equipes
+        atualizarFeedEquipe();  // Chama a função para atualizar o feed da equipe
+    });
+ 
+    /*gráfico cpu*/
+
+    function obterDadosGrafico() {
+        const fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
+        var tempo = select_tempo.value;
+        var fkEquipe = sessionStorage.getItem("ID_EQUIPE");
+        fetch(`dados/${fkEquipe}/${fkEmpresa}/${tempo}`, { cache: 'no-store' }).then(function (response) {
+            if (response.ok) {
+                response.json().then(function (resposta) {
+                    console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+
+                    plotarGrafico(resposta);
+
+                });
+            } else {
+                console.error('Nenhum dado encontrado ou erro na API');
+            }
+        })
+            .catch(function (error) {
+                console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+            });
+    }
+
+    function plotarGrafico(resposta) {
+
+console.log('iniciando plotagem do gráfico...');
+
+// Criando estrutura para plotar gráfico - labels
+let labels = [];
+
+// Criando estrutura para plotar gráfico - dados
+let dados = {
+    labels: labels,
+    datasets: [{
+        label: 'Histórico de percentual de CPU',
+        data: [],
+        fill: false,
+        backgroundColor:'rgba(255, 99, 132, 0.2)',
+                    borderColor:'rgba(255, 99, 132, 1)',
+        tension: 0.1
+    }]
+};
+
+console.log('----------------------------------------------')
+console.log('Estes dados foram recebidos pela funcao "obterDadosGrafico" e passados para "plotarGrafico":')
+console.log(resposta)
+
+// Inserindo valores recebidos em estrutura para plotar o gráfico
+for (i = 0; i < resposta.length; i++) {
+    var registro = resposta[i];
+    labels.push(registro.dataCaptura);
+    dados.datasets[0].data.push(registro.captura);
+}
+
+console.log('----------------------------------------------')
+console.log('O gráfico será plotado com os respectivos valores:')
+console.log('Labels:')
+console.log(labels)
+console.log('Dados:')
+console.log(dados.datasets)
+console.log('----------------------------------------------')
+
+// Criando estrutura para plotar gráfico - config
+const config = {
+        type: 'line',  // Tipo do gráfico (barra)
+        data: dados,  // Dados a serem usados no gráfico
+        options: {
+            responsive: true,  // O gráfico será redimensionado automaticamente
+        }
+    };
+
+    let myChart = new Chart(
+        document.getElementById('myChartCanvas'),  // ID do canvas onde o gráfico será renderizado
+        config
+    );
+
+}
+
+
+/*gráfico ram*/
+
+function obterDadosGrafico2() {
+        const fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
+        var tempo = select_tempo.value;
+        var fkEquipe = sessionStorage.getItem("ID_EQUIPE");
+        fetch(`dadosRam/${fkEquipe}/${fkEmpresa}/${tempo}`, { cache: 'no-store' }).then(function (response) {
+            if (response.ok) {
+                response.json().then(function (resposta) {
+                    console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+
+                    plotarGrafico2(resposta);
+
+                });
+            } else {
+                console.error('Nenhum dado encontrado ou erro na API');
+            }
+        })
+            .catch(function (error) {
+                console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+            });
+    }
+
+    function plotarGrafico2(resposta) {
+
+console.log('iniciando plotagem do gráfico...');
+
+// Criando estrutura para plotar gráfico - labels
+let labels = [];
+
+// Criando estrutura para plotar gráfico - dados
+let dados = {
+    labels: labels,
+    datasets: [{
+        label: 'Histórico de percentual de RAM',
+        data: [],
+        fill: false,
+        backgroundColor:'rgba(255, 99, 132, 0.2)',
+                    borderColor:'rgba(255, 99, 132, 1)',
+        tension: 0.1
+    }]
+};
+
+console.log('----------------------------------------------')
+console.log('Estes dados foram recebidos pela funcao "obterDadosGrafico" e passados para "plotarGrafico":')
+console.log(resposta)
+
+// Inserindo valores recebidos em estrutura para plotar o gráfico
+for (i = 0; i < resposta.length; i++) {
+    var registro = resposta[i];
+    labels.push(registro.dataCaptura);
+    dados.datasets[0].data.push(registro.captura);
+}
+
+console.log('----------------------------------------------')
+console.log('O gráfico será plotado com os respectivos valores:')
+console.log('Labels:')
+console.log(labels)
+console.log('Dados:')
+console.log(dados.datasets)
+console.log('----------------------------------------------')
+
+// Criando estrutura para plotar gráfico - config
+const config = {
+        type: 'line',  // Tipo do gráfico (barra)
+        data: dados,  // Dados a serem usados no gráfico
+        options: {
+            responsive: true,  // O gráfico será redimensionado automaticamente
+        }
+    };
+
+    let myChart = new Chart(
+        document.getElementById('myChartCanvas2'),  // ID do canvas onde o gráfico será renderizado
+        config
+    );
+
+}
+
+/*Gráfico disco leitura*/
+
+function obterDadosGrafico3() {
+    const fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
+    var tempo = select_tempo.value;
+    var fkEquipe = sessionStorage.getItem("ID_EQUIPE");
+
+
+fetch(`dadosDisco1/${fkEquipe}/${fkEmpresa}/${tempo}`, { cache: 'no-store' }).then(function (response) {
+    if (response.ok) {
+        response.json().then(function (resposta) {
+            console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+            resposta.reverse();
+
+            plotarGrafico3(resposta);
+
+        });
+    } else {
+        console.error('Nenhum dado encontrado ou erro na API');
+    }
+})
+    .catch(function (error) {
+        console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+    });
+}
+
+
+function plotarGrafico3(resposta) {
+console.log('Iniciando plotagem do gráfico...');
+
+let labels = [];  // Para armazenar os rótulos do eixo X
+let numeroLeituras = [];  // Para armazenar os dados de chamadas recebidas
+let numeroEscritas = [];  // Para armazenar os dados de chamadas atendidas
+
+let dados = {
+labels: labels,  // As labels (categorias) para o eixo X
+datasets: [
+    {
+        label: 'Quantidade de Leituras',
+        data: numeroLeituras,
+        fill: false,
+        borderColor: 'blue',
+        backgroundColor: 'lightblue',
+        tension: 0.1
+    },
+    {
+        label: 'Quantidade de Escritas',
+        data: numeroEscritas,
+        fill: false,
+        borderColor: '#00FFFF',
+        backgroundColor: 'blue',
+        tension: 0.1
+    }
+]
+};
+
+console.log('----------------------------------------------');
+console.log('Estes dados foram recebidos pela função "obterDadosGrafico" e passados para "plotarGrafico":');
+console.log(resposta);
+
+for (let i = 0; i < resposta.length; i++) {
+let registro = resposta[i];
+labels.push(registro.dataCaptura);  
+if (registro.fkAuxComponente === 20) {
+    numeroLeituras.push(registro.captura);
+  } else if (registro.fkAuxComponente === 21) {
+    numeroEscritas.push(registro.captura);
+  }  
+}
+
+
+console.log('----------------------------------------------');
+console.log('O gráfico será plotado com os respectivos valores:');
+console.log('Labels:');
+console.log(labels);
+console.log('Dados:');
+console.log(dados.datasets);
+console.log('----------------------------------------------');
+
+const config = {
+type: 'line',  // Tipo do gráfico (barra)
+data: dados,  // Dados a serem usados no gráfico
+options: {
+    responsive: true,  // O gráfico será redimensionado automaticamente
+    scales: {
+        x: {
+            beginAtZero: true,  // Inicia o eixo X a partir de 0
+        }
+    }
+}
+};
+
+let myChart = new Chart(
+document.getElementById('myChartCanvas3'),  // ID do canvas onde o gráfico será renderizado
+config
+);
+}
+
+
+ /* MB DISCO */
+function obterDadosGrafico4() {
+    const fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
+    var tempo = select_tempo.value;
+    var fkEquipe = sessionStorage.getItem("ID_EQUIPE");
+
+
+fetch(`dadosDisco2/${fkEquipe}/${fkEmpresa}/${tempo}`, { cache: 'no-store' }).then(function (response) {
+    if (response.ok) {
+        response.json().then(function (resposta) {
+            console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+            resposta.reverse();
+
+            plotarGrafico4(resposta);
+
+        });
+    } else {
+        console.error('Nenhum dado encontrado ou erro na API');
+    }
+})
+    .catch(function (error) {
+        console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+    });
+}
+
+
+function plotarGrafico4(resposta) {
+console.log('Iniciando plotagem do gráfico...');
+
+let labels = [];  // Para armazenar os rótulos do eixo X
+let bytesLidos = [];  // Para armazenar os dados de chamadas recebidas
+let bytesEscritos = [];  // Para armazenar os dados de chamadas atendidas
+
+let dados = {
+labels: labels,  // As labels (categorias) para o eixo X
+datasets: [
+    {
+        label: 'MegaBytes lidos no disco',
+        data: bytesEscritos,
+        fill: false,
+        borderColor: 'blue',
+        backgroundColor: 'lightblue',
+        tension: 0.1
+    },
+    {
+        label: 'MegaBytes escritos no disco',
+        data: bytesEscritos,
+        fill: false,
+        borderColor: '#00FFFF',
+        backgroundColor: 'blue',
+        tension: 0.1
+    }
+]
+};
+
+console.log('----------------------------------------------');
+console.log('Estes dados foram recebidos pela função "obterDadosGrafico" e passados para "plotarGrafico":');
+console.log(resposta);
+
+for (let i = 0; i < resposta.length; i++) {
+let registro = resposta[i];
+labels.push(registro.dataCaptura);  
+if (registro.fkAuxComponente === 22) {
+    bytesLidos.push(registro.captura);
+  } else if (registro.fkAuxComponente === 223) {
+    bytesEscritos.push(registro.captura);
+  }  
+}
+
+
+console.log('----------------------------------------------');
+console.log('O gráfico será plotado com os respectivos valores:');
+console.log('Labels:');
+console.log(labels);
+console.log('Dados:');
+console.log(dados.datasets);
+console.log('----------------------------------------------');
+
+const config = {
+type: 'line',  // Tipo do gráfico (barra)
+data: dados,  // Dados a serem usados no gráfico
+options: {
+    responsive: true,  // O gráfico será redimensionado automaticamente
+    scales: {
+        x: {
+            beginAtZero: true,  // Inicia o eixo X a partir de 0
+        }
+    }
+}
+};
+
+let myChart = new Chart(
+document.getElementById('myChartCanvas4'),  // ID do canvas onde o gráfico será renderizado
+config
+);
+}
+
+
+</script>
