@@ -1,4 +1,4 @@
- import psutil
+import psutil
 import os
 from ping3 import ping
 import time
@@ -9,7 +9,7 @@ from cpuinfo import get_cpu_info
 
 config = {
     'user': 'root',
-    'password': 'Crfsruan1',
+    'password': '#Gf47722899846',
     'host': 'localhost',
     'database': 'StaffWatch'
 }
@@ -107,7 +107,7 @@ def print_system_info(fk_computador):
     pctReceb = net_io.packets_recv
     pctEnv = net_io.packets_sent
 
-    trafegoRede = byesReceb + bytesEnv
+    trafegoRede = bytesReceb + bytesEnv
 
     
 
