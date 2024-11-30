@@ -5,8 +5,17 @@ FROM python:3.9-slim
 WORKDIR /app
 
 # Instale as bibliotecas que serão usadas no script
-RUN pip install psutil mysql-connector-python pytz
 RUN apt-get update && apt-get install -y python3-tk
+RUN pip install psutil mysql-connector-python pytz
+
+# Instalar as bibliotecas necessárias via pip
+RUN pip install --no-cache-dir \
+    psutil \
+    mysql-connector-python \
+    pytz \
+    ping3 \
+    py-cpuinfo \
+    asyncio
 
 # Copie o script Python para dentro do contêiner
 COPY TestePython3-minimenu.py .

@@ -1,4 +1,4 @@
-package repositories
+package repositorio
 
 import com.slack.api.Slack
 import com.slack.api.webhook.Payload
@@ -8,7 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate
 class DiscoRepository {
     lateinit var jdbcTemplate: JdbcTemplate
 
-    private val slackWebhookUrl = "https://hooks.slack.com/services/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"
+    private val slackWebhookUrl = "https://hooks.slack.com/services/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"
 
 
     fun configurar() {
@@ -22,7 +22,7 @@ class DiscoRepository {
     }
 
     fun listarDiscoUso(): List<Int> {
-        return jdbcTemplate.queryForList("SELECT captura FROM Captura WHERE fkComponente = 3 AND fkAuxComponente = 9 AND captura >= 15000000 ORDER BY idCaptura DESC LIMIT 1", Int::class.java)
+        return jdbcTemplate.queryForList("SELECT captura FROM Captura WHERE fkComponente = 3 AND fkAuxComponente = 9 AND captura >= 150 ORDER BY idCaptura DESC LIMIT 1", Int::class.java)
     }
 
     fun listarDiscoTotal(): List<Int> {

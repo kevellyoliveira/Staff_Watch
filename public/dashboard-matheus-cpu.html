@@ -176,50 +176,44 @@ fetch(`/enderecos/listarEnderecos/${fkEmpresa}`).then(function (resposta) {
         }
 
         resposta.json().then(function (resposta) {
-        console.log("Dados recebidos: ", JSON.stringify(resposta));
+                    console.log("Dados recebidos: ", JSON.stringify(resposta));
 
-        console.log(resposta)
+                    const bodyTabela = document.getElementById('tbody_corpo_tabela');
+                    bodyTabela.innerHTML = ''; // Limpa o corpo da tabela antes de preenchê-la novamente
 
-        const bodyTabela = document.getElementById('tbody_corpo_tabela')
+                    resposta.forEach(linhaAtual => {
+                        let linha = document.createElement('tr');
 
-        let enderecoPerigo = 0;
+                        // Conteúdo das células
+                        let celMaquina = document.createElement('td');
+                        celMaquina.textContent = linhaAtual.fkComputador;
 
-            for (let i = 0; i < resposta.length; i++) {
-                
-                let linha = document.createElement('tr');
-                // linha.dataset.idEndereco = resposta[i].id;
-                // linha.dataset.nomeEndereco = resposta[i].nome;
+                        let celEquipe = document.createElement('td');
+                        celEquipe.textContent = linhaAtual.nome;
 
-                bodyTabela.appendChild(linha)
-                    
-                let linhaAtual = resposta[i];
+                        let celModelo = document.createElement('td');
+                        celModelo.textContent = linhaAtual.modelo;
 
-                let conteudoMaquina = linhaAtual.fkComputador; 
-                
-                let celMaquina = document.createElement('td');
-                celMaquina.textContent = conteudoMaquina;
-                linha.appendChild(celMaquina);
+                        let celAlertas = document.createElement('td');
+                        celAlertas.textContent = linhaAtual.quantidade_alertas;
 
-                let conteudoEquipe = linhaAtual.nome; 
-                let celEquipe = document.createElement('td');
-                celEquipe.textContent = `${conteudoEquipe}`;
-                linha.appendChild(celEquipe);
+                        // Adiciona as células na linha
+                        linha.appendChild(celMaquina);
+                        linha.appendChild(celEquipe);
+                        linha.appendChild(celModelo);
+                        linha.appendChild(celAlertas);
 
-                let conteudoModelo = linhaAtual.modelo;
-                
-                let celModelo = document.createElement('td');
-                celModelo.textContent = `${conteudoModelo}`
-                linha.appendChild(celModelo);
+                        // Adiciona o evento de clique para redirecionar à tela de dispositivos
+                        linha.style.cursor = "pointer"; // Para indicar que a linha é clicável
+                        linha.addEventListener('click', () => {
+                            window.location.href = '/suporte-de-ti/dispositivos.html';
+                        });
 
-                let conteudoAlertas = linhaAtual.quantidade_alertas;
-                
-                let celAlertas = document.createElement('td');
-                celAlertas.textContent = `${conteudoAlertas}`
-                linha.appendChild(celAlertas);
-            
+                        // Adiciona a linha ao corpo da tabela
+                        bodyTabela.appendChild(linha);
+                    });
 
-            }
-         // script do objeto 
+                    // Inicializa o DataTable após as linhas serem adicionadas
                     $(document).ready(function () {
                         $('#minhaTabela').DataTable({
                             dom: '<"custom-header"lf>rt<"custom-footer"ip>',
@@ -231,8 +225,8 @@ fetch(`/enderecos/listarEnderecos/${fkEmpresa}`).then(function (resposta) {
                                 infoFiltered: '(filtrado de _MAX_ registros totais)',
                                 lengthMenu: '_MENU_ Registros por páginas',
                                 zeroRecords: 'Nada encontrado',
-                                search: "",  // Desativa o label do input de busca
-                                searchPlaceholder: "Digite para buscar...",  // Placeholder do input de busca
+                                search: "", // Desativa o label do input de busca
+                                searchPlaceholder: "Digite para buscar...", // Placeholder do input de busca
                                 paginate: {
                                     previous: "Anterior",
                                     next: "Próximo"
@@ -241,13 +235,13 @@ fetch(`/enderecos/listarEnderecos/${fkEmpresa}`).then(function (resposta) {
                         });
                     });
                 });
-    } else {
-        throw ('Houve um erro na API!');
-    }
-}).catch(function (resposta) {
-    console.error(resposta);
-    // finalizarAguardar();
-});
+            } else {
+                throw 'Houve um erro na API!';
+            }
+        })
+        .catch(function (error) {
+            console.error(`Erro na obtenção dos dados para gráfico: ${error}`);
+        });
 }
 
 
@@ -345,6 +339,22 @@ function mensagemAlerta() {
 
                 // Adiciona o texto formatado ao parágrafo
                 p.innerHTML = mensagemAlerta;
+
+
+                div.onclick = () => {
+                    let paginaDestino = "";
+                    if (componenteTexto == "Rede") {
+                        paginaDestino = "dashboard-matheus-rede.html";
+                    } else if (componenteTexto == "Memória") {
+                        paginaDestino = "dashboard-matheus-memoria.html";
+                    } else if (componenteTexto == "Disco") {
+                        paginaDestino = "dashboard-matheus-disco.html";
+                    } else if (componenteTexto == "CPU") {
+                        paginaDestino = "dashboard-matheus-cpu.html";
+                    }                     
+                
+                    window.location.href = `/${paginaDestino}`;     
+                };
 
                 // Adiciona o elemento <p> à div
                 div.appendChild(p);

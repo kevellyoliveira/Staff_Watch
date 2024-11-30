@@ -1,5 +1,6 @@
 // const { abrirModal } = require("../controllers/funcionarioController");
 //const { puxarDadosChamada } = require("../controllers/funcionarioController");
+// const { filtrarTempoMedioEspera, filtrarTempoGrafico } = require("../controllers/funcionarioController");
 var database = require("../database/config");
 // funcoes utilizadas =======================================================================================
 
@@ -286,7 +287,7 @@ SELECT COUNT(*) chamadaRecebida FROM chamada
 function puxarTotalEmpresaPerdida(fkEmpresa) {
     console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function descurtir()");
     var instrucaoSql = `
-   SELECT COUNT(*) AS chamadaPerdida FROM chamada
+    SELECT COUNT(*) AS chamadaPerdida FROM chamada
     INNER JOIN funcionario ON chamada.fkFuncionario = funcionario.idFuncionario
     WHERE chamada.chamadaPerdida = 1
     AND funcionario.fkEmpresa = ${1};`
@@ -322,14 +323,59 @@ function eficienciaEmpresaChamada(fkEmpresa) {
 function filtrarTempoChamadaMedia(dataSelecionada, fkEmpresa) {
     console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function descurtir()");
     var instrucaoSql = `
-    SELECT tempoChamada FROM chamada
-    INNER JOIN captura on chamada.fkEmpresa = captura.fkEmpresa
-    where chamada.fkEmpresa = ${fkEmpresa} AND captura.dataCaptura >= ${dataSelecionada};`;
+   SELECT tempoChamada FROM chamada AS ch
+WHERE dataCaptura >= ${dataSelecionada} 
+  AND fkEmpresa = 1`;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
-
-
 }
+
+function filtrarTempoEficiencia(dataSelecionada, fkEmpresa) {
+    console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function descurtir()");
+    var instrucaoSql = `
+    SELECT
+    COUNT(*) AS chamadaRecebida,
+        COUNT(CASE WHEN chamadaAtendida IN(2, 3) THEN 1 END) AS chamadaAtendida
+        FROM chamada
+    WHERE dataCaptura >= ${dataSelecionada}
+    AND fkEmpresa = 1;`;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function filtrarTempoMedioEspera(dataSelecionada, fkEmpresa) {
+    console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function descurtir()");
+    var instrucaoSql = `
+   SELECT tempoEspera FROM chamada AS ch
+   WHERE dataCaptura >= ${dataSelecionada} 
+   AND fkEmpresa = 1`;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function filtrarTempoChamadaPerdida(dataSelecionada, fkEmpresa) {
+    console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function descurtir()");
+    var instrucaoSql = `
+    SELECT COUNT(*) AS chamadaPerdida FROM chamada
+    WHERE dataCaptura >= ${dataSelecionada} 
+    AND fkEmpresa = 1`;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function filtrarTempoGrafico(dataSelecionada, fkEmpresa) {
+    console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function descurtir()");
+    var instrucaoSql = `
+    SELECT
+    COUNT(*) AS chamadaRecebida,
+    COUNT(CASE WHEN chamadaAtendida IN(2, 3) THEN 1 END) AS chamadaAtendida
+    FROM chamada
+    WHERE dataCaptura >= ${dataSelecionada} 
+    AND fkEmpresa = 1`;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 function plotarGrafico(fkEmpresa) {
     console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function descurtir()");
     var instrucaoSql = `
@@ -343,6 +389,21 @@ function plotarGrafico(fkEmpresa) {
     console.log("GRAFICO PORFIRIO")
     return database.executar(instrucaoSql);
 }
+
+function plotarGraficoFiltrado(dataSelecionada, fkEmpresa) {
+    console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function descurtir()");
+    var instrucaoSql = `
+    SELECT
+    COUNT(*) AS chamadaRecebida,
+    COUNT(CASE WHEN chamadaAtendida IN(2, 3) THEN 1 END) AS chamadaAtendida
+    FROM chamada
+    WHERE dataCaptura >= ${dataSelecionada} 
+    AND fkEmpresa = 1`;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+
 
 
 module.exports = {
@@ -374,5 +435,10 @@ module.exports = {
     puxarTotalEmpresaPerdida,
     puxarTotalEmpresaAtendida,
     eficienciaEmpresaChamada,
-    filtrarTempoChamadaMedia
+    filtrarTempoChamadaMedia,
+    filtrarTempoEficiencia,
+    filtrarTempoMedioEspera,
+    filtrarTempoChamadaPerdida,
+    filtrarTempoGrafico,
+    plotarGraficoFiltrado
 }

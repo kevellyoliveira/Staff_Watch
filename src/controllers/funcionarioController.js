@@ -578,7 +578,7 @@ function filtrarTempoChamadaMedia(req, res) {
     const dataSelecionada = req.params.dataSelecionada;
     const fkEmpresa = req.params.fkEmpresa;
 
-    funcionarioModel.eficienciaEmpresaChamada(dataSelecionada, fkEmpresa)
+    funcionarioModel.filtrarTempoChamadaMedia(dataSelecionada, fkEmpresa)
         .then((resultado) => {
             res.json(resultado);
         })
@@ -586,6 +586,81 @@ function filtrarTempoChamadaMedia(req, res) {
             console.error("Erro ao listar dados da chamada: ", erro.sqlMessage);
             res.status(500).json(erro.sqlMessage);
         });
+}
+
+function filtrarTempoEficiencia(req, res) {
+    const dataSelecionada = req.params.dataSelecionada;
+    const fkEmpresa = req.params.fkEmpresa;
+
+    funcionarioModel.filtrarTempoEficiencia(dataSelecionada, fkEmpresa)
+        .then((resultado) => {
+            res.json(resultado);
+        })
+        .catch((erro) => {
+            console.error("Erro ao listar dados da chamada: ", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
+function filtrarTempoMedioEspera(req, res) {
+    const dataSelecionada = req.params.dataSelecionada;
+    const fkEmpresa = req.params.fkEmpresa;
+
+    funcionarioModel.filtrarTempoMedioEspera(dataSelecionada, fkEmpresa)
+        .then((resultado) => {
+            res.json(resultado);
+        })
+        .catch((erro) => {
+            console.error("Erro ao listar dados da chamada: ", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
+function filtrarTempoChamadaPerdida(req, res) {
+    const dataSelecionada = req.params.dataSelecionada;
+    const fkEmpresa = req.params.fkEmpresa;
+
+    funcionarioModel.filtrarTempoChamadaPerdida(dataSelecionada, fkEmpresa)
+        .then((resultado) => {
+            res.json(resultado);
+        })
+        .catch((erro) => {
+            console.error("Erro ao listar dados da chamada: ", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
+function filtrarTempoGrafico(req, res) {
+
+    const dataSelecionada = req.params.dataSelecionada;
+    const fkEmpresa = req.params.fkEmpresa;
+
+    funcionarioModel.filtrarTempoGrafico(dataSelecionada, fkEmpresa)
+        .then((resultado) => {
+            res.json(resultado);
+            console.log(resultado)
+        })
+        .catch((erro) => {
+            console.error("Erro ao listar dados da chamada: ", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
+function plotarGraficoFiltrado(req, res) {
+    
+    const dataSelecionada = req.params.dataSelecionada;
+    const fkEmpresa = req.params.fkEmpresa;
+
+    funcionarioModel.plotarGraficoFiltrado(dataSelecionada, fkEmpresa)
+        .then((resultado) => {
+            res.json(resultado);
+            console.log(resultado)
+        })
+        .catch((erro) => {
+            console.error("Erro ao listar dados da chamada: ", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        });
+
 }
 
 module.exports = {
@@ -618,5 +693,10 @@ module.exports = {
     carregarGrafico,
     plotarGrafico,
     filtrarTempoChamadaMedia,
+    filtrarTempoEficiencia,
+    filtrarTempoMedioEspera,
+    filtrarTempoChamadaPerdida,
+    filtrarTempoGrafico,
+    plotarGraficoFiltrado
 }
 

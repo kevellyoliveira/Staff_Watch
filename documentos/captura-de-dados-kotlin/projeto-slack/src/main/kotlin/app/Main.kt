@@ -1,4 +1,6 @@
-import repositories.*
+package app
+
+import repositorio.*
 
 fun main() {
 
@@ -16,7 +18,7 @@ fun main() {
 
 
     var i = 1;
-    while (i < 10){
+    while (true){
 
 
         cpuRepository.listarCpuPorcent()

@@ -9,6 +9,8 @@ import org.apache.commons.dbcp2.BasicDataSource
 
 import org.springframework.jdbc.core.BeanPropertyRowMapper
 import org.springframework.jdbc.core.JdbcTemplate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class ChamadaRepository {
 
@@ -35,8 +37,8 @@ class ChamadaRepository {
 
     fun pegarChamada(telefone: String?): com.twilio.rest.api.v2010.account.Call {
         // Autenticação da Twilio com seu SID da conta e token de autenticação
-        val ACCOUNT_SID = "tem que buscar no console do twilio"
-        val AUTH_TOKEN = "tem que buscar no console do twilio"
+        val ACCOUNT_SID = "ACde6cb6e25a1f9310b189c1f6318018da"
+        val AUTH_TOKEN = "b91873c80e6deb5c0ce0ef8989b7f962"
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN)
 
         // Configurar os números de telefone
@@ -67,6 +69,9 @@ class ChamadaRepository {
     }
 
     fun inserirChamada(call: com.twilio.rest.api.v2010.account.Call) {
+
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        val current = LocalDateTime.now().format(formatter)
         // Mapeando o status da chamada para um valor numérico ou string
         val chamadaAtendida = when (call.status) {
             com.twilio.rest.api.v2010.account.Call.Status.QUEUED -> 0
@@ -86,10 +91,10 @@ class ChamadaRepository {
         // Inserir no banco de dados
         val qtdLinhasAfetadas = jdbcTemplate.update(
             """
-        INSERT INTO chamada (chamadaRecebida, chamadaAtendida, chamadaPerdida, tempoChamada, tempoEspera, fkFuncionario, fkEmpresa)
-        VALUES (?, ?, ?, ?, ?, 1, 1);
+        INSERT INTO chamada (chamadaRecebida, chamadaAtendida, chamadaPerdida, tempoChamada, tempoEspera, dataCaptura, fkFuncionario, fkEmpresa)
+        VALUES (?, ?, ?, ?, ?, ?, 1, 1);
         """,
-            1, chamadaAtendida, chamadaPerdida, tempoChamada, tempoEspera
+            1, chamadaAtendida, chamadaPerdida, tempoChamada, tempoEspera , current
         )
 
         // Log para verificar se a inserção foi bem-sucedida

@@ -1109,10 +1109,10 @@ h2 {
 .TEMPO {
     background-color: #002148;
     color: #fff;
-    width: 26vh;
+    width: 18vh;
     height: 5vh;
     border: none;
-    border-radius: 4vh;
+    border-radius: 1vh;
     text-align: center;
     cursor: pointer;
     
@@ -1151,7 +1151,7 @@ h2 {
     position: relative;
     height: 8vh;
     width: 20vh;
-    background-color: #74FF00;
+    background-color: #1be600;
     border-radius: 1vh;
     text-align: center;
     display: flex;
@@ -1174,7 +1174,7 @@ h2 {
     position: relative;
     height: 8vh;
     width: 20vh;
-    background-color: #FFFF00;
+    background-color: #ffaa00;
     border-radius: 1vh;
     text-align: center;
     display: flex;
@@ -1197,7 +1197,7 @@ h2 {
     position: relative;
     height: 8vh;
     width: 20vh;
-    background-color: #FFA400;
+    background-color: #ff0000;
     border-radius: 1vh;
     text-align: center;
     display: flex;

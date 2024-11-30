@@ -15,9 +15,9 @@ class monitoramentoRepositorio {
             val dataSource: BasicDataSource = BasicDataSource()
             dataSource.driverClassName = "com.mysql.cj.jdbc.Driver"
             //dataSource.url = "jdbc:h2:mem:StaffWatch"
-            dataSource.url = "jdbc:mysql://44.194.151.184:3306/StaffWatch?serverTimezone=America/Sao_Paulo"
+            dataSource.url = "jdbc:mysql://localhost:3306/StaffWatch?serverTimezone=America/Sao_Paulo"
             dataSource.username = "root"
-            dataSource.password = "senha_segura"
+            dataSource.password = "10062006Dudu"
 
             jdbcTemplate = JdbcTemplate(dataSource)
         }
@@ -28,7 +28,7 @@ class monitoramentoRepositorio {
 
             val qtdLinhasAfetadas = jdbcTemplate.update(
                 """
-               INSERT INTO captura
+               INSERT INTO captura (idCaptura, captura, dataCaptura , fkComponente, fkComputador , fkAuxComponente)
                 VALUES (default, ?, ?, 1, 1, 13);
             """,
                 novoMonitoramento.redeRecebLooca,
@@ -44,7 +44,7 @@ class monitoramentoRepositorio {
 
         val qtdLinhasAfetadas = jdbcTemplate.update(
             """
-               INSERT INTO captura
+               INSERT INTO captura (idCaptura, captura, dataCaptura , fkComponente, fkComputador , fkAuxComponente)
                 VALUES (default, ?, ?, 1, 1, 14);
             """,
             novoMonitoramento.redeEnvLooca,
@@ -60,7 +60,7 @@ class monitoramentoRepositorio {
 
         val qtdLinhasAfetadas = jdbcTemplate.update(
             """
-               INSERT INTO captura 
+               INSERT INTO captura (idCaptura, captura, dataCaptura , fkComponente, fkComputador , fkAuxComponente)
                 VALUES (default, ?, ?, 1, 1, 15);
             """,
             novoMonitoramento.pctEnvLooca,
@@ -76,7 +76,7 @@ class monitoramentoRepositorio {
 
         val qtdLinhasAfetadas = jdbcTemplate.update(
             """
-               INSERT INTO captura 
+               INSERT INTO captura (idCaptura, captura, dataCaptura , fkComponente, fkComputador , fkAuxComponente)
                 VALUES (default, ?, ?, 1, 1, 16);
             """,
             novoMonitoramento.pctRecebLooca,
@@ -92,7 +92,7 @@ class monitoramentoRepositorio {
 
         val qtdLinhasAfetadas = jdbcTemplate.update(
             """
-               INSERT INTO captura 
+               INSERT INTO captura (idCaptura, captura, dataCaptura , fkComponente, fkComputador , fkAuxComponente)
                 VALUES (default, ?, ?, 5, 1, 17);
             """,
             novoMonitoramento.servicosLooca,
@@ -108,7 +108,7 @@ class monitoramentoRepositorio {
 
         val qtdLinhasAfetadas = jdbcTemplate.update(
             """
-               INSERT INTO captura 
+               INSERT INTO captura (idCaptura, captura, dataCaptura , fkComponente, fkComputador , fkAuxComponente)
                 VALUES (default, ?, ?, 5, 1, 18);
             """,
             novoMonitoramento.processosLooca,
@@ -124,7 +124,7 @@ class monitoramentoRepositorio {
 
         val qtdLinhasAfetadas = jdbcTemplate.update(
             """
-               INSERT INTO captura 
+               INSERT INTO captura (idCaptura, captura, dataCaptura , fkComponente, fkComputador , fkAuxComponente)
                 VALUES (default, ?, ?, 5, 1, 19);
             """,
             novoMonitoramento.tempoAtividadeLooca,
