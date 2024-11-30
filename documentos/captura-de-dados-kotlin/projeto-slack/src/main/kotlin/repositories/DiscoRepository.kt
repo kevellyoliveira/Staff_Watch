@@ -8,7 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate
 class DiscoRepository {
     lateinit var jdbcTemplate: JdbcTemplate
 
-    private val slackWebhookUrl = "https://hooks.slack.com/services/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"
+    private val slackWebhookUrl = "https://hooks.slack.com/services/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"
 
 
     fun configurar() {

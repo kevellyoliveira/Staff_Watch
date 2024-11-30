@@ -8,7 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate
 class ProcessosRepository {
     lateinit var jdbcTemplate: JdbcTemplate
 
-    private val slackWebhookUrl = "https://hooks.slack.com/services/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"
+    private val slackWebhookUrl = "https://hooks.slack.com/services/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"
 
 
     fun configurar() {
