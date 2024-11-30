@@ -156,6 +156,8 @@
         <div id="modal" class="hide">
             <div class="btnSair">
                 <img src=".././src/img/icons/fechar.svg" alt="ícone para sair do modal" onclick="closeModal()">
+                <!-- <h1 class="txtId">ID: <span id="idComputadorModal"> </span></h1> -->
+
             </div>
             <div class="modal-content">
                 <div class="containerModal">
@@ -341,6 +343,9 @@
 <!-- script do chartJs -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<!-- script do apexCHarts -->
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
 
 </html>
 
@@ -451,11 +456,11 @@
                 resposta.forEach(publicacao => {
                     var card = document.createElement("div");
                     card.setAttribute("id", publicacao.idComputador); // Define o ID
-                    card.classList.add("card"); // Adiciona a classe para abrir o modal
+                    card.classList.add("card"); // Adiciona a classe para o modal
 
                     // Adicionando o evento para abrir o modal
                     card.addEventListener("click", function () {
-                        cardId = this.id
+                        cardId = this.id;
                         console.log("Card clicado. cardId:", this.id);
                         alterarComponente('dashCpu', this.id);  // Altera o componente
                         toggleModal(event);  // Abre o modal após alterar o componente
@@ -465,29 +470,55 @@
                     let status = publicacao.status === 1 ? "Em atividade" : "Inativo";
                     let statusColor = publicacao.status === 1 ? "#12FF39" : "#FF7557";
 
-                    // Adicionando o conteúdo HTML do card
+                    // Defina o ícone do computador com base no tipo de alerta
+                    let computadorIcon = ".././src/img/icons/indicadoresMaquina/computadorEstavel.png";
+                    if (publicacao.tipoAlerta === 1) {
+                        computadorIcon = ".././src/img/icons/indicadoresMaquina/computadorAlerta.png";
+                    } else if (publicacao.tipoAlerta === 2) {
+                        computadorIcon = ".././src/img/icons/indicadoresMaquina/computadorCritico.png";
+                    }
+
+                    // Formatação da mensagem de alerta
+                    let alertaMensagem = "";
+                    if (publicacao.tipoAlerta) {
+                        const componente = publicacao.nomeComponente;  // Nome do componente
+                        const descricao = publicacao.unidadeMedida;  // Descrição do alerta, como "uso" ou "temperatura"
+                        const captura = publicacao.captura;  // Percentual ou valor capturado, por exemplo, uso ou temperatura
+                        mensagemAlerta = `<p>${componente} acima do ideal em ${descricao} (${captura})</p>`;
+                    }
+
+                    // Criação da estrutura do card
                     card.innerHTML = `
-                        <div class="down-card cima">
-                            <div class="esqCard">
-                                <figure class="iconComp">
-                                    <img src=".././src/img/icons/indicadoresMaquina/computadorBranco.png" alt="">
-                                </figure>
-                            </div>
-                            <div class="dirCard" id="maquina${publicacao.idComputador}"></div>
+                <div class="down-card cima">
+                    <div class="esqCard">
+                        <figure class="iconComp">
+                            <img src="${computadorIcon}" alt="Ícone do Computador">
+                        </figure>
+                    </div>
+                    ${publicacao.tipoAlerta ? `
+                    <div class="dirCard">
+                        <div class="alertaMaquina">
+                            <figure> 
+                                <img src="${publicacao.tipoAlerta === 1 ? '.././src/img/icons/alerta1.png' : '.././src/img/icons/alerta2.png'}" alt="Ícone do Alerta"> 
+                            </figure>
+                            <p>${mensagemAlerta}</p>
                         </div>
-                        <div class="down-card">
-                            <div class="content-card">
-                                <p><b>ID:</b> ${publicacao.idComputador}</p>
-                                <p><b>Equipe:</b> ${publicacao.fkEquipe}</p>
-                                <p><b>Funcionário:</b> ${publicacao.nomeFuncionario}</p>
-                                <p><b>Status:</b> <span style="color: ${statusColor};">${status}</span></p>
-                            </div>
-                            <div id="editar" class="up-card">
-                                <img src=".././src/img/icons/editar.svg" id="editar" onclick="atualizarMaquina(${publicacao.idComputador})">
-                                <img src=".././src/img/icons/excluir.svg" id="editar" onclick="deletar(${publicacao.idComputador})">
-                            </div>
-                        </div>
-                    `;
+                    </div>` : ''}
+                </div>
+                <div class="down-card">
+                    <div class="content-card">
+                        <p><b>ID:</b> ${publicacao.idComputador}</p>
+                        <p><b>Equipe:</b> ${publicacao.fkEquipe}</p>
+                        <p><b>Funcionário:</b> ${publicacao.nomeFuncionario}</p>
+                        <p><b>Status:</b> <span style="color: ${statusColor};">${status}</span></p>
+                    </div>
+                    <div class="up-card">
+                        <img src=".././src/img/icons/editar.svg" alt="Editar" onclick="atualizarMaquina(${publicacao.idComputador})">
+                        <img src=".././src/img/icons/excluir.svg" alt="Excluir" onclick="deletar(${publicacao.idComputador})">
+                    </div>
+                </div>
+            `;
+
                     feed.appendChild(card);
                 });
             })
@@ -495,6 +526,7 @@
                 console.error("Erro ao atualizar o feed:", erro);
             });
     }
+    setInterval(atualizarFeed, 2000);
 
     function gerarGraficoEquipes(fkEmpresa) {
         fetch(`/dispositivos/equipes/${fkEmpresa}`)
@@ -600,12 +632,14 @@
             .catch(error => console.error('Erro ao carregar os dados:', error));
     }
 
-
-
     //============== GRÁFICO DE MONITORAMENTO EM TEMPO REAL  ==================================================================================
     let idComponente = 0
     let idComputador = 0;
     function alterarComponente(componenteId, card = cardId) {
+
+        // const idComputadorModal = document.getElementById("idComputadorModal")
+        // idComputadorModal.innerHTML = `${idComputador}`
+
         console.log(`Componente encontrado: ${componenteId}`);
 
         const aside = document.querySelector(".aside");
@@ -736,7 +770,6 @@
         bside.style.display = 'none';
         historico.style.display = 'flex';
 
-        console.log(`URL gerada: /dispositivos/historico/1/3`);
         fetch(`/dispositivos/historico/${fkEmpresa}/${cardId}`, {
             cache: 'no-store',
             method: "GET",
@@ -745,12 +778,14 @@
                 console.log(response);
                 const listaAlertas = document.querySelector(".listaAlertas");
                 const idMaquina = document.getElementById("idMaquina"); // Acha o elemento idMaquina
+                const idComputadorModal = document.getElementById("idComputadorModal")
 
                 if (response.ok) {
                     if (response.status == 204) {
                         // Exibe a mensagem quando não há alertas
                         listaAlertas.innerHTML = `Nenhum alerta encontrado.`;
                         idMaquina.innerHTML = `Histórico de alertas da máquina ${idComputador} - Total: 0 alertas.`;
+                        idComputadorModal.innerHTML = `${idComputador}`
                         return; // Sai do processamento aqui, já que não há dados
                     }
                     return response.json(); // Retorna o JSON com os alertas
@@ -761,6 +796,7 @@
             .then(alertas => {
                 const listaAlertas = document.querySelector(".listaAlertas");
                 const idMaquina = document.getElementById("idMaquina");
+
 
                 // Verifica se a resposta está vazia
                 if (alertas.length === 0) {
@@ -858,6 +894,8 @@
             const ultimosLat = dadosRecebidos.slice(-20).map(item => item.latencia);
             const ultimasDatas = dadosRecebidos.slice(-20).map(item => item.dataCaptura);
 
+            const mediaLatencia = ultimosLat.reduce((acc, val) => acc + val, 0) / ultimosLat.length;
+
             // Inicialização do gráfico vazio
             window.chartREDE = new Chart(cRede, {
                 type: 'line',
@@ -868,7 +906,17 @@
                         data: ultimosLat, // Inicialmente vazio
                         borderWidth: 1,
                         borderColor: "#FF6384",
-                        backgroundColor: "rgba(255, 99, 132, 0.2)"
+                        backgroundColor: "rgba(255, 99, 132, 0.2)",
+                        fill: true,
+                    },
+                    {
+                        label: 'Média de Latência',
+                        data: Array(ultimosLat.length).fill(mediaLatencia), // Linha da média
+                        borderWidth: 2,
+                        borderColor: "#4CAF50",
+                        backgroundColor: "#4CAF50",
+                        borderDash: [10, 5], // Linha tracejada
+                        fill: false,
                     }]
                 },
                 options: {

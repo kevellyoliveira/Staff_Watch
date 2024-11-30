@@ -251,26 +251,7 @@ join auxcomponente aux on aux.idAuxComponente = ca.fkAuxComponente
 join computador maq on maq.idComputador = ca.fkComputador
 where maq.fkEmpresa = 1 and fkComputador = 2;
 
-
--- teste texto
-SELECT CONCAT('Alerta ',
-        IF(a.tipoAlerta = 1, 'amarelo', 'vermelho'),
-        ' em ', DATE_FORMAT(ca.dataCaptura, '%d/%m/%Y'), ' às ', DATE_FORMAT(ca.dataCaptura, '%H:%i:%s'),
-        ' em ', IF(aux.idAuxComponente in (8, 11, 12), 'porcentagem de uso', 'pacotes enviados e recebidos'),
-        ' do componente ', co.nome, ' --> ', ca.captura, '', aux.descricao
-    ) AS mensagem, maq.idComputador, 
-    (SELECT COUNT(*) -- outra subquery do mesmo select pra obter a contagem de linhas retornadas!!
-     FROM captura ca2
-     RIGHT JOIN alerta a2 ON a2.fkCaptura = ca2.idCaptura
-     JOIN auxcomponente aux2 ON aux2.idAuxComponente = ca2.fkAuxComponente
-     WHERE ca2.fkComputador = maq.idComputador AND maq.fkEmpresa = 1 AND ca2.fkComputador = 2) AS qtdAlertas
-FROM captura ca
-RIGHT JOIN alerta a ON a.fkCaptura = ca.idCaptura
-JOIN componente co ON co.idComponente = ca.fkComponente
-JOIN auxcomponente aux ON aux.idAuxComponente = ca.fkAuxComponente
-JOIN computador maq ON maq.idComputador = ca.fkComputador
-WHERE maq.fkEmpresa = 1 AND fkComputador = 2
-group by mensagem, maq.idComputador;
+select * from auxCOmponente;
 
 -- --------------------------- quantidade de alertas por componente em cada equipe 
 -- create or replace view view_alertasComponenteEquipe as
@@ -306,6 +287,8 @@ left join captura c on al.fkCaptura = c.idCaptura
 left join componente comp on c.fkComponente = comp.idComponente
 left join auxcomponente aux on aux.idAuxComponente = c.fkAuxComponente
 left join computador maq on maq.idComputador = c.fkComponente;
+
+select * from view_obterAlertasNaListagem;
 
 -- na model
 -- select * from view_obterAlertasNaListagem where fkEmpresa = 1 and idComputador = ?;
@@ -401,6 +384,145 @@ where maq.fkEmpresa = 1
 group by maq.fkEquipe, co.nome 
 order by maq.fkEquipe, co.nome;
 
+-- ------------------------------------------------------------------ teste listagem com alerta
+desc auxcomponente;
+select 
+c.idComputador, c.status, c.fkEquipe, c.fkFuncionario, 
+f.nome as nomeFuncionario, 
+e.nome as nomeEquipe, 
+a.tipoAlerta, 
+cap.dataCaptura, cap.captura, 
+aux.idAuxComponente, aux.unidadeMedida, 
+co.nome as nomeComponente 
+from computador c 
+join funcionario f on c.fkFuncionario = f.idFuncionario 
+join equipe e on c.fkEquipe = e.idEquipe 
+left join (
+    select 
+        a1.idAlerta, 
+        a1.tipoAlerta, 
+        a1.fkCaptura 
+    from alerta a1 
+    inner join (
+        select 
+            cap.fkComputador, 
+            max(a.idAlerta) as ultimoAlerta 
+        from alerta a 
+        join captura cap on cap.idCaptura = a.fkCaptura 
+        group by cap.fkComputador
+    ) ultimosAlertas on a1.idAlerta = ultimosAlertas.ultimoAlerta
+) a on exists (
+    select 1 
+    from captura cap2 
+    where cap2.idCaptura = a.fkCaptura 
+    and cap2.fkComputador = c.idComputador
+) 
+left join captura cap on cap.idCaptura = a.fkCaptura 
+left join componente co on co.idComponente = cap.fkComponente 
+left join auxComponente aux on aux.idAuxComponente = cap.fkAuxComponente 
+where f.fkCargo = 4 
+order by c.status, cap.dataCaptura desc;
+
+
+select * from alerta 
+join captura on alerta.fkCaptura = captura.idCaptura
+where fkComponente = 3;
+
+desc captura;
+select * from auxcomponente;
+select * from captura where fkauxcomponente = 8;
+
+
+select 
+    c.idComputador, 
+    c.status, 
+    c.fkEquipe, 
+    c.fkEmpresa, 
+    c.fkFuncionario, 
+    f.nome as nomeFuncionario, 
+    e.nome as nomeEquipe, 
+    max(a.tipoAlerta) as tipoAlerta, 
+    max(cap.dataCaptura) as dataCaptura, 
+    max(cap.captura) as captura, 
+    max(aux.idAuxComponente) as idAuxComponente, 
+    max(aux.descricao) as descricao, 
+    max(co.nome) as nomeComponente 
+from computador c 
+join funcionario f on c.fkFuncionario = f.idFuncionario 
+join equipe e on c.fkEquipe = e.idEquipe 
+left join (
+    select 
+        cap1.idCaptura, 
+        cap1.dataCaptura, 
+        cap1.captura, 
+        cap1.fkComputador, 
+        cap1.fkComponente, 
+        cap1.fkAuxComponente 
+    from captura cap1 
+    inner join (
+        select 
+            fkComputador, 
+            max(dataCaptura) as ultimaCaptura 
+        from captura 
+        group by fkComputador
+    ) cap2 on cap1.fkComputador = cap2.fkComputador 
+          and cap1.dataCaptura = cap2.ultimaCaptura
+) cap on cap.fkComputador = c.idComputador 
+left join alerta a on a.fkCaptura = cap.idCaptura 
+left join componente co on co.idComponente = cap.fkComponente 
+left join auxComponente aux on aux.idAuxComponente = cap.fkAuxComponente 
+where f.fkCargo = 4 
+group by 
+    c.idComputador, 
+    c.status, 
+    c.fkEquipe, 
+    c.fkEmpresa, 
+    c.fkFuncionario, 
+    f.nome, 
+    e.nome 
+order by 
+    c.status, 
+    max(cap.dataCaptura) desc;
+    
+
+
+
+
+
+
+
+
+-- -------------------------
+
+SELECT
+c.idComputador, c.status, c.fkEquipe, c.fkEmpresa, c.fkFuncionario,
+f.nome AS nomeFuncionario,
+e.nome AS nomeEquipe,
+a.tipoAlerta, cap.dataCaptura, cap.captura, aux.idAuxComponente, co.nome AS nomeComponente, aux.descricao, c.idComputador
+FROM computador c
+JOIN funcionario f ON c.fkFuncionario = f.idFuncionario
+JOIN equipe e ON c.fkEquipe = e.idEquipe
+left join captura cap on cap.fkComputador = c.idComputador
+left join componente co on co.idComponente = cap.fkComponente
+left join auxComponente aux on aux.idAuxComponente = cap.fkAuxComponente
+LEFT JOIN alerta a ON a.fkCaptura = cap.idCaptura AND a.idAlerta = (
+																	SELECT al2.idAlerta 
+																	FROM captura cap2
+																	JOIN alerta al2 ON cap2.idCaptura = al2.fkCaptura
+																	WHERE cap2.fkComputador = c.idComputador 
+																	ORDER BY cap2.dataCaptura DESC LIMIT 1)
+where f.fkCargo = 4;
+
+
+    
+
+
+
+desc alerta;
+
+
+select count(idAlerta) from alerta where id;
+desc computador;
 -- ----------------------------------------------------------------   comandos ----------------------------------------------------------------
 desc captura;
 select * from alerta;
