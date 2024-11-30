@@ -1,4 +1,4 @@
-package repositories
+package repositorio
 
 import com.slack.api.Slack
 import com.slack.api.webhook.Payload
@@ -22,7 +22,7 @@ class DiscoRepository {
     }
 
     fun listarDiscoUso(): List<Int> {
-        return jdbcTemplate.queryForList("SELECT captura FROM Captura WHERE fkComponente = 3 AND fkAuxComponente = 9 AND captura >= 15000000 ORDER BY idCaptura DESC LIMIT 1", Int::class.java)
+        return jdbcTemplate.queryForList("SELECT captura FROM Captura WHERE fkComponente = 3 AND fkAuxComponente = 9 AND captura >= 150 ORDER BY idCaptura DESC LIMIT 1", Int::class.java)
     }
 
     fun listarDiscoTotal(): List<Int> {

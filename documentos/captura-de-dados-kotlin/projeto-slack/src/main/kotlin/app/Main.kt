@@ -1,4 +1,6 @@
-import repositories.*
+package app
+
+import repositorio.*
 
 fun main() {
 

@@ -1,4 +1,4 @@
-package repositories
+package repositorio
 
 import com.slack.api.Slack
 import com.slack.api.webhook.Payload
