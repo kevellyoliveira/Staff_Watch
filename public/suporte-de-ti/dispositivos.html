@@ -59,8 +59,8 @@
                 <h3></h3>
 
                 <input type="text" name="Pesquisar" id="pesquisar_input" required="required" autocomplete="off"
-                    placeholder="Pesquisar máquina pelo ID" onkeyup="listarPorUsuario()"><button onclick="listarPorUsuario()"><i
-                        class="fa-solid fa-magnifying-glass"></i></button>
+                    placeholder="Pesquisar máquina pelo ID" onkeyup="listarPorUsuario()"><button
+                    onclick="listarPorUsuario()"><i class="fa-solid fa-magnifying-glass"></i></button>
             </article>
 
             <section class="sectioncard" id="sectioncard">
@@ -625,8 +625,8 @@
                         {
                             label: 'RAM',
                             data: datasets.RAM,
-                            backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                            borderColor: 'rgba(75, 192, 192, 1)',
+                            backgroundColor: 'rgba(75, 192, 192, 0.4)',
+                            borderColor: '#4BC0C0',
                             borderWidth: 1
                         },
                         {
@@ -926,13 +926,12 @@
         const cRede = document.getElementById('chartREDE');
 
         let idMonitoramentoGrafico = document.getElementById("idMonitoramentoGrafico")
-            idMonitoramentoGrafico.innerHTML = "Utilização:"
+        idMonitoramentoGrafico.innerHTML = "Utilização:"
 
         if (idComponente == 1) { // rede
             if (window.chartREDE instanceof Chart) {
                 window.chartREDE.destroy();
             }
-            const ultimosPctPerd = dadosRecebidos.slice(-20).map(item => item.pctPerd);
             const ultimosLat = dadosRecebidos.slice(-20).map(item => item.latencia);
             const ultimasDatas = dadosRecebidos.slice(-20).map(item => item.dataCaptura);
 
@@ -946,16 +945,96 @@
                     datasets: [{
                         label: 'Latência (ms)',
                         data: ultimosLat, // Inicialmente vazio
-                        borderWidth: 1,
+                        borderWidth: 3,
                         borderColor: "#FF6384",
                         backgroundColor: "rgba(255, 99, 132, 0.2)",
-                        fill: true,
+                        tension: 0.4, // Curvatura da linha (0 = reta, 1 = muito curva)
+                        pointStyle: 'circle', // Estilo dos pontos (circle, rect, rectRot, triangle, star, etc.)
+                        pointRadius: 2, // Tamanho dos pontos na linha
+                        pointBorderColor: 'rgba(255, 99, 132, 0.2)', // Cor da borda dos pontos
+                        pointBackgroundColor: 'rgba(255, 255, 255, 1)', // Cor de fundo dos pontos
+                        pointHoverRadius: 7, // Tamanho dos pontos ao passar o mouse
+                        pointHoverBackgroundColor: 'rgba(255, 255, 255, 1)', // Cor de fundo dos pontos ao passar o mouse
+                        pointHoverBorderColor: '#FF6384', // Cor da borda dos pontos ao passar o mouse
+                        pointHoverBorderWidth: 3, // Espessura da borda dos pontos ao passar o mouse
+                        showLine: true, // Mostra ou esconde a linha (false para mostrar apenas os pontos)
+                        fill: true, // Preenchimento abaixo da linha (false para desativar)
+                        hoverBorderWidth: 3 // Espessura da linha ao passar o mouse
                     }]
                 },
                 options: {
+                    responsive: true, // Torna o gráfico responsivo
+                    maintainAspectRatio: false, // Permite ajuste independente da proporção
+                    animation: {
+                        duration: 800, // Define a duração total da animação em milissegundos
+                        easing: 'easeInOutQuad', // Animação  para sincronizar o preenchimento
+                    },
                     scales: {
-                        y: {
-                            beginAtZero: true
+                        x: {
+                            grid: {
+                                color: 'rgba(200, 200, 200, 0.2)', // Cor da grade no eixo x
+                                lineWidth: 1, // Espessura das linhas de grade
+                            },
+                            ticks: {
+                                color: '#000', // Cor das labels do eixo x
+                                font: {
+                                    size: 14, // Tamanho da fonte das labels
+                                    family: 'Arial', // Família da fonte
+                                    style: 'italic', // Estilo da fonte
+                                }
+                            }
+                        },
+                        y: { // Configurações do eixo y
+                            beginAtZero: true, // Inicia o eixo y no valor 0
+                            grid: {
+                                color: 'rgba(200, 200, 200, 0.2)', // Cor da grade no eixo y
+                                borderDash: [5, 5], // Estilo tracejado para a grade
+                            },
+                            ticks: {
+                                color: '#000', // Cor das labels do eixo y
+                                font: {
+                                    size: 12, // Tamanho da fonte das labels
+                                    family: 'Verdana', // Família da fonte
+                                    weight: 'bold', // Peso da fonte (bold, normal, etc.)
+                                }
+                            }
+                        }
+                    },
+                    transitions: {
+                        active: {
+                            animation: {
+                                duration: 300 // Reduz o tempo de animação para atualizações dinâmicas
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: { // Configurações da legenda
+                            display: true, // Mostra ou esconde a legenda
+                            position: 'top', // Posição da legenda (top, bottom, left, right)
+                            labels: {
+                                color: '#FF6384', // Cor do texto da legenda
+                                font: {
+                                    size: 14, // Tamanho da fonte da legenda
+                                    // style: 'bold' // Estilo da fonte da legenda
+                                },
+                                usePointStyle: true, // Usa o estilo dos pontos como ícones na legenda
+                                boxHeight: 10, // Altura do ícone na legenda
+                            }
+                        },
+                        tooltip: { // Configurações dos tooltips (dicas ao passar o mouse)
+                            enabled: true, // Ativa/desativa os tooltips
+                            backgroundColor: 'rgba(0, 0, 0, 0.6)', // Cor de fundo do tooltip
+                            titleColor: '#ffffff', // Cor do título no tooltip
+                            bodyColor: '#ffffff', // Cor do texto no tooltip
+                            borderColor: '#FF6384', // Cor da borda do tooltip
+                            borderWidth: 2, // Espessura da borda do tooltip
+                            cornerRadius: 4, // Arredondamento dos cantos do tooltip
+                            caretPadding: 5, // Espaço entre o tooltip e o ponto
+                            callbacks: { // Funções personalizadas para o conteúdo do tooltip
+                                label: function (context) {
+                                    return context.raw + '%'; // Adiciona "%" ao valor do dado
+                                }
+                            }
                         }
                     }
                 }
@@ -979,15 +1058,96 @@
                     datasets: [{
                         label: '% de uso',
                         data: ultimosDados, // Inicialmente vazio
-                        borderWidth: 1,
-                        borderColor: "#C7D",
-                        backgroundColor: "#C7D"
+                        borderWidth: 3,
+                        borderColor: "#228B22", 
+                        backgroundColor: "rgba(34, 139, 34, 0.3)",
+                        tension: 0.4, // Curvatura da linha (0 = reta, 1 = muito curva)
+                        pointStyle: 'circle', // Estilo dos pontos (circle, rect, rectRot, triangle, star, etc.)
+                        pointRadius: 2, // Tamanho dos pontos na linha
+                        pointBorderColor: 'rgba(34, 139, 34, 0.3)', // Cor da borda dos pontos
+                        pointBackgroundColor: 'rgba(255, 255, 255, 1)', // Cor de fundo dos pontos
+                        pointHoverRadius: 7, // Tamanho dos pontos ao passar o mouse
+                        pointHoverBackgroundColor: 'rgba(255, 255, 255, 1)', // Cor de fundo dos pontos ao passar o mouse
+                        pointHoverBorderColor: '#228B22', // Cor da borda dos pontos ao passar o mouse
+                        pointHoverBorderWidth: 3, // Espessura da borda dos pontos ao passar o mouse
+                        showLine: true, // Mostra ou esconde a linha (false para mostrar apenas os pontos)
+                        fill: true, // Preenchimento abaixo da linha (false para desativar)
+                        hoverBorderWidth: 3 // Espessura da linha ao passar o mouse
                     }]
                 },
                 options: {
+                    responsive: true, // Torna o gráfico responsivo
+                    maintainAspectRatio: false, // Permite ajuste independente da proporção
+                    animation: {
+                        duration: 800, // Define a duração total da animação em milissegundos
+                        easing: 'easeInOutQuad', // Animação  para sincronizar o preenchimento
+                    },
                     scales: {
-                        y: {
-                            beginAtZero: true
+                        x: {
+                            grid: {
+                                color: 'rgba(200, 200, 200, 0.2)', // Cor da grade no eixo x
+                                lineWidth: 1, // Espessura das linhas de grade
+                            },
+                            ticks: {
+                                color: '#000', // Cor das labels do eixo x
+                                font: {
+                                    size: 14, // Tamanho da fonte das labels
+                                    family: 'Arial', // Família da fonte
+                                    style: 'italic', // Estilo da fonte
+                                }
+                            }
+                        },
+                        y: { // Configurações do eixo y
+                            beginAtZero: true, // Inicia o eixo y no valor 0
+                            grid: {
+                                color: 'rgba(200, 200, 200, 0.2)', // Cor da grade no eixo y
+                                borderDash: [5, 5], // Estilo tracejado para a grade
+                            },
+                            ticks: {
+                                color: '#000', // Cor das labels do eixo y
+                                font: {
+                                    size: 12, // Tamanho da fonte das labels
+                                    family: 'Verdana', // Família da fonte
+                                    weight: 'bold', // Peso da fonte (bold, normal, etc.)
+                                }
+                            }
+                        }
+                    },
+                    transitions: {
+                        active: {
+                            animation: {
+                                duration: 300 // Reduz o tempo de animação para atualizações dinâmicas
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: { // Configurações da legenda
+                            display: true, // Mostra ou esconde a legenda
+                            position: 'top', // Posição da legenda (top, bottom, left, right)
+                            labels: {
+                                color: '#228B22', // Cor do texto da legenda
+                                font: {
+                                    size: 14, // Tamanho da fonte da legenda
+                                    // style: 'bold' // Estilo da fonte da legenda
+                                },
+                                usePointStyle: true, // Usa o estilo dos pontos como ícones na legenda
+                                boxHeight: 10, // Altura do ícone na legenda
+                            }
+                        },
+                        tooltip: { // Configurações dos tooltips (dicas ao passar o mouse)
+                            enabled: true, // Ativa/desativa os tooltips
+                            backgroundColor: 'rgba(0, 0, 0, 0.6)', // Cor de fundo do tooltip
+                            titleColor: '#ffffff', // Cor do título no tooltip
+                            bodyColor: '#ffffff', // Cor do texto no tooltip
+                            borderColor: '#228B22', // Cor da borda do tooltip
+                            borderWidth: 2, // Espessura da borda do tooltip
+                            cornerRadius: 4, // Arredondamento dos cantos do tooltip
+                            caretPadding: 5, // Espaço entre o tooltip e o ponto
+                            callbacks: { // Funções personalizadas para o conteúdo do tooltip
+                                label: function (context) {
+                                    return context.raw + '%'; // Adiciona "%" ao valor do dado
+                                }
+                            }
                         }
                     }
                 }
@@ -1011,15 +1171,96 @@
                     datasets: [{
                         label: '% de uso',
                         data: ultimosDados, // Inicialmente vazio
-                        borderWidth: 1,
-                        borderColor: "rgba(75, 192, 192, 1)",
-                        backgroundColor: "rgba(75, 192, 192, 0.6)"
+                        borderWidth: 3,
+                        borderColor: "#4BC0C0",
+                        backgroundColor: "rgba(75, 192, 192, 0.4)",
+                        tension: 0.4, // Curvatura da linha (0 = reta, 1 = muito curva)
+                        pointStyle: 'circle', // Estilo dos pontos (circle, rect, rectRot, triangle, star, etc.)
+                        pointRadius: 2, // Tamanho dos pontos na linha
+                        pointBorderColor: 'rgba(75, 192, 192, 0.4)', // Cor da borda dos pontos
+                        pointBackgroundColor: 'rgba(255, 255, 255, 1)', // Cor de fundo dos pontos
+                        pointHoverRadius: 7, // Tamanho dos pontos ao passar o mouse
+                        pointHoverBackgroundColor: 'rgba(255, 255, 255, 1)', // Cor de fundo dos pontos ao passar o mouse
+                        pointHoverBorderColor: '#4BC0C0', // Cor da borda dos pontos ao passar o mouse
+                        pointHoverBorderWidth: 3, // Espessura da borda dos pontos ao passar o mouse
+                        showLine: true, // Mostra ou esconde a linha (false para mostrar apenas os pontos)
+                        fill: true, // Preenchimento abaixo da linha (false para desativar)
+                        hoverBorderWidth: 3 // Espessura da linha ao passar o mouse
                     }]
                 },
                 options: {
+                    responsive: true, // Torna o gráfico responsivo
+                    maintainAspectRatio: false, // Permite ajuste independente da proporção
+                    animation: {
+                        duration: 800, // Define a duração total da animação em milissegundos
+                        easing: 'easeInOutQuad', // Animação  para sincronizar o preenchimento
+                    },
                     scales: {
-                        y: {
-                            beginAtZero: true
+                        x: {
+                            grid: {
+                                color: 'rgba(200, 200, 200, 0.2)', // Cor da grade no eixo x
+                                lineWidth: 1, // Espessura das linhas de grade
+                            },
+                            ticks: {
+                                color: '#000',  // Cor das labels do eixo x
+                                font: {
+                                    size: 14, // Tamanho da fonte das labels
+                                    family: 'Arial', // Família da fonte
+                                    style: 'italic', // Estilo da fonte
+                                }
+                            }
+                        },
+                        y: { // Configurações do eixo y
+                            beginAtZero: true, // Inicia o eixo y no valor 0
+                            grid: {
+                                color: 'rgba(200, 200, 200, 0.2)', // Cor da grade no eixo y
+                                borderDash: [5, 5], // Estilo tracejado para a grade
+                            },
+                            ticks: {
+                                color: '#000',  // Cor das labels do eixo y
+                                font: {
+                                    size: 12, // Tamanho da fonte das labels
+                                    family: 'Verdana', // Família da fonte
+                                    weight: 'bold', // Peso da fonte (bold, normal, etc.)
+                                }
+                            }
+                        }
+                    },
+                    transitions: {
+                        active: {
+                            animation: {
+                                duration: 300 // Reduz o tempo de animação para atualizações dinâmicas
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: { // Configurações da legenda
+                            display: true, // Mostra ou esconde a legenda
+                            position: 'top', // Posição da legenda (top, bottom, left, right)
+                            labels: {
+                                color: '#4BC0C0', // Cor do texto da legenda
+                                font: {
+                                    size: 14, // Tamanho da fonte da legenda
+                                    // style: 'bold' // Estilo da fonte da legenda
+                                },
+                                usePointStyle: true, // Usa o estilo dos pontos como ícones na legenda
+                                boxHeight: 10, // Altura do ícone na legenda
+                            }
+                        },
+                        tooltip: { // Configurações dos tooltips (dicas ao passar o mouse)
+                            enabled: true, // Ativa/desativa os tooltips
+                            backgroundColor: 'rgba(0, 0, 0, 0.6)', // Cor de fundo do tooltip
+                            titleColor: '#ffffff', // Cor do título no tooltip
+                            bodyColor: '#ffffff', // Cor do texto no tooltip
+                            borderColor: '#4BC0C0', // Cor da borda do tooltip
+                            borderWidth: 2, // Espessura da borda do tooltip
+                            cornerRadius: 4, // Arredondamento dos cantos do tooltip
+                            caretPadding: 5, // Espaço entre o tooltip e o ponto
+                            callbacks: { // Funções personalizadas para o conteúdo do tooltip
+                                label: function (context) {
+                                    return context.raw + '%'; // Adiciona "%" ao valor do dado
+                                }
+                            }
                         }
                     }
                 }
@@ -1039,23 +1280,105 @@
             window.chartCPU = new Chart(cCpu, {
                 type: 'line',
                 data: {
-                    labels: ultimasDatas, // Inicialmente vazio
+                    labels: ultimasDatas,
                     datasets: [{
                         label: '% de uso',
-                        data: ultimosDados, // Inicialmente vazio
-                        borderWidth: 1,
-                        borderColor: "rgba(54, 162, 235, 1)",
-                        backgroundColor: "rgba(54, 162, 235, 0.6)"
+                        data: ultimosDados,
+                        borderWidth: 3, // Espessura da linha
+                        borderColor: "rgba(54, 162, 235, 1)", // Cor da borda da linha
+                        backgroundColor: "rgba(54, 162, 235, 0.4)", // Preenchimento abaixo da linha
+                        tension: 0.4, // Curvatura da linha (0 = reta, 1 = muito curva)
+                        pointStyle: 'circle', // Estilo dos pontos (circle, rect, rectRot, triangle, star, etc.)
+                        pointRadius: 2, // Tamanho dos pontos na linha
+                        pointBorderColor: 'rgba(54, 162, 235, 0.4)', // Cor da borda dos pontos
+                        pointBackgroundColor: 'rgba(255, 255, 255, 1)', // Cor de fundo dos pontos
+                        pointHoverRadius: 7, // Tamanho dos pontos ao passar o mouse
+                        pointHoverBackgroundColor: 'rgba(255, 255, 255, 1)', // Cor de fundo dos pontos ao passar o mouse
+                        pointHoverBorderColor: 'rgba(54, 162, 235, 1)', // Cor da borda dos pontos ao passar o mouse
+                        pointHoverBorderWidth: 3, // Espessura da borda dos pontos ao passar o mouse
+                        showLine: true, // Mostra ou esconde a linha (false para mostrar apenas os pontos)
+                        fill: true, // Preenchimento abaixo da linha (false para desativar)
+                        hoverBorderWidth: 3 // Espessura da linha ao passar o mouse
                     }]
                 },
                 options: {
+                    responsive: true, // Torna o gráfico responsivo
+                    maintainAspectRatio: false, // Permite ajuste independente da proporção
+                    animation: {
+                        duration: 800, // Define a duração total da animação em milissegundos
+                        easing: 'easeInOutQuad', // Animação  para sincronizar o preenchimento
+                    },
                     scales: {
-                        y: {
-                            beginAtZero: true
+                        x: {
+                            grid: {
+                                color: 'rgba(200, 200, 200, 0.2)', // Cor da grade no eixo x
+                                lineWidth: 1, // Espessura das linhas de grade
+                            },
+                            ticks: {
+                                color: '#000', // Cor das labels do eixo x
+                                font: {
+                                    size: 14, // Tamanho da fonte das labels
+                                    family: 'Arial', // Família da fonte
+                                    style: 'italic', // Estilo da fonte
+                                }
+                            }
+                        },
+                        y: { // Configurações do eixo y
+                            beginAtZero: true, // Inicia o eixo y no valor 0
+                            grid: {
+                                color: 'rgba(200, 200, 200, 0.2)', // Cor da grade no eixo y
+                                borderDash: [5, 5], // Estilo tracejado para a grade
+                            },
+                            ticks: {
+                                color: '#000', // Cor das labels do eixo y
+                                font: {
+                                    size: 12, // Tamanho da fonte das labels
+                                    family: 'Verdana', // Família da fonte
+                                    weight: 'bold', // Peso da fonte (bold, normal, etc.)
+                                }
+                            }
+                        }
+                    },
+                    transitions: {
+                        active: {
+                            animation: {
+                                duration: 300 // Reduz o tempo de animação para atualizações dinâmicas
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: { // Configurações da legenda
+                            display: true, // Mostra ou esconde a legenda
+                            position: 'top', // Posição da legenda (top, bottom, left, right)
+                            labels: {
+                                color: 'rgba(54, 162, 235, 1)', // Cor do texto da legenda
+                                font: {
+                                    size: 14, // Tamanho da fonte da legenda
+                                    // style: 'bold' // Estilo da fonte da legenda
+                                },
+                                usePointStyle: true, // Usa o estilo dos pontos como ícones na legenda
+                                boxHeight: 10, // Altura do ícone na legenda
+                            }
+                        },
+                        tooltip: { // Configurações dos tooltips (dicas ao passar o mouse)
+                            enabled: true, // Ativa/desativa os tooltips
+                            backgroundColor: 'rgba(0, 0, 0, 0.6)', // Cor de fundo do tooltip
+                            titleColor: '#ffffff', // Cor do título no tooltip
+                            bodyColor: '#ffffff', // Cor do texto no tooltip
+                            borderColor: 'rgba(54, 162, 235, 1)', // Cor da borda do tooltip
+                            borderWidth: 2, // Espessura da borda do tooltip
+                            cornerRadius: 4, // Arredondamento dos cantos do tooltip
+                            caretPadding: 5, // Espaço entre o tooltip e o ponto
+                            callbacks: { // Funções personalizadas para o conteúdo do tooltip
+                                label: function (context) {
+                                    return context.raw + '%'; // Adiciona "%" ao valor do dado
+                                }
+                            }
                         }
                     }
                 }
             });
+
             // Garante que o gráfico foi criado antes de chamar a atualização
             console.log("myChart inicializado:", chartCPU);
             graficoAtual = window.chartCPU;
