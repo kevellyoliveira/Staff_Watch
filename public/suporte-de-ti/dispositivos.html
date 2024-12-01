@@ -56,8 +56,10 @@
             </section> -->
 
             <article class="title">
+                <h3></h3>
+
                 <input type="text" name="Pesquisar" id="pesquisar_input" required="required" autocomplete="off"
-                    placeholder="Pesquisar máquina pelo ID"><button onclick="listarPorUsuario()"><i
+                    placeholder="Pesquisar máquina pelo ID" onkeyup="listarPorUsuario()"><button onclick="listarPorUsuario()"><i
                         class="fa-solid fa-magnifying-glass"></i></button>
             </article>
 
@@ -679,6 +681,7 @@
 
         console.log(`Componente encontrado: ${componenteId}`);
 
+
         const aside = document.querySelector(".aside");
         aside.style.display = 'flex';
 
@@ -922,6 +925,8 @@
         const cRam = document.getElementById('chartRAM');
         const cRede = document.getElementById('chartREDE');
 
+        let idMonitoramentoGrafico = document.getElementById("idMonitoramentoGrafico")
+            idMonitoramentoGrafico.innerHTML = "Utilização:"
 
         if (idComponente == 1) { // rede
             if (window.chartREDE instanceof Chart) {
@@ -931,8 +936,8 @@
             const ultimosLat = dadosRecebidos.slice(-20).map(item => item.latencia);
             const ultimasDatas = dadosRecebidos.slice(-20).map(item => item.dataCaptura);
 
-            const mediaLatencia = ultimosLat.reduce((acc, val) => acc + val, 0) / ultimosLat.length;
-
+            let idMonitoramentoGrafico = document.getElementById("idMonitoramentoGrafico")
+            idMonitoramentoGrafico.innerHTML = "Latência:"
             // Inicialização do gráfico vazio
             window.chartREDE = new Chart(cRede, {
                 type: 'line',
@@ -945,15 +950,6 @@
                         borderColor: "#FF6384",
                         backgroundColor: "rgba(255, 99, 132, 0.2)",
                         fill: true,
-                    },
-                    {
-                        label: 'Média de Latência',
-                        data: Array(ultimosLat.length).fill(mediaLatencia), // Linha da média
-                        borderWidth: 2,
-                        borderColor: "#4CAF50",
-                        backgroundColor: "#4CAF50",
-                        borderDash: [10, 5], // Linha tracejada
-                        fill: false,
                     }]
                 },
                 options: {
@@ -1214,6 +1210,11 @@
 
     function listarPorUsuario() {
         const inputPesquisa = document.getElementById("pesquisar_input").value;
+
+        if (inputPesquisa == '') {
+            atualizarFeed()
+            return
+        }
 
         if (intervaloFeed) {
             clearInterval(intervaloFeed);
