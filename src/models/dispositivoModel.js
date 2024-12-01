@@ -150,7 +150,8 @@ function listar(fkEmpresa) {
     return database.executar(instrucaoSql);
 }
 
-function historico(fkEmpresa, idComputador) {
+function historico(fkEmpresa, idComputador, dataFiltro) {
+
     console.log("ACESSEI O AVISO  MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function historico()");
     var instrucaoSql = `select a.tipoAlerta, ca.dataCaptura, ca.captura, aux.idAuxComponente, co.nome AS nomeComponente, aux.descricao, maq.idComputador
             from captura ca
@@ -158,7 +159,14 @@ function historico(fkEmpresa, idComputador) {
             join componente co on co.idComponente = ca.fkComponente
             join auxcomponente aux on aux.idAuxComponente = ca.fkAuxComponente
             join computador maq on maq.idComputador = ca.fkComputador
-            where maq.fkEmpresa = ${fkEmpresa} and fkComputador = ${idComputador} order by idCaptura desc;`;
+            where maq.fkEmpresa = ${fkEmpresa} and fkComputador = ${idComputador}`
+
+    // Se o filtro de data for fornecido, adicione uma condição WHERE para filtrar os dados pela data
+    if (dataFiltro != 0) {
+        instrucaoSql += ` and ca.dataCaptura >= '${dataFiltro}'`;
+    }
+    instrucaoSql += ` order by ca.idCaptura desc;`;
+
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
@@ -170,8 +178,8 @@ function equipes(fkEmpresa) {
                 left join captura ca on ca.fkComponente = co.idComponente 
                 left join alerta a on a.fkCaptura = ca.idCaptura 
                 left join computador maq on maq.idComputador = ca.fkComputador 
-                where maq.fkEmpresa = ${fkEmpresa}
-                group by maq.fkEquipe, co.nome order by maq.fkEquipe, co.nome;`;
+                where maq.fkEmpresa = ${ fkEmpresa }
+                group by maq.fkEquipe, co.nome order by maq.fkEquipe, co.nome; `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
@@ -179,32 +187,32 @@ function equipes(fkEmpresa) {
 //Listar a máquina buscaad
 function buscar(fkEmpresa, idComputador) {
     console.log("ACESSEI O AVISO  MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function buscar()");
-    var instrucaoSql = `select 
-        c.idComputador, c.status, c.fkEquipe, c.fkFuncionario, 
-        f.nome as nomeFuncionario, 
-        e.nome as nomeEquipe, 
-        a.tipoAlerta, 
-        cap.dataCaptura, cap.captura, 
-        aux.idAuxComponente, aux.unidadeMedida, 
+    var instrucaoSql = `select
+    c.idComputador, c.status, c.fkEquipe, c.fkFuncionario,
+        f.nome as nomeFuncionario,
+        e.nome as nomeEquipe,
+        a.tipoAlerta,
+        cap.dataCaptura, cap.captura,
+        aux.idAuxComponente, aux.unidadeMedida,
         co.nome as nomeComponente 
         from computador c 
         join funcionario f on c.fkFuncionario = f.idFuncionario 
         join equipe e on c.fkEquipe = e.idEquipe 
-        left join (
+        left join(
             select 
-                a1.idAlerta, 
-                a1.tipoAlerta, 
-                a1.fkCaptura 
+                a1.idAlerta,
+            a1.tipoAlerta,
+            a1.fkCaptura 
             from alerta a1 
-            inner join (
+            inner join(
                 select 
-                    cap.fkComputador, 
-                    max(a.idAlerta) as ultimoAlerta 
+                    cap.fkComputador,
+                max(a.idAlerta) as ultimoAlerta 
                 from alerta a 
                 join captura cap on cap.idCaptura = a.fkCaptura where dataCaptura >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
                 group by cap.fkComputador
             ) ultimosAlertas on a1.idAlerta = ultimosAlertas.ultimoAlerta
-        ) a on exists (
+        ) a on exists(
             select 1 
             from captura cap2 
             where cap2.idCaptura = a.fkCaptura 
@@ -213,7 +221,7 @@ function buscar(fkEmpresa, idComputador) {
         left join captura cap on cap.idCaptura = a.fkCaptura 
         left join componente co on co.idComponente = cap.fkComponente 
         left join auxComponente aux on aux.idAuxComponente = cap.fkAuxComponente 
-        where f.fkCargo = 4 and c.fkEmpresa = ${fkEmpresa} and c.idComputador = ${idComputador};`;
+        where f.fkCargo = 4 and c.fkEmpresa = ${ fkEmpresa } and c.idComputador = ${ idComputador }; `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }

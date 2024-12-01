@@ -330,7 +330,24 @@
                     </div>
                     <!-- tela de histórico -->
                     <div id="dashHistorico" class="historico">
-                        <h3 id="idMaquina">Histórico de alertas da máquina X</h3>
+                        <h3 id="idMaquina">Histórico de alertas da máquina </h3>
+                        <div class="filtro">
+                            <h6>Filtre pela data: </h6>
+                            <select name="opcoes" class="selectFiltro" id="seletorFiltro">
+                                <option value="total">Total</option>
+                                <option value="24h">Últimas 24 horas</option>
+                                <option value="7d">Últimos 7 dias</option>
+                                <option value="30d">Últimos 30 dias</option>
+                                <option value="365d">Últimos 365 dias</option>
+                            </select>
+
+                            <h6>Filtre pela gravidade de alerta: </h6>
+                            <select name="opcoesAlerta" class="selectFiltro" id="seletorFiltroAlerta">
+                                <option value="total">Total</option>
+                                <option value="amarelo">Amarelo</option>
+                                <option value="vermelho">Vermelho</option>
+                            </select>
+                        </div>
                         <div class="listaAlertas">
                             <p>Nenhum alerta emitido.</p>
                         </div>
@@ -355,6 +372,13 @@
 <script>
     var fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
     b_usuario.innerHTML = sessionStorage.NOME_USUARIO
+
+    let idComponente = 0;
+    let idComputador = 0;
+    let cardId = 0;
+    let dadosRecebidos = []; // Variável para armazenar os dados recebidos - funcao de buscar dados inicias
+    let intervaloAtivo = null;
+    let graficoAtual;
 
     function sair() {
         sessionStorage.clear()
@@ -383,6 +407,7 @@
 
     }
 
+    // função pra ativar uma máquina
     function atualizarMaquina(idComputador) {
         editarAlgo = true
         // Redireciona o usuário para a página de edição com o ID do funcionário como parâmetro na URL
@@ -407,6 +432,7 @@
         }
     }
 
+    // função pra desativar uma máquina
     function deletar(idComputador) {
         editarAlgo = true
         if (confirm("Tem a certeza de que deseja desativar esta máquina?")) {
@@ -427,7 +453,8 @@
                 });
         }
     }
-    let cardId = 0;
+
+    // função pra listar as máquinas com seus alertas
     function atualizarFeed() {
         var fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
 
@@ -567,6 +594,7 @@
     }
     intervaloFeed = setInterval(atualizarFeed, 2000);
 
+    // função pra gerar o gráfico de quantidade de alertas por equipe
     function gerarGraficoEquipes(fkEmpresa) {
         fetch(`/dispositivos/equipes/${fkEmpresa}`)
             .then(response => response.json())
@@ -588,7 +616,7 @@
                 };
 
                 result.forEach(row => {
-                    console.log('Componente recebido:', row.componente);
+                    // console.log('Componente recebido:', row.componente);
 
                     // Adiciona a equipe ao eixo X se ainda não estiver incluída
                     const equipeLabel = `Equipe ${row.equipe}`
@@ -668,12 +696,10 @@
                 const ctx = document.getElementById('graficoEquipe').getContext('2d');
                 new Chart(ctx, config);
             })
-            .catch(error => console.error('Erro ao carregar os dados:', error));
+            // .catch(error => console.error('Erro ao carregar os dados:', error));
     }
 
     //============== GRÁFICO DE MONITORAMENTO EM TEMPO REAL  ==================================================================================
-    let idComponente = 0
-    let idComputador = 0;
     function alterarComponente(componenteId, card = cardId) {
 
         // const idComputadorModal = document.getElementById("idComputadorModal")
@@ -790,15 +816,47 @@
         }
 
         if (componenteId === "dashHistorico") {
-            carregarHistoricoAlertas(cardId);
+            carregarHistoricoAlertas(cardId,);
             return;
         } else {
             obterDadosGrafico(idComponente, cardId)
         }
     }
 
+    document.getElementById("seletorFiltro").addEventListener("change", () => {
+        carregarHistoricoAlertas(cardId);
+    });
+
     function carregarHistoricoAlertas(idComputador = cardId) {
-        console.log(`idComputador em carregarHistorico: ${idComputador} e cardid: ${cardId}`)
+
+        // filtro pela data
+        const seletorFiltro = document.getElementById("seletorFiltro");
+
+        // Define o filtro inicial como "total" caso ainda não esteja definido
+
+        const filtroSelecionado = seletorFiltro.value;
+        let dataFiltro = "";
+        const currentDate = new Date();
+
+        console.log(`filtro selecionado: ${filtroSelecionado}`)
+        // definindo o filtro de data com base na seleção
+        if (filtroSelecionado === "24h") {
+            currentDate.setHours(currentDate.getHours() - 24);
+            dataFiltro = currentDate.toISOString();
+        } else if (filtroSelecionado === "7d") {
+            currentDate.setDate(currentDate.getDate() - 7);
+            dataFiltro = currentDate.toISOString();
+        } else if (filtroSelecionado === "30d") {
+            currentDate.setDate(currentDate.getDate() - 30);
+            dataFiltro = currentDate.toISOString();
+        } else if (filtroSelecionado === "365d") {
+            currentDate.setFullYear(currentDate.getFullYear() - 1);
+            dataFiltro = currentDate.toISOString();
+        } else {
+            dataFiltro = 0
+        }
+
+
         if (intervaloAtivo) {
             clearInterval(intervaloAtivo);
             intervaloAtivo = null;
@@ -810,7 +868,8 @@
         bside.style.display = 'none';
         historico.style.display = 'flex';
 
-        fetch(`/dispositivos/historico/${fkEmpresa}/${cardId}`, {
+        console.warn(`fetch /dispositivos/historico/${fkEmpresa}/${cardId}/${dataFiltro}`)
+        fetch(`/dispositivos/historico/${fkEmpresa}/${cardId}/${dataFiltro}`, {
             cache: 'no-store',
             method: "GET",
         })
@@ -890,10 +949,7 @@
 
     }
 
-
     // Função para buscar os dados iniciais
-    let dadosRecebidos = []; // Variável para armazenar os dados recebidos
-    var fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
     function obterDadosGrafico(idComponente, card = cardId) {
 
         fetch(`/dispositivos/metrica/${fkEmpresa}/${idComponente}/${card}`, {
@@ -903,7 +959,7 @@
             .then(function (response) {
                 if (response.ok) {
                     response.json().then(function (resposta) {
-                        console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+                        // console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
                         dadosRecebidos = resposta; // Salva os dados recebidos
                         gerarGraficoTempoReal(idComponente, cardId); // Inicia o gráfico
                     });
@@ -916,7 +972,7 @@
             });
     }
 
-    let graficoAtual;
+    // função pra instanciar o gráfico com os dados iniciais
     function gerarGraficoTempoReal(idComponente, card = cardId) {
         // console.log(`Gerando gráfico em tempo real para o card: ${cardId} com o idCOmponente = ${idComponente}`);
 
@@ -1059,7 +1115,7 @@
                         label: '% de uso',
                         data: ultimosDados, // Inicialmente vazio
                         borderWidth: 3,
-                        borderColor: "#228B22", 
+                        borderColor: "#228B22",
                         backgroundColor: "rgba(34, 139, 34, 0.3)",
                         tension: 0.4, // Curvatura da linha (0 = reta, 1 = muito curva)
                         pointStyle: 'circle', // Estilo dos pontos (circle, rect, rectRot, triangle, star, etc.)
@@ -1386,7 +1442,7 @@
         }
     }
 
-    let intervaloAtivo = null;
+    // função pra atualizar o valor mais recente do gráfico
     function atualizarGrafico(idComponente, card = cardId) {
         let indiceAtual = 0;
 
@@ -1481,6 +1537,7 @@
         }, 3000); // Intervalo de 2 segundos
     }
 
+    // função pra atualizar a cor das KPIs de acordo com o último dado obtido
     function atualizarCor(elemento, valor) {
         if (elemento == redeLatencia) {
             if (valor >= 50) {
@@ -1513,6 +1570,7 @@
         }
     }
 
+    // função pra atualizar a KPI de média de acordo com o último dado obtido e os anteriores
     function atualizarMediaGrafico(idComponente) {
         const capturasExibidas = graficoAtual.data.datasets[0].data;
         const soma = capturasExibidas.reduce((acumulador, valor) => acumulador + valor, 0);
@@ -1531,6 +1589,7 @@
         }
     }
 
+    // função pra buscar e listar uma máquina específica - barrinha de busca
     function listarPorUsuario() {
         const inputPesquisa = document.getElementById("pesquisar_input").value;
 

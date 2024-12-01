@@ -275,6 +275,24 @@ button :hover {
     overflow: hidden;
 }
 
+.filtro {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.selectFiltro {
+    background-color: #002148;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    text-align: center;
+    display: flex;
+    box-shadow:1px 3px 3px 0 rgba(0, 0, 0, 0.3);
+}
+
+
+
 /* ====================================================================================================================== */
 
 

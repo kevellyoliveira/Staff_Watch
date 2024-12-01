@@ -68,10 +68,9 @@ function listar(req, res) {
 function historico(req, res) {
     var fkEmpresa = req.params.fkEmpresa;
     var idComputador = req.params.idComputador;
+    var dataFiltro = req.params.dataFiltro;
 
-    console.log("em controller a fkEMpresa e o idCOmputador sao: ", fkEmpresa, idComputador);
-
-    dispositivoModel.historico(fkEmpresa, idComputador)
+    dispositivoModel.historico(fkEmpresa, idComputador, dataFiltro)
         .then(function (resultado) {
             if (resultado.length > 0) {
                 res.status(200).json(resultado);

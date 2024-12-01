@@ -344,7 +344,19 @@ group by maq.fkEquipe, co.nome
 order by maq.fkEquipe, co.nome;
 
 -- -------------------------------------------------------------------------------   comandos e testes --------------------------------------------------------------------------------
+ select alerta.*, captura.* from alerta join captura on captura.idCaptura = alerta.fkCaptura order by idAlerta desc limit 4;
 
+-- teste de filtro por ano
+update captura set dataCaptura = '2023-12-01 11:53:28' where idCaptura = 2047; 
+
+-- teste de filtro por semana
+update captura set dataCaptura = '2024-11-23 11:53:28' where idCaptura = 2030;
+
+-- teste de filtro por dia
+update captura set dataCaptura = '2024-11-30 11:53:28' where idCaptura = 2014;
+
+-- teste de filtro por mes
+update captura set dataCaptura = '2024-10-31 11:53:28' where idCaptura = 1998;
 
 
 -- --------------------------- SELECTS - TELAS DE COMPONENTES - Matheus --------------------------------------------------------------------------------
