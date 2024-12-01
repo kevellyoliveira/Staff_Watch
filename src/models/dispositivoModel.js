@@ -131,7 +131,7 @@ function listar(fkEmpresa) {
                     cap.fkComputador, 
                     max(a.idAlerta) as ultimoAlerta 
                 from alerta a 
-                join captura cap on cap.idCaptura = a.fkCaptura 
+                join captura cap on cap.idCaptura = a.fkCaptura where dataCaptura >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
                 group by cap.fkComputador
             ) ultimosAlertas on a1.idAlerta = ultimosAlertas.ultimoAlerta
         ) a on exists (
@@ -179,11 +179,41 @@ function equipes(fkEmpresa) {
 //Listar a máquina buscaad
 function buscar(fkEmpresa, idComputador) {
     console.log("ACESSEI O AVISO  MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function buscar()");
-    var instrucaoSql = ` SELECT c.idComputador,c.status,c.fkEquipe, c.fkEmpresa, c.fkFuncionario, f.nome AS nomeFuncionario, e.nome AS nomeEquipe
-            FROM computador c
-            JOIN funcionario f ON c.fkFuncionario = f.idFuncionario
-            JOIN equipe e ON c.fkEquipe = e.idEquipe 
-            where f.fkCargo = 4 and c.fkEmpresa = ${fkEmpresa} and c.idComputador = ${idComputador} order by status;`;
+    var instrucaoSql = `select 
+        c.idComputador, c.status, c.fkEquipe, c.fkFuncionario, 
+        f.nome as nomeFuncionario, 
+        e.nome as nomeEquipe, 
+        a.tipoAlerta, 
+        cap.dataCaptura, cap.captura, 
+        aux.idAuxComponente, aux.unidadeMedida, 
+        co.nome as nomeComponente 
+        from computador c 
+        join funcionario f on c.fkFuncionario = f.idFuncionario 
+        join equipe e on c.fkEquipe = e.idEquipe 
+        left join (
+            select 
+                a1.idAlerta, 
+                a1.tipoAlerta, 
+                a1.fkCaptura 
+            from alerta a1 
+            inner join (
+                select 
+                    cap.fkComputador, 
+                    max(a.idAlerta) as ultimoAlerta 
+                from alerta a 
+                join captura cap on cap.idCaptura = a.fkCaptura where dataCaptura >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
+                group by cap.fkComputador
+            ) ultimosAlertas on a1.idAlerta = ultimosAlertas.ultimoAlerta
+        ) a on exists (
+            select 1 
+            from captura cap2 
+            where cap2.idCaptura = a.fkCaptura 
+            and cap2.fkComputador = c.idComputador
+        ) 
+        left join captura cap on cap.idCaptura = a.fkCaptura 
+        left join componente co on co.idComponente = cap.fkComponente 
+        left join auxComponente aux on aux.idAuxComponente = cap.fkAuxComponente 
+        where f.fkCargo = 4 and c.fkEmpresa = ${fkEmpresa} and c.idComputador = ${idComputador};`;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }

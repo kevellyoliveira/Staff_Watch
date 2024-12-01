@@ -283,7 +283,7 @@ left join (
             cap.fkComputador, 
             max(a.idAlerta) as ultimoAlerta 
         from alerta a 
-        join captura cap on cap.idCaptura = a.fkCaptura 
+        join captura cap on cap.idCaptura = a.fkCaptura where dataCaptura >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
         group by cap.fkComputador
     ) ultimosAlertas on a1.idAlerta = ultimosAlertas.ultimoAlerta
 ) a on exists (
@@ -295,10 +295,10 @@ left join (
 left join captura cap on cap.idCaptura = a.fkCaptura 
 left join componente co on co.idComponente = cap.fkComponente 
 left join auxComponente aux on aux.idAuxComponente = cap.fkAuxComponente 
-where f.fkCargo = 4 
+where f.fkCargo = 4
 order by c.status, cap.dataCaptura desc;
 
-
+select * from auxcomponente;
 -- --------------------------- gráfico em tempo real: uso de CPU
 select ca.captura, time(ca.dataCaptura) as dataCaptura, ca.modelo, ca.fkComputador, co.fkEmpresa
 from captura ca
