@@ -150,7 +150,7 @@ function listar(fkEmpresa) {
     return database.executar(instrucaoSql);
 }
 
-function historico(fkEmpresa, idComputador, dataFiltro) {
+function historico(fkEmpresa, idComputador, dataFiltro, filtroAlerta) {
 
     console.log("ACESSEI O AVISO  MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function historico()");
     var instrucaoSql = `select a.tipoAlerta, ca.dataCaptura, ca.captura, aux.idAuxComponente, co.nome AS nomeComponente, aux.descricao, maq.idComputador
@@ -165,6 +165,13 @@ function historico(fkEmpresa, idComputador, dataFiltro) {
     if (dataFiltro != 0) {
         instrucaoSql += ` and ca.dataCaptura >= '${dataFiltro}'`;
     }
+
+    if (filtroAlerta == 'vermelho') {
+        instrucaoSql += ` and a.tipoAlerta = 2`;
+    } else if (filtroAlerta == 'amarelo') {
+        instrucaoSql += ` and a.tipoAlerta = 1`;
+    }
+    
     instrucaoSql += ` order by ca.idCaptura desc;`;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);

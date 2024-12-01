@@ -823,22 +823,28 @@
         }
     }
 
+    // chama a função de carregarHistorico quando algum select de filtro é alterado!
     document.getElementById("seletorFiltro").addEventListener("change", () => {
+        carregarHistoricoAlertas(cardId);
+    });
+    document.getElementById("seletorFiltroAlerta").addEventListener("change", () => {
         carregarHistoricoAlertas(cardId);
     });
 
     function carregarHistoricoAlertas(idComputador = cardId) {
 
-        // filtro pela data
+        // filtro pela data e filtro pelo tipo de alerta!
         const seletorFiltro = document.getElementById("seletorFiltro");
+        const seletorFiltroAlerta = document.getElementById("seletorFiltroAlerta");
 
         // Define o filtro inicial como "total" caso ainda não esteja definido
 
         const filtroSelecionado = seletorFiltro.value;
+        const filtroAlerta = seletorFiltroAlerta.value;
+
         let dataFiltro = "";
         const currentDate = new Date();
 
-        console.log(`filtro selecionado: ${filtroSelecionado}`)
         // definindo o filtro de data com base na seleção
         if (filtroSelecionado === "24h") {
             currentDate.setHours(currentDate.getHours() - 24);
@@ -868,8 +874,7 @@
         bside.style.display = 'none';
         historico.style.display = 'flex';
 
-        console.warn(`fetch /dispositivos/historico/${fkEmpresa}/${cardId}/${dataFiltro}`)
-        fetch(`/dispositivos/historico/${fkEmpresa}/${cardId}/${dataFiltro}`, {
+        fetch(`/dispositivos/historico/${fkEmpresa}/${cardId}/${dataFiltro}/${filtroAlerta}`, {
             cache: 'no-store',
             method: "GET",
         })
