@@ -65,23 +65,6 @@ function listar(req, res) {
 }
 
 
-function listarAlertas(req, res) {
-    const fkEmpresa = req.params.fkEmpresa;
-    const idComputador = req.params.idComputador;
-
-    dispositivoModel.listarAlertas(fkEmpresa, idComputador).then(function (resultado) {
-        if (resultado.length > 0) {
-            res.status(200).json(resultado);
-        } else {
-            res.status(204).send("Nenhum resultado encontrado!");
-        }
-    }).catch(function (erro) {
-        console.log(erro);
-        console.log("Houve um erro ao buscar os alertas: ", erro.sqlMessage);
-        res.status(500).json(erro.sqlMessage);
-    });
-}
-
 function historico(req, res) {
     var fkEmpresa = req.params.fkEmpresa;
     var idComputador = req.params.idComputador;
@@ -140,7 +123,6 @@ module.exports = {
     gerarGraficoTempoReal,
     obterDadosGrafico,
     listar,
-    listarAlertas,
     historico,
     equipes,
     buscar
