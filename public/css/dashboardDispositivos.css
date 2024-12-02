@@ -31,6 +31,10 @@ header {
     color: #fff;
 }
 
+.maqInativa {
+    display: none;
+}
+
 .esq {
     display: flex;
     width: 80%;
@@ -201,20 +205,26 @@ header {
     min-height: 86.8vh;
 }
 
-/* barra de busca */
+/* barra de busca  e filtros*/
 .title {
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
     color: #002148;
     text-align: center;
     padding-top:3rem ;
+    gap: 3rem;
+}
+
+.pesquisa {
+    display: flex;
 }
 
 input {
     background-color: white;
     /* height: 25%; */
     padding: .5rem .3rem;
-    width: 20%;
     border: none;
     outline: none;
     border-radius: 5px 0% 0% 5px;
@@ -227,7 +237,7 @@ button {
     border: none;
     border-radius: 0% 10% 10% 0%;
     font-family: "Inter";
-    width: 5%;
+    width: 3rem;
 }
 
 button :hover {
@@ -275,12 +285,6 @@ button :hover {
     overflow: hidden;
 }
 
-.filtro {
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
-}
-
 .selectFiltro {
     background-color: #002148;
     color: white;
@@ -290,6 +294,21 @@ button :hover {
     display: flex;
     box-shadow:1px 3px 3px 0 rgba(0, 0, 0, 0.3);
 }
+
+.filtro {
+    display: flex;
+    flex-direction: row;
+    gap: .5rem;
+}
+
+.filtros {
+    display: flex;
+    flex-direction: row;
+    gap: 2.8rem;
+    padding-top: 1rem;
+}
+
+
 
 
 
