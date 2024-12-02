@@ -56,11 +56,30 @@
             </section> -->
 
             <article class="title">
-                <h3></h3>
+                <!-- <div class="filtros">
+                    <div class="filtro">
+                        <h3>Exibir alerta mais recente de:</h3>
+                        <select name="opcoes" class="selectFiltro" id="seletorFiltro">
+                            <option value="1h">Última 1 hora</option>
+                            <option value="3h">Últimas 3 horas</option>
+                            <option value="24h">Últimas 24 horas</option>
+                        </select>
+                    </div>
+                    <div class="filtro">
+                        <h3>Exibir alerta mais recente do tipo: </h3>
+                        <select name="opcoesAlerta" class="selectFiltro" id="seletorFiltroAlerta">
+                            <option value="total">Todos</option>
+                            <option value="amarelo">Amarelo</option>
+                            <option value="vermelho">Vermelho</option>
+                        </select>
+                    </div>
+                </div> -->
 
-                <input type="text" name="Pesquisar" id="pesquisar_input" required="required" autocomplete="off"
-                    placeholder="Pesquisar máquina pelo ID" onkeyup="listarPorUsuario()"><button
-                    onclick="listarPorUsuario()"><i class="fa-solid fa-magnifying-glass"></i></button>
+                <div class="pesquisa">
+                    <input type="text" name="Pesquisar" id="pesquisar_input" required="required" autocomplete="off"
+                        placeholder="Pesquisar máquina pelo ID" onkeyup="listarPorUsuario()"><button
+                        onclick="listarPorUsuario()"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </div>
             </article>
 
             <section class="sectioncard" id="sectioncard">
@@ -173,13 +192,16 @@
                         </h6>
                     </div>
 
+                    <div class="maqInativa">
+                        <h3>Não foi possível visualizar o desempenho da máquina: fora de operação.</h2>
+                    </div>
+
                     <div class="aside">
                         <div class="dadosComponente">
                             <div class="infosComponente">
                                 <!-- <h6 class="componente" id="idComponente"> CPU </h6> -->
                                 <h6 class="nomeComponente" id="idNomeComponente"> nome do componente </h6>
                             </div>
-
                             <h5 class="monitoramento" id="idMonitoramentoGrafico"> Utilização: </h5>
                         </div>
 
@@ -331,22 +353,38 @@
                     <!-- tela de histórico -->
                     <div id="dashHistorico" class="historico">
                         <h3 id="idMaquina">Histórico de alertas da máquina </h3>
-                        <div class="filtro">
-                            <h6>Filtre pela data: </h6>
-                            <select name="opcoes" class="selectFiltro" id="seletorFiltro">
-                                <option value="total">Total</option>
-                                <option value="24h">Últimas 24 horas</option>
-                                <option value="7d">Últimos 7 dias</option>
-                                <option value="30d">Últimos 30 dias</option>
-                                <option value="365d">Últimos 365 dias</option>
-                            </select>
+                        <div class="filtros">
 
-                            <h6>Filtre pela gravidade de alerta: </h6>
-                            <select name="opcoesAlerta" class="selectFiltro" id="seletorFiltroAlerta">
-                                <option value="total">Total</option>
-                                <option value="amarelo">Amarelo</option>
-                                <option value="vermelho">Vermelho</option>
-                            </select>
+                            <div class="filtro">
+                                <h6>Data do alerta: </h6>
+                                <select name="opcoes" class="selectFiltro" id="seletorFiltro">
+                                    <option value="total">Sempre</option>
+                                    <option value="24h">Últimas 24 horas</option>
+                                    <option value="7d">Últimos 7 dias</option>
+                                    <option value="30d">Últimos 30 dias</option>
+                                    <option value="365d">Últimos 365 dias</option>
+                                </select>
+                            </div>
+
+                            <div class="filtro">
+                                <h6>Gravidade de alerta: </h6>
+                                <select name="opcoesAlerta" class="selectFiltro" id="seletorFiltroAlerta">
+                                    <option value="total">Todos</option>
+                                    <option value="amarelo">Amarelo</option>
+                                    <option value="vermelho">Vermelho</option>
+                                </select>
+                            </div>
+
+                            <div class="filtro">
+                                <h6>Componente: </h6>
+                                <select name="opcoesAlerta" class="selectFiltro" id="seletorFiltroComponente">
+                                    <option value="0">Todos</option>
+                                    <option value="4">CPU</option>
+                                    <option value="3">Disco</option>
+                                    <option value="1">Rede</option>
+                                    <option value="2">Memória RAM</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="listaAlertas">
                             <p>Nenhum alerta emitido.</p>
@@ -518,8 +556,8 @@
                         <p><b>Status:</b> <span style="color: ${statusColor};">${status}</span></p>
                     </div>
                     <div class="up-card">
-                        <img src=".././src/img/icons/editar.svg" alt="Editar" onclick="atualizarMaquina(${publicacao.idComputador})">
-                        <img src=".././src/img/icons/excluir.svg" alt="Excluir" onclick="deletar(${publicacao.idComputador})">
+                        <img src=".././src/img/icons/editar.svg" id="editar" alt="Editar" onclick="atualizarMaquina(${publicacao.idComputador})">
+                        <img src=".././src/img/icons/excluir.svg" id="editar" alt="Excluir" onclick="deletar(${publicacao.idComputador})">
                     </div>
                 </div>
             `;
@@ -579,8 +617,8 @@
                                     <p><b>Status:</b> <span style="color: ${statusColor};">${status}</span></p>
                                 </div>
                                 <div class="up-card">
-                                    <img src=".././src/img/icons/editar.svg" alt="Editar" onclick="atualizarMaquina(${publicacao.idComputador})">
-                                    <img src=".././src/img/icons/excluir.svg" alt="Excluir" onclick="deletar(${publicacao.idComputador})">
+                                    <img src=".././src/img/icons/editar.svg" id="editar" alt="Editar" onclick="atualizarMaquina(${publicacao.idComputador})">
+                                    <img src=".././src/img/icons/excluir.svg" id="editar" alt="Excluir" onclick="deletar(${publicacao.idComputador})">
                                 </div>
                             </div>
                         `;
@@ -693,10 +731,10 @@
                 };
 
                 // Renderiza o gráfico
-                const ctx = document.getElementById('graficoEquipe').getContext('2d');
-                new Chart(ctx, config);
+                // const ctx = document.getElementById('graficoEquipe').getContext('2d');
+                // new Chart(ctx, config);
             })
-            // .catch(error => console.error('Erro ao carregar os dados:', error));
+        // .catch(error => console.error('Erro ao carregar os dados:', error));
     }
 
     //============== GRÁFICO DE MONITORAMENTO EM TEMPO REAL  ==================================================================================
@@ -705,13 +743,29 @@
         // const idComputadorModal = document.getElementById("idComputadorModal")
         // idComputadorModal.innerHTML = `${idComputador}`
 
-        console.log(`Componente encontrado: ${componenteId}`);
-
+        // Obtém o status da máquina (ativo/inativo)
+        const cardElement = document.getElementById(card);
+        const status = cardElement.querySelector(".content-card p span").innerText;
+        const maqInativaDiv = document.querySelector(".maqInativa");
 
         const aside = document.querySelector(".aside");
-        aside.style.display = 'flex';
-
         const dashComponentes = ["dashCpu", "dashDisco", "dashRede", "dashMemoria", "dashHistorico"];
+        const graficoIds = ["chartCPU", "chartDISCO", "chartREDE", "chartRAM"];
+
+        // Verifica se a máquina está inativa
+        if (status === "Inativo") {
+            // Exibe apenas a mensagem de máquina inativa
+            maqInativaDiv.style.display = "flex";
+            aside.style.display = "none";
+            dashComponentes.forEach(id => document.getElementById(id).style.display = "none");
+            graficoIds.forEach(id => document.getElementById(id).style.display = "none");
+            return; // Sai da função para evitar carregamentos desnecessários
+        } else {
+            // Oculta a mensagem de máquina inativa e exibe os gráficos normalmente
+            maqInativaDiv.style.display = "none";
+            aside.style.display = "flex";
+        }
+
         const componentes = {
             "dashCpu": "CPU",
             "dashDisco": "Disco",
@@ -735,7 +789,6 @@
 
         });
         // Esconde todos os gráficos
-        const graficoIds = ["chartCPU", "chartDISCO", "chartREDE", "chartRAM"];
         graficoIds.forEach(graficoId => {
             const graficoElem = document.getElementById(graficoId);
             graficoElem.style.display = "none"; // Oculta todos os gráficos
@@ -830,17 +883,22 @@
     document.getElementById("seletorFiltroAlerta").addEventListener("change", () => {
         carregarHistoricoAlertas(cardId);
     });
+    document.getElementById("seletorFiltroComponente").addEventListener("change", () => {
+        carregarHistoricoAlertas(cardId);
+    });
 
     function carregarHistoricoAlertas(idComputador = cardId) {
 
-        // filtro pela data e filtro pelo tipo de alerta!
+        // filtro pela data, filtro pelo tipo de alerta e por componente!
         const seletorFiltro = document.getElementById("seletorFiltro");
         const seletorFiltroAlerta = document.getElementById("seletorFiltroAlerta");
-
-        // Define o filtro inicial como "total" caso ainda não esteja definido
+        const seletorFiltroComponente = document.getElementById("seletorFiltroComponente");
 
         const filtroSelecionado = seletorFiltro.value;
         const filtroAlerta = seletorFiltroAlerta.value;
+        const filtroComponente = seletorFiltroComponente.value;
+
+
 
         let dataFiltro = "";
         const currentDate = new Date();
@@ -874,7 +932,7 @@
         bside.style.display = 'none';
         historico.style.display = 'flex';
 
-        fetch(`/dispositivos/historico/${fkEmpresa}/${cardId}/${dataFiltro}/${filtroAlerta}`, {
+        fetch(`/dispositivos/historico/${fkEmpresa}/${cardId}/${dataFiltro}/${filtroAlerta}/${filtroComponente}`, {
             cache: 'no-store',
             method: "GET",
         })
@@ -937,7 +995,7 @@
                             ${tipoAlerta}
                         </span> 
                         <span style="text-decoration: underline;">em ${formattedDate}</span>
-                        em ${descricaoAdicional} do componente <b style="font-weight: bold;">${componente} --> ${captura}%</b>.
+                        em ${descricaoAdicional} do componente <b style="font-weight: bold;">${componente} --> ${captura}</b>.
                     </p>`;
                     alertaDiv.innerHTML = mensagemFormatada;
 
@@ -951,7 +1009,6 @@
             .catch(error => {
                 console.error("Erro ao carregar histórico:", error);
             });
-
     }
 
     // Função para buscar os dados iniciais
@@ -1498,7 +1555,7 @@
                                 }
 
                                 redeLatencia.innerHTML = `${dadoAtual.latencia}ms`;
-                                redePerdido.innerHTML = `${dadoAtual.pctPerd}%`;
+                                redePerdido.innerHTML = `${dadoAtual.pctPerd}`;
                                 idNomeComponente.innerHTML = dadoAtual.modelo;
                                 atualizarCor(redeLatencia, dadoAtual.captura);
                                 atualizarCor(redePerdido, dadoAtual.captura);
@@ -1664,8 +1721,8 @@
                         <p><b>Status:</b> <span style="color: ${statusColor};">${status}</span></p>
                     </div>
                     <div class="up-card">
-                        <img src=".././src/img/icons/editar.svg" alt="Editar" onclick="atualizarMaquina(${publicacao.idComputador})">
-                        <img src=".././src/img/icons/excluir.svg" alt="Excluir" onclick="deletar(${publicacao.idComputador})">
+                        <img src=".././src/img/icons/editar.svg" id="editar" alt="Editar" onclick="atualizarMaquina(${publicacao.idComputador})">
+                        <img src=".././src/img/icons/excluir.svg" id="editar" alt="Excluir" onclick="deletar(${publicacao.idComputador})">
                     </div>
                 </div>
             `;
@@ -1724,8 +1781,8 @@
                                     <p><b>Status:</b> <span style="color: ${statusColor};">${status}</span></p>
                                 </div>
                                 <div class="up-card">
-                                    <img src=".././src/img/icons/editar.svg" alt="Editar" onclick="atualizarMaquina(${publicacao.idComputador})">
-                                    <img src=".././src/img/icons/excluir.svg" alt="Excluir" onclick="deletar(${publicacao.idComputador})">
+                                    <img src=".././src/img/icons/editar.svg" id="editar" alt="Editar" onclick="atualizarMaquina(${publicacao.idComputador})">
+                                    <img src=".././src/img/icons/excluir.svg" id="editar" alt="Excluir" onclick="deletar(${publicacao.idComputador})">
                                 </div>
                             </div>
                         `;

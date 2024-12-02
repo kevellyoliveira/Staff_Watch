@@ -70,8 +70,10 @@ function historico(req, res) {
     var idComputador = req.params.idComputador;
     var dataFiltro = req.params.dataFiltro;
     var filtroAlerta = req.params.filtroAlerta;
+    var filtroComponente = req.params.filtroComponente;
 
-    dispositivoModel.historico(fkEmpresa, idComputador, dataFiltro, filtroAlerta)
+
+    dispositivoModel.historico(fkEmpresa, idComputador, dataFiltro, filtroAlerta, filtroComponente)
         .then(function (resultado) {
             if (resultado.length > 0) {
                 res.status(200).json(resultado);
