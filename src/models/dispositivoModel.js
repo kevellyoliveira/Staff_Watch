@@ -106,7 +106,7 @@ function obterDadosGrafico(fkEmpresa, idComponente, idComputador) {
 }
 
 //Listar todas as máquinas
-function listar(fkEmpresa, data, alerta) {
+function listar(fkEmpresa, data, alerta, status) {
     console.log("ACESSEI O AVISO  MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listar()");
     var instrucaoSql = ` 
                         select 
@@ -157,6 +157,12 @@ function listar(fkEmpresa, data, alerta) {
         left join auxComponente aux on aux.idAuxComponente = cap.fkAuxComponente 
         where f.fkCargo = 4 and c.fkEmpresa = ${fkEmpresa}
         `;
+
+        if (status == 1) {
+            instrucaoSql += ` and c.status = 1`
+        } else if (status == 2) {
+            instrucaoSql += ` and c.status = 2`
+        }
 
     instrucaoSql += ` order by c.status, cap.dataCaptura desc;`
 

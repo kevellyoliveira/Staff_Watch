@@ -14,7 +14,7 @@ router.get("/tempo-real/:fkEmpresa/:idComponente/:idComputador", function (req, 
 })
 
 // lista todos os funcionários da empresa
-router.get("/listar/:fkEmpresa/:data/:alerta", function (req, res) {
+router.get("/listar/:fkEmpresa/:data/:alerta/:status", function (req, res) {
     dispositivosController.listar(req, res);
 });
 
