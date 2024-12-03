@@ -206,15 +206,17 @@ header {
 }
 
 /* barra de busca  e filtros*/
+    
 .title {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-direction: row;
     align-items: center;
     color: #002148;
     text-align: center;
-    padding-top:3rem ;
     gap: 3rem;
+    width: 70%;
+    padding: 3rem 9rem 0;
+    justify-content: space-between;
 }
 
 .pesquisa {
@@ -223,12 +225,12 @@ header {
 
 input {
     background-color: white;
-    /* height: 25%; */
-    padding: .5rem .3rem;
+    padding: .6rem .9rem;
     border: none;
     outline: none;
     border-radius: 5px 0% 0% 5px;
     font-family: "Inter";
+    width: 15rem;
 }
 
 button {
@@ -237,7 +239,7 @@ button {
     border: none;
     border-radius: 0% 10% 10% 0%;
     font-family: "Inter";
-    width: 3rem;
+    width: 4.3rem;
 }
 
 button :hover {
@@ -249,7 +251,6 @@ button :hover {
 /*  modal de histórico */
 .historico {
     display: flex;
-    width: 85%;
     height: 85%;
     flex-direction: column;
     align-items: center;
@@ -266,7 +267,7 @@ button :hover {
 .listaAlertas {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 85%;
     height: 100%;
     padding-bottom: 1.5rem;
     gap: 1rem;
@@ -289,16 +290,25 @@ button :hover {
     background-color: #002148;
     color: white;
     border: none;
+    height: 2rem;
     border-radius: 10px;
     text-align: center;
     display: flex;
     box-shadow:1px 3px 3px 0 rgba(0, 0, 0, 0.3);
 }
 
+.selectFiltro.cards {
+    height: 1.4rem;
+    align-items: center;
+}
+
 .filtro {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: .5rem;
+}
+.filtro.cards {
+    flex-direction: row;
 }
 
 .filtros {
@@ -308,13 +318,13 @@ button :hover {
     padding-top: 1rem;
 }
 
-
-
-
+.filtros.cards {
+    flex-direction: column;
+    gap: 1.5rem;
+    font-size: .9rem;
+}
 
 /* ====================================================================================================================== */
-
-
 .section-grafico {
     width: 100%;
     height: 20%;

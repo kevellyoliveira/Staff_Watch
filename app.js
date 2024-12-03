@@ -41,6 +41,7 @@ var enderecoRouter = require("./src/routes/enderecos");
 var medidasRouter = require("./src/routes/medidas");
 var maquinasRouter = require("./src/routes/maquinas");
 var dispositivosRouter = require("./src/routes/dispositivos");
+var CompPedroRouter = require("./src/routes/CompPedro");
 
 var redeRuanRouter =  require("./src/routes/redeRuan");
 const reportRoutes = require('./src/routes/reportRoutes');
@@ -62,6 +63,7 @@ app.use("/redesMatheus", redesRouter);
 app.use("/discoMatheus", discoRouter);
 app.use("/memsramMatheus", ramRouter);
 app.use("/dispositivos", dispositivosRouter);
+app.use("/CompPedro", CompPedroRouter);
 
 app.use("/redeRuan", redeRuanRouter);
 app.use('/report', reportRoutes); // Todas as rotas começam com /report

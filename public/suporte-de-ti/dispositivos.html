@@ -56,30 +56,37 @@
             </section> -->
 
             <article class="title">
-                <!-- <div class="filtros">
-                    <div class="filtro">
+                <div class="filtros cards">
+                    <div class="filtro cards">
                         <h3>Exibir alerta mais recente de:</h3>
-                        <select name="opcoes" class="selectFiltro" id="seletorFiltro">
-                            <option value="1h">Última 1 hora</option>
-                            <option value="3h">Últimas 3 horas</option>
-                            <option value="24h">Últimas 24 horas</option>
+                        <select name="opcoes" class="selectFiltro cards" id="seletorFiltroPeriodoCards">
+                            <option value="1">Última 1 hora</option>
+                            <option value="3">Últimas 3 horas</option>
+                            <option value="24">Últimas 24 horas</option>
                         </select>
                     </div>
-                    <div class="filtro">
+                    <div class="filtro cards">
                         <h3>Exibir alerta mais recente do tipo: </h3>
-                        <select name="opcoesAlerta" class="selectFiltro" id="seletorFiltroAlerta">
+                        <select name="opcoesAlerta" class="selectFiltro cards" id="seletorFiltroAlertaCards">
                             <option value="total">Todos</option>
                             <option value="amarelo">Amarelo</option>
                             <option value="vermelho">Vermelho</option>
                         </select>
                     </div>
-                </div> -->
-
-                <div class="pesquisa">
-                    <input type="text" name="Pesquisar" id="pesquisar_input" required="required" autocomplete="off"
-                        placeholder="Pesquisar máquina pelo ID" onkeyup="listarPorUsuario()"><button
-                        onclick="listarPorUsuario()"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    <div class="filtro cards">
+                        <h3>Exibir máquinas com status: </h3>
+                        <select name="opcoesAlerta" class="selectFiltro cards" id="seletorFiltroStatusCards">
+                            <option value="total">Todos</option>
+                            <option value="1">Ativo</option>
+                            <option value="2">Inativo</option>
+                        </select>
+                    </div>
                 </div>
+                <div class="pesquisa">
+                        <input type="text" name="Pesquisar" id="pesquisar_input" required="required" autocomplete="off"
+                            placeholder="Pesquisar máquina pelo ID" onkeyup="listarPorUsuario()"><button
+                            onclick="listarPorUsuario()"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </div>
             </article>
 
             <section class="sectioncard" id="sectioncard">
@@ -269,19 +276,6 @@
                             </div>
                         </div>
 
-                        <!-- <div class="dado">
-                            <h3> Tempo médio de resposta: </h3>
-                            <div class="dadoInfo">
-                                <h2> <span id="discoMediaResposta"> -- </span> </h2>
-                            </div>
-                        </div> -->
-                        <!-- 
-                        <div class="dado">
-                            <h3> Velocidade de gravação: </h3>
-                            <div class="dadoInfo">
-                                <h2> <span id="discoGravacao"> 130,2 KB/s </span> </h2>
-                            </div>
-                        </div> -->
                     </div>
                     <div id="dashRede" class="bside">
                         <div class="dado">
@@ -350,13 +344,19 @@
                             </div>
                         </div> -->
                     </div>
+
                     <!-- tela de histórico -->
                     <div id="dashHistorico" class="historico">
                         <h3 id="idMaquina">Histórico de alertas da máquina </h3>
                         <div class="filtros">
 
                             <div class="filtro">
-                                <h6>Data do alerta: </h6>
+                                <h6>Data específica do alerta: </h6>
+                                <input type="date" class="selectFiltro" name="inpData" id="inpData">
+                            </div>
+
+                            <div class="filtro">
+                                <h6>Período do alerta: </h6>
                                 <select name="opcoes" class="selectFiltro" id="seletorFiltro">
                                     <option value="total">Sempre</option>
                                     <option value="24h">Últimas 24 horas</option>
@@ -492,6 +492,16 @@
         }
     }
 
+
+    document.getElementById("seletorFiltroPeriodoCards").addEventListener("change", () => {
+        atualizarFeed();
+    });
+    document.getElementById("seletorFiltroAlertaCards").addEventListener("change", () => {
+        atualizarFeed();
+    });
+    document.getElementById("seletorFiltroStatusCards").addEventListener("change", () => {
+        atualizarFeed();
+    });
     // função pra listar as máquinas com seus alertas
     function atualizarFeed() {
         var fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
@@ -499,8 +509,18 @@
         // ao carregar a página, também plota o gráfico de cima dos componentes por equipes!!
         gerarGraficoEquipes(fkEmpresa)
 
+        // filtros
+        const slctFiltroPeriodo = document.getElementById("seletorFiltroPeriodoCards")
+        const slctFiltroAlerta = document.getElementById("seletorFiltroAlertaCards")
+        const slctFiltroStatus = document.getElementById("seletorFiltroStatusCards")
+
+        let data = Number(slctFiltroPeriodo.value);
+        let alerta = slctFiltroAlerta.value;
+        let status = Number(slctFiltroStatus.value);
+
+
         // console.log(fkEmpresa);
-        fetch(`/dispositivos/listar/${fkEmpresa}`)
+        fetch(`/dispositivos/listar/${fkEmpresa}/${data}/${alerta}/${status}`)
             .then(function (resposta) {
                 if (resposta.ok) {
                     if (resposta.status == 204) {
@@ -886,40 +906,51 @@
     document.getElementById("seletorFiltroComponente").addEventListener("change", () => {
         carregarHistoricoAlertas(cardId);
     });
+    document.getElementById("inpData").addEventListener("change", () => {
+        carregarHistoricoAlertas(cardId);
+    });
 
     function carregarHistoricoAlertas(idComputador = cardId) {
 
-        // filtro pela data, filtro pelo tipo de alerta e por componente!
+        // filtro pela data, período, pelo tipo de alerta e por componente!
         const seletorFiltro = document.getElementById("seletorFiltro");
         const seletorFiltroAlerta = document.getElementById("seletorFiltroAlerta");
         const seletorFiltroComponente = document.getElementById("seletorFiltroComponente");
+        const inputFiltroData = document.getElementById("inpData")
 
-        const filtroSelecionado = seletorFiltro.value;
-        const filtroAlerta = seletorFiltroAlerta.value;
-        const filtroComponente = seletorFiltroComponente.value;
+        let filtroPeriodo = seletorFiltro.value; // filtro de período
+        let filtroAlerta = seletorFiltroAlerta.value;
+        let filtroComponente = seletorFiltroComponente.value;
+        let filtroData = inputFiltroData.value; console.log(`filtroData: ${filtroData}`)
 
+        let data = ""; // formata a data a ser enviada pro modal
 
-
-        let dataFiltro = "";
-        const currentDate = new Date();
-
-        // definindo o filtro de data com base na seleção
-        if (filtroSelecionado === "24h") {
-            currentDate.setHours(currentDate.getHours() - 24);
-            dataFiltro = currentDate.toISOString();
-        } else if (filtroSelecionado === "7d") {
-            currentDate.setDate(currentDate.getDate() - 7);
-            dataFiltro = currentDate.toISOString();
-        } else if (filtroSelecionado === "30d") {
-            currentDate.setDate(currentDate.getDate() - 30);
-            dataFiltro = currentDate.toISOString();
-        } else if (filtroSelecionado === "365d") {
-            currentDate.setFullYear(currentDate.getFullYear() - 1);
-            dataFiltro = currentDate.toISOString();
+        // "data" é utilizado no filtro de período, ele vem do "filtroPeriodo"
+        // "filtroData" é utilizado no filtro de data específica. vem como padrão uma string vazia 
+        
+        if (filtroData) {
+            data = '0'
         } else {
-            dataFiltro = 0
-        }
+            filtroData = '0'
 
+            const currentDate = new Date();
+            // definindo o filtro de data com base na seleção
+            if (filtroPeriodo === "24h") {
+                currentDate.setHours(currentDate.getHours() - 24);
+                data = currentDate.toISOString();
+            } else if (filtroPeriodo === "7d") {
+                currentDate.setDate(currentDate.getDate() - 7);
+                data = currentDate.toISOString();
+            } else if (filtroPeriodo === "30d") {
+                currentDate.setDate(currentDate.getDate() - 30);
+                data = currentDate.toISOString();
+            } else if (filtroPeriodo === "365d") {
+                currentDate.setFullYear(currentDate.getFullYear() - 1);
+                data = currentDate.toISOString();
+            } else {
+                data = '0'
+            }
+        }
 
         if (intervaloAtivo) {
             clearInterval(intervaloAtivo);
@@ -932,7 +963,13 @@
         bside.style.display = 'none';
         historico.style.display = 'flex';
 
-        fetch(`/dispositivos/historico/${fkEmpresa}/${cardId}/${dataFiltro}/${filtroAlerta}/${filtroComponente}`, {
+        console.warn(`fetch com os filtros: 
+                    período:(data) ${data}
+                    tipo alerta:(filtroAlerta) ${filtroAlerta}
+                    componente:(filtroComponente) ${filtroComponente}
+                    data:(filtroData) ${filtroData}`)
+
+        fetch(`/dispositivos/historico/${fkEmpresa}/${cardId}/${data}/${filtroAlerta}/${filtroComponente}/${filtroData}`, {
             cache: 'no-store',
             method: "GET",
         })
@@ -947,7 +984,7 @@
                         // Exibe a mensagem quando não há alertas
                         listaAlertas.innerHTML = `Nenhum alerta encontrado.`;
                         idMaquina.innerHTML = `Histórico de alertas da máquina ${idComputador} - Total: 0 alertas.`;
-                        idComputadorModal.innerHTML = `${idComputador}`
+                        // idComputadorModal.innerHTML = `${idComputador}`
                         return; // Sai do processamento aqui, já que não há dados
                     }
                     return response.json(); // Retorna o JSON com os alertas
@@ -984,7 +1021,7 @@
                     const formattedDate = `${dataCaptura.getDate()}/${dataCaptura.getMonth() + 1}/${dataCaptura.getFullYear()} às ${dataCaptura.getHours()}:${dataCaptura.getMinutes()}:${dataCaptura.getSeconds()}`;
 
                     const descricaoAdicional = componente.toLowerCase() === 'rede'
-                        ? (descricao.toLowerCase() === 'latencia' ? 'latência' : 'pacotes perdidos')
+                        ? (descricao.toLowerCase() === 'ms' ? 'latência' : 'pacotes perdidos')
                         : `porcentagem de uso`;
 
                     const mensagemFormatada = `<p>
@@ -995,7 +1032,7 @@
                             ${tipoAlerta}
                         </span> 
                         <span style="text-decoration: underline;">em ${formattedDate}</span>
-                        em ${descricaoAdicional} do componente <b style="font-weight: bold;">${componente} --> ${captura}</b>.
+                        em ${descricaoAdicional} do componente <b style="font-weight: bold;">${componente} --> ${captura}${descricao}</b>.
                     </p>`;
                     alertaDiv.innerHTML = mensagemFormatada;
 

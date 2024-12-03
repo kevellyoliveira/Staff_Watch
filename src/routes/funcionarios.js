@@ -9,6 +9,14 @@ router.post("/cadastrar", function (req, res) {
     funcionarioController.cadastrar(req, res);
 });
 
+router.post("/cadastrarGerenteTI", function (req, res) {
+    funcionarioController.cadastrarGerenteTI(req, res);
+});
+
+router.post("/cadastrarGerenteOp", function (req, res) {
+    funcionarioController.cadastrarGerenteOp(req, res);
+});
+
 // rotas nao utilizadas  ==========================================================================================
 router.get("/listar/:fkEmpresa", function (req, res) {
     funcionarioController.listar(req, res);

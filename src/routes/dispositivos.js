@@ -14,12 +14,12 @@ router.get("/tempo-real/:fkEmpresa/:idComponente/:idComputador", function (req, 
 })
 
 // lista todos os funcionários da empresa
-router.get("/listar/:fkEmpresa", function (req, res) {
+router.get("/listar/:fkEmpresa/:data/:alerta/:status", function (req, res) {
     dispositivosController.listar(req, res);
 });
 
 // histórico de alertas da máquina clicada
-router.get("/historico/:fkEmpresa/:idComputador/:dataFiltro/:filtroAlerta/:filtroComponente", function (req, res) {
+router.get("/historico/:fkEmpresa/:idComputador/:data/:filtroAlerta/:filtroComponente/:filtroData", function (req, res) {
     dispositivosController.historico(req, res);
 });
 

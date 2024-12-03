@@ -51,7 +51,11 @@ function obterDadosGrafico(req, res) {
 //Listando todas as máquinas
 function listar(req, res) {
     const fkEmpresa = req.params.fkEmpresa;
-    dispositivoModel.listar(fkEmpresa).then(function (resultado) {
+    const data = req.params.data;
+    const alerta = req.params.alerta;
+    const status = req.params.status
+
+    dispositivoModel.listar(fkEmpresa, data, alerta, status).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {
@@ -68,12 +72,13 @@ function listar(req, res) {
 function historico(req, res) {
     var fkEmpresa = req.params.fkEmpresa;
     var idComputador = req.params.idComputador;
-    var dataFiltro = req.params.dataFiltro;
+    var data = req.params.data;
     var filtroAlerta = req.params.filtroAlerta;
     var filtroComponente = req.params.filtroComponente;
+    var filtroData = req.params.filtroData;
 
 
-    dispositivoModel.historico(fkEmpresa, idComputador, dataFiltro, filtroAlerta, filtroComponente)
+    dispositivoModel.historico(fkEmpresa, idComputador, data, filtroAlerta, filtroComponente, filtroData)
         .then(function (resultado) {
             if (resultado.length > 0) {
                 res.status(200).json(resultado);

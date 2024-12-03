@@ -76,7 +76,7 @@ function obterDadosGrafico(fkEmpresa, idComponente, idComputador) {
         var instrucaoSql = `select ca.captura, time(ca.dataCaptura) as dataCaptura, ca.modelo, ca.fkComputador, co.fkEmpresa
                     from captura ca
                     join computador co on ca.fkComputador = co.idComputador
-                    where ca.fkComponente = 2 and ca.fkAuxComponente = 6 and 
+                    where ca.fkComponente = 2 and ca.fkAuxComponente = 8 and 
                     fkEmpresa = ${fkEmpresa} and fkComputador = ${idComputador}
                     order by dataCaptura limit 30;`;
         console.log("Executando a instrução SQL: \n" + instrucaoSql);
@@ -106,7 +106,7 @@ function obterDadosGrafico(fkEmpresa, idComponente, idComputador) {
 }
 
 //Listar todas as máquinas
-function listar(fkEmpresa) {
+function listar(fkEmpresa, data, alerta, status) {
     console.log("ACESSEI O AVISO  MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listar()");
     var instrucaoSql = ` 
                         select 
@@ -131,8 +131,20 @@ function listar(fkEmpresa) {
                     cap.fkComputador, 
                     max(a.idAlerta) as ultimoAlerta 
                 from alerta a 
-                join captura cap on cap.idCaptura = a.fkCaptura where dataCaptura >= DATE_SUB(NOW(), INTERVAL 1 HOUR)
-                group by cap.fkComputador
+                join captura cap on cap.idCaptura = a.fkCaptura `
+
+    if (data != '0') {
+        instrucaoSql += `where dataCaptura >= DATE_SUB(NOW(), INTERVAL ${data} HOUR)`;
+    }
+
+     // filtro de tipo de alerta
+     if (alerta == 'vermelho') {
+        instrucaoSql += ` and a.tipoAlerta = 2`;
+    } else if (alerta == 'amarelo') {
+        instrucaoSql += ` and a.tipoAlerta = 1`;
+    }
+
+    instrucaoSql += ` group by cap.fkComputador
             ) ultimosAlertas on a1.idAlerta = ultimosAlertas.ultimoAlerta
         ) a on exists (
             select 1 
@@ -144,13 +156,21 @@ function listar(fkEmpresa) {
         left join componente co on co.idComponente = cap.fkComponente 
         left join auxComponente aux on aux.idAuxComponente = cap.fkAuxComponente 
         where f.fkCargo = 4 and c.fkEmpresa = ${fkEmpresa}
-        order by c.status, cap.dataCaptura desc;`;
+        `;
+
+        if (status == 1) {
+            instrucaoSql += ` and c.status = 1`
+        } else if (status == 2) {
+            instrucaoSql += ` and c.status = 2`
+        }
+
+    instrucaoSql += ` order by c.status, cap.dataCaptura desc;`
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
-function historico(fkEmpresa, idComputador, dataFiltro, filtroAlerta, filtroComponente) {
+function historico(fkEmpresa, idComputador, data, filtroAlerta, filtroComponente, filtroData) {
 
     console.log("ACESSEI O AVISO  MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function historico()");
     var instrucaoSql = `select a.tipoAlerta, ca.dataCaptura, ca.captura, aux.idAuxComponente, co.nome AS nomeComponente, aux.descricao, maq.idComputador
@@ -162,20 +182,28 @@ function historico(fkEmpresa, idComputador, dataFiltro, filtroAlerta, filtroComp
             where maq.fkEmpresa = ${fkEmpresa} and fkComputador = ${idComputador}`
 
     // Se o filtro de data for fornecido, adicione uma condição WHERE para filtrar os dados pela data
-    if (dataFiltro != 0) {
-        instrucaoSql += ` and ca.dataCaptura >= '${dataFiltro}'`;
+    if (data != '0') {
+        instrucaoSql += ` and ca.dataCaptura >= '${data}'`;
     }
 
+    // filtro de data especifica
+
+    if (filtroData != '0') {
+        instrucaoSql += ` and DATE(ca.dataCaptura) = '${filtroData}'`;
+    }
+
+    // filtro de tipo de alerta
     if (filtroAlerta == 'vermelho') {
         instrucaoSql += ` and a.tipoAlerta = 2`;
     } else if (filtroAlerta == 'amarelo') {
         instrucaoSql += ` and a.tipoAlerta = 1`;
     }
 
+    // filtro de componente
     if (filtroComponente != 0) {
         instrucaoSql += ` and ca.fkComponente = ${filtroComponente}`;
     }
-    
+
     instrucaoSql += ` order by ca.idCaptura desc;`;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
@@ -189,7 +217,7 @@ function equipes(fkEmpresa) {
                 left join captura ca on ca.fkComponente = co.idComponente 
                 left join alerta a on a.fkCaptura = ca.idCaptura 
                 left join computador maq on maq.idComputador = ca.fkComputador 
-                where maq.fkEmpresa = ${ fkEmpresa }
+                where maq.fkEmpresa = ${fkEmpresa}
                 group by maq.fkEquipe, co.nome order by maq.fkEquipe, co.nome; `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
@@ -232,7 +260,7 @@ function buscar(fkEmpresa, idComputador) {
         left join captura cap on cap.idCaptura = a.fkCaptura 
         left join componente co on co.idComponente = cap.fkComponente 
         left join auxComponente aux on aux.idAuxComponente = cap.fkAuxComponente 
-        where f.fkCargo = 4 and c.fkEmpresa = ${ fkEmpresa } and c.idComputador = ${ idComputador }; `;
+        where f.fkCargo = 4 and c.fkEmpresa = ${fkEmpresa} and c.idComputador = ${idComputador}; `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
