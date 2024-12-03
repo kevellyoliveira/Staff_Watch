@@ -68,7 +68,7 @@ nomeEmp VARCHAR(45)
 select * from auxComponente;
 
 insert into empresa (idEmpresa, cnpj, nomeEmp) values
-(default, "123456789123456789", "Falla");
+(default, "123456789123456789", "CentralLink");
 
 
 CREATE TABLE IF NOT EXISTS equipe (
@@ -81,7 +81,8 @@ references empresa(idEmpresa)
 );
 
 insert into equipe values
-(default,"dos","desenvolvimento", 1);
+(default, "Liga Rápido", "atendimento", 1),
+(default, "Desenvolve", "desenvolvimento", 1);
 
 CREATE TABLE IF NOT EXISTS cargo (
 idCargo INT PRIMARY KEY AUTO_INCREMENT,
@@ -117,7 +118,9 @@ REFERENCES cargo(idCargo)
 );
 
 insert into funcionario (nome, email, telefone, senha, fkEmpresa, fkEquipe, fkCargo) values
-("Jeffinho", "Jeffinho.botafogo@gmail.com", "5511941159059" , MD5("123456"), 1, 1, 1);
+("Guilherme", "guilherme@gmail.com", "5511941159059" , MD5("123456"), 1, 1, 1),
+("Matheus Souza", "matheus@gmail.com", "5511989715713" , MD5("123456"), 1, 1, 2),
+("Lilia Greco", "lilia@gmail.com", "5511958016310" , MD5("123456"), 1, 1, 3);
 
 CREATE TABLE IF NOT EXISTS computador (
 idComputador INT PRIMARY KEY AUTO_INCREMENT,
@@ -215,27 +218,24 @@ REFERENCES empresa(idEmpresa)
 
 
 -- --------------------------------------------------------------- TESTES & DESENVOLVIMENTO --------------------------------------------------
-insert into funcionario values
-(default, "teste", "teste@gmail.com", "11956782706", MD5("Aa1!"), 1,1, null, 1);
 
 insert into equipe values
-(default, 'bacanas', 'produto', 1),
-(default,'legais', 'suporte', 1),
-(default,'estudiosos', 'comercial', 1);
+(default, 'Product center', 'produto', 1),
+(default,'suport ', 'suporte', 1),
+(default,'commerce', 'comercial', 1);
 
 insert into funcionario (idFuncionario, nome, email, telefone, fkEmpresa, fkEquipe, fkCargo) values
-(3, "Ana Clara", "anaclara@gmail.com", "11956782736", 1, 1, 4),
-(4, "Júlio Cesar", "julio@gmail.com", "11956781234", 1, 3, 4),
-(5, "Beatriz Angola", "bea@gmail.com", "11951234736", 1, 4, 4),
-(6, "Sérgio Lucas", "sergio@gmail.com", "11990082736", 1, 1, 4),
-(7, "Marcio Marçal", "marco@gmail.com", "11916782736", 1, 2, 4);
+(default, "Ana Clara", "anaclara@gmail.com", "5511959847881", 1, 1, 4),
+(default, "Júlio Cesar", "julio@gmail.com", "5511946275868", 1, 3, 4),
+(default, "Beatriz Angola", "bea@gmail.com", "5511940352230", 1, 4, 4);
+
 
 insert into computador (fkEquipe, fkEmpresa, fkFuncionario) values
 (1, 1, 3),
 (3, 1, 4),
 (4, 1, 5),
 (1, 1, 6),
-(2, 1, 7);
+(2, 1, 1);
 
 -- --------------------------- VIEWS - TELA DE DISPOSITIVOS --------------------------------------------------------------------------------
 -- exibindo detalhes a serem exibidos na tela dos alertas!
@@ -273,7 +273,7 @@ WHERE maq.fkEmpresa = 1 AND fkComputador = 2
 group by mensagem, maq.idComputador;
 
 -- --------------------------- quantidade de alertas por componente em cada equipe 
--- create or replace view view_alertasComponenteEquipe as
+create or replace view view_alertasComponenteEquipe as
 select maq.fkEquipe as equipe, co.nome as componente, count(a.idAlerta) as qtdAlerta 
 from componente co 
 left join captura ca on ca.fkComponente = co.idComponente 
@@ -331,7 +331,6 @@ select ca.captura, time(ca.dataCaptura) as dataCaptura, ca.modelo, fkComputador,
                         fkEmpresa = 1 and fkComputador = 2
                         order by dt desc limit 1;
 
-select * from view_cpuTempoReal where fkEmpresa = ? and fkComputador = ?;
 
 -- em tempo real (ta adaptado na model pra todos)------------------------------
 select ca.captura, time(ca.dataCaptura) as dataCaptura, ca.modelo, fkComputador, fkEmpresa
@@ -348,11 +347,10 @@ join computador co on captura.fkComputador = co.idComputador
 where fkComponente = 3 and fkAuxComponente = 11
 order by idCaptura limit 100;
 
-select * from view_discoTempoReal where fkEmpresa = ? and fkComputador = ?;
 
 
 -- --------------------------- gráfico em tempo real: rede - pacotes enviados e recebidos 
-create or replace view view_redeTempoReal as;
+create or replace view view_redeTempoReal as
 select 
     (select captura from captura 
      where fkComponente = 1 and fkAuxComponente = 20
@@ -377,7 +375,6 @@ join computador co on captura.fkComputador = co.idComputador
 where fkComponente = 1 and fkAuxComponente = 5 and
 fkEmpresa = 1 and fkComputador = 3
 order by idCaptura desc limit 1;
-select * from view_redeTempoReal where fkEmpresa = ? and fkComputador = ?;
 
 -- --------------------------- gráfico em tempo real: uso de memória ram
 create or replace view view_ramTempoReal as
@@ -389,7 +386,6 @@ where fkComponente = 2 and fkAuxComponente = 6
 order by idCaptura limit 100;
 
 -- na model
-select * from view_ramTempoReal where fkEmpresa = 1 and fkComputador = ?;
 
 -- --------------------------- gráfico barras: qtd de alertas em cada componente por equipe
 select maq.fkEquipe as equipe, co.nome as componente, count(a.idAlerta) as qtdAlerta 
@@ -455,8 +451,6 @@ JOIN captura AS c ON a.fkCaptura = c.idCaptura where fkComponente = 1; -- conta 
  
  select * from componente;
  
- insert into alerta values
- (default, 2 ,10);
  
  select * from captura where fkComponente = 3;
 
@@ -509,16 +503,5 @@ GROUP BY
     captura.fkComputador, captura.fkComponente
 ORDER BY 
     captura.fkComputador;
-    
-    use staffwatch;
-    
-    select * from chamada;
-    select * from captura;
-    
-       SELECT tempoChamada FROM chamada AS ch
-WHERE dataCaptura <= "2024-11-26 15:06:45" 
-  AND fkEmpresa = 1;
 
-desc captura;
-desc funcionario;
 -- --------------------------------------------------------------------------------------------------------------------

@@ -44,7 +44,95 @@ function cadastrar(req, res) {
     }
 }
 
+function cadastrarGerenteTI(req, res){
 
+    let nome = req.body.nomeServer
+    let email = req.body.emailServer
+    let telefone = req.body.telefoneServer
+    let idEquipe = req.body.idEquipeServer
+    // let token = req.body.tokenServer
+    var fkEmpresa = req.body.fkEmpresaServer;
+
+    console.log(`idEquipe: ${idEquipe} \n
+            nome: ${nome} \n
+            email: ${email} \n
+            telefone: ${telefone} \n
+            fkEmpresa: ${fkEmpresa}
+            `)
+
+    if (nome == undefined) {
+        res.status(400).send("O nome está indefinido!");
+    } else if (email == undefined) {
+        res.status(400).send("O email está indefinido!");
+    } else if (telefone == undefined) {
+        res.status(400).send("O telefone está indefinido!");
+    } else if (idEquipe == undefined) {
+        res.status(403).send("O idEquipe está indefinido!");
+    } else if (fkEmpresa == undefined) {
+        res.status(403).send("O fkEmpresa está indefinido!");
+    }
+    else {
+        funcionarioModel.cadastrar(nome, email, telefone, idEquipe, fkEmpresa)
+            .then(
+                function (resultado) {
+                    res.json(resultado);
+                }
+            )
+            .catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log("Houve um erro ao realizar o cadastro do funcionário: ", erro.sqlMessage);
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
+    }
+
+}
+
+function cadastrarGerenteOp(req, res){
+
+    let nome = req.body.nomeServer
+    let email = req.body.emailServer
+    let telefone = req.body.telefoneServer
+    let idEquipe = req.body.idEquipeServer
+    // let token = req.body.tokenServer
+    var fkEmpresa = req.body.fkEmpresaServer;
+
+    console.log(`idEquipe: ${idEquipe} \n
+            nome: ${nome} \n
+            email: ${email} \n
+            telefone: ${telefone} \n
+            fkEmpresa: ${fkEmpresa}
+            `)
+
+    if (nome == undefined) {
+        res.status(400).send("O nome está indefinido!");
+    } else if (email == undefined) {
+        res.status(400).send("O email está indefinido!");
+    } else if (telefone == undefined) {
+        res.status(400).send("O telefone está indefinido!");
+    } else if (idEquipe == undefined) {
+        res.status(403).send("O idEquipe está indefinido!");
+    } else if (fkEmpresa == undefined) {
+        res.status(403).send("O fkEmpresa está indefinido!");
+    }
+    else {
+        funcionarioModel.cadastrar(nome, email, telefone, idEquipe, fkEmpresa)
+            .then(
+                function (resultado) {
+                    res.json(resultado);
+                }
+            )
+            .catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log("Houve um erro ao realizar o cadastro do funcionário: ", erro.sqlMessage);
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
+    }
+
+}
 
 function listar(req, res) {
     const fkEmpresa = req.params.fkEmpresa; // Extrai o ID da empresa dos parâmetros da URL
@@ -697,6 +785,8 @@ module.exports = {
     filtrarTempoMedioEspera,
     filtrarTempoChamadaPerdida,
     filtrarTempoGrafico,
-    plotarGraficoFiltrado
+    plotarGraficoFiltrado,
+    cadastrarGerenteTI,
+    cadastrarGerenteOp
 }
 

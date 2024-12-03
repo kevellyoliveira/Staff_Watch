@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" />
+    <link rel="stylesheet" href="css/cadastroMaquina.css">
+    <link rel="shortcut icon" href="src/img/logoB.png" type="image/x-icon" />
+
+
+    <title>Cadastrar | Staff Watch</title>
+</head>
+
+<body>
+    <!-- Início do corpo da página -->
+
+    <section class="sessao-inicial">
+
+        <article class="sessao-cadastro">
+
+            <div class="form-container">
+
+                <h1>Cadastrar Gerente de operações</h1>
+
+                <span id="alertNome" class="msgAlerta"></span>
+                <div class="input-field">
+                    <input type="text" name="Nome" id="name_input" required="required" autocomplete="off"
+                        placeholder="Nome">
+                </div>
+
+                <span id="alertEmail" class="msgAlerta"></span>
+                <div class="input-field">
+                    <input type="email" name="Email" id="email_input" required="required" autocomplete="off"
+                        placeholder="Email">
+                </div>
+
+                <span id="alertTelefone" class="msgTelefone"></span>
+                <div class="input-field">
+                    <input type="text" name="Telefone" id="telefone_input" required="required" autocomplete="off"
+                        placeholder="Telefone">
+                </div>
+
+                <!-- <div class="input-field">
+                    <input type="text" name="idMaquina" id="idMaquina_input" required="required" autocomplete="off"
+                        placeholder="ID da Máquina">
+                </div> -->
+                <span id="alertEquipe" class="msgAlerta"></span>
+                <div class="input-field">
+                    <input type="text" name="numEquipe" id="numEquipe_input" required="required" autocomplete="off"
+                        placeholder="ID da Equipe">
+                </div>
+
+                <!-- <span id="alertToken" class="msgAlerta"></span>
+                <div class="input-field token">
+                    <input type="text" name="Token" id="token_input" required="required" autocomplete="off"
+                        placeholder="Token de permissão" oninput="exibirLegenda(this)">
+                </div> -->
+
+                <button class="botao-cadastrar" type="submit" onclick="cadastrarGerenteOp()">Cadastrar</button>
+            </div>
+        </article>
+
+        <article class="bloco-SW">
+            <div class="logoE">
+                <img src="src/img/logoB.png" alt="Logo Staff Watch">
+            </div>
+        </article>
+        <div class="alternarCadastro">
+            <div class="esqr">
+                <h3 onclick="window.location.href='cadastroGerenteOp.html'">Gerente Operações</h3>
+            </div>
+            <div class="dire">
+                <h3 onclick="window.location.href='cadastroGerente.html'">Gerente de T.I</h3>
+            </div>
+        </div>
+    </section>
+
+</body>
+
+</html>
+<script>
+    function abrirMenu() {
+        if (document.getElementById("menu").style.display == "flex") {
+            document.getElementById("menu").style.display = "none";
+        } else {
+            document.getElementById("menu").style.display = "flex"
+        }
+    }
+
+    function sair() {
+        sessionStorage.clear()
+        window.location = "index.html"
+    }
+
+    var fkCargo = sessionStorage.FK_CARGO;
+
+    function levarParaDashboard() {
+        if (fkCargo == 3) {
+            window.location.href = "/dashboardGeral-gti.html";
+        } else if (fkCargo == 2) {
+            window.location.href = "/dashboardGeral-go.html";
+        }
+    }
+
+    function cadastrarGerenteOp(req, res) {
+
+        let nome = name_input.value;
+        let email = email_input.value;
+        let telefone = telefone_input.value
+        let idEquipe = numEquipe_input.value;
+        let fkEmpresa = sessionStorage.getItem("ID_EMPRESA")
+
+        alertEmail.innerHTML = '';
+        alertNome.innerHTML = '';
+        alertTelefone.innerHTML = '';
+        //alertToken.innerHTML = '';
+        alertEquipe.innerHTML = '';
+
+        // let formulario = document.getElementById('formulario');
+        // tira o padrão de apagar o cosnteúdo da tela quando clicar em enviar o formulário
+        event.preventDefault();
+
+        // validação das inputs
+        let validacaoVazio = idEquipe == "" || nome == "" || email == '' || telefone == '';
+
+        if (validacaoVazio) {
+            if (idEquipe == "") {
+                alertEquipe.innerHTML += "Preencha o campo com o ID da equipe do funcionário! <br>";
+            }
+            if (nome == "") {
+                alertEquipe.innerHTML += "Preencha o campo com o nome do funcionário! <br>";
+            } if (email == "") {
+                alertEquipe.innerHTML += "Preencha o campo com o email do funcionário!<br>";
+            } if (telefone == "") {
+                alertTelefone.innerHTML += "Preencha o campo com o telefone do funcionário!<br>";
+            }
+        } else { // passou em todas as validações!!
+
+            console.log(`idEquipe: ${idEquipe} \n
+    nome: ${nome} \n
+    email: ${email} \n
+    telefone: ${telefone} \n 
+    fkEmpresa: ${fkEmpresa} \n`)
+
+            fetch("funcionarios/cadastrarGerenteOp", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    // crie um atributo que recebe o valor recuperado aqui
+                    // Agora vá para o arquivo routes/usuario.js
+                    idEquipeServer: idEquipe,
+                    nomeServer: nome,
+                    emailServer: email,
+                    telefoneServer: telefone,
+                    fkEmpresaServer: fkEmpresa
+                     
+                }),
+            })
+                .then(function (resposta) {
+                    console.log("resposta:", resposta);
+
+                    if (resposta.ok) {
+                        alert("Cadastro realizado com sucesso!");
+
+                        if (fkCargo == 3) {
+                            window.location.href = "/dashboardGeral-gti.html";
+                        } else if (fkCargo == 2) {
+                            window.location.href = "/dashboardPedroPorfirio.html";
+
+                        }
+                    }
+                    else {
+                        alert('Erro')
+                        console.log(`#ERRO: ${resposta}`)
+                    }
+                })
+                .catch(function (resposta) {
+                    console.log(`#ERRO: ${resposta}`);
+                });
+            return false;
+        }
+    }
+
+    function levarParaDashboard() {
+        if (fkCargo == 3) {
+            window.location.href = "/dashboardGeral-gti.html";
+        } else if (fkCargo == 2) {
+            window.location.href = "/dashboardPedroPorfirio.html";
+        }
+
+    }
+</script>
