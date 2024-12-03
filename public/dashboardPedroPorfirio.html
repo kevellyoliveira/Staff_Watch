@@ -410,45 +410,64 @@ function atualizarGraficoFiltrado(resposta) {
 
 
     function puxarTotalEmpresaPerdida(fkEmpresa) {
-    fetch(`/funcionarios/dados/totalPerdida/${1}`, { // Usa fkEmpresa dinamicamente
+    fetch(`/funcionarios/dados/totalPerdida/${fkEmpresa}`, { 
         method: "GET"
     })
     .then(resposta => {
-        if (resposta.ok) {
-            return resposta.json(); // Retorna os dados em JSON
-        } else {
-            throw new Error("Não foi possível capturar os dados de chamadas perdidas da Empresa.");
+        if (!resposta.ok) {
+            throw new Error("Não foi possível capturar os dados de chamadas da Empresa.");
         }
+        return resposta.json(); // Retorna os dados em JSON
     })
     .then(data => {
-        console.log("Dados recebidos:", data); // Log para verificar o formato dos dados
+        console.log("------------ Depuração ------------");
+        console.log("Dados recebidos (tipo):", typeof data);
+        console.log("Dados recebidos:", data);
 
-        // Verifica se os dados são um array e se não está vazio
-        if (Array.isArray(data) && data.length > 0) {
-            const Perdida = (chamadaPerdida / totalChamadas) * 100;
-            const elementoBloco = document.querySelector('.minibloco4');
-            elementoBloco.textContent = `${Perdida.toFixed(2)}%`;
+        if (data && typeof data === "object") {
+            // Verifica as propriedades diretamente no console
+            console.log("Propriedade chamadasRecebidas existe?", "chamadasRecebidas" in data);
+            console.log("Propriedade chamadasPerdidas existe?", "chamadasPerdidas" in data);
 
-            elementoBloco.textContent = `${Perdida} chamadas perdidas`;
+            const totalChamadasRecebidas = parseInt(data[0].chamadasRecebidas, 10);
+            const totalChamadasPerdidas = parseInt(data[0].chamadasPerdidas, 10);
 
-             if (Perdida <= 35) {
-                 elementoBloco.style.color = '#1be600'; 
-             } else if (Perdida >= 100) {
-                 elementoBloco.style.color = '#ff0000'; 
-             } else {
-                 elementoBloco.style.color = '#ffaa00'; 
-             }
+            console.log("Total Chamadas Recebidas:", totalChamadasRecebidas);
+            console.log("Total Chamadas Perdidas:", totalChamadasPerdidas);
+
+            const elementoBloco = document.querySelector('.minibloco3');
+
+            if (!isNaN(totalChamadasRecebidas) && totalChamadasRecebidas > 0) {
+                const eficiencia = ((totalChamadasRecebidas - totalChamadasPerdidas) / totalChamadasRecebidas) * 100;
+                elementoBloco.textContent = `${eficiencia.toFixed(2)}%`;
+
+                // Muda a cor com base na eficiência
+                if (eficiencia >= 85) {
+                    elementoBloco.style.color = '#1be600'; // Verde
+                } else if (eficiencia >= 70) {
+                    elementoBloco.style.color = '#ffaa00'; // Amarelo
+                } else {
+                    elementoBloco.style.color = '#ff0000'; // Vermelho
+                }
+            } else {
+                elementoBloco.textContent = "Não há chamadas registradas.";
+                elementoBloco.style.color = ''; // Reseta a cor
+            }
         } else {
-            throw new Error("Formato inesperado dos dados recebidos.");
+            console.error("Formato inesperado:", data);
+            throw new Error("Dados recebidos em formato inesperado.");
         }
     })
     .catch(error => {
-        console.error("Erro:", error.message);
-        const elementoBloco = document.querySelector('.minibloco4');
+        console.error("Erro capturado:", error.message);
+        const elementoBloco = document.querySelector('.minibloco3');
         elementoBloco.textContent = "Erro ao carregar dados.";
         elementoBloco.style.color = '#FF0000'; // Vermelho para indicar erro
     });
 }
+
+
+
 
 function eficienciaEmpresaChamada(fkEmpresa) {
     fetch(`/funcionarios/dados/eficiencia/${fkEmpresa}`, { // Usa fkEmpresa dinamicamente
@@ -676,7 +695,7 @@ function filtrarTempoMedioEspera(dataSelecionada, fkEmpresa) {
             // Verifica se as propriedades chamadasPerdidas e totalChamadas existem
             if (chamadas.chamadasPerdidas !== undefined && chamadas.totalChamadas !== undefined) {
                 const chamadasPerdidas = chamadas.chamadasPerdidas;
-                const totalChamadas = chamadas.totalChamadas;
+                const totalChamadas = chamadas.chamadasRecebidas;
 
                 // Verifica se totalChamadas é maior que zero
                 if (totalChamadas > 0) {
@@ -717,10 +736,6 @@ function filtrarTempoMedioEspera(dataSelecionada, fkEmpresa) {
             console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
         });
 }
-
-
-
-
 
     // Função para abrir o menu header
     function openMenu() {

@@ -321,10 +321,12 @@ SELECT COUNT(*) chamadaRecebida FROM chamada
 function puxarTotalEmpresaPerdida(fkEmpresa) {
     console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function descurtir()");
     var instrucaoSql = `
-    SELECT COUNT(*) AS chamadaPerdida FROM chamada
+    SELECT 
+    COUNT(CASE WHEN chamada.chamadaPerdida = 1 THEN 1 END) AS chamadaPerdida,
+    COUNT(chamada.chamadaRecebida) AS chamadasRecebidas
+    FROM chamada
     INNER JOIN funcionario ON chamada.fkFuncionario = funcionario.idFuncionario
-    WHERE chamada.chamadaPerdida = 1
-    AND funcionario.fkEmpresa = ${1};`
+    WHERE funcionario.fkEmpresa = 1;`
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
