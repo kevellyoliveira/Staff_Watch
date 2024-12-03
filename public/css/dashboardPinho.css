@@ -12,7 +12,7 @@
 
 
 body {
-    background-color: #e7ecef;
+    background-color: #B7ADC4;
     height: 100vh;
 }
 
@@ -260,6 +260,7 @@ header {
 
 .itens h4 {
     cursor: pointer;
+    height: fit-content;
 }
 
 .slc {
@@ -345,8 +346,9 @@ header {
 
 .grafico-select{
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     background-color: #002148;
     height:100%;
     width: 80%;
@@ -355,10 +357,17 @@ header {
 
 }
 
+/* #myChartCanvas{
+    height: 80%;
+    
+
+} */
+
 .section-select{
     display: flex;
     padding-top: 10px;
     height: fit-content;
+    width:fit-content
 }
 
 .section-select p{
@@ -433,14 +442,19 @@ header {
     justify-content: center;
 }
 
-.right-section .section-alertas .grafico-text{
-    display: flex;
+.right-section .section-alertas .alertas-text{
+    display: grid;
+    height: 100%;
+    flex-direction: column;
     justify-content: center;
+    /* align-items: start; */
     padding-top: 3%;
+    gap: 5%;
+    overflow-y: auto;
 }
 
 
-.right-section .section-alertas .grafico-text select{
+.right-section .section-alertas .alertas-text select{
     color: #e7ecef;
     border-radius: 5px;
     background-color: #00204800;
@@ -453,13 +467,72 @@ header {
         text-align: center;
 }
 
-.right-section .section-alertas .grafico-text select:hover{
+.right-section .section-alertas .alertas-text p {
+    display: flex;
+    height: fit-content;
+    justify-content:center;
+}
+
+.right-section .section-alertas .alertas-text select:hover{
     background-color: #00295a;
     transition: 0.7s;
     border: 1px solid #e7ecef;
 }
 
-.right-section .section-alertas .grafico-text select option{
+.right-section .section-alertas .alertas-text select option{
     background-color: #002148;
     color: #e7ecef;
 }
+
+.right-section .section-alertas .alertas-text .alertas{
+    display: flex;
+    background-color: #e7ecef;
+    height: 110%;
+    width: 110%;
+    border-radius: 3.5vh;
+    align-items: center;
+    justify-content: center;
+}
+
+.section-up .section-title select{
+    color: #e7ecef;
+    border-radius: 5px;
+    background-color: #00295a;
+    border: 1px solid #002148;
+    height: 3.5vh;
+    width: 20vh;
+    -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        text-align: center;
+}
+
+.section-up .section-title select:hover{
+    background-color: #00295a;
+    transition: 0.7s;
+    height: 3.7vh;
+    box-shadow: 5px 5px 15px #201f1f ;
+    /* border: 1px solid #e7ecef; */
+}
+
+.section-up .section-title select option{
+    background-color: #002148;
+    color: #e7ecef;
+}
+
+/* Estilo da setinha (pseudo-elemento) */
+.custom-select::after {
+    content: "▼"; /* Define a seta */
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    pointer-events: none; /* Ignora cliques na seta */
+    color: #aaa;
+    font-size: 12px;
+  }
+
+  /* Quando o mouse está em cima do select */
+  .custom-select:hover::after {
+    color: #007bff; /* Cor da seta ao passar o mouse */
+  }
