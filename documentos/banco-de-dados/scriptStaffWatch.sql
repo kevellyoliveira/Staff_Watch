@@ -307,8 +307,7 @@ join computador co on ca.fkComputador = co.idComputador
 where ca.fkComponente = 4 and ca.fkAuxComponente = 12 
 order by dataCaptura limit 100;
 
-select * from view_cpuTempoReal where fkComputador = 2 and fkEmpresa = 1;
-select * from view_cpuTempoReal;
+
 
 select * from captura where fkAuxComponente = 12;
 
