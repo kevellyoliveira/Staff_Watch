@@ -73,6 +73,14 @@
                             <option value="vermelho">Vermelho</option>
                         </select>
                     </div>
+                    <div class="filtro cards">
+                        <h3>Exibir máquinas com status: </h3>
+                        <select name="opcoesAlerta" class="selectFiltro cards" id="seletorFiltroStatusCards">
+                            <option value="total">Todos</option>
+                            <option value="1">Ativo</option>
+                            <option value="2">Inativo</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="pesquisa">
                         <input type="text" name="Pesquisar" id="pesquisar_input" required="required" autocomplete="off"
@@ -491,6 +499,9 @@
     document.getElementById("seletorFiltroAlertaCards").addEventListener("change", () => {
         atualizarFeed();
     });
+    document.getElementById("seletorFiltroStatusCards").addEventListener("change", () => {
+        atualizarFeed();
+    });
     // função pra listar as máquinas com seus alertas
     function atualizarFeed() {
         var fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
@@ -501,12 +512,15 @@
         // filtros
         const slctFiltroPeriodo = document.getElementById("seletorFiltroPeriodoCards")
         const slctFiltroAlerta = document.getElementById("seletorFiltroAlertaCards")
+        const slctFiltroStatus = document.getElementById("seletorFiltroStatusCards")
 
         let data = Number(slctFiltroPeriodo.value);
         let alerta = slctFiltroAlerta.value;
+        let status = Number(slctFiltroStatus.value);
+
 
         // console.log(fkEmpresa);
-        fetch(`/dispositivos/listar/${fkEmpresa}/${data}/${alerta}`)
+        fetch(`/dispositivos/listar/${fkEmpresa}/${data}/${alerta}/${status}`)
             .then(function (resposta) {
                 if (resposta.ok) {
                     if (resposta.status == 204) {
