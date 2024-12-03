@@ -10,7 +10,7 @@ import asyncio
 
 config = {
     'user': 'root',
-    'password': 'sptech',
+    'password': '73917391',
     'host': 'localhost',
     'database': 'StaffWatch'
 }
@@ -91,6 +91,27 @@ async def print_system_info(fk_computador):
     discoTotal = disk.total / (1024 ** 3)
     discoPerc = disk.percent
 
+    disk_io_before = psutil.disk_io_counters()
+    time.sleep(1)  # Pausa de 1 segundo para medir as operações de I/O
+    disk_io_after = psutil.disk_io_counters()
+
+    read_ops = disk_io_after.read_count - disk_io_before.read_count
+    write_ops = disk_io_after.write_count - disk_io_before.write_count
+
+    disk_io_before = psutil.disk_io_counters()
+    time.sleep(1)  # Pausa de 1 segundo para medir as operações de I/O
+    disk_io_after = psutil.disk_io_counters()
+
+    bytes_read = disk_io_after.read_bytes - disk_io_before.read_bytes
+    bytes_written = disk_io_after.write_bytes - disk_io_before.write_bytes
+
+    # Converte bytes para MB (dividindo por 1024*1024)
+    read_throughput = bytes_read / 1024*1024   # em MB
+    write_throughput = bytes_written / 1024*1024  # em MB
+
+    print(f"Throughput de escrita do disco: {write_throughput:.2f} mB/s")
+    print(f"Throughput de leitura do disco: {read_throughput:.2f} mB/s")
+
     if os.name == 'posix':  # Para sistemas Linux
         output = os.popen("lsblk -d -o name,model").read()
         lines = output.splitlines()
@@ -105,11 +126,20 @@ async def print_system_info(fk_computador):
                 VALUES 
                 (default,%s,%s,9,3,%s,%s),
                 (default,%s,%s,10,3,%s,%s),
-                (default,%s,%s,11,3,%s,%s)""")
+                (default,%s,%s,11,3,%s,%s),
+                (default,%s,%s,22,3,%s,%s),
+                (default,%s,%s,23,3,%s,%s),
+                (default,%s,%s,24,3,%s,%s),
+                (default,%s,%s,25,3,%s,%s);""")
 
     data_disco = [discoUso, agora, fk_computador, disk_model,
                   discoTotal, agora, fk_computador, disk_model,
-                  discoPerc, agora, fk_computador, disk_model]
+                  discoPerc, agora, fk_computador, disk_model,
+                  read_ops, agora, fk_computador, disk_model,
+                  write_ops, agora, fk_computador, disk_model,
+                  read_throughput, agora, fk_computador, disk_model,
+                  write_throughput, agora, fk_computador, disk_model
+                  ]
 
     cursor.execute(add_disco, data_disco)
     mydb.commit()
@@ -143,6 +173,62 @@ async def print_system_info(fk_computador):
             cursor.execute(inserirAlerta, dados_alerta)
             mydb.commit()
             print(cursor.rowcount, "alerta amarelo inserido - disco")
+
+    if read_ops  > 20:
+        buscarID = ("""SELECT idCaptura FROM captura WHERE 
+                    fkComponente = 3 AND fkAuxComponente = 22
+                    ORDER BY idCaptura DESC LIMIT 1""")
+        cursor.execute(buscarID)
+        idObtido = cursor.fetchone() # obtém o resultado do select de buscarID!!!
+
+        inserirAlerta = ("""INSERT INTO alerta (tipoAlerta, fkCaptura) 
+                            VALUES (2, %s)""")
+        dados_alerta = [idObtido[0]]  # Usa o primeiro elemento da tupla
+        cursor.execute(inserirAlerta, dados_alerta)
+        mydb.commit()
+        print(cursor.rowcount, "alerta vermelho inserido - disco")
+
+    if write_ops  > 20:
+        buscarID = ("""SELECT idCaptura FROM captura WHERE 
+                    fkComponente = 3 AND fkAuxComponente = 23
+                    ORDER BY idCaptura DESC LIMIT 1""")
+        cursor.execute(buscarID)
+        idObtido = cursor.fetchone() # obtém o resultado do select de buscarID!!!
+
+        inserirAlerta = ("""INSERT INTO alerta (tipoAlerta, fkCaptura) 
+                            VALUES (2, %s)""")
+        dados_alerta = [idObtido[0]]  # Usa o primeiro elemento da tupla
+        cursor.execute(inserirAlerta, dados_alerta)
+        mydb.commit()
+        print(cursor.rowcount, "alerta vermelho inserido - disco")
+
+    if read_throughput < 120000.00:
+        buscarID = ("""SELECT idCaptura FROM captura WHERE 
+                    fkComponente = 3 AND fkAuxComponente = 24
+                    ORDER BY idCaptura DESC LIMIT 1""")
+        cursor.execute(buscarID)
+        idObtido = cursor.fetchone() # obtém o resultado do select de buscarID!!!
+
+        inserirAlerta = ("""INSERT INTO alerta (tipoAlerta, fkCaptura) 
+                            VALUES (2, %s)""")
+        dados_alerta = [idObtido[0]]  # Usa o primeiro elemento da tupla
+        cursor.execute(inserirAlerta, dados_alerta)
+        mydb.commit()
+        print(cursor.rowcount, "alerta vermelho inserido - disco")
+
+    if write_throughput < 100000.00:
+        buscarID = ("""SELECT idCaptura FROM captura WHERE 
+                    fkComponente = 3 AND fkAuxComponente = 25
+                    ORDER BY idCaptura DESC LIMIT 1""")
+        cursor.execute(buscarID)
+        idObtido = cursor.fetchone() # obtém o resultado do select de buscarID!!!
+
+        inserirAlerta = ("""INSERT INTO alerta (tipoAlerta, fkCaptura) 
+                            VALUES (2, %s)""")
+        dados_alerta = [idObtido[0]]  # Usa o primeiro elemento da tupla
+        cursor.execute(inserirAlerta, dados_alerta)
+        mydb.commit()
+        print(cursor.rowcount, "alerta vermelho inserido - disco")
 
     # --------------------------------------------------------------------------------
     # Obtém e exibe o uso da CPU

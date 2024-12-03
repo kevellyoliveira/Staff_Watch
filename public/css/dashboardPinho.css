@@ -387,6 +387,30 @@ header {
     transition: 0.7s;
 }
 
+.grafico-btn {
+    display: flex;
+    justify-content: center;
+    /* font-size: 100%; */
+    cursor: pointer;
+    background-color: #002148;
+    color: white;
+    border: none;
+    height: 4vh;
+    width: 15vh;
+    size: 5vh;
+    border-radius: 2vh;
+    align-items: center;
+
+  }
+
+  .grafico-btn:hover{
+    background-color: #1662c0;
+    transition: 0.3s;
+    /* height: 6%; */
+    /* width: 6%; */
+    box-shadow: 0 0 8px rgb(11, 21, 109);
+  }
+
 /*Dashboard das equipes*/
 
 

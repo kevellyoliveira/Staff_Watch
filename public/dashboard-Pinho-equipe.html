@@ -154,17 +154,18 @@
 
     function selecionarItem(elemento) {
         var id = elemento;  // Pega o ID da equipe clicada
+        // var nome = elemento1;
         if (id == 0) {
             // Redireciona para dashboardGeral.html
             window.location.href = "dashboard-Pinho.html";
         } else {
             // Armazena o ID correto da equipe no sessionStorage
             sessionStorage.setItem('equipeSelecionada', id);
-            // sessionStorage.setItem('equipeSelecionada', id);
+            // sessionStorage.setItem('equipeSelecionadaNome', nome);
             // Redireciona para a página da equipe
             window.location.href = 'dashboard-Pinho-equipe.html';
             // window.location.href = 'DashboardEquipe_Eduardo2-go.html';
-            document.getElementsByClassName("title").innerHTML = `Histórico dos componentes - Equipe `
+            // document.getElementsByClassName("title").innerHTML = `Histórico dos componentes - Equipe ${nome}`
         }
     }
 
