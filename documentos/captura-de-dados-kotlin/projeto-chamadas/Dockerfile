@@ -15,6 +15,6 @@ COPY --from=build /app/target/projeto-chamadas-1.0-SNAPSHOT-jar-with-dependencie
 
 WORKDIR /app
 
-EXPOSE 8081
+EXPOSE 8080
 
 CMD ["java", "-jar", "app.jar"]

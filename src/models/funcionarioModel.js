@@ -21,6 +21,40 @@ function cadastrar(nome, email, telefone, idEquipe, fkEmpresa) {
         });
 }
 
+function cadastroGerenteTI(nome, email, telefone, idEquipe, fkEmpresa) {
+    console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. function cadastrar()")
+
+
+    // Inserção na tabela funcionário
+    var instrucaoSqlFuncionario = `insert into funcionario (Nome, Email, Telefone, fkEmpresa, fkEquipe, fkCargo) values
+("${nome}", "${email}", "${telefone}", '${fkEmpresa}',' ${idEquipe}',3);`;
+
+    console.log("Executando a instrução SQL para inserir funcionário:\n" + instrucaoSqlFuncionario);
+
+    return database.executar(instrucaoSqlFuncionario)
+        .catch((erro) => {
+            console.error("Erro durante o cadastro:", erro);
+            throw erro; // Propaga o erro para ser tratado no nível superior
+        });
+}
+
+function cadastroGerenteOp(nome, email, telefone, idEquipe, fkEmpresa) {
+    console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. function cadastrar()")
+
+
+    // Inserção na tabela funcionário
+    var instrucaoSqlFuncionario = `insert into funcionario (Nome, Email, Telefone, fkEmpresa, fkEquipe, fkCargo) values
+("${nome}", "${email}", "${telefone}", '${fkEmpresa}',' ${idEquipe}',2);`;
+
+    console.log("Executando a instrução SQL para inserir funcionário:\n" + instrucaoSqlFuncionario);
+
+    return database.executar(instrucaoSqlFuncionario)
+        .catch((erro) => {
+            console.error("Erro durante o cadastro:", erro);
+            throw erro; // Propaga o erro para ser tratado no nível superior
+        });
+}
+
 
 
 
@@ -440,5 +474,7 @@ module.exports = {
     filtrarTempoMedioEspera,
     filtrarTempoChamadaPerdida,
     filtrarTempoGrafico,
-    plotarGraficoFiltrado
+    plotarGraficoFiltrado,
+    cadastroGerenteTI,
+    cadastroGerenteOp,
 }

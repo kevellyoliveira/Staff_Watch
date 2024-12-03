@@ -425,14 +425,15 @@ function atualizarGraficoFiltrado(resposta) {
 
         // Verifica se os dados são um array e se não está vazio
         if (Array.isArray(data) && data.length > 0) {
-            const totalChamadasPerdidas = data[0].chamadasPerdidas;
-            const elementoBloco = document.querySelector('.minibloco3')
+            const Perdida = (chamadaPerdida / totalChamadas) * 100;
+            const elementoBloco = document.querySelector('.minibloco4');
+            elementoBloco.textContent = `${Perdida.toFixed(2)}%`;
 
-            elementoBloco.textContent = `${totalChamadasPerdidas} chamadas perdidas`;
+            elementoBloco.textContent = `${Perdida} chamadas perdidas`;
 
-             if (totalChamadasPerdidas <= 35) {
+             if (Perdida <= 35) {
                  elementoBloco.style.color = '#1be600'; 
-             } else if (totalChamadasPerdidas >= 100) {
+             } else if (Perdida >= 100) {
                  elementoBloco.style.color = '#ff0000'; 
              } else {
                  elementoBloco.style.color = '#ffaa00'; 
@@ -653,35 +654,51 @@ function filtrarTempoMedioEspera(dataSelecionada, fkEmpresa) {
             });
     }
 
-function filtrarTempoChamadaPerdida(dataSelecionada, fkEmpresa) {
+    function filtrarTempoChamadaPerdida(dataSelecionada, fkEmpresa) {
     fetch(`/funcionarios/dados/tempoPerdida/${dataSelecionada}/${fkEmpresa}`, {
-            method: "GET"
-        })
-            .then(resposta => {
-                if (resposta.ok) {
-                    return resposta.json(); // Retorna os dados em JSON
-                } else {
-                    throw new Error("Não foi possível capturar os dados de chamadas perdidas da Empresa.");
-                }
-            })
-            .then(data => {
-                console.log("------------dadsa")
-                console.log("Dados recebidos:", data); // Log para verificar o formato dos dados
+        method: "GET"
+    })
+    .then(resposta => {
+        if (resposta.ok) {
+            return resposta.json(); // Retorna os dados em formato JSON
+        } else {
+            throw new Error("Não foi possível capturar os dados de chamadas da Empresa.");
+        }
+    })
+    .then(data => {
+        console.log("Dados recebidos:", data); // Verifica o formato dos dados
 
-                // Verifica se o array 'data' não está vazio
-                if (Array.isArray(data) && data.length > 0) {
-                    // Acessa as propriedades do primeiro objeto do array
-                    const totalChamadasPerdidas = data[0].chamadaPerdida;
-                    document.querySelector('.minibloco3').textContent = `${totalChamadasPerdidas} chamadas perdidas`;
+        // Verifica se os dados são um array de objetos e se há dados disponíveis
+        if (Array.isArray(data) && data.length > 0) {
+            // Acessa o primeiro item do array
+            const chamadas = data[0];
+
+            // Verifica se as propriedades chamadasPerdidas e totalChamadas existem
+            if (chamadas.chamadasPerdidas !== undefined && chamadas.totalChamadas !== undefined) {
+                const chamadasPerdidas = chamadas.chamadasPerdidas;
+                const totalChamadas = chamadas.totalChamadas;
+
+                // Verifica se totalChamadas é maior que zero
+                if (totalChamadas > 0) {
+                    // Calcula a porcentagem de chamadas perdidas
+                    const porcentagemPerdidas = (chamadasPerdidas / totalChamadas) * 100;
+                    document.querySelector('.minibloco3').textContent = `${porcentagemPerdidas.toFixed(2)}%`; // Exibe o valor formatado
                 } else {
-                    throw new Error("Formato inesperado dos dados recebidos.");
+                    document.querySelector('.minibloco3').textContent = "Não há chamadas registradas."; // Sem chamadas
                 }
-            })
-            .catch(error => {
-                console.error("Erro:", error.message);
-                document.querySelector('.minibloco3').textContent = "Erro ao carregar dados."; // Feedback para o utilizador
-            });
-    }
+            } else {
+                throw new Error("Formato inesperado dos dados recebidos: propriedades ausentes.");
+            }
+        } else {
+            throw new Error("Formato inesperado dos dados recebidos: dados não são um array.");
+        }
+    })
+    .catch(error => {
+        console.error("Erro:", error.message);
+        document.querySelector('.minibloco3').textContent = "Erro ao carregar dados."; // Feedback para o usuário
+    });
+}
+
 
     function filtrarTempoGrafico(dataSelecionada, fkEmpresa) {
     fetch(`/funcionarios/dados/grafico/${dataSelecionada}/${fkEmpresa}`, { cache: 'no-store' })
