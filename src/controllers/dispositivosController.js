@@ -51,7 +51,11 @@ function obterDadosGrafico(req, res) {
 //Listando todas as máquinas
 function listar(req, res) {
     const fkEmpresa = req.params.fkEmpresa;
-    dispositivoModel.listar(fkEmpresa).then(function (resultado) {
+    const data = req.params.data;
+    const alerta = req.params.alerta;
+    const status = req.params.status
+
+    dispositivoModel.listar(fkEmpresa, data, alerta, status).then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado);
         } else {

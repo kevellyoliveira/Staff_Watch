@@ -307,8 +307,7 @@ join computador co on ca.fkComputador = co.idComputador
 where ca.fkComponente = 4 and ca.fkAuxComponente = 12 
 order by dataCaptura limit 100;
 
-select * from view_cpuTempoReal where fkComputador = 2 and fkEmpresa = 1;
-select * from view_cpuTempoReal;
+
 
 select * from captura where fkAuxComponente = 12;
 
@@ -368,7 +367,6 @@ left join computador maq on maq.idComputador = ca.fkComputador
 where maq.fkEmpresa = 1 
 group by maq.fkEquipe, co.nome 
 order by maq.fkEquipe, co.nome;
-
 
 -- -------------------------------------------------------------------------------   comandos e testes --------------------------------------------------------------------------------
  select alerta.*, captura.* from alerta join captura on captura.idCaptura = alerta.fkCaptura order by idAlerta desc limit 4;
