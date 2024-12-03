@@ -343,6 +343,7 @@ where maq.fkEmpresa = 1
 group by maq.fkEquipe, co.nome 
 order by maq.fkEquipe, co.nome;
 
+
 -- -------------------------------------------------------------------------------   comandos e testes --------------------------------------------------------------------------------
  select alerta.*, captura.* from alerta join captura on captura.idCaptura = alerta.fkCaptura order by idAlerta desc limit 4;
 

@@ -249,7 +249,6 @@ button :hover {
 /*  modal de histórico */
 .historico {
     display: flex;
-    width: 85%;
     height: 85%;
     flex-direction: column;
     align-items: center;
@@ -266,7 +265,7 @@ button :hover {
 .listaAlertas {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 85%;
     height: 100%;
     padding-bottom: 1.5rem;
     gap: 1rem;
@@ -289,6 +288,7 @@ button :hover {
     background-color: #002148;
     color: white;
     border: none;
+    height: 2rem;
     border-radius: 10px;
     text-align: center;
     display: flex;
@@ -297,7 +297,7 @@ button :hover {
 
 .filtro {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: .5rem;
 }
 
@@ -307,14 +307,7 @@ button :hover {
     gap: 2.8rem;
     padding-top: 1rem;
 }
-
-
-
-
-
 /* ====================================================================================================================== */
-
-
 .section-grafico {
     width: 100%;
     height: 20%;

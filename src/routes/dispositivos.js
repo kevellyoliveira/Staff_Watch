@@ -19,7 +19,7 @@ router.get("/listar/:fkEmpresa", function (req, res) {
 });
 
 // histórico de alertas da máquina clicada
-router.get("/historico/:fkEmpresa/:idComputador/:dataFiltro/:filtroAlerta/:filtroComponente", function (req, res) {
+router.get("/historico/:fkEmpresa/:idComputador/:data/:filtroAlerta/:filtroComponente/:filtroData", function (req, res) {
     dispositivosController.historico(req, res);
 });
 

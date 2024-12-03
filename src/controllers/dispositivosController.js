@@ -68,12 +68,13 @@ function listar(req, res) {
 function historico(req, res) {
     var fkEmpresa = req.params.fkEmpresa;
     var idComputador = req.params.idComputador;
-    var dataFiltro = req.params.dataFiltro;
+    var data = req.params.data;
     var filtroAlerta = req.params.filtroAlerta;
     var filtroComponente = req.params.filtroComponente;
+    var filtroData = req.params.filtroData;
 
 
-    dispositivoModel.historico(fkEmpresa, idComputador, dataFiltro, filtroAlerta, filtroComponente)
+    dispositivoModel.historico(fkEmpresa, idComputador, data, filtroAlerta, filtroComponente, filtroData)
         .then(function (resultado) {
             if (resultado.length > 0) {
                 res.status(200).json(resultado);
