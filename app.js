@@ -43,6 +43,7 @@ var maquinasRouter = require("./src/routes/maquinas");
 var dispositivosRouter = require("./src/routes/dispositivos");
 
 var redeRuanRouter =  require("./src/routes/redeRuan");
+const reportRoutes = require('./src/routes/reportRoutes');
 // var empresasRouter = require("./src/routes/empresas");
 
 app.use(express.json());
@@ -63,6 +64,7 @@ app.use("/memsramMatheus", ramRouter);
 app.use("/dispositivos", dispositivosRouter);
 
 app.use("/redeRuan", redeRuanRouter);
+app.use('/report', reportRoutes); // Todas as rotas começam com /report
 
 app.use((req, res, next) => {
     console.log(`Recebida solicitação: ${req.method} ${req.path}`);
