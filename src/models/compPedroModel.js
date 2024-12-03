@@ -1,7 +1,7 @@
 var database = require("../database/config");
 
-function buscarAlertasEquipe(fkEmpresa,idComponente,tempo ) {
-    console.log(`estamos na model em gerarGraficoTempoReal e o idComponente é: ${idComponente}`)
+function buscarAlertasEquipe(fkEmpresa,idComponente,tempo) {
+    console.log(`estamos na model em buscarAlertasEquipe e o idComponente é: ${idComponente}`)
 
     if (idComponente == 1) {
         var instrucaoSql = `SELECT 
@@ -103,7 +103,7 @@ function gerarGraficoCpu(fkEquipe,fkEmpresa, tempo) {
 
     var instrucaoSql = `SELECT 
     cap.captura,
-    cap.dataCaptura
+    DATE_FORMAT(cap.dataCaptura, '%d-%m-%Y') AS dataCaptura
 FROM captura cap
 JOIN auxComponente aux ON cap.fkAuxComponente = aux.idAuxComponente
 JOIN computador pc ON cap.fkComputador = pc.idComputador
@@ -123,7 +123,7 @@ function gerarGraficoRam(fkEquipe,fkEmpresa, tempo) {
 
     var instrucaoSql = `SELECT 
     cap.captura,
-    cap.dataCaptura
+    DATE_FORMAT(cap.dataCaptura, '%d-%m-%Y') AS dataCaptura
 FROM captura cap
 JOIN auxComponente aux ON cap.fkAuxComponente = aux.idAuxComponente
 JOIN computador pc ON cap.fkComputador = pc.idComputador
@@ -142,18 +142,19 @@ WHERE
 function gerarGraficoDisco1(fkEquipe,fkEmpresa, tempo) {
 
     var instrucaoSql = `SELECT 
+    cap.fkAuxComponente,
     cap.captura,
-    cap.dataCaptura
+    DATE_FORMAT(cap.dataCaptura, '%d-%m-%Y') AS dataCaptura
 FROM captura cap
 JOIN auxComponente aux ON cap.fkAuxComponente = aux.idAuxComponente
 JOIN computador pc ON cap.fkComputador = pc.idComputador
 JOIN equipe eqp ON pc.fkEquipe = eqp.idEquipe
 JOIN empresa emp ON pc.fkEmpresa = emp.idEmpresa
 WHERE  
-    (cap.fkComponente = 20 and 21) AND 
+    cap.fkAuxComponente IN (22, 23) AND  
     pc.fkEquipe = ${fkEquipe} AND  
-    pc.fkEmpresa= ${fkEmpresa} AND  
-    DATE( date_sub(now(), interval ${tempo} day ));`;
+    pc.fkEmpresa = ${fkEmpresa} AND  
+    cap.dataCaptura >= DATE_SUB(NOW(), INTERVAL ${tempo} DAY); `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
@@ -163,18 +164,73 @@ WHERE
 function gerarGraficoDisco2(fkEquipe,fkEmpresa, tempo) {
 
     var instrucaoSql = `SELECT 
+    cap.fkAuxComponente,
     cap.captura,
-    cap.dataCaptura
+    DATE_FORMAT(cap.dataCaptura, '%d-%m-%Y') AS dataCaptura
 FROM captura cap
 JOIN auxComponente aux ON cap.fkAuxComponente = aux.idAuxComponente
 JOIN computador pc ON cap.fkComputador = pc.idComputador
 JOIN equipe eqp ON pc.fkEquipe = eqp.idEquipe
 JOIN empresa emp ON pc.fkEmpresa = emp.idEmpresa
 WHERE  
-    (cap.fkComponente = 22 and 23) AND 
+    cap.fkAuxComponente IN (24, 25) AND  
     pc.fkEquipe = ${fkEquipe} AND  
-    pc.fkEmpresa= ${fkEmpresa} AND  
-    DATE( date_sub(now(), interval ${tempo} day ));`;
+    pc.fkEmpresa = ${fkEmpresa} AND  
+    cap.dataCaptura >= DATE_SUB(NOW(), INTERVAL ${tempo} DAY);`;
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+
+function listarAlertas(fkEquipe, fkEmpresa, tempo, componente) {
+
+
+    if(componente == 1){
+        var instrucaoSql = `SELECT 
+    alerta.idAlerta AS tipoAlerta,
+    componente.nome AS nomeComponente,
+    auxComponente.unidadeMedida AS descricaoAuxComponente
+FROM 
+    alerta
+INNER JOIN captura ON alerta.fkCaptura = captura.idCaptura
+INNER JOIN componente ON captura.fkComponente = componente.idComponente
+INNER JOIN computador ON captura.fkComputador = computador.idComputador
+INNER JOIN auxComponente ON captura.fkAuxComponente = auxComponente.idAuxComponente
+inner JOIN computador pc ON captura.fkComputador = pc.idComputador
+inner JOIN equipe eqp ON pc.fkEquipe = eqp.idEquipe
+inner JOIN empresa emp ON pc.fkEmpresa = emp.idEmpresa
+WHERE 
+    computador.fkEquipe = ${fkEquipe}
+    AND computador.fkEmpresa = ${fkEmpresa}
+    AND componente.idComponente IN (2, 4)
+    AND  
+    DATE( date_sub(now(), interval ${tempo} day ))
+    limit 5;`;
+    }
+    else{
+
+        var instrucaoSql = `SELECT 
+        alerta.idAlerta AS tipoAlerta,
+        componente.nome AS nomeComponente,
+        auxComponente.unidadeMedida AS descricaoAuxComponente
+    FROM 
+        alerta
+    INNER JOIN captura ON alerta.fkCaptura = captura.idCaptura
+    INNER JOIN componente ON captura.fkComponente = componente.idComponente
+    INNER JOIN computador ON captura.fkComputador = computador.idComputador
+    INNER JOIN auxComponente ON captura.fkAuxComponente = auxComponente.idAuxComponente
+    inner JOIN computador pc ON captura.fkComputador = pc.idComputador
+    inner JOIN equipe eqp ON pc.fkEquipe = eqp.idEquipe
+    inner JOIN empresa emp ON pc.fkEmpresa = emp.idEmpresa
+    WHERE 
+        computador.fkEquipe = ${fkEquipe}
+        AND computador.fkEmpresa = ${fkEmpresa}
+        AND componente.idComponente = ${componente}
+        AND  
+    DATE( date_sub(now(), interval ${tempo} day ))
+    limit 5;`;
+    }
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
@@ -185,5 +241,6 @@ module.exports = {
     gerarGraficoCpu,
     gerarGraficoRam,
     gerarGraficoDisco1,
-    gerarGraficoDisco2
+    gerarGraficoDisco2,
+    listarAlertas
 };
