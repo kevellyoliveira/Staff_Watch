@@ -13,7 +13,7 @@
     <title>Dashboard | Staff Watch</title>
 </head>
 
-<body>
+<body onload="listarEquipes()">
     <header>
         <div class="opcoes">
             <div class="esq">
@@ -43,14 +43,12 @@
         <div id="sideMenu" class="side-menu">
             <button class="close-btn" onclick="closeMenu()">☰</button>
             <div class="menuLateral">
-                <div class="itens1">
-                    <h4 id="0" class="hist1" onclick="window.location.href='dashboard-Pinho-equipe.html'">Home</h4>
-                    <!-- Histórico Fixo -->
-
-                    <!-- As equipes serão carregadas dinamicamente aqui -->
-
-                    <h4 class="hist1" onclick="window.location.href='./novaEquipe.html'">NovaEquipe</h4>
-                    <!-- Nova equipe Fixa -->
+                <div class="itens">
+                    <h4 id="home" class="historico" onclick="window.location.href='dashboard-Pinho-equipe.html'">
+                        Home</h4>
+                    <!-- Aqui as equipes serão inseridas dinamicamente pelo JavaScript -->
+                    <h4 id="novaEquipe" class="novaequipe" onclick="window.location.href='./novaEquipe.html'">Nova
+                        Equipe</h4>
                 </div>
             </div>
         </div>
@@ -65,7 +63,7 @@
             <div class="first-section">
                 <div class="grafico-select">
                     <div class="section-select">
-                        <p>Gráfico de <select id="select_componente">
+                        <p>Gráfico de <select onselect="carregarGraficos()" id="select_componente">
                                 <option value="#" selected disabled>Selecione o Componente</option>
                                 <option value="1">Todos</option>
                                 <option value="12">CPU</option>
@@ -105,7 +103,7 @@
             // Armazena o ID correto da equipe no sessionStorage
             sessionStorage.setItem('equipeSelecionada', id);
             // Redireciona para a página da equipe
-            window.location.href = 'dashboardEquipe_Eduardo2-go.html';
+            window.location.href = 'dashboard-Pinho-equipe.html';
         }
     }
 
@@ -133,58 +131,58 @@
         document.getElementById("sideMenu").style.left = "-250px";
     }
 
+
+
     function listarEquipes() {
-        const fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
 
-        fetch(`funcionarios/listarEquipes/${fkEmpresa}`)
-            .then(function (resposta) {
-                if (resposta.ok) {
-                    return resposta.json(); // Se a resposta for ok, tenta converter para JSON
-                } else {
-                    console.error("Erro ao carregar equipes, status:", resposta.status);
-                    return []; // Se não retornar sucesso, retorna um array vazio
-                }
-            })
-            .then(function (dados) {
-                // Verificando se dados está correto
-                console.log("Equipes carregadas:", dados);
+const fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
 
-                const menuLateral = document.querySelector(".menuLateral .itens");
+fetch(`funcionarios/listarEquipes/${fkEmpresa}`)
+    .then(resposta => {
+        if (resposta.ok) {
+            return resposta.json(); // Se a resposta for válida, converte para JSON
+        } else {
+            console.error("Erro ao carregar equipes, status:", resposta.status);
+            return [];
+        }
+    })
+    .then(dados => {
+        console.log("Equipes carregadas:", dados);
 
-                // Limpa o conteúdo atual do menu (exceto os itens fixos)
-                const historicoItem = document.querySelector(".historico"); // Seleciona o item Histórico pela classe
-                const novaEquipeItem = document.querySelector(".novaequipe"); // Seleciona o item Nova Equipe pela classe
+        // Seleciona o menu lateral e os itens fixos
+        const menuLateral = document.querySelector(".menuLateral .itens");
+        const historicoItem = document.querySelector("#home");
+        const novaEquipeItem = document.querySelector("#novaEquipe");
 
-                // Re-adiciona o item "Histórico" de volta
-                menuLateral.innerHTML = ''; // Limpa a lista para evitar duplicação
+        // Limpa o menu sem remover os itens fixos
+        menuLateral.innerHTML = ''; // Limpa todos os itens
+        menuLateral.appendChild(historicoItem); // Reinsere o item "Home"
 
-                // Adiciona o Histórico novamente
-                menuLateral.appendChild(historicoItem);
-
-                // Adiciona as equipes (se houver)
-                if (dados && dados.length > 0) {
-                    dados.forEach(function (equipe) {
-                        const h4 = document.createElement("h4");
-                        h4.textContent = equipe.nome;  // O nome da equipe
-                        h4.onclick = function () {
-                            selecionarItem(equipe.id);  // Quando clicar, chama a função de seleção
-                        };
-                        menuLateral.appendChild(h4); // Adiciona a equipe ao menu
-                    });
-                } else {
-                    // Se não houver equipes, exibe uma mensagem
-                    const noTeamsMessage = document.createElement("h4");
-                    noTeamsMessage.textContent = "Nenhuma equipe encontrada.";
-                    menuLateral.appendChild(noTeamsMessage);
-                }
-
-                // Re-adiciona a opção "Nova equipe"
-                menuLateral.appendChild(novaEquipeItem);
-            })
-            .catch(function (erro) {
-                console.error("Erro ao carregar as equipes:", erro);
+        // Adiciona as equipes dinamicamente
+        if (dados.length > 0) {
+            dados.forEach(equipe => {
+                const h4 = document.createElement("h4");
+                h4.textContent = equipe.nome;
+                h4.id = equipe.idEquipe;
+                h4.classList.add("equipe"); // Adiciona uma classe para estilização
+                h4.onclick = () => selecionarItem(equipe.idEquipe);
+                menuLateral.appendChild(h4);
             });
-    }
+        } else {
+            // Exibe mensagem caso não existam equipes
+            const noTeamsMessage = document.createElement("h4");
+            noTeamsMessage.textContent = "Nenhuma equipe encontrada.";
+            noTeamsMessage.classList.add("sem-equipes");
+            menuLateral.appendChild(noTeamsMessage);
+        }
+
+        // Reinsere a opção "Nova Equipe"
+        menuLateral.appendChild(novaEquipeItem);
+    })
+    .catch(erro => {
+        console.error("Erro ao carregar as equipes:", erro);
+    });
+}
 
     // window.onload = function () {
     //     listarEquipes();  // Chama a função para listar as equipes
@@ -201,8 +199,12 @@
     function obterDadosGrafico() {
         const fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
         var tempo = select_tempo.value;
-        var idComponente = select_componente.value;
-        fetch(`/alertas/${fkEmpresa}/${tempo}/${idComponente}`, { cache: 'no-store' }).then(function (response) {
+        var idComponente =select_componente.value;
+
+        console.log(fkEmpresa)
+        console.log(tempo)
+        console.log(idComponente)
+        fetch(`/CompPedro/alertasEquipe/${fkEmpresa}/${tempo}/${idComponente}`, { cache: 'no-store' }).then(function (response) {
             if (response.ok) {
                 response.json().then(function (resposta) {
                     console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);

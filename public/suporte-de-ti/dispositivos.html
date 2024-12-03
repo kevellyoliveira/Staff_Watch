@@ -56,12 +56,34 @@
             </section> -->
 
             <article class="title">
-                <input type="text" name="Pesquisar" id="pesquisar_input" required="required" autocomplete="off"
-                    placeholder="Pesquisar máquina pelo ID"><button onclick="listarPorUsuario()"><i
-                        class="fa-solid fa-magnifying-glass"></i></button>
+                <!-- <div class="filtros">
+                    <div class="filtro">
+                        <h3>Exibir alerta mais recente de:</h3>
+                        <select name="opcoes" class="selectFiltro" id="seletorFiltro">
+                            <option value="1h">Última 1 hora</option>
+                            <option value="3h">Últimas 3 horas</option>
+                            <option value="24h">Últimas 24 horas</option>
+                        </select>
+                    </div>
+                    <div class="filtro">
+                        <h3>Exibir alerta mais recente do tipo: </h3>
+                        <select name="opcoesAlerta" class="selectFiltro" id="seletorFiltroAlerta">
+                            <option value="total">Todos</option>
+                            <option value="amarelo">Amarelo</option>
+                            <option value="vermelho">Vermelho</option>
+                        </select>
+                    </div>
+                </div> -->
+
+                <div class="pesquisa">
+                    <input type="text" name="Pesquisar" id="pesquisar_input" required="required" autocomplete="off"
+                        placeholder="Pesquisar máquina pelo ID" onkeyup="listarPorUsuario()"><button
+                        onclick="listarPorUsuario()"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </div>
             </article>
 
             <section class="sectioncard" id="sectioncard">
+                <span id="spanMensagem"></span>
 
                 <!-- <div class="card open-modal" onclick="alterarComponente('dashCpu')">
 
@@ -156,6 +178,8 @@
         <div id="modal" class="hide">
             <div class="btnSair">
                 <img src=".././src/img/icons/fechar.svg" alt="ícone para sair do modal" onclick="closeModal()">
+                <!-- <h1 class="txtId">ID: <span id="idComputadorModal"> </span></h1> -->
+
             </div>
             <div class="modal-content">
                 <div class="containerModal">
@@ -168,13 +192,16 @@
                         </h6>
                     </div>
 
+                    <div class="maqInativa">
+                        <h3>Não foi possível visualizar o desempenho da máquina: fora de operação.</h2>
+                    </div>
+
                     <div class="aside">
                         <div class="dadosComponente">
                             <div class="infosComponente">
                                 <!-- <h6 class="componente" id="idComponente"> CPU </h6> -->
                                 <h6 class="nomeComponente" id="idNomeComponente"> nome do componente </h6>
                             </div>
-
                             <h5 class="monitoramento" id="idMonitoramentoGrafico"> Utilização: </h5>
                         </div>
 
@@ -325,7 +352,45 @@
                     </div>
                     <!-- tela de histórico -->
                     <div id="dashHistorico" class="historico">
-                        <h3 id="idMaquina">Histórico de alertas da máquina X</h3>
+                        <h3 id="idMaquina">Histórico de alertas da máquina </h3>
+                        <div class="filtros">
+
+                            <div class="filtro">
+                                <h6>Data específica do alerta: </h6>
+                                <input type="date" class="selectFiltro" name="inpData" id="inpData">
+                            </div>
+
+                            <div class="filtro">
+                                <h6>Período do alerta: </h6>
+                                <select name="opcoes" class="selectFiltro" id="seletorFiltro">
+                                    <option value="total">Sempre</option>
+                                    <option value="24h">Últimas 24 horas</option>
+                                    <option value="7d">Últimos 7 dias</option>
+                                    <option value="30d">Últimos 30 dias</option>
+                                    <option value="365d">Últimos 365 dias</option>
+                                </select>
+                            </div>
+
+                            <div class="filtro">
+                                <h6>Gravidade de alerta: </h6>
+                                <select name="opcoesAlerta" class="selectFiltro" id="seletorFiltroAlerta">
+                                    <option value="total">Todos</option>
+                                    <option value="amarelo">Amarelo</option>
+                                    <option value="vermelho">Vermelho</option>
+                                </select>
+                            </div>
+
+                            <div class="filtro">
+                                <h6>Componente: </h6>
+                                <select name="opcoesAlerta" class="selectFiltro" id="seletorFiltroComponente">
+                                    <option value="0">Todos</option>
+                                    <option value="4">CPU</option>
+                                    <option value="3">Disco</option>
+                                    <option value="1">Rede</option>
+                                    <option value="2">Memória RAM</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="listaAlertas">
                             <p>Nenhum alerta emitido.</p>
                         </div>
@@ -341,12 +406,22 @@
 <!-- script do chartJs -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<!-- script do apexCHarts -->
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
 
 </html>
 
 <script>
     var fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
     b_usuario.innerHTML = sessionStorage.NOME_USUARIO
+
+    let idComponente = 0;
+    let idComputador = 0;
+    let cardId = 0;
+    let dadosRecebidos = []; // Variável para armazenar os dados recebidos - funcao de buscar dados inicias
+    let intervaloAtivo = null;
+    let graficoAtual;
 
     function sair() {
         sessionStorage.clear()
@@ -375,6 +450,7 @@
 
     }
 
+    // função pra ativar uma máquina
     function atualizarMaquina(idComputador) {
         editarAlgo = true
         // Redireciona o usuário para a página de edição com o ID do funcionário como parâmetro na URL
@@ -399,6 +475,7 @@
         }
     }
 
+    // função pra desativar uma máquina
     function deletar(idComputador) {
         editarAlgo = true
         if (confirm("Tem a certeza de que deseja desativar esta máquina?")) {
@@ -419,7 +496,8 @@
                 });
         }
     }
-    let cardId = 0;
+
+    // função pra listar as máquinas com seus alertas
     function atualizarFeed() {
         var fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
 
@@ -432,7 +510,7 @@
                 if (resposta.ok) {
                     if (resposta.status == 204) {
                         var feed = document.getElementById("sectioncard");
-                        var mensagem = document.createElement("span");
+                        var mensagem = document.getElementById("spanMensagem");
                         mensagem.innerHTML = "Nenhum resultado encontrado.";
                         feed.appendChild(mensagem);
                         throw "Nenhum resultado encontrado!";
@@ -451,11 +529,11 @@
                 resposta.forEach(publicacao => {
                     var card = document.createElement("div");
                     card.setAttribute("id", publicacao.idComputador); // Define o ID
-                    card.classList.add("card"); // Adiciona a classe para abrir o modal
+                    card.classList.add("card"); // Adiciona a classe para o modal
 
                     // Adicionando o evento para abrir o modal
                     card.addEventListener("click", function () {
-                        cardId = this.id
+                        cardId = this.id;
                         console.log("Card clicado. cardId:", this.id);
                         alterarComponente('dashCpu', this.id);  // Altera o componente
                         toggleModal(event);  // Abre o modal após alterar o componente
@@ -465,29 +543,91 @@
                     let status = publicacao.status === 1 ? "Em atividade" : "Inativo";
                     let statusColor = publicacao.status === 1 ? "#12FF39" : "#FF7557";
 
-                    // Adicionando o conteúdo HTML do card
-                    card.innerHTML = `
-                        <div class="down-card cima">
-                            <div class="esqCard">
-                                <figure class="iconComp">
-                                    <img src=".././src/img/icons/indicadoresMaquina/computadorBranco.png" alt="">
-                                </figure>
+                    if (publicacao.status === 2) {
+                        card.innerHTML = `
+                <div class="down-card cima">
+                    <div class="esqCard">
+                        <figure class="iconComp">
+                            <img src=".././src/img/icons/indicadoresMaquina/computadorBranco.png" alt="Ícone do Computador">
+                        </figure>
+                    </div>
+                    <div class="dirCard"></div>
+                </div>
+                <div class="down-card">
+                    <div class="content-card">
+                        <p><b>ID:</b> ${publicacao.idComputador}</p>
+                        <p><b>Equipe:</b> ${publicacao.fkEquipe}</p>
+                        <p><b>Funcionário:</b> ${publicacao.nomeFuncionario}</p>
+                        <p><b>Status:</b> <span style="color: ${statusColor};">${status}</span></p>
+                    </div>
+                    <div class="up-card">
+                        <img src=".././src/img/icons/editar.svg" id="editar" alt="Editar" onclick="atualizarMaquina(${publicacao.idComputador})">
+                        <img src=".././src/img/icons/excluir.svg" id="editar" alt="Excluir" onclick="deletar(${publicacao.idComputador})">
+                    </div>
+                </div>
+            `;
+                    }
+                    else {
+
+                        // Defina o ícone do computador com base no tipo de alerta
+                        let computadorIcon = ".././src/img/icons/indicadoresMaquina/computadorEstavel.png";
+                        if (publicacao.tipoAlerta === 1) {
+                            computadorIcon = ".././src/img/icons/indicadoresMaquina/computadorAlerta.png";
+                        } else if (publicacao.tipoAlerta === 2) {
+                            computadorIcon = ".././src/img/icons/indicadoresMaquina/computadorCritico.png";
+                        }
+
+                        // Formatação da mensagem de alerta
+                        let alertaMensagem = "";
+                        if (publicacao.tipoAlerta) {
+                            const componente = publicacao.nomeComponente; // Nome do componente
+                            const descricao = publicacao.unidadeMedida; // Descrição do alerta
+                            const captura = publicacao.captura; // Valor capturado
+
+                            // Formatar mensagem para exibir "% de uso" de forma amigável
+                            if (descricao.toLowerCase().includes("porcen")) {
+                                alertaMensagem = `<p>${componente} acima do ideal com ${captura}% de uso</p>`;
+                            } else if (descricao.toLowerCase() === "latencia") {
+                                alertaMensagem = `<p>${componente} com alta latência (${captura}ms)</p>`;
+                            } else if (descricao.toLowerCase() === "pacotesperdidos") {
+                                alertaMensagem = `<p>${componente} com perda de pacotes (${captura}%)</p>`;
+                            } else {
+                                alertaMensagem = `<p>${componente} acima do ideal (${descricao}: ${captura})</p>`;
+                            }
+                        }
+
+                        // Criação da estrutura do card
+                        card.innerHTML = `
+                            <div class="down-card cima">
+                                <div class="esqCard">
+                                    <figure class="iconComp">
+                                        <img src="${computadorIcon}" alt="Ícone do Computador">
+                                    </figure>
+                                </div>
+                                ${publicacao.tipoAlerta ? `
+                                <div class="dirCard">
+                                    <div class="alertaMaquina">
+                                        <figure> 
+                                            <img src="${publicacao.tipoAlerta === 1 ? '.././src/img/icons/alerta1.png' : '.././src/img/icons/alerta2.png'}" alt="Ícone do Alerta"> 
+                                        </figure>
+                                        ${alertaMensagem}
+                                    </div>
+                                </div>` : ''}
                             </div>
-                            <div class="dirCard" id="maquina${publicacao.idComputador}"></div>
-                        </div>
-                        <div class="down-card">
-                            <div class="content-card">
-                                <p><b>ID:</b> ${publicacao.idComputador}</p>
-                                <p><b>Equipe:</b> ${publicacao.fkEquipe}</p>
-                                <p><b>Funcionário:</b> ${publicacao.nomeFuncionario}</p>
-                                <p><b>Status:</b> <span style="color: ${statusColor};">${status}</span></p>
+                            <div class="down-card">
+                                <div class="content-card">
+                                    <p><b>ID:</b> ${publicacao.idComputador}</p>
+                                    <p><b>Equipe:</b> ${publicacao.fkEquipe}</p>
+                                    <p><b>Funcionário:</b> ${publicacao.nomeFuncionario}</p>
+                                    <p><b>Status:</b> <span style="color: ${statusColor};">${status}</span></p>
+                                </div>
+                                <div class="up-card">
+                                    <img src=".././src/img/icons/editar.svg" id="editar" alt="Editar" onclick="atualizarMaquina(${publicacao.idComputador})">
+                                    <img src=".././src/img/icons/excluir.svg" id="editar" alt="Excluir" onclick="deletar(${publicacao.idComputador})">
+                                </div>
                             </div>
-                            <div id="editar" class="up-card">
-                                <img src=".././src/img/icons/editar.svg" id="editar" onclick="atualizarMaquina(${publicacao.idComputador})">
-                                <img src=".././src/img/icons/excluir.svg" id="editar" onclick="deletar(${publicacao.idComputador})">
-                            </div>
-                        </div>
-                    `;
+                        `;
+                    }
                     feed.appendChild(card);
                 });
             })
@@ -495,7 +635,9 @@
                 console.error("Erro ao atualizar o feed:", erro);
             });
     }
+    intervaloFeed = setInterval(atualizarFeed, 2000);
 
+    // função pra gerar o gráfico de quantidade de alertas por equipe
     function gerarGraficoEquipes(fkEmpresa) {
         fetch(`/dispositivos/equipes/${fkEmpresa}`)
             .then(response => response.json())
@@ -517,7 +659,7 @@
                 };
 
                 result.forEach(row => {
-                    console.log('Componente recebido:', row.componente);
+                    // console.log('Componente recebido:', row.componente);
 
                     // Adiciona a equipe ao eixo X se ainda não estiver incluída
                     const equipeLabel = `Equipe ${row.equipe}`
@@ -554,8 +696,8 @@
                         {
                             label: 'RAM',
                             data: datasets.RAM,
-                            backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                            borderColor: 'rgba(75, 192, 192, 1)',
+                            backgroundColor: 'rgba(75, 192, 192, 0.4)',
+                            borderColor: '#4BC0C0',
                             borderWidth: 1
                         },
                         {
@@ -594,24 +736,41 @@
                 };
 
                 // Renderiza o gráfico
-                const ctx = document.getElementById('graficoEquipe').getContext('2d');
-                new Chart(ctx, config);
+                // const ctx = document.getElementById('graficoEquipe').getContext('2d');
+                // new Chart(ctx, config);
             })
-            .catch(error => console.error('Erro ao carregar os dados:', error));
+        // .catch(error => console.error('Erro ao carregar os dados:', error));
     }
 
-
-
     //============== GRÁFICO DE MONITORAMENTO EM TEMPO REAL  ==================================================================================
-    let idComponente = 0
-    let idComputador = 0;
     function alterarComponente(componenteId, card = cardId) {
-        console.log(`Componente encontrado: ${componenteId}`);
+
+        // const idComputadorModal = document.getElementById("idComputadorModal")
+        // idComputadorModal.innerHTML = `${idComputador}`
+
+        // Obtém o status da máquina (ativo/inativo)
+        const cardElement = document.getElementById(card);
+        const status = cardElement.querySelector(".content-card p span").innerText;
+        const maqInativaDiv = document.querySelector(".maqInativa");
 
         const aside = document.querySelector(".aside");
-        aside.style.display = 'flex';
-
         const dashComponentes = ["dashCpu", "dashDisco", "dashRede", "dashMemoria", "dashHistorico"];
+        const graficoIds = ["chartCPU", "chartDISCO", "chartREDE", "chartRAM"];
+
+        // Verifica se a máquina está inativa
+        if (status === "Inativo") {
+            // Exibe apenas a mensagem de máquina inativa
+            maqInativaDiv.style.display = "flex";
+            aside.style.display = "none";
+            dashComponentes.forEach(id => document.getElementById(id).style.display = "none");
+            graficoIds.forEach(id => document.getElementById(id).style.display = "none");
+            return; // Sai da função para evitar carregamentos desnecessários
+        } else {
+            // Oculta a mensagem de máquina inativa e exibe os gráficos normalmente
+            maqInativaDiv.style.display = "none";
+            aside.style.display = "flex";
+        }
+
         const componentes = {
             "dashCpu": "CPU",
             "dashDisco": "Disco",
@@ -635,7 +794,6 @@
 
         });
         // Esconde todos os gráficos
-        const graficoIds = ["chartCPU", "chartDISCO", "chartREDE", "chartRAM"];
         graficoIds.forEach(graficoId => {
             const graficoElem = document.getElementById(graficoId);
             graficoElem.style.display = "none"; // Oculta todos os gráficos
@@ -716,15 +874,69 @@
         }
 
         if (componenteId === "dashHistorico") {
-            carregarHistoricoAlertas(cardId);
+            carregarHistoricoAlertas(cardId,);
             return;
         } else {
             obterDadosGrafico(idComponente, cardId)
         }
     }
 
+    // chama a função de carregarHistorico quando algum select de filtro é alterado!
+    document.getElementById("seletorFiltro").addEventListener("change", () => {
+        carregarHistoricoAlertas(cardId);
+    });
+    document.getElementById("seletorFiltroAlerta").addEventListener("change", () => {
+        carregarHistoricoAlertas(cardId);
+    });
+    document.getElementById("seletorFiltroComponente").addEventListener("change", () => {
+        carregarHistoricoAlertas(cardId);
+    });
+    document.getElementById("inpData").addEventListener("change", () => {
+        carregarHistoricoAlertas(cardId);
+    });
+
     function carregarHistoricoAlertas(idComputador = cardId) {
-        console.log(`idComputador em carregarHistorico: ${idComputador} e cardid: ${cardId}`)
+
+        // filtro pela data, período, pelo tipo de alerta e por componente!
+        const seletorFiltro = document.getElementById("seletorFiltro");
+        const seletorFiltroAlerta = document.getElementById("seletorFiltroAlerta");
+        const seletorFiltroComponente = document.getElementById("seletorFiltroComponente");
+        const inputFiltroData = document.getElementById("inpData")
+
+        let filtroPeriodo = seletorFiltro.value; // filtro de período
+        let filtroAlerta = seletorFiltroAlerta.value;
+        let filtroComponente = seletorFiltroComponente.value;
+        let filtroData = inputFiltroData.value; console.log(`filtroData: ${filtroData}`)
+
+        let data = ""; // formata a data a ser enviada pro modal
+
+        // "data" é utilizado no filtro de período, ele vem do "filtroPeriodo"
+        // "filtroData" é utilizado no filtro de data específica. vem como padrão uma string vazia 
+        
+        if (filtroData) {
+            data = '0'
+        } else {
+            filtroData = '0'
+
+            const currentDate = new Date();
+            // definindo o filtro de data com base na seleção
+            if (filtroPeriodo === "24h") {
+                currentDate.setHours(currentDate.getHours() - 24);
+                data = currentDate.toISOString();
+            } else if (filtroPeriodo === "7d") {
+                currentDate.setDate(currentDate.getDate() - 7);
+                data = currentDate.toISOString();
+            } else if (filtroPeriodo === "30d") {
+                currentDate.setDate(currentDate.getDate() - 30);
+                data = currentDate.toISOString();
+            } else if (filtroPeriodo === "365d") {
+                currentDate.setFullYear(currentDate.getFullYear() - 1);
+                data = currentDate.toISOString();
+            } else {
+                data = '0'
+            }
+        }
+
         if (intervaloAtivo) {
             clearInterval(intervaloAtivo);
             intervaloAtivo = null;
@@ -736,8 +948,13 @@
         bside.style.display = 'none';
         historico.style.display = 'flex';
 
-        console.log(`URL gerada: /dispositivos/historico/1/3`);
-        fetch(`/dispositivos/historico/${fkEmpresa}/${cardId}`, {
+        console.warn(`fetch com os filtros: 
+                    período:(data) ${data}
+                    tipo alerta:(filtroAlerta) ${filtroAlerta}
+                    componente:(filtroComponente) ${filtroComponente}
+                    data:(filtroData) ${filtroData}`)
+
+        fetch(`/dispositivos/historico/${fkEmpresa}/${cardId}/${data}/${filtroAlerta}/${filtroComponente}/${filtroData}`, {
             cache: 'no-store',
             method: "GET",
         })
@@ -745,12 +962,14 @@
                 console.log(response);
                 const listaAlertas = document.querySelector(".listaAlertas");
                 const idMaquina = document.getElementById("idMaquina"); // Acha o elemento idMaquina
+                const idComputadorModal = document.getElementById("idComputadorModal")
 
                 if (response.ok) {
                     if (response.status == 204) {
                         // Exibe a mensagem quando não há alertas
                         listaAlertas.innerHTML = `Nenhum alerta encontrado.`;
                         idMaquina.innerHTML = `Histórico de alertas da máquina ${idComputador} - Total: 0 alertas.`;
+                        // idComputadorModal.innerHTML = `${idComputador}`
                         return; // Sai do processamento aqui, já que não há dados
                     }
                     return response.json(); // Retorna o JSON com os alertas
@@ -761,6 +980,7 @@
             .then(alertas => {
                 const listaAlertas = document.querySelector(".listaAlertas");
                 const idMaquina = document.getElementById("idMaquina");
+
 
                 // Verifica se a resposta está vazia
                 if (alertas.length === 0) {
@@ -797,7 +1017,7 @@
                             ${tipoAlerta}
                         </span> 
                         <span style="text-decoration: underline;">em ${formattedDate}</span>
-                        em ${descricaoAdicional} do componente <b style="font-weight: bold;">${componente} --> ${captura}%</b>.
+                        em ${descricaoAdicional} do componente <b style="font-weight: bold;">${componente} --> ${captura}</b>.
                     </p>`;
                     alertaDiv.innerHTML = mensagemFormatada;
 
@@ -811,13 +1031,9 @@
             .catch(error => {
                 console.error("Erro ao carregar histórico:", error);
             });
-
     }
 
-
     // Função para buscar os dados iniciais
-    let dadosRecebidos = []; // Variável para armazenar os dados recebidos
-    var fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
     function obterDadosGrafico(idComponente, card = cardId) {
 
         fetch(`/dispositivos/metrica/${fkEmpresa}/${idComponente}/${card}`, {
@@ -827,7 +1043,7 @@
             .then(function (response) {
                 if (response.ok) {
                     response.json().then(function (resposta) {
-                        console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+                        // console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
                         dadosRecebidos = resposta; // Salva os dados recebidos
                         gerarGraficoTempoReal(idComponente, cardId); // Inicia o gráfico
                     });
@@ -840,7 +1056,7 @@
             });
     }
 
-    let graficoAtual;
+    // função pra instanciar o gráfico com os dados iniciais
     function gerarGraficoTempoReal(idComponente, card = cardId) {
         // console.log(`Gerando gráfico em tempo real para o card: ${cardId} com o idCOmponente = ${idComponente}`);
 
@@ -849,15 +1065,18 @@
         const cRam = document.getElementById('chartRAM');
         const cRede = document.getElementById('chartREDE');
 
+        let idMonitoramentoGrafico = document.getElementById("idMonitoramentoGrafico")
+        idMonitoramentoGrafico.innerHTML = "Utilização:"
 
         if (idComponente == 1) { // rede
             if (window.chartREDE instanceof Chart) {
                 window.chartREDE.destroy();
             }
-            const ultimosPctPerd = dadosRecebidos.slice(-20).map(item => item.pctPerd);
             const ultimosLat = dadosRecebidos.slice(-20).map(item => item.latencia);
             const ultimasDatas = dadosRecebidos.slice(-20).map(item => item.dataCaptura);
 
+            let idMonitoramentoGrafico = document.getElementById("idMonitoramentoGrafico")
+            idMonitoramentoGrafico.innerHTML = "Latência:"
             // Inicialização do gráfico vazio
             window.chartREDE = new Chart(cRede, {
                 type: 'line',
@@ -866,15 +1085,96 @@
                     datasets: [{
                         label: 'Latência (ms)',
                         data: ultimosLat, // Inicialmente vazio
-                        borderWidth: 1,
+                        borderWidth: 3,
                         borderColor: "#FF6384",
-                        backgroundColor: "rgba(255, 99, 132, 0.2)"
+                        backgroundColor: "rgba(255, 99, 132, 0.2)",
+                        tension: 0.4, // Curvatura da linha (0 = reta, 1 = muito curva)
+                        pointStyle: 'circle', // Estilo dos pontos (circle, rect, rectRot, triangle, star, etc.)
+                        pointRadius: 2, // Tamanho dos pontos na linha
+                        pointBorderColor: 'rgba(255, 99, 132, 0.2)', // Cor da borda dos pontos
+                        pointBackgroundColor: 'rgba(255, 255, 255, 1)', // Cor de fundo dos pontos
+                        pointHoverRadius: 7, // Tamanho dos pontos ao passar o mouse
+                        pointHoverBackgroundColor: 'rgba(255, 255, 255, 1)', // Cor de fundo dos pontos ao passar o mouse
+                        pointHoverBorderColor: '#FF6384', // Cor da borda dos pontos ao passar o mouse
+                        pointHoverBorderWidth: 3, // Espessura da borda dos pontos ao passar o mouse
+                        showLine: true, // Mostra ou esconde a linha (false para mostrar apenas os pontos)
+                        fill: true, // Preenchimento abaixo da linha (false para desativar)
+                        hoverBorderWidth: 3 // Espessura da linha ao passar o mouse
                     }]
                 },
                 options: {
+                    responsive: true, // Torna o gráfico responsivo
+                    maintainAspectRatio: false, // Permite ajuste independente da proporção
+                    animation: {
+                        duration: 800, // Define a duração total da animação em milissegundos
+                        easing: 'easeInOutQuad', // Animação  para sincronizar o preenchimento
+                    },
                     scales: {
-                        y: {
-                            beginAtZero: true
+                        x: {
+                            grid: {
+                                color: 'rgba(200, 200, 200, 0.2)', // Cor da grade no eixo x
+                                lineWidth: 1, // Espessura das linhas de grade
+                            },
+                            ticks: {
+                                color: '#000', // Cor das labels do eixo x
+                                font: {
+                                    size: 14, // Tamanho da fonte das labels
+                                    family: 'Arial', // Família da fonte
+                                    style: 'italic', // Estilo da fonte
+                                }
+                            }
+                        },
+                        y: { // Configurações do eixo y
+                            beginAtZero: true, // Inicia o eixo y no valor 0
+                            grid: {
+                                color: 'rgba(200, 200, 200, 0.2)', // Cor da grade no eixo y
+                                borderDash: [5, 5], // Estilo tracejado para a grade
+                            },
+                            ticks: {
+                                color: '#000', // Cor das labels do eixo y
+                                font: {
+                                    size: 12, // Tamanho da fonte das labels
+                                    family: 'Verdana', // Família da fonte
+                                    weight: 'bold', // Peso da fonte (bold, normal, etc.)
+                                }
+                            }
+                        }
+                    },
+                    transitions: {
+                        active: {
+                            animation: {
+                                duration: 300 // Reduz o tempo de animação para atualizações dinâmicas
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: { // Configurações da legenda
+                            display: true, // Mostra ou esconde a legenda
+                            position: 'top', // Posição da legenda (top, bottom, left, right)
+                            labels: {
+                                color: '#FF6384', // Cor do texto da legenda
+                                font: {
+                                    size: 14, // Tamanho da fonte da legenda
+                                    // style: 'bold' // Estilo da fonte da legenda
+                                },
+                                usePointStyle: true, // Usa o estilo dos pontos como ícones na legenda
+                                boxHeight: 10, // Altura do ícone na legenda
+                            }
+                        },
+                        tooltip: { // Configurações dos tooltips (dicas ao passar o mouse)
+                            enabled: true, // Ativa/desativa os tooltips
+                            backgroundColor: 'rgba(0, 0, 0, 0.6)', // Cor de fundo do tooltip
+                            titleColor: '#ffffff', // Cor do título no tooltip
+                            bodyColor: '#ffffff', // Cor do texto no tooltip
+                            borderColor: '#FF6384', // Cor da borda do tooltip
+                            borderWidth: 2, // Espessura da borda do tooltip
+                            cornerRadius: 4, // Arredondamento dos cantos do tooltip
+                            caretPadding: 5, // Espaço entre o tooltip e o ponto
+                            callbacks: { // Funções personalizadas para o conteúdo do tooltip
+                                label: function (context) {
+                                    return context.raw + '%'; // Adiciona "%" ao valor do dado
+                                }
+                            }
                         }
                     }
                 }
@@ -898,15 +1198,96 @@
                     datasets: [{
                         label: '% de uso',
                         data: ultimosDados, // Inicialmente vazio
-                        borderWidth: 1,
-                        borderColor: "#C7D",
-                        backgroundColor: "#C7D"
+                        borderWidth: 3,
+                        borderColor: "#228B22",
+                        backgroundColor: "rgba(34, 139, 34, 0.3)",
+                        tension: 0.4, // Curvatura da linha (0 = reta, 1 = muito curva)
+                        pointStyle: 'circle', // Estilo dos pontos (circle, rect, rectRot, triangle, star, etc.)
+                        pointRadius: 2, // Tamanho dos pontos na linha
+                        pointBorderColor: 'rgba(34, 139, 34, 0.3)', // Cor da borda dos pontos
+                        pointBackgroundColor: 'rgba(255, 255, 255, 1)', // Cor de fundo dos pontos
+                        pointHoverRadius: 7, // Tamanho dos pontos ao passar o mouse
+                        pointHoverBackgroundColor: 'rgba(255, 255, 255, 1)', // Cor de fundo dos pontos ao passar o mouse
+                        pointHoverBorderColor: '#228B22', // Cor da borda dos pontos ao passar o mouse
+                        pointHoverBorderWidth: 3, // Espessura da borda dos pontos ao passar o mouse
+                        showLine: true, // Mostra ou esconde a linha (false para mostrar apenas os pontos)
+                        fill: true, // Preenchimento abaixo da linha (false para desativar)
+                        hoverBorderWidth: 3 // Espessura da linha ao passar o mouse
                     }]
                 },
                 options: {
+                    responsive: true, // Torna o gráfico responsivo
+                    maintainAspectRatio: false, // Permite ajuste independente da proporção
+                    animation: {
+                        duration: 800, // Define a duração total da animação em milissegundos
+                        easing: 'easeInOutQuad', // Animação  para sincronizar o preenchimento
+                    },
                     scales: {
-                        y: {
-                            beginAtZero: true
+                        x: {
+                            grid: {
+                                color: 'rgba(200, 200, 200, 0.2)', // Cor da grade no eixo x
+                                lineWidth: 1, // Espessura das linhas de grade
+                            },
+                            ticks: {
+                                color: '#000', // Cor das labels do eixo x
+                                font: {
+                                    size: 14, // Tamanho da fonte das labels
+                                    family: 'Arial', // Família da fonte
+                                    style: 'italic', // Estilo da fonte
+                                }
+                            }
+                        },
+                        y: { // Configurações do eixo y
+                            beginAtZero: true, // Inicia o eixo y no valor 0
+                            grid: {
+                                color: 'rgba(200, 200, 200, 0.2)', // Cor da grade no eixo y
+                                borderDash: [5, 5], // Estilo tracejado para a grade
+                            },
+                            ticks: {
+                                color: '#000', // Cor das labels do eixo y
+                                font: {
+                                    size: 12, // Tamanho da fonte das labels
+                                    family: 'Verdana', // Família da fonte
+                                    weight: 'bold', // Peso da fonte (bold, normal, etc.)
+                                }
+                            }
+                        }
+                    },
+                    transitions: {
+                        active: {
+                            animation: {
+                                duration: 300 // Reduz o tempo de animação para atualizações dinâmicas
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: { // Configurações da legenda
+                            display: true, // Mostra ou esconde a legenda
+                            position: 'top', // Posição da legenda (top, bottom, left, right)
+                            labels: {
+                                color: '#228B22', // Cor do texto da legenda
+                                font: {
+                                    size: 14, // Tamanho da fonte da legenda
+                                    // style: 'bold' // Estilo da fonte da legenda
+                                },
+                                usePointStyle: true, // Usa o estilo dos pontos como ícones na legenda
+                                boxHeight: 10, // Altura do ícone na legenda
+                            }
+                        },
+                        tooltip: { // Configurações dos tooltips (dicas ao passar o mouse)
+                            enabled: true, // Ativa/desativa os tooltips
+                            backgroundColor: 'rgba(0, 0, 0, 0.6)', // Cor de fundo do tooltip
+                            titleColor: '#ffffff', // Cor do título no tooltip
+                            bodyColor: '#ffffff', // Cor do texto no tooltip
+                            borderColor: '#228B22', // Cor da borda do tooltip
+                            borderWidth: 2, // Espessura da borda do tooltip
+                            cornerRadius: 4, // Arredondamento dos cantos do tooltip
+                            caretPadding: 5, // Espaço entre o tooltip e o ponto
+                            callbacks: { // Funções personalizadas para o conteúdo do tooltip
+                                label: function (context) {
+                                    return context.raw + '%'; // Adiciona "%" ao valor do dado
+                                }
+                            }
                         }
                     }
                 }
@@ -930,15 +1311,96 @@
                     datasets: [{
                         label: '% de uso',
                         data: ultimosDados, // Inicialmente vazio
-                        borderWidth: 1,
-                        borderColor: "rgba(75, 192, 192, 1)",
-                        backgroundColor: "rgba(75, 192, 192, 0.6)"
+                        borderWidth: 3,
+                        borderColor: "#4BC0C0",
+                        backgroundColor: "rgba(75, 192, 192, 0.4)",
+                        tension: 0.4, // Curvatura da linha (0 = reta, 1 = muito curva)
+                        pointStyle: 'circle', // Estilo dos pontos (circle, rect, rectRot, triangle, star, etc.)
+                        pointRadius: 2, // Tamanho dos pontos na linha
+                        pointBorderColor: 'rgba(75, 192, 192, 0.4)', // Cor da borda dos pontos
+                        pointBackgroundColor: 'rgba(255, 255, 255, 1)', // Cor de fundo dos pontos
+                        pointHoverRadius: 7, // Tamanho dos pontos ao passar o mouse
+                        pointHoverBackgroundColor: 'rgba(255, 255, 255, 1)', // Cor de fundo dos pontos ao passar o mouse
+                        pointHoverBorderColor: '#4BC0C0', // Cor da borda dos pontos ao passar o mouse
+                        pointHoverBorderWidth: 3, // Espessura da borda dos pontos ao passar o mouse
+                        showLine: true, // Mostra ou esconde a linha (false para mostrar apenas os pontos)
+                        fill: true, // Preenchimento abaixo da linha (false para desativar)
+                        hoverBorderWidth: 3 // Espessura da linha ao passar o mouse
                     }]
                 },
                 options: {
+                    responsive: true, // Torna o gráfico responsivo
+                    maintainAspectRatio: false, // Permite ajuste independente da proporção
+                    animation: {
+                        duration: 800, // Define a duração total da animação em milissegundos
+                        easing: 'easeInOutQuad', // Animação  para sincronizar o preenchimento
+                    },
                     scales: {
-                        y: {
-                            beginAtZero: true
+                        x: {
+                            grid: {
+                                color: 'rgba(200, 200, 200, 0.2)', // Cor da grade no eixo x
+                                lineWidth: 1, // Espessura das linhas de grade
+                            },
+                            ticks: {
+                                color: '#000',  // Cor das labels do eixo x
+                                font: {
+                                    size: 14, // Tamanho da fonte das labels
+                                    family: 'Arial', // Família da fonte
+                                    style: 'italic', // Estilo da fonte
+                                }
+                            }
+                        },
+                        y: { // Configurações do eixo y
+                            beginAtZero: true, // Inicia o eixo y no valor 0
+                            grid: {
+                                color: 'rgba(200, 200, 200, 0.2)', // Cor da grade no eixo y
+                                borderDash: [5, 5], // Estilo tracejado para a grade
+                            },
+                            ticks: {
+                                color: '#000',  // Cor das labels do eixo y
+                                font: {
+                                    size: 12, // Tamanho da fonte das labels
+                                    family: 'Verdana', // Família da fonte
+                                    weight: 'bold', // Peso da fonte (bold, normal, etc.)
+                                }
+                            }
+                        }
+                    },
+                    transitions: {
+                        active: {
+                            animation: {
+                                duration: 300 // Reduz o tempo de animação para atualizações dinâmicas
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: { // Configurações da legenda
+                            display: true, // Mostra ou esconde a legenda
+                            position: 'top', // Posição da legenda (top, bottom, left, right)
+                            labels: {
+                                color: '#4BC0C0', // Cor do texto da legenda
+                                font: {
+                                    size: 14, // Tamanho da fonte da legenda
+                                    // style: 'bold' // Estilo da fonte da legenda
+                                },
+                                usePointStyle: true, // Usa o estilo dos pontos como ícones na legenda
+                                boxHeight: 10, // Altura do ícone na legenda
+                            }
+                        },
+                        tooltip: { // Configurações dos tooltips (dicas ao passar o mouse)
+                            enabled: true, // Ativa/desativa os tooltips
+                            backgroundColor: 'rgba(0, 0, 0, 0.6)', // Cor de fundo do tooltip
+                            titleColor: '#ffffff', // Cor do título no tooltip
+                            bodyColor: '#ffffff', // Cor do texto no tooltip
+                            borderColor: '#4BC0C0', // Cor da borda do tooltip
+                            borderWidth: 2, // Espessura da borda do tooltip
+                            cornerRadius: 4, // Arredondamento dos cantos do tooltip
+                            caretPadding: 5, // Espaço entre o tooltip e o ponto
+                            callbacks: { // Funções personalizadas para o conteúdo do tooltip
+                                label: function (context) {
+                                    return context.raw + '%'; // Adiciona "%" ao valor do dado
+                                }
+                            }
                         }
                     }
                 }
@@ -958,23 +1420,105 @@
             window.chartCPU = new Chart(cCpu, {
                 type: 'line',
                 data: {
-                    labels: ultimasDatas, // Inicialmente vazio
+                    labels: ultimasDatas,
                     datasets: [{
                         label: '% de uso',
-                        data: ultimosDados, // Inicialmente vazio
-                        borderWidth: 1,
-                        borderColor: "rgba(54, 162, 235, 1)",
-                        backgroundColor: "rgba(54, 162, 235, 0.6)"
+                        data: ultimosDados,
+                        borderWidth: 3, // Espessura da linha
+                        borderColor: "rgba(54, 162, 235, 1)", // Cor da borda da linha
+                        backgroundColor: "rgba(54, 162, 235, 0.4)", // Preenchimento abaixo da linha
+                        tension: 0.4, // Curvatura da linha (0 = reta, 1 = muito curva)
+                        pointStyle: 'circle', // Estilo dos pontos (circle, rect, rectRot, triangle, star, etc.)
+                        pointRadius: 2, // Tamanho dos pontos na linha
+                        pointBorderColor: 'rgba(54, 162, 235, 0.4)', // Cor da borda dos pontos
+                        pointBackgroundColor: 'rgba(255, 255, 255, 1)', // Cor de fundo dos pontos
+                        pointHoverRadius: 7, // Tamanho dos pontos ao passar o mouse
+                        pointHoverBackgroundColor: 'rgba(255, 255, 255, 1)', // Cor de fundo dos pontos ao passar o mouse
+                        pointHoverBorderColor: 'rgba(54, 162, 235, 1)', // Cor da borda dos pontos ao passar o mouse
+                        pointHoverBorderWidth: 3, // Espessura da borda dos pontos ao passar o mouse
+                        showLine: true, // Mostra ou esconde a linha (false para mostrar apenas os pontos)
+                        fill: true, // Preenchimento abaixo da linha (false para desativar)
+                        hoverBorderWidth: 3 // Espessura da linha ao passar o mouse
                     }]
                 },
                 options: {
+                    responsive: true, // Torna o gráfico responsivo
+                    maintainAspectRatio: false, // Permite ajuste independente da proporção
+                    animation: {
+                        duration: 800, // Define a duração total da animação em milissegundos
+                        easing: 'easeInOutQuad', // Animação  para sincronizar o preenchimento
+                    },
                     scales: {
-                        y: {
-                            beginAtZero: true
+                        x: {
+                            grid: {
+                                color: 'rgba(200, 200, 200, 0.2)', // Cor da grade no eixo x
+                                lineWidth: 1, // Espessura das linhas de grade
+                            },
+                            ticks: {
+                                color: '#000', // Cor das labels do eixo x
+                                font: {
+                                    size: 14, // Tamanho da fonte das labels
+                                    family: 'Arial', // Família da fonte
+                                    style: 'italic', // Estilo da fonte
+                                }
+                            }
+                        },
+                        y: { // Configurações do eixo y
+                            beginAtZero: true, // Inicia o eixo y no valor 0
+                            grid: {
+                                color: 'rgba(200, 200, 200, 0.2)', // Cor da grade no eixo y
+                                borderDash: [5, 5], // Estilo tracejado para a grade
+                            },
+                            ticks: {
+                                color: '#000', // Cor das labels do eixo y
+                                font: {
+                                    size: 12, // Tamanho da fonte das labels
+                                    family: 'Verdana', // Família da fonte
+                                    weight: 'bold', // Peso da fonte (bold, normal, etc.)
+                                }
+                            }
+                        }
+                    },
+                    transitions: {
+                        active: {
+                            animation: {
+                                duration: 300 // Reduz o tempo de animação para atualizações dinâmicas
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: { // Configurações da legenda
+                            display: true, // Mostra ou esconde a legenda
+                            position: 'top', // Posição da legenda (top, bottom, left, right)
+                            labels: {
+                                color: 'rgba(54, 162, 235, 1)', // Cor do texto da legenda
+                                font: {
+                                    size: 14, // Tamanho da fonte da legenda
+                                    // style: 'bold' // Estilo da fonte da legenda
+                                },
+                                usePointStyle: true, // Usa o estilo dos pontos como ícones na legenda
+                                boxHeight: 10, // Altura do ícone na legenda
+                            }
+                        },
+                        tooltip: { // Configurações dos tooltips (dicas ao passar o mouse)
+                            enabled: true, // Ativa/desativa os tooltips
+                            backgroundColor: 'rgba(0, 0, 0, 0.6)', // Cor de fundo do tooltip
+                            titleColor: '#ffffff', // Cor do título no tooltip
+                            bodyColor: '#ffffff', // Cor do texto no tooltip
+                            borderColor: 'rgba(54, 162, 235, 1)', // Cor da borda do tooltip
+                            borderWidth: 2, // Espessura da borda do tooltip
+                            cornerRadius: 4, // Arredondamento dos cantos do tooltip
+                            caretPadding: 5, // Espaço entre o tooltip e o ponto
+                            callbacks: { // Funções personalizadas para o conteúdo do tooltip
+                                label: function (context) {
+                                    return context.raw + '%'; // Adiciona "%" ao valor do dado
+                                }
+                            }
                         }
                     }
                 }
             });
+
             // Garante que o gráfico foi criado antes de chamar a atualização
             console.log("myChart inicializado:", chartCPU);
             graficoAtual = window.chartCPU;
@@ -982,7 +1526,7 @@
         }
     }
 
-    let intervaloAtivo = null;
+    // função pra atualizar o valor mais recente do gráfico
     function atualizarGrafico(idComponente, card = cardId) {
         let indiceAtual = 0;
 
@@ -1033,7 +1577,7 @@
                                 }
 
                                 redeLatencia.innerHTML = `${dadoAtual.latencia}ms`;
-                                redePerdido.innerHTML = `${dadoAtual.pctPerd}%`;
+                                redePerdido.innerHTML = `${dadoAtual.pctPerd}`;
                                 idNomeComponente.innerHTML = dadoAtual.modelo;
                                 atualizarCor(redeLatencia, dadoAtual.captura);
                                 atualizarCor(redePerdido, dadoAtual.captura);
@@ -1077,6 +1621,7 @@
         }, 3000); // Intervalo de 2 segundos
     }
 
+    // função pra atualizar a cor das KPIs de acordo com o último dado obtido
     function atualizarCor(elemento, valor) {
         if (elemento == redeLatencia) {
             if (valor >= 50) {
@@ -1109,6 +1654,7 @@
         }
     }
 
+    // função pra atualizar a KPI de média de acordo com o último dado obtido e os anteriores
     function atualizarMediaGrafico(idComponente) {
         const capturasExibidas = graficoAtual.data.datasets[0].data;
         const soma = capturasExibidas.reduce((acumulador, valor) => acumulador + valor, 0);
@@ -1127,8 +1673,19 @@
         }
     }
 
+    // função pra buscar e listar uma máquina específica - barrinha de busca
     function listarPorUsuario() {
         const inputPesquisa = document.getElementById("pesquisar_input").value;
+
+        if (inputPesquisa == '') {
+            atualizarFeed()
+            return
+        }
+
+        if (intervaloFeed) {
+            clearInterval(intervaloFeed);
+            intervaloFeed = null;
+        }
 
         fetch(`/dispositivos/buscar/${fkEmpresa}/${inputPesquisa}`)
             .then(function (resposta) {
@@ -1147,49 +1704,112 @@
                 }
             })
             .then(function (resposta) {
-                console.log("Dados recebidos: ", JSON.stringify(resposta));
+                // console.log("Dados recebidos: ", JSON.stringify(resposta));
 
                 var feed = document.getElementById("sectioncard");
                 feed.innerHTML = ""; // Limpa o conteúdo atual do feed
                 resposta.forEach(publicacao => {
                     var card = document.createElement("div");
-                    card.setAttribute("id", publicacao.idComputador);
-                    card.classList.add("card");
+                    card.setAttribute("id", publicacao.idComputador); // Define o ID
+                    card.classList.add("card"); // Adiciona a classe para o modal
 
                     // Adicionando o evento para abrir o modal
                     card.addEventListener("click", function () {
-                        cardId = this.id
+                        cardId = this.id;
                         console.log("Card clicado. cardId:", this.id);
-                        alterarComponente('dashCpu', this.id);
-                        toggleModal(event);
+                        alterarComponente('dashCpu', this.id);  // Altera o componente
+                        toggleModal(event);  // Abre o modal após alterar o componente
                     });
 
+                    // Atualiza o status baseado no valor numérico
                     let status = publicacao.status === 1 ? "Em atividade" : "Inativo";
                     let statusColor = publicacao.status === 1 ? "#12FF39" : "#FF7557";
 
-                    // Adicionando o conteúdo do card
-                    card.innerHTML = `
-                        <div class="down-card cima">
-                            <div class="esqCard">
-                                <figure class="iconComp">
-                                    <img src=".././src/img/icons/indicadoresMaquina/computadorBranco.png" alt="">
-                                </figure>
+                    if (publicacao.status === 2) {
+                        card.innerHTML = `
+                <div class="down-card cima">
+                    <div class="esqCard">
+                        <figure class="iconComp">
+                            <img src=".././src/img/icons/indicadoresMaquina/computadorBranco.png" alt="Ícone do Computador">
+                        </figure>
+                    </div>
+                    <div class="dirCard"></div>
+                </div>
+                <div class="down-card">
+                    <div class="content-card">
+                        <p><b>ID:</b> ${publicacao.idComputador}</p>
+                        <p><b>Equipe:</b> ${publicacao.fkEquipe}</p>
+                        <p><b>Funcionário:</b> ${publicacao.nomeFuncionario}</p>
+                        <p><b>Status:</b> <span style="color: ${statusColor};">${status}</span></p>
+                    </div>
+                    <div class="up-card">
+                        <img src=".././src/img/icons/editar.svg" id="editar" alt="Editar" onclick="atualizarMaquina(${publicacao.idComputador})">
+                        <img src=".././src/img/icons/excluir.svg" id="editar" alt="Excluir" onclick="deletar(${publicacao.idComputador})">
+                    </div>
+                </div>
+            `;
+                    }
+                    else {
+                        // Defina o ícone do computador com base no tipo de alerta
+                        let computadorIcon = ".././src/img/icons/indicadoresMaquina/computadorEstavel.png";
+                        if (publicacao.tipoAlerta === 1) {
+                            computadorIcon = ".././src/img/icons/indicadoresMaquina/computadorAlerta.png";
+                        } else if (publicacao.tipoAlerta === 2) {
+                            computadorIcon = ".././src/img/icons/indicadoresMaquina/computadorCritico.png";
+                        }
+
+                        // Formatação da mensagem de alerta
+                        let alertaMensagem = "";
+                        if (publicacao.tipoAlerta) {
+                            const componente = publicacao.nomeComponente; // Nome do componente
+                            const descricao = publicacao.unidadeMedida; // Descrição do alerta
+                            const captura = publicacao.captura; // Valor capturado
+
+                            // Formatar mensagem para exibir "% de uso" de forma amigável
+                            if (descricao.toLowerCase().includes("porcen")) {
+                                alertaMensagem = `<p>${componente} acima do ideal com ${captura}% de uso</p>`;
+                            } else if (descricao.toLowerCase() === "latencia") {
+                                alertaMensagem = `<p>${componente} com alta latência (${captura}ms)</p>`;
+                            } else if (descricao.toLowerCase() === "pacotesperdidos") {
+                                alertaMensagem = `<p>${componente} com perda de pacotes (${captura}%)</p>`;
+                            } else {
+                                alertaMensagem = `<p>${componente} acima do ideal (${descricao}: ${captura})</p>`;
+                            }
+                        }
+
+                        // Criação da estrutura do card
+                        card.innerHTML = `
+                            <div class="down-card cima">
+                                <div class="esqCard">
+                                    <figure class="iconComp">
+                                        <img src="${computadorIcon}" alt="Ícone do Computador">
+                                    </figure>
+                                </div>
+                                ${publicacao.tipoAlerta ? `
+                                <div class="dirCard">
+                                    <div class="alertaMaquina">
+                                        <figure> 
+                                            <img src="${publicacao.tipoAlerta === 1 ? '.././src/img/icons/alerta1.png' : '.././src/img/icons/alerta2.png'}" alt="Ícone do Alerta"> 
+                                        </figure>
+                                        ${alertaMensagem}
+                                    </div>
+                                </div>` : ''}
                             </div>
-                            <div class="dirCard" id="maquina${publicacao.idComputador}"></div>
-                        </div>
-                        <div class="down-card">
-                            <div class="content-card">
-                                <p><b>ID:</b> ${publicacao.idComputador}</p>
-                                <p><b>Equipe:</b> ${publicacao.fkEquipe}</p>
-                                <p><b>Funcionário:</b> ${publicacao.nomeFuncionario}</p>
-                                <p><b>Status:</b> <span style="color: ${statusColor};">${status}</span></p>
+                            <div class="down-card">
+                                <div class="content-card">
+                                    <p><b>ID:</b> ${publicacao.idComputador}</p>
+                                    <p><b>Equipe:</b> ${publicacao.fkEquipe}</p>
+                                    <p><b>Funcionário:</b> ${publicacao.nomeFuncionario}</p>
+                                    <p><b>Status:</b> <span style="color: ${statusColor};">${status}</span></p>
+                                </div>
+                                <div class="up-card">
+                                    <img src=".././src/img/icons/editar.svg" id="editar" alt="Editar" onclick="atualizarMaquina(${publicacao.idComputador})">
+                                    <img src=".././src/img/icons/excluir.svg" id="editar" alt="Excluir" onclick="deletar(${publicacao.idComputador})">
+                                </div>
                             </div>
-                            <div id="editar" class="up-card">
-                                <img src=".././src/img/icons/editar.svg" id="editar" onclick="atualizarMaquina(${publicacao.idComputador})">
-                                <img src=".././src/img/icons/excluir.svg" id="editar" onclick="deletar(${publicacao.idComputador})">
-                            </div>
-                        </div>
-                    `;
+                        `;
+                    }
+
                     feed.appendChild(card);
                 });
             })

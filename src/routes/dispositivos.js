@@ -18,13 +18,8 @@ router.get("/listar/:fkEmpresa", function (req, res) {
     dispositivosController.listar(req, res);
 });
 
-// lista o último alerta de cada um dos funcionários listados da empresa
-router.get("/listarAlertas/:fkEmpresa/:idComputador", function (req, res) {
-    dispositivosController.listar(req, res);
-});
-
 // histórico de alertas da máquina clicada
-router.get("/historico/:fkEmpresa/:idComputador", function (req, res) {
+router.get("/historico/:fkEmpresa/:idComputador/:data/:filtroAlerta/:filtroComponente/:filtroData", function (req, res) {
     dispositivosController.historico(req, res);
 });
 

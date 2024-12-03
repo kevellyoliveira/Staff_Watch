@@ -29,6 +29,7 @@ async def print_system_info(fk_computador):
     fuso_sao_paulo = pytz.timezone("America/Sao_Paulo")
     agora = datetime.now(fuso_sao_paulo)
 
+
     # --------------------- Uso de Memória RAM ---------------------
     mem = psutil.virtual_memory()
     print(f"\nUso de RAM: {mem.percent}% ({mem.used / (1024 ** 3):.2f} GB usado de {mem.total / (1024 ** 3):.2f} GB total)")
@@ -50,6 +51,38 @@ async def print_system_info(fk_computador):
     cursor.execute(add_mem, data_mem)
     mydb.commit()
     print(cursor.rowcount, "registro inserido - memória")
+    
+    time.sleep(1)
+
+    if memPerc >= 80:
+        if memPerc >= 90:
+            buscarID = ("""SELECT idCaptura FROM captura WHERE 
+                    fkComponente = 2 AND fkAuxComponente = 8
+                    ORDER BY idCaptura DESC LIMIT 1""")
+            cursor.execute(buscarID)
+            idObtido = cursor.fetchone() # obtém o resultado do select de buscarID!!!
+
+            inserirAlerta = ("""INSERT INTO alerta (tipoAlerta, fkCaptura) 
+                                VALUES (2, %s)""")
+            dados_alerta = [idObtido[0]]  # Usa o primeiro elemento da tupla
+            cursor.execute(inserirAlerta, dados_alerta)
+            mydb.commit()
+            print(cursor.rowcount, "alerta vermelho inserido - ram")
+
+        else: # entre 80 e 89
+            buscarID = ("""SELECT idCaptura FROM captura WHERE 
+                    fkComponente = 2 AND fkAuxComponente = 8
+                    ORDER BY idCaptura DESC LIMIT 1""")
+            cursor.execute(buscarID)
+
+            idObtido = cursor.fetchone() # obtém o resultado do select de buscarID!!!
+
+            inserirAlerta = ("""INSERT INTO alerta (tipoAlerta, fkCaptura) 
+                                VALUES (1, %s)""")
+            dados_alerta = [idObtido[0]]  # Usa o primeiro elemento da tupla
+            cursor.execute(inserirAlerta, dados_alerta)
+            mydb.commit()
+            print(cursor.rowcount, "alerta amarelo inserido - ram")
 
     # --------------------- Uso de Disco ---------------------
     disk = psutil.disk_usage('/')
@@ -214,7 +247,7 @@ async def print_system_info(fk_computador):
                 (default,%s,%s,5,1,%s,%s),
                 (default,%s,%s,20,1,%s,%s),
                 (default,%s,%s,21,1,%s,%s),
-                (default,%s,%s,24,1,%s,%s);""")
+                (default,%s,%s,27,1,%s,%s);""")
 
     data_rede = [bytesEnv, agora, fk_computador, network_model,
                  bytesReceb, agora, fk_computador, network_model,
@@ -329,7 +362,7 @@ async def monitorar_falhas(fk_computador, host="8.8.8.8", intervalo=10, duracao=
     add_falhas = """INSERT INTO captura
                     (idCaptura, captura, dataCaptura, fkAuxComponente, fkComponente, fkComputador, modelo)
                     VALUES
-                    (default, %s, %s, 22, 1, %s, 'Monitoramento de Falhas')"""
+                    (default, %s, %s, 25, 1, %s, 'Monitoramento de Falhas')"""
     cursor.execute(add_falhas, [tempo_medio, agora, fk_computador])
     mydb.commit()
     print("Dados de falhas inseridos no banco.")
@@ -358,7 +391,7 @@ async def monitorar_inatividade(fk_computador, host="8.8.8.8", intervalo=10, dur
     # Inserir o resultado no banco
     add_inatividade = """INSERT INTO captura
                          (idCaptura, captura, dataCaptura, fkAuxComponente, fkComponente, fkComputador, modelo)
-                         VALUES (default, %s, %s, 23, 1, %s, 'Monitoramento de Inatividade')"""
+                         VALUES (default, %s, %s, 26, 1, %s, 'Monitoramento de Inatividade')"""
     cursor.execute(add_inatividade, [inatividade_total_horas, agora, fk_computador])
     mydb.commit()
     print("Dados de inatividade inseridos no banco.")
