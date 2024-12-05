@@ -25,7 +25,7 @@ function gerarGraficoTempoReal(fkEmpresa, idComponente, idComputador) {
         var instrucaoSql = `select ca.captura, time(ca.dataCaptura) as dataCaptura, ca.modelo, fkComputador, fkEmpresa
                     from captura ca
                     join computador co on ca.fkComputador = co.idComputador
-                    where fkComponente = 2 and fkAuxComponente = 6 and 
+                    where fkComponente = 2 and fkAuxComponente = 8 and 
                     fkEmpresa = ${fkEmpresa} and fkComputador = ${idComputador}
                     order by idCaptura desc limit 1;`;
         console.log("Executando a instrução SQL: \n" + instrucaoSql);
@@ -131,10 +131,11 @@ function listar(fkEmpresa, data, alerta, status) {
                     cap.fkComputador, 
                     max(a.idAlerta) as ultimoAlerta 
                 from alerta a 
-                join captura cap on cap.idCaptura = a.fkCaptura `
+                join captura cap on cap.idCaptura = a.fkCaptura 
+                where cap.fkAuxComponente != 22 and cap.fkAuxComponente != 23 and cap.fkAuxComponente != 24 and cap.fkAuxComponente != 25`
 
     if (data != '0') {
-        instrucaoSql += `where dataCaptura >= DATE_SUB(NOW(), INTERVAL ${data} HOUR)`;
+        instrucaoSql += ` and dataCaptura >= DATE_SUB(NOW(), INTERVAL ${data} HOUR)`;
     }
 
      // filtro de tipo de alerta

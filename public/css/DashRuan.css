@@ -1653,7 +1653,7 @@ h2 {
 }
 
 .regularTempo {
-    /* background-color: #1662c0; */
+    background-color: #1662c0;
     height: 100%;
     width: 73vh;
 
@@ -1661,16 +1661,29 @@ h2 {
     align-items: center;
     justify-content: center;
     text-align: center;
-    flex-direction: column;
+    flex-direction: row;
 }
 
 .margemTempo {
-    /* background-color: #3CF211; */
+    background-color: #001E42;
     height: 75%;
-    width: 90%;
+    width: 50%;
 
     display: flex;
     flex-direction: column;
+    align-items: center;
+
+    border-radius: 15px;
+}
+
+.relatorio {
+    background-color: #465841;
+    height: 100%;
+    width: 50%;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
     align-items: center;
 }
 
@@ -1762,3 +1775,166 @@ h2 {
 }
 
 
+.margemTempo button{
+    padding: 7px 15px;
+    margin-top: 10px;
+    background-color: #000000;
+    color: #ffffff;
+    border: none;
+    border-radius: 15px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.margemTempo button:hover {
+    background-color: #003366; /* Cor mais clara ao passar o mouse */
+}
+
+.relatorio .botaoRelatorio {
+    padding: 11px 15px;
+    /* margin-top: 10px; */
+    margin-right: 10px;
+    background-color: #000000;
+    color: #ffffff;
+    border: none;
+    border-radius: 15px;
+    font-size: 13px;
+    cursor: pointer;
+    
+    transition: background-color 0.3s ease, border-color 0.3s ease; /* Transições suaves */
+    border: 2px solid #ffffff; /* Borda branca */
+}
+
+.relatorio .botaoRelatorio:hover {
+    background-color: #ffffff; /* Cor de fundo branca no hover */
+    color: #000000; /* Texto preto no hover */
+    border-color: #000000; /* Borda preta no hover */
+}
+
+.margemTempo input{
+    padding: 5px;
+            width: 100px;
+            border: 2px solid #001E42;
+            border-radius: 15px;
+            outline: none;
+            font-size: 13px;
+            color: #001E42;
+            text-align: center;
+}
+
+.margemTempo label{
+    font-size: 16px;
+    color: #ffffff;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* TAG DA INTERROGAÇÃO */
+
+/* From Uiverse.io by vinodjangid07 */ 
+/* From Uiverse.io by vinodjangid07 */ 
+.faq-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background-color: #6C0000;
+    background-image: linear-gradient(147deg, #6C0000 0%, #001E42 74%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.151);
+    position: relative;
+  }
+  .faq-button svg {
+    height: 1.5em;
+    fill: white;
+  }
+  .faq-button:hover svg {
+    animation: jello-vertical 0.7s both;
+  }
+  @keyframes jello-vertical {
+    0% {
+      transform: scale3d(1, 1, 1);
+    }
+    30% {
+      transform: scale3d(0.75, 1.25, 1);
+    }
+    40% {
+      transform: scale3d(1.25, 0.75, 1);
+    }
+    50% {
+      transform: scale3d(0.85, 1.15, 1);
+    }
+    65% {
+      transform: scale3d(1.05, 0.95, 1);
+    }
+    75% {
+      transform: scale3d(0.95, 1.05, 1);
+    }
+    100% {
+      transform: scale3d(1, 1, 1);
+    }
+  }
+  
+  .tooltip {
+    position: absolute;
+    top: -20px;
+    opacity: 0;
+    background-color: #6C0000;
+    background-image: linear-gradient(147deg, #6C0000 0%, #001E42 74%);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition-duration: 0.2s;
+    pointer-events: none;
+    letter-spacing: 0.5px;
+    width: 200px;
+  }
+  
+  .tooltip::before {
+    position: absolute;
+    content: "";
+    width: 10px;
+    height: 10px;
+    /* background-color: #6C0000; */
+    background-size: 1000%;
+    background-position: center;
+    transform: rotate(45deg);
+    bottom: -15%;
+    transition-duration: 0.3s;
+  }
+  
+  .faq-button:hover .tooltip {
+    top: -100px;
+    opacity: 1;
+    transition-duration: 0.3s;
+  }
+  

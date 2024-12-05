@@ -21,9 +21,13 @@
 
                 <div class="opcoesComponentes" id="itens">
                     <h6 class="opcoesMenu associMenu"> Olá, <span id="b_usuario">usuário </span>! </h6>  
+                    
                     <h6 class="opcoesMenu associMenu"  onclick="window.location.href='/suporte-de-ti/dispositivos.html'">Dispositivos </h6>
                     <!-- <h6 class="opcoesMenu" onclick="window.location.href='cadastroFuncionario.html'">Cadastrar</h6> -->
                     
+                    <h6 class="opcoesMenu" style="font-weight: 600;
+    text-decoration: underline;" onclick="window.location.href='../dashboard-matheus-cpu.html'">Componentes
+                    </h6>
                 </div>
             </div>
 
@@ -157,6 +161,11 @@ buscarMaquinasRam();
 mensagemAlerta();
 
 }
+function sair() {
+        sessionStorage.clear()
+        window.location = "index.html"
+    }
+
 
 
 function obterDadosGrafico() {
@@ -340,7 +349,7 @@ function mensagemAlerta() {
                     if (componenteTexto == "Rede") {
                         paginaDestino = "dashboard-matheus-rede.html";
                     } else if (componenteTexto == "Memória") {
-                        paginaDestino = "dashboard-matheus-memoria.html";
+                        paginaDestino = "dashboard-matheus-ram.html";
                     } else if (componenteTexto == "Disco") {
                         paginaDestino = "dashboard-matheus-disco.html";
                     } else if (componenteTexto == "CPU") {

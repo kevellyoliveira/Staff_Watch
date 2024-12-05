@@ -19,15 +19,17 @@
         <div class="opcoes">
             <div class="esq">
                 <div class="logo">
-                    <img href="index.html" src=".././src/img/logoB.png" alt="logo">
+                    <img href="index.html" src="../src/img/logoB.png" alt="logo">
                 </div>
 
-                <div class="menuCima" id="itens">
-                    <h6 class="opcoesMenu user"> Olá, <span id="b_usuario">usuário</span>! </h6>
-                </div>
-                <div class="menuCima op2" id="itens">
-                    <h6 class="opcoesMenu slct" onclick="window.location.href='dispositivos.html'">Dispositivos</h6>
-                    <h6 class="opcoesMenu" onclick="window.location.href='../dashboard-matheus-cpu.html'">Componentes
+                <div class="opcoesComponentes header" id="itens">
+                    <h6 class="opcoesMenu associMenu"> Olá, <span id="b_usuario">usuário </span>! </h6>  
+                    
+                    <h6 class="opcoesMenu associMenu" style="font-weight: 600;
+    text-decoration: underline;"  onclick="window.location.href='/suporte-de-ti/dispositivos.html'">Dispositivos </h6>
+                    <!-- <h6 class="opcoesMenu" onclick="window.location.href='cadastroFuncionario.html'">Cadastrar</h6> -->
+                    
+                    <h6 class="opcoesMenu"  onclick="window.location.href='../dashboard-matheus-cpu.html'">Componentes
                     </h6>
                 </div>
             </div>
@@ -507,7 +509,7 @@
         var fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
 
         // ao carregar a página, também plota o gráfico de cima dos componentes por equipes!!
-        gerarGraficoEquipes(fkEmpresa)
+        // gerarGraficoEquipes(fkEmpresa)
 
         // filtros
         const slctFiltroPeriodo = document.getElementById("seletorFiltroPeriodoCards")
@@ -1029,9 +1031,8 @@
                         border-radius: 9px; 
                         padding: 0 2px; 
                         color: ${tipoAlerta === 'amarelo' ? '#000' : '#fff'};">
-                            ${tipoAlerta}
-                        </span> 
-                        <span style="text-decoration: underline;">em ${formattedDate}</span>
+                            ${tipoAlerta}</span> em
+                        <span style="text-decoration: underline;"> ${formattedDate}</span>, 
                         em ${descricaoAdicional} do componente <b style="font-weight: bold;">${componente} --> ${captura}${descricao}</b>.
                     </p>`;
                     alertaDiv.innerHTML = mensagemFormatada;
@@ -1633,7 +1634,7 @@
                 .catch(function (error) {
                     console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
                 });
-        }, 3000); // Intervalo de 2 segundos
+        }, 2000); // Intervalo de 2 segundos
     }
 
     // função pra atualizar a cor das KPIs de acordo com o último dado obtido
@@ -1643,7 +1644,7 @@
                 if (valor >= 100) {
                     elemento.style.color = "red";
                 } else {
-                    elemento.style.color = "yellow";
+                    elemento.style.color = "orange";
                 }
             } else {
                 elemento.style.color = "green";
@@ -1654,7 +1655,7 @@
                 if (valor >= 4) {
                     elemento.style.color = "red";
                 } else {
-                    elemento.style.color = "yellow";
+                    elemento.style.color = "orange";
                 }
             } else {
                 elemento.style.color = "green";
@@ -1663,7 +1664,7 @@
         else if (valor > 90) {
             elemento.style.color = "red"; // Vermelho
         } else if (valor > 80) {
-            elemento.style.color = "yellow"; // Amarelo
+            elemento.style.color = "orange"; // Amarelo
         } else {
             elemento.style.color = "green"; // Verde
         }
