@@ -3,7 +3,9 @@ var redeRuanModel = require("../models/redeRuanModel");
 function puxarPacotesPerdidos(req, res) {
     // const idFuncionario = req.params.idFuncionario;
 
-    redeRuanModel.puxarPacotesPerdidos()
+    var numeroSalvo = req.params.numeroSalvo;
+
+    redeRuanModel.puxarPacotesPerdidos(numeroSalvo)
         .then(
             function (resultado) {
                 res.json(resultado);
