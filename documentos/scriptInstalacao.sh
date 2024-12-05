@@ -103,3 +103,5 @@ sudo docker run -d -p 3333:3333 --name containerSite --network redeContainers ed
 # sleep 10
 # sudo docker start containerPython
 
+
+

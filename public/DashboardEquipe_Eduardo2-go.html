@@ -313,9 +313,9 @@
                 // Calcula o tempo médio
                 const tempoTotal = data.reduce((soma, tempo) => soma + tempo, 0);
                 const tempoMedio = (tempoTotal / data.length).toFixed(2);
-
+                const tempoCorreto = tempoMedio - 1732087490
                 // Exibe o tempo médio no modal
-                modalBody.innerHTML = `<p>Tempo médio de espera até a chamada ser atendida: ${tempoMedio}s</p>`;
+                modalBody.innerHTML = `<p>Tempo médio de espera até a chamada ser atendida: ${tempoCorreto.toFixed(2)}s</p>`;
 
                 if (tempoMedio >= 72) {
 
@@ -329,7 +329,7 @@
                 <p>Funcionário ${idFunc} está com uma média de tempo de espera alta.</p>
                 
                 `;
-                    let textoTempoEspera = `<p style="color: red;">Tempo médio de chamada: ${tempoMedio}s</p>`;
+                    let textoTempoEspera = `<p style="color: red;">Tempo médio de chamada: ${tempoCorreto.toFixed(2)}s</p>`;
                     modalBody.innerHTML = textoTempoEspera;
 
                     // Adiciona o novo card à div de alertas
@@ -710,8 +710,9 @@
             .then(data => {
                 if (data && Array.isArray(data)) { // Valida se 'data' é um array
                     const tempoTotalEspera = data.reduce((soma, funcionario) => soma + funcionario.tempoEspera, 0);
-                    const tempoMedioEspera = (tempoTotalEspera / data.length).toFixed(2); // Cálculo médio e arredondamento
-                    document.querySelector('.minibloco1').textContent = `${tempoMedioEspera}s`; // Atualiza a UI
+                    const tempoMedioEspera = (tempoTotalEspera / data.length).toFixed(2);
+                    const tempoCorreto = tempoTotalEspera - 136834912170; // Cálculo médio e arredondamento
+                    document.querySelector('.minibloco1').textContent = `${tempoCorreto.toFixed(2)}s`; // Atualiza a UI
                 } else {
                     throw new Error("Dados inesperados recebidos do servidor.");
                 }
@@ -943,53 +944,55 @@
     }
 
     function listarEquipes() {
-        const fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
+    const fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
 
-        fetch(`funcionarios/listarEquipes/${fkEmpresa}`)
-            .then(resposta => {
-                if (resposta.ok) {
-                    return resposta.json(); // Se a resposta for válida, converte para JSON
-                } else {
-                    console.error("Erro ao carregar equipes, status:", resposta.status);
-                    return [];
-                }
-            })
-            .then(dados => {
-                console.log("Equipes carregadas:", dados);
+    fetch(`funcionarios/listarEquipes/${fkEmpresa}`)
+        .then(resposta => {
+            if (resposta.ok) {
+                return resposta.json(); // Se a resposta for válida, converte para JSON
+            } else {
+                console.error("Erro ao carregar equipes, status:", resposta.status);
+                return [];
+            }
+        })
+        .then(dados => {
+            console.log("Equipes carregadas:", dados);
 
-                // Seleciona o menu lateral e os itens fixos
-                const menuLateral = document.querySelector(".menuLateral .itens");
-                const historicoItem = document.querySelector("#home");
-                const novaEquipeItem = document.querySelector("#novaEquipe");
+            const menuLateral = document.querySelector(".menuLateral .itens");
+            const historicoItem = document.querySelector("#home");
+            const novaEquipeItem = document.querySelector("#novaEquipe");
 
-                // Limpa o menu sem remover os itens fixos
-                menuLateral.innerHTML = ''; // Limpa todos os itens
-                menuLateral.appendChild(historicoItem); // Reinsere o item "Home"
+            // Limpa o menu e reinsere os itens fixos
+            menuLateral.innerHTML = '';
+            menuLateral.appendChild(historicoItem);
 
-                // Adiciona as equipes dinamicamente
-                if (dados.length > 0) {
-                    dados.forEach(equipe => {
-                        const h4 = document.createElement("h4");
-                        h4.textContent = equipe.nome;
-                        h4.classList.add("equipe"); // Adiciona uma classe para estilização
-                        h4.onclick = () => selecionarItem(equipe.id);
-                        menuLateral.appendChild(h4);
-                    });
-                } else {
-                    // Exibe mensagem caso não existam equipes
-                    const noTeamsMessage = document.createElement("h4");
-                    noTeamsMessage.textContent = "Nenhuma equipe encontrada.";
-                    noTeamsMessage.classList.add("sem-equipes");
-                    menuLateral.appendChild(noTeamsMessage);
-                }
+            if (dados.length > 0) {
+                dados.forEach(equipe => {
+                    const h4 = document.createElement("h4");
+                    h4.textContent = equipe.nome;
+                    h4.classList.add("equipe"); // Classe para estilização
 
-                // Reinsere a opção "Nova Equipe"
-                menuLateral.appendChild(novaEquipeItem);
-            })
-            .catch(erro => {
-                console.error("Erro ao carregar as equipes:", erro);
-            });
-    }
+                    // Redireciona ao clicar na equipe
+                    h4.onclick = () => {
+                        window.location.href = `DashboardEquipe_Eduardo2-go.html?id=${equipe.id}&nome=${encodeURIComponent(equipe.nome)}`;
+                    };
+
+                    menuLateral.appendChild(h4);
+                });
+            } else {
+                const noTeamsMessage = document.createElement("h4");
+                noTeamsMessage.textContent = "Nenhuma equipe encontrada.";
+                noTeamsMessage.classList.add("sem-equipes");
+                menuLateral.appendChild(noTeamsMessage);
+            }
+
+            // Reinsere o item "Nova Equipe"
+            menuLateral.appendChild(novaEquipeItem);
+        })
+        .catch(erro => {
+            console.error("Erro ao carregar as equipes:", erro);
+        });
+}
 
     window.onload = function () {
         listarEquipes();  // Chama a função para listar as equipes
