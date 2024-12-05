@@ -203,10 +203,7 @@ inner JOIN empresa emp ON pc.fkEmpresa = emp.idEmpresa
 WHERE 
     computador.fkEquipe = ${fkEquipe}
     AND computador.fkEmpresa = ${fkEmpresa}
-    AND componente.idComponente IN (2, 4)
-    AND  
-    DATE( date_sub(now(), interval ${tempo} day ))
-    limit 5;`;
+    AND DATE( date_sub(now(), interval ${tempo} day ));`;
     }
     else{
 
@@ -228,8 +225,7 @@ WHERE
         AND computador.fkEmpresa = ${fkEmpresa}
         AND componente.idComponente = ${componente}
         AND  
-    DATE( date_sub(now(), interval ${tempo} day ))
-    limit 5;`;
+    DATE( date_sub(now(), interval ${tempo} day ));`;
     }
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
