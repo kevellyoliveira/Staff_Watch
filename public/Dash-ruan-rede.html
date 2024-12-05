@@ -165,7 +165,7 @@
     //  Filtro de tempo
 
 
-    let numeroSalvo = null; // Variável para armazenar o número
+    let numeroSalvo = 0; // Variável para armazenar o número
 
     // Função para capturar o valor do input
     function salvarNumero() {
@@ -189,11 +189,11 @@
 
 
 
-    function puxarPacotesPerdidos() {
+    function puxarPacotesPerdidos(numeroSalvo) {
 
         console.log("ENTROU NA FUNCAO pacotes perdidos")
 
-        fetch(`/redeRuan/pacotesPerdidos`, {
+        fetch(`/redeRuan/pacotesPerdidos/${numeroSalvo}`, {
             method: "GET"
         })
             .then(resposta => {

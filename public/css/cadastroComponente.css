@@ -1,0 +1,357 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+body,
+html {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: "Inter";
+    flex-direction: column;
+    background-color: #E7ECEF;
+}
+
+/*header*/
+
+header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    height: auto;
+    background-color: #002148;
+    color: #fff;
+}
+.esq {
+    display: flex;
+    width: 70%;
+    height: 100%;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 0 0 1.75rem;
+}
+
+.opcoes {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 6rem;
+    font-size: 2.2rem;
+    width: 100%;
+    box-shadow: 0 4px 5px 0px rgb(0 0 0 / 19%);
+    z-index: 1; 
+}
+
+.opcoes a{
+    text-decoration: none;
+    color: #000;
+}
+
+.logoHeader {
+    display: flex;
+    width: 20%;
+    
+}
+
+.logoHeader img{
+    width: 45%;
+    cursor: pointer;
+}
+
+.opcoesComponentes {
+    display: flex;
+    height: auto;
+    width: 70%;
+    justify-content: space-evenly;
+    white-space: nowrap;
+    flex-direction: row;
+    position: relative;
+}
+
+.opcoesComponentes img {
+    width: 15px;
+}
+
+.opcoesMenu {
+    cursor: pointer;
+    font-weight: 300;
+}
+.opcoesMenu.slct {
+    font-weight: 600;
+}
+
+#menu {
+    display: none;
+    flex-direction: column;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #002048b6;
+    position: absolute;
+    margin-top: 7rem;
+    left: 16rem;
+    padding: 0.5rem;
+    z-index: 10;
+}
+.opcoesComponentes h6:hover {
+    transform: scale(1.05);
+}
+
+.opcoesComponentes h6 {
+    transition: 0.4s;
+}
+
+#menu h4 {
+    margin: 0;
+    padding: .7rem;
+    cursor: pointer;
+}
+
+.sair {
+    display: flex;
+    padding: 0 1.5rem;
+    font-size: large;
+    cursor: pointer;
+    transition: 0.4s;
+}
+
+.sair h6:hover {
+    color: #C43302;
+}
+
+/*================================================   Sessão Principal    ===============================================*/
+
+/* Define a seção principal da página, com um tamanho máximo de largura, altura definida, cor de fundo branca, bordas arredondadas e sombra para criar um efeito de elevação */
+.sessao-inicial {
+    display: flex;
+    max-width: 1518px;
+    width: 100%;
+    height: 100%;
+    height: 724px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+   
+}
+
+/* Bloco do lado esquerdo (SW), com fundo azul escuro, texto na cor clara e configuração de flexbox para alinhar o conteúdo centralizado */
+.bloco-SW {
+    background-color: #002148;
+    color: #E7ECEF;
+    width: 45%;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Estilo da logo, posicionada e centralizada no bloco */
+.logo {
+    top: -140px;
+    height: 30%;
+    width: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+/* Estilo das imagens dentro do bloco SW */
+.bloco-SW img {
+    /* height: 376px; */
+    width: 88%;
+}
+
+/* Estilo dos parágrafos dentro do bloco SW, com tamanho de fonte definido, cor de texto cinza claro e centralizado */
+.bloco-SW p {
+    font-size: 24px;
+    color: #bebebe;
+    text-align: center;
+    margin-bottom: 2px;
+}
+
+/* Estilo do botão de entrar, com margens e preenchimento definido, bordas arredondadas, cor de fundo transparente e borda clara */
+.botao-entrar {
+    margin-top: 16px;
+    padding: 10px 50px;
+    background-color: #e7ecef00;
+    color:  #E7ECEF;
+    border: 3px solid #E7ECEF;
+    border-radius: 25px;
+    font-size: 16px;
+    cursor: pointer;
+    left: -300px;
+    transition: background-color 0.3s ease;
+    
+}
+
+/* Altera a cor de fundo do botão de entrar ao passar o mouse */
+.botao-entrar:hover {
+    background-color: #CAD5E0;
+    
+    color: #00152F;
+}
+
+/*================================================   Sessão Cadastro    ================================================*/
+
+/* Estilo da seção de cadastro, com largura de 50%, preenchimento, cor de fundo cinza claro e centralização do conteúdo */
+.sessao-cadastro {
+    width: 50%;
+    padding: 40px;
+    background-color: #F5F5F5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Contêiner do formulário de cadastro, com largura e altura definidas, sombra, bordas arredondadas e cor de fundo clara */
+.form-container {
+    width: 100%;
+    height: 80%;
+    box-shadow: 0px 10px 20px rgba(202, 202, 202, 0.644);
+    border-radius: 10px;
+    padding: 0px;
+    max-width: 500px;
+    background-color: #f8f6f6;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Estilo do título (h1) do formulário, com tamanho de fonte, cor e alinhamento centralizados */
+h1 {
+    font-size: 34px;
+    color: #002148;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+/* Estilo do campo de entrada (input-field), com altura, largura e posição relativa definidas */
+.input-field {
+    margin-bottom: 30px;
+    position: relative;
+    height: 35px;
+    width: 100%;
+}
+
+/* Estilo dos campos de entrada (input), com preenchimento, borda, cor de fundo transparente, bordas arredondadas e cor do texto */
+.input-field input {
+    width: calc(100% - 30px);
+    padding: 10px;
+    border: 2.5px solid #002148;
+    background: transparent;
+    border-radius: 5px;
+    outline: none;
+    color: #002148;
+    font-size: 1em;
+}
+
+.slct {
+    width: calc(100% - 30px);
+    padding: 7px;
+    height: 40px;
+    border: 2.5px solid #002148;
+    background: transparent;
+    border-radius: 5px;
+    outline: none;
+    color: #002148;
+    font-size: 1em;
+}
+
+
+/* Estilo do texto de instrução (span) dentro do campo de entrada, com posicionamento absoluto e cor do texto */
+.input-field span {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 0 10px;
+    pointer-events: none;
+    font-size: 1em;
+    color: #002148;
+    transition: 0.3s;
+}
+
+/* Altera a posição e o tamanho do texto de instrução (span) ao focar ou quando o campo não estiver vazio */
+.input-field input:focus + span,
+.input-field input:not(:placeholder-shown) + span {
+    top: -10px;
+    left: 10px;
+    font-size: 12px;
+    color: #002148;
+    background-color: #F5F5F5;
+    padding: 0 5px;
+}
+
+/* Estilo do botão de cadastro, com largura e altura definidas, cor de fundo azul escuro, bordas arredondadas e cor do texto branca */
+.botao-cadastrar {
+    width: calc(100% - 30px); /* Ajusta a largura para ficar alinhada com os inputs */
+    padding: 10px 0;
+    background-color: #002148;
+    color: #FFF;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px; /* Adiciona uma margem para afastar o botão dos inputs */
+}
+
+/* Altera a cor de fundo do botão de cadastrar ao passar o mouse */
+.botao-cadastrar:hover {
+    background-color: #00152F;
+}
+
+
+/* Ajustes para resoluções menores, como smartphones */
+@media (max-width: 1024px) {
+    .sessao-inicial {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .bloco-SW, .sessao-cadastro {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .logo {
+        height: 20%;
+        width: 60%;
+    }
+
+    .bloco-SW img {
+        height: 280px;
+        width: 280px;
+    }
+
+    .form-container {
+        max-width: 100%;
+        padding: 20px;
+    }
+
+    .botao-entrar {
+        margin-top: 12px;
+        padding: 8px 40px;
+    }
+}
+
+/* Ajustes específicos para iPhone XR (828px de largura) */
+@media (max-width: 828px) {
+    .sessao-inicial {
+        height: auto;
+        max-width: 100%;
+    }
+
+    .bloco-SW, .sessao-cadastro {
+        width: 100%;
+    }
+
+    .botao-cadastrar {
+        font-size: 14px;
+    }
+
+    .input-field {
+        margin-bottom: 20px;
+    }
+}
