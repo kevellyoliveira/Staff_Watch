@@ -19,15 +19,17 @@
         <div class="opcoes">
             <div class="esq">
                 <div class="logo">
-                    <img href="index.html" src=".././src/img/logoB.png" alt="logo">
+                    <img href="index.html" src="../src/img/logoB.png" alt="logo">
                 </div>
 
-                <div class="menuCima" id="itens">
-                    <h6 class="opcoesMenu user"> Olá, <span id="b_usuario">usuário</span>! </h6>
-                </div>
-                <div class="menuCima op2" id="itens">
-                    <h6 class="opcoesMenu slct" onclick="window.location.href='dispositivos.html'">Dispositivos</h6>
-                    <h6 class="opcoesMenu" onclick="window.location.href='../dashboard-matheus-cpu.html'">Componentes
+                <div class="opcoesComponentes" id="itens">
+                    <h6 class="opcoesMenu associMenu"> Olá, <span id="b_usuario">usuário </span>! </h6>  
+                    
+                    <h6 class="opcoesMenu associMenu" style="font-weight: 600;
+    text-decoration: underline;"  onclick="window.location.href='/suporte-de-ti/dispositivos.html'">Dispositivos </h6>
+                    <!-- <h6 class="opcoesMenu" onclick="window.location.href='cadastroFuncionario.html'">Cadastrar</h6> -->
+                    
+                    <h6 class="opcoesMenu"  onclick="window.location.href='../dashboard-matheus-cpu.html'">Componentes
                     </h6>
                 </div>
             </div>
@@ -507,7 +509,7 @@
         var fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
 
         // ao carregar a página, também plota o gráfico de cima dos componentes por equipes!!
-        gerarGraficoEquipes(fkEmpresa)
+        // gerarGraficoEquipes(fkEmpresa)
 
         // filtros
         const slctFiltroPeriodo = document.getElementById("seletorFiltroPeriodoCards")
