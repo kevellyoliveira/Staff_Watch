@@ -10,7 +10,7 @@ import asyncio
 
 config = {
     'user': 'root',
-    'password': '#Gf47722899846',
+    'password': 'sptech',
     'host': 'localhost',
     'database': 'StaffWatch'
 }
@@ -145,7 +145,7 @@ async def print_system_info(fk_computador):
     mydb.commit()
     print(cursor.rowcount, "registro inserido - disco")
 
-    if discoPerc >= 0:
+    if discoPerc >= 80:
         if discoPerc >= 90:
             buscarID = ("""SELECT idCaptura FROM captura WHERE 
                     fkComponente = 3 AND fkAuxComponente = 11

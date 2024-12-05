@@ -52,7 +52,10 @@ insert into auxComponente values
 -- insert into auxComponente values
 (default,"latencia", "ms", 1), -- é o tempoRespostaPing3 antigo | id atual = 20
 (default,"pacotesPerdidos", "%",1), -- é o perdaPacotesPing3 antigo | id atual= 21
-
+(default,"latenciaLeituras","ms",3),
+(default,"latenciaEscritas","ms",3),
+(default,"throughputLidos","qte",3),
+(default,"throughputEscritos","qte",3),
 (default,"tempoFalhas","segundos",1), -- é o tempoFalhasPing3 antigo | manteve o ID
 (default,"inatividade","horas",1), -- é o inatividadePing3 antigo | manteve o ID
 (default,"trafegoRede","MB",1); -- é o trafegoRede antigo | manteve o ID
