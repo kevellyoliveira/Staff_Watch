@@ -50,12 +50,12 @@ insert into auxComponente values
 (default,"tempoAtividadeLooca","segundos", 5),
 
 -- insert into auxComponente values
-(20,"latencia", "ms", 1), -- é o tempoRespostaPing3 antigo | id atual = 20
-(21,"pacotesPerdidos", "%",1), -- é o perdaPacotesPing3 antigo | id atual= 21
+(default,"latencia", "ms", 1), -- é o tempoRespostaPing3 antigo | id atual = 20
+(default,"pacotesPerdidos", "%",1), -- é o perdaPacotesPing3 antigo | id atual= 21
 
-(25,"tempoFalhas","segundos",1), -- é o tempoFalhasPing3 antigo | manteve o ID
-(26,"inatividade","horas",1), -- é o inatividadePing3 antigo | manteve o ID
-(27,"trafegoRede","MB",1); -- é o trafegoRede antigo | manteve o ID
+(default,"tempoFalhas","segundos",1), -- é o tempoFalhasPing3 antigo | manteve o ID
+(default,"inatividade","horas",1), -- é o inatividadePing3 antigo | manteve o ID
+(default,"trafegoRede","MB",1); -- é o trafegoRede antigo | manteve o ID
 
 select * from auxComponente;
 
@@ -298,8 +298,6 @@ left join componente co on co.idComponente = cap.fkComponente
 left join auxComponente aux on aux.idAuxComponente = cap.fkAuxComponente 
 where f.fkCargo = 4
 order by c.status, cap.dataCaptura desc;
-
-select * from auxcomponente;
 -- --------------------------- gráfico em tempo real: uso de CPU
 select ca.captura, time(ca.dataCaptura) as dataCaptura, ca.modelo, ca.fkComputador, co.fkEmpresa
 from captura ca
