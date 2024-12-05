@@ -1,0 +1,231 @@
+---
+title: "Relatório Rede StaffWatch"
+author: "Equipe Staff Watch"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introdução
+
+
+Neste relatório, analisamos dados de rede coletados ao longo da última semana. O objetivo é entender como melhorar ou manter o **desempenho de rede** para garantir estabilidade ao call center.
+
+## Conectando ao Banco de Dados
+
+Primeiro, carregamos os pacotes necessários para realizar a análise e estabelecemos uma conexão com o banco de dados MySQL para consultar os dados necessários. O código a seguir conecta-se ao banco de dados `StaffWatch` e obtém os dados de captura.
+
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+# Instalar pacotes necessários
+if (!requireNamespace("RMySQL", quietly = TRUE)) {
+  install.packages("RMySQL")
+}
+if (!requireNamespace("plumber", quietly = TRUE)) {
+  install.packages("plumber")
+}
+if (!requireNamespace("rmarkdown", quietly = TRUE)) {
+  install.packages("rmarkdown")
+}
+
+# Carregar os pacotes
+library(RMySQL)
+library(ggplot2)
+library(rmarkdown)
+```
+
+
+
+Estabelecendo conexão e verificando se os dados vieram de forma correta
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+# Configurações do banco de dados
+host <- "localhost"
+user <- "root"
+password <- "Crfsruan1"
+dbname <- "StaffWatch"
+port <- 3306
+
+# Conectar ao banco de dados
+con <- dbConnect(MySQL(), host = host, user = user, password = password, dbname = dbname, port = port)
+
+# Consultar dados
+queryRede <- "SELECT * FROM captura WHERE dataCaptura >= CURDATE() - INTERVAL 7 DAY"
+capturaGeral <- dbGetQuery(con, queryRede)
+
+# Exibir os primeiros registros
+head(capturaGeral)
+
+```
+
+## Filtrando os dados de rede
+
+Neste momento, filtramos os dados do banco de acordo com a rede para iniciar a análise.
+
+```{r message=FALSE, warning=FALSE}
+# Análises por componente
+pacotesEnv <- capturaGeral[capturaGeral$fkAuxComponente == 2, ]
+pacotesReceb <- capturaGeral[capturaGeral$fkAuxComponente == 3, ]
+latencia <- capturaGeral[capturaGeral$fkAuxComponente == 20, ]
+perdaPacotes <- capturaGeral[capturaGeral$fkAuxComponente == 21, ]
+tempoFalha <- capturaGeral[capturaGeral$fkAuxComponente == 25, ]
+
+```
+## Médias e Alertas dos dados
+
+### 1.Média dos dados de rede nos últimos 7 dias
+
+A média dos dados de rede é relevante pois indicam tendências e padrões gerais,
+podendo ser usadas para monitorar e diagnosticar a saúde da infraestrutura de rede.
+
+```{r message=FALSE, warning=FALSE}
+
+# Média de cada métrica
+mediaPacotesEnv <- mean(pacotesEnv$captura)
+mediaPacotesReceb <- mean(pacotesReceb$captura)   
+mediaLatencia <- mean(latencia$captura)
+mediaPerdaPacotes <- mean(perdaPacotes$captura)
+
+
+print(paste("Valor médio de pacotes enviados(qtd):", mediaPacotesEnv))
+print(paste("Valor médio de pacotes recebidos(qtd):", mediaPacotesReceb))
+print(paste("Valor médio de pacotes perdidos(%):", mediaPerdaPacotes))
+print(paste("Valor médio da latência(Ms):", mediaLatencia))
+
+```
+
+
+### 2.Alertas de cada métrica - Quantidade de vezes que foi exibido um alerta.
+
+Entender a quantidade de dados que ocasionaram em alertas, ouseja, passaram do limite de estabilidade é de suma importância para tomar decisões a respeito da estabilidade da rede.
+Muitos alertas em pouco tempo podem indicar problemas relevantes.
+
+```{r message=FALSE, warning=FALSE}
+
+picosLatencia <- latencia$captura[latencia$captura >= 100]
+picosPerdaPacotes <- perdaPacotes$captura[perdaPacotes$captura >= 1]   
+picosTempoFalha <- tempoFalha$captura[tempoFalha$captura >= 350]
+
+tamanhoPicosLatencia <- length(picosLatencia)
+tamanhoPicosPerdaPacotes <- length(picosPerdaPacotes)
+tamanhoPicosTempoFalha <- length(picosTempoFalha)
+
+print(paste("Quantidade de alertas de latência(Ms):", tamanhoPicosLatencia))
+print(paste("Quantidade de alertas de tempo entre falhas(minutos):", tamanhoPicosTempoFalha))
+print(paste("Quantidade de alertas de pacotes perdidos(%):", tamanhoPicosPerdaPacotes))
+
+
+```
+
+HISTOGRAMA
+
+Para que possamos ter melhor vizualização da distribuição dos dados e da frequência dos valores.
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+# Verificar se a variável tem dados antes de criar o histograma
+if (length(picosLatencia) == 0) {
+  print("Não houveram picos de latência na última semana.")
+} else {
+  hist(picosLatencia, 
+       main = "Alertas de latência nos ultimos 7 dias", 
+       xlab = "Valores", 
+       ylab = "Frequência", 
+       col = "lightblue", 
+       border = "black")
+}
+
+if (length(picosPerdaPacotes) == 0) {
+  print("Não houveram picos de perda de pacotes.")
+} else {
+  hist(picosPerdaPacotes, 
+       main = "Alertas de perda de pacotes nos ultimos 7 dias", 
+       xlab = "Valores", 
+       ylab = "Frequência", 
+       col = "red", 
+       border = "black")
+}
+
+if (length(picosTempoFalha) == 0) {
+  print("Não houveram picos de tempo de falha.")
+} else {
+  hist(picosTempoFalha, 
+       main = "Alertas de tempo entre falhas nos ultimos 7 dias", 
+       xlab = "Valores", 
+       ylab = "Frequência", 
+       col = "yellow", 
+       border = "black")
+}
+
+
+
+```
+
+
+## Correlação entre Latência de Rede e Métricas de Desempenho (Uso de CPU, Pacotes Enviados e Pacotes Perdidos)
+
+  Este estudo visa exibir a correlação entre a latência de rede e outras métricas de desempenho da infraestrutura de TI, como o uso de CPU, pacotes enviados e pacotes perdidos, para entender como esses fatores influenciam a **qualidade da rede**. A latência de rede, que é o tempo que os pacotes levam para viajar de um ponto a outro na rede, pode ser impactada por diversos elementos da rede e da infraestrutura.
+
+* **Latência de Rede vs Uso de CPU:** O uso elevado de CPU pode indicar sobrecarga no servidor ou dispositivo de rede, o que pode resultar em uma latência maior devido ao processamento excessivo de pacotes ou solicitações.
+
+* **Latência de Rede vs Pacotes Enviados:** O aumento no número de pacotes enviados pode gerar congestionamento de tráfego, aumentando a latência, já que mais pacotes precisam ser processados e transmitidos pela rede.
+
+* **Latência de Rede vs Pacotes Perdidos:** Pacotes perdidos indicam problemas na transmissão, como falhas de rede ou congestionamento. Esse tipo de perda afeta diretamente a latência, pois os pacotes precisam ser retransmitidos, aumentando o tempo total de entrega.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+# verificar correlação pacotes enviados/recebidos
+
+pctEnvlatencia <- data.frame(pacotesEnv$captura, latencia$captura)
+
+
+ggplot(pctEnvlatencia, aes(x = pacotesEnv$captura, y = latencia$captura)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE, color = "lightblue") +  # Adiciona a linha de regressão
+  labs(title = "Pacotes enviados vs Latencia", x = "Pacotes enviados (bytes)", y = "Latencia (Ms)")
+
+
+
+# verificar correlação cpu
+
+usoCpu <- capturaGeral[capturaGeral$fkAuxComponente == 12, ]
+
+CPUlatencia <- data.frame(usoCpu$captura, latencia$captura)
+
+
+ggplot(CPUlatencia, aes(x = usoCpu$captura, y = latencia$captura)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE, color = "red") +  # Adiciona a linha de regressão
+  labs(title = "Uso de CPU vs Latencia", x = "Uso de CPU (%)", y = "Latencia (Ms)")
+
+
+
+# verificar correlação pacotesPerdidos
+
+pctPerdidos <- capturaGeral[capturaGeral$fkAuxComponente == 21, ]
+
+pctPerdidoslatencia <- data.frame(pctPerdidos$captura, latencia$captura)
+
+
+ggplot(pctPerdidoslatencia, aes(x = pctPerdidos$captura, y = latencia$captura)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE, color = "lightgreen") +  # Adiciona a linha de regressão
+  labs(title = "Pacotes enviados vs Latencia", x = "Pacotes enviados (bytes)", y = "Latencia (Ms)")
+
+
+
+```
+
+## Fechando a Conexão com o Banco de Dados
+
+Ao final da análise, encerramos a conexão com o banco de dados.
+
+```{r message=FALSE, warning=FALSE}
+# Fechar a conexão com o banco de dados
+dbDisconnect(con)
+```

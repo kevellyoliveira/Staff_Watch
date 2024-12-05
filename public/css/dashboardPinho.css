@@ -374,18 +374,42 @@ header {
  color: #e7ecef;
 }
 
-.section-select select{
+.section-select .select{
     color: #e7ecef;
     border-radius: 5px;
     background-color: #002148;
     border: 5px solid #002148;
 }
 
-.section-select select:hover{
+.section-select .select:hover{
     background-color: #00295a;
     border-radius: 6vh;
     transition: 0.7s;
 }
+
+.grafico-btn {
+    display: flex;
+    justify-content: center;
+    /* font-size: 100%; */
+    cursor: pointer;
+    background-color: #002148;
+    color: white;
+    border: none;
+    height: 4vh;
+    width: 15vh;
+    size: 5vh;
+    border-radius: 2vh;
+    align-items: center;
+
+  }
+
+  .grafico-btn:hover{
+    background-color: #1662c0;
+    transition: 0.3s;
+    /* height: 6%; */
+    /* width: 6%; */
+    box-shadow: 0 0 8px rgb(11, 21, 109);
+  }
 
 /*Dashboard das equipes*/
 
@@ -426,9 +450,9 @@ header {
 
 .grafico{
     display: flex;
-    height: 50%;
-    width: 45%;
-    background-color: #002148;
+    height: 40vh;
+    width: 65vh;
+    background-color: #e7ecef;
     gap: 2px;
     padding: 10px 0 10px 0;
     border-radius: 5vh;
@@ -453,7 +477,7 @@ header {
     overflow-y: auto;
 }
 
-
+/*
 .right-section .section-alertas .alertas-text select{
     color: #e7ecef;
     border-radius: 5px;
@@ -466,6 +490,20 @@ header {
         appearance: none;
         text-align: center;
 }
+*/
+
+.right-section .section-alertas .alertas-text .select{
+    color: #e7ecef;
+    border-radius: 5px;
+    background-color: #002148;
+    border: 5px solid #002148;
+}
+
+.right-section .section-alertas .alertas-text .select:hover{
+    background-color: #00295a;
+    border-radius: 6vh;
+    transition: 0.7s;
+}
 
 .right-section .section-alertas .alertas-text p {
     display: flex;
@@ -473,13 +511,13 @@ header {
     justify-content:center;
 }
 
-.right-section .section-alertas .alertas-text select:hover{
+/* .right-section .section-alertas .alertas-text select:hover{
     background-color: #00295a;
     transition: 0.7s;
     border: 1px solid #e7ecef;
-}
-
-.right-section .section-alertas .alertas-text select option{
+} 
+*/
+.right-section .section-alertas .alertas-text .select option{
     background-color: #002148;
     color: #e7ecef;
 }
@@ -494,6 +532,21 @@ header {
     justify-content: center;
 }
 
+.section-up .section-title .select{
+    color: #e7ecef;
+    border-radius: 6vh;
+    background-color: #002148;
+    border: 5px solid #002148;
+}
+
+.section-up .section-title .select:hover{
+    background-color: #00295a;
+    border-radius: 6vh;
+    transition: 0.7s;
+}
+
+
+/*
 .section-up .section-title select{
     color: #e7ecef;
     border-radius: 5px;
@@ -512,14 +565,14 @@ header {
     transition: 0.7s;
     height: 3.7vh;
     box-shadow: 5px 5px 15px #201f1f ;
-    /* border: 1px solid #e7ecef; */
+     border: 1px solid #e7ecef; 
 }
 
 .section-up .section-title select option{
     background-color: #002148;
     color: #e7ecef;
 }
-
+*/
 /* Estilo da setinha (pseudo-elemento) */
 .custom-select::after {
     content: "▼"; /* Define a seta */

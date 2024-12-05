@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro | Staff Watch</title>
+    <link rel="stylesheet" href="./css/cadastroComponente.css">
+    <link rel="shortcut icon" href="src/img/logoB.png" type="image/x-icon" />
+
+</head>
+
+<body>
+    <header>
+        <div class="opcoes">
+            <div class="esq">
+                <div class="logoHeader">
+                    <img href="index.html" src="src/img/logoB.png" alt="logo">
+                </div>
+
+                <div class="opcoesComponentes" id="itens">
+                    <h6 class="opcoesMenu" onclick="window.location.href='dashboardGeral.html'">Home</h6>
+                    <h6 class="opcoesMenu associMenu" onclick="abrirMenu()">Associados <img src="src/img/icons/seta.png"
+                            alt="icone menu vertical"></h6>
+                     <h6 class="opcoesMenu " onclick="window.location.href='cadastroFuncionario.html'">Cadastrar</h6>
+                    <div id="menu">
+                        <h4 onclick="window.location.href='pagina-operario2.html'">Funcionários</h4>
+                        <h4 onclick="window.location.href='pagina-maquina.html'">Dispositivos</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="sair">
+                <h6 class="opcoesMenu sair" onclick="sair()"> Sair </h6>
+            </div>
+        </div>
+    </header>
+    <!-- Início do corpo da página -->
+
+    <section class="sessao-inicial">
+        <!-- Seção que agrupa o conteúdo visual e o formulário de cadastro -->
+
+        <article class="bloco-SW">
+            <!-- Bloco que contém a logo e o botão para acesso -->
+
+            <div class="logo">
+                <!-- Contêiner para a imagem da logo -->
+
+                <img src="src/img/logoB.png" alt="Logo Staff Watch">
+                <!-- Imagem da logo com o caminho especificado e texto alternativo para acessibilidade -->
+            </div>
+
+            <p>Para se manter conectado entre</p>
+            <p>com suas informações pessoais</p>
+            <!-- Parágrafos que fornecem uma mensagem de introdução -->
+
+            <a href="login.html"><button class="botao-entrar"><b>Entrar</b></button></a>
+            <!-- Botão para entrar na página, estilizado com a classe `botao-entrar` e com o texto em negrito -->
+        </article>
+
+        <article class="sessao-cadastro">
+            <div class="form-container">
+                <h1>Selecione o componente a ser cadastrado</h1>
+                
+                <!-- <div class="input-wrapper">
+                    <span id="alertToken" class="msgAlerta"></span>
+                    <span class="token-span pholder">Token de Acesso</span>
+                    <div class="input-field">
+                        <input type="text" name="Token" id="token_input" required="required" autocomplete="off"
+                            placeholder="Token de acesso" oninput="exibirLegenda(this)">
+                    </div>
+                </div> -->
+
+                <div class="input-wrapper">
+                    <span id="alertCargo" class="msgAlerta"></span>
+                    <select class="input-field slct" id="componente_select">
+                        <option value="#" selected disabled> Selecione o componente </option>
+                        <option value="1">Rede</option>
+                        <option value="2">Memória</option>
+                        <option value="3">Disco</option>
+                        <option value="4">CPU</option>
+                        <option value="5">Processos</option>
+                    </select>
+                </div>
+
+                <!-- <div class="input-wrapper">
+                    <span id="alertSenha" class="msgAlerta"></span>
+                    <span class="senha-span pholder">Sua senha</span>
+                    <div class="input-field">
+                        <input type="password" name="Senha" id="senha_input" required="required" autocomplete="off"
+                            placeholder="Sua senha" oninput="exibirLegenda(this)">
+                    </div>
+                </div> -->
+
+                <!-- <div class="input-wrapper">
+                    <span id="alertConfirmSenha" class="msgAlerta"></span>
+                    <span class="confirmSenha-span pholder">Confirmar Senha</span>
+                    <div class="input-field">
+                        <input type="password" name="Confirmar Senha" id="confirmSenha_input" required="required"
+                            autocomplete="off" placeholder="Confirmar Senha" oninput="exibirLegenda(this)">
+                    </div>
+                </div> -->
+                    <button class="botao-cadastrar" type="submit" onclick="cadastrarComponente()">Cadastrar</button>
+                    <button class="botao-cadastrar" type="submit" onclick="removerComponente()">Remover</button>
+            </div>
+        </article>
+    </section>
+</body>
+
+</html>
+
+<script>
+
+function abrirMenu() {
+        if (document.getElementById("menu").style.display == "flex") {
+            document.getElementById("menu").style.display = "none";
+        } else {
+            document.getElementById("menu").style.display = "flex"
+        }
+    }
+
+    function sair() {
+        sessionStorage.clear()
+        window.location = "index.html"
+    }
+    
+    function cadastrarComponente(req, res){
+
+        var nomeComponente;
+        var componente = componente_select.value;
+        var idEmpresa = sessionStorage.ID_EMPRESA;
+
+        if (componente == 1){
+            nomeComponente = "fkRede";
+        }
+        if (componente == 2){
+            nomeComponente = "fkMemoria";
+        }
+        if (componente == 3){
+            nomeComponente = "fkDisco";
+        }
+        if (componente == 4){
+            nomeComponente = "fkCpu";
+        }
+        if (componente == 5){
+            nomeComponente = "fkProcessos";
+        }
+
+        fetch("maquinas/componente", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                        // crie um atributo que recebe o valor recuperado aqui
+                        // Agora vá para o arquivo routes/usuario.js
+                        nomeComponenteServer: nomeComponente,
+                        fkEmpresaServer: idEmpresa,
+                    }),
+            })
+            .then(function (resposta) {
+                        console.log("resposta: ", resposta);
+
+                        if (resposta.ok) {
+                            alert("Cadastro realizado com sucesso!");
+                            window.location.href = 'dashboardEquipe.html';
+                        } 
+                        else {
+                            alert('Erro bizarro')
+                            console.log(`#ERRO: ${resposta}`)
+                        }
+                    })
+                    .catch(function (resposta) {
+                        console.log(`#ERRO: ${resposta}`);
+                    });
+                return false;
+        }
+    
+
+</script>

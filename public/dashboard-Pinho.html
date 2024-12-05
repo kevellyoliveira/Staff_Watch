@@ -63,13 +63,13 @@
             <div class="first-section">
                 <div class="grafico-select">
                     <div class="section-select">
-                        <p>Gráfico de <select onselect="carregarGraficos()" id="select_componente">
+                        <p>Gráfico de <select class="select" onselect="carregarGraficos()" id="select_componente">
                                 <option value="#" selected disabled>Selecione o Componente</option>
                                 <option value="1">Todos</option>
                                 <option value="12">CPU</option>
                                 <option value="8">Memória RAM</option>
                                 <option value="4">Disco</option>
-                            </select> em um período de <select id="select_tempo">
+                            </select> em um período de <select class="select" id="select_tempo">
                                 <option value="#">Selecione o tempo</option>
                                 <option value="1">1 Dia</option>
                                 <option value="2">1 Semana</option>
@@ -78,7 +78,7 @@
                                 <option value="5">6 Meses</option>
                                 <option value="6">1 Ano</option>
                             </select></p>
-                            <button onclick="obterDadosGrafico()">Gerar gráfico</button>
+                            <button class="grafico-btn" onclick="obterDadosGrafico()">Gerar gráfico</button>
                     </div>
                     <canvas id="myChartCanvas"></canvas>
                 </div>

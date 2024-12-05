@@ -81,6 +81,8 @@ header {
     justify-content:space-around;
     white-space: nowrap;
     position: relative;
+    gap: 68px;
+    margin-left: 20px;
 }
 
 .opcoesComponentes img {
