@@ -35,7 +35,7 @@ function gerarGraficoTempoReal(fkEmpresa, idComponente, idComputador) {
         var instrucaoSql = `select ca.captura, time(ca.dataCaptura) as dataCaptura, ca.modelo, fkComputador, fkEmpresa
                         from captura ca
                         join computador co on ca.fkComputador = co.idComputador
-                        where fkComponente = 3 and fkAuxComponente = 6 and 
+                        where fkComponente = 3 and fkAuxComponente = 11 and 
                         fkEmpresa = ${fkEmpresa} and fkComputador = ${idComputador}
                         order by idCaptura desc limit 1;`;
         console.log("Executando a instrução SQL: \n" + instrucaoSql);
