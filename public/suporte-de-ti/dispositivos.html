@@ -22,7 +22,7 @@
                     <img href="index.html" src="../src/img/logoB.png" alt="logo">
                 </div>
 
-                <div class="opcoesComponentes" id="itens">
+                <div class="opcoesComponentes header" id="itens">
                     <h6 class="opcoesMenu associMenu"> Olá, <span id="b_usuario">usuário </span>! </h6>  
                     
                     <h6 class="opcoesMenu associMenu" style="font-weight: 600;
@@ -1031,9 +1031,8 @@
                         border-radius: 9px; 
                         padding: 0 2px; 
                         color: ${tipoAlerta === 'amarelo' ? '#000' : '#fff'};">
-                            ${tipoAlerta}
-                        </span> 
-                        <span style="text-decoration: underline;">em ${formattedDate}</span>
+                            ${tipoAlerta}</span> 
+                        <span style="text-decoration: underline;"> em ${formattedDate} </span>
                         em ${descricaoAdicional} do componente <b style="font-weight: bold;">${componente} --> ${captura}${descricao}</b>.
                     </p>`;
                     alertaDiv.innerHTML = mensagemFormatada;
