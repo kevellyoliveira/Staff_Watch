@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/dashboardHist.css">
+    <link rel="shortcut icon" href="./src/img/logoB.png" type="image/x-icon" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <title>Dashboard | Staff Watch</title>
+</head>
+
+<body>
+    <header>
+        <div class="opcoes">
+            <div class="esq">
+                <div class="logo">
+                    <img href="index.html" src="./src/img/logoB.png" alt="logo">
+                </div>
+
+                <div class="opcoesComponentes" id="itens">
+                    <h6 class="opcoesMenu slct" onclick="window.location.href='dashboardGeral-go.html'">Home</h6>
+                    <h6 class="opcoesMenu associMenu" onclick="abrirMenu()">Associados <img
+                            src="./src/img/icons/seta.png" alt="icone menu vertical"></h6>
+                    <h6 class="opcoesMenu" onclick="window.location.href='cadastroFuncionario.html'">Cadastrar</h6>
+                    <div id="menu">
+                        <h4 onclick="window.location.href='pagina-operario2.html'">Funcionários</h4>
+                        <h4 onclick="window.location.href='pagina-maquina.html'">Dispositivos</h4>
+                        <h4 onclick="window.location.href='cadastroEquipe.html'">Equipe</h4>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sair">
+                <h6 class="opcoesMenu sair" onclick="sair()"> Sair </h6>
+            </div>
+        </div>
+    </header>
+    <div class="mom">
+        <div class="son1">
+            <button class="open-btn" onclick="openMenu()">☰</button>
+
+            <!-- Menu Lateral -->
+            <div id="sideMenu" class="side-menu">
+                <button class="close-btn" onclick="closeMenu()">×</button>
+                <div class="menuLateral">
+                    <div class="itens1">
+                        <h4 id="0" class="hist2" onclick="window.location.href='dashboardGeral-go.html'">Home</h4>
+                        <!-- Histórico Fixo -->
+        
+                        <!-- As equipes serão carregadas dinamicamente aqui -->
+        
+                        <h4 class="hist3" onclick="window.location.href='./novaEquipe.html'">NovaEquipe</h4>
+                        <!-- Nova equipe Fixa -->
+                    </div>
+                </div>
+            </div>
+            <h1 class="h1Central">Indicadores Gerais</h1>
+            <select name="opcoes" class="TEMPO">
+                <option value="tempo">TEMPO</option>
+                <option value="dia">DIA</option>
+                <option value="SEMANA">SEMANA</option>
+                <option value="MÊS">MÊS</option>
+            </select>
+        </div>
+        <div class="son2">
+            <div class="estavel">ESTÁVEL</div>
+            <div class="alerta">ALERTA</div>
+            <div class="critico">CRÍTICO</div>
+        </div>
+    </div>
+    <div class="mom2">
+        <div class="son3">
+            <div class="fundoo">
+            <h2>Chamadas recebidas X Chamadas atendidas</h2>
+            <canvas id="barChart" class="GRAFIC"></canvas>
+            </div>
+        </div>
+        <div class="son4">
+            <div class="bloco1">Tempo médio atendimento:</div>
+            <div class="bloco2">Eficiência:</div>
+        </div>
+        <div class="son6">
+            <div class="bloco3">Tempo médio de espera:</div>
+            <div class="bloco4">Chamadas perdidas:</div>
+        </div>
+        <div class="son5">
+            <div class="equipAlert">Alerta equipes</div>
+        </div>
+    </div>
+</body>
+
+
+</html>
+
+<script>
+
+
+
+    function selecionarItem(elemento) {
+        var id = elemento.id;  // Pega o ID da equipe clicada
+        if (id == 0) {
+            // Redireciona para dashboardGeral.html
+            window.location.href = "dashboardGeral-go.html";
+        } else {
+            // Armazena o ID correto da equipe no sessionStorage
+            sessionStorage.setItem('equipeSelecionada', id);
+            // Redireciona para a página da equipe
+            window.location.href = 'dashboardEquipe_Eduardo2-go.html';
+        }
+    }
+
+    function abrirMenu() {
+        if (document.getElementById("menu").style.display == "flex") {
+            document.getElementById("menu").style.display = "none";
+        } else {
+            document.getElementById("menu").style.display = "flex"
+        }
+    }
+
+    function sair() {
+        sessionStorage.clear()
+        window.location = "index.html"
+    }
+
+    const ctx = document.getElementById('barChart');
+
+    // Criando o gráfico
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Chamadas recebidas', 'Chamadas atendidas'],
+            datasets: [{
+                label: 'Chamadas',
+                data: [70, 60],
+                backgroundColor: ["#90cafd","blue"],
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // Função para abrir o menu
+    function openMenu() {
+        document.getElementById("sideMenu").style.left = "0";
+    }
+
+    // Função para fechar o menu
+    function closeMenu() {
+        document.getElementById("sideMenu").style.left = "-250px";
+    }
+
+    function listarEquipes() {
+        const fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
+
+        fetch(`funcionarios/listarEquipes/${fkEmpresa}`)
+            .then(function (resposta) {
+                if (resposta.ok) {
+                    return resposta.json(); // Se a resposta for ok, tenta converter para JSON
+                } else {
+                    console.error("Erro ao carregar equipes, status:", resposta.status);
+                    return []; // Se não retornar sucesso, retorna um array vazio
+                }
+            })
+            .then(function (dados) {
+                // Verificando se dados está correto
+                console.log("Equipes carregadas:", dados);
+
+                const menuLateral = document.querySelector(".menuLateral .itens");
+
+                // Limpa o conteúdo atual do menu (exceto os itens fixos)
+                const historicoItem = document.querySelector(".historico"); // Seleciona o item Histórico pela classe
+                const novaEquipeItem = document.querySelector(".novaequipe"); // Seleciona o item Nova Equipe pela classe
+
+                // Re-adiciona o item "Histórico" de volta
+                menuLateral.innerHTML = ''; // Limpa a lista para evitar duplicação
+
+                // Adiciona o Histórico novamente
+                menuLateral.appendChild(historicoItem);
+
+                // Adiciona as equipes (se houver)
+                if (dados && dados.length > 0) {
+                    dados.forEach(function (equipe) {
+                        const h4 = document.createElement("h4");
+                        h4.textContent = equipe.nome;  // O nome da equipe
+                        h4.onclick = function () {
+                            selecionarItem(equipe.id);  // Quando clicar, chama a função de seleção
+                        };
+                        menuLateral.appendChild(h4); // Adiciona a equipe ao menu
+                    });
+                } else {
+                    // Se não houver equipes, exibe uma mensagem
+                    const noTeamsMessage = document.createElement("h4");
+                    noTeamsMessage.textContent = "Nenhuma equipe encontrada.";
+                    menuLateral.appendChild(noTeamsMessage);
+                }
+
+                // Re-adiciona a opção "Nova equipe"
+                menuLateral.appendChild(novaEquipeItem);
+            })
+            .catch(function (erro) {
+                console.error("Erro ao carregar as equipes:", erro);
+            });
+    }
+
+    window.onload = function () {
+        listarEquipes();  // Chama a função para listar as equipes
+        atualizarFeedEquipe();  // Chama a função para atualizar o feed da equipe
+    };
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        listarEquipes();  // Chama a função para listar as equipes
+        atualizarFeedEquipe();  // Chama a função para atualizar o feed da equipe
+    });
+
+</script>

@@ -4,7 +4,7 @@ var router = express.Router();
 var redeRuanController = require("../controllers/redeRuanController");
 
 
-router.get("/pacotesPerdidos", function (req, res) {
+router.get("/pacotesPerdidos/:numeroSalvo", function (req, res) {
     redeRuanController.puxarPacotesPerdidos(req, res);
 });
 
