@@ -86,25 +86,25 @@
 
                 <div class="grafico">
                     <div class="grafico-text">
-                        <p>Percentual de uso de CPU</p>
+                        <p>Histórico de CPU</p>
                     </div>
                     <canvas id="myChartCanvas"></canvas>
                 </div>
                 <div class="grafico">
                     <div class="grafico-text">
-                        <p>Percentual de uso da memória RAM</p>
+                        <p>Histórico da memória RAM</p>
                     </div>
                     <canvas id="myChartCanvas2"></canvas>
                 </div>
                 <div class="grafico">
                     <div class="grafico-text">
-                        <p>Bytes lidos e escritos do Disco</p>
+                        <p>Taxa de transferência do Disco</p>
                     </div>
                     <canvas id="myChartCanvas3"></canvas>
                 </div>
                 <div class="grafico">
                     <div class="grafico-text">
-                        <p>Leituras e escritas no Discos</p>
+                        <p>Latência no Disco</p>
                     </div>
                     <canvas id="myChartCanvas4"></canvas>
                 </div>
@@ -366,7 +366,7 @@
         let dados = {
             labels: labels,
             datasets: [{
-                label: 'Histórico de percentual de CPU',
+                label: 'Percentual de CPU',
                 data: [],
                 fill: false,
                 backgroundColor: 'rgba(255, 99, 132, 0.2)',
@@ -445,7 +445,7 @@
         let dados = {
             labels: labels,
             datasets: [{
-                label: 'Histórico de percentual de RAM',
+                label: 'Percentual de RAM',
                 data: [],
                 fill: false,
                 backgroundColor: 'rgba(255, 99, 132, 0.2)',
@@ -527,7 +527,7 @@
             labels: labels,  // As labels (categorias) para o eixo X
             datasets: [
                 {
-                    label: 'Quantidade de Leituras',
+                    label: 'Leituras',
                     data: numeroLeituras,
                     fill: false,
                     borderColor: 'blue',
@@ -535,7 +535,7 @@
                     tension: 0.1
                 },
                 {
-                    label: 'Quantidade de Escritas',
+                    label: 'Escritas',
                     data: numeroEscritas,
                     fill: false,
                     borderColor: '#00FFFF',
@@ -626,7 +626,7 @@
             labels: labels,  // As labels (categorias) para o eixo X
             datasets: [
                 {
-                    label: 'MegaBytes lidos no disco',
+                    label: 'Leitura',
                     data: bytesLidos,
                     fill: false,
                     borderColor: 'blue',
@@ -634,7 +634,7 @@
                     tension: 0.1
                 },
                 {
-                    label: 'MegaBytes escritos no disco',
+                    label: 'Escrito',
                     data: bytesEscritos,
                     fill: false,
                     borderColor: '#00FFFF',
