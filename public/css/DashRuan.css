@@ -1653,7 +1653,7 @@ h2 {
 }
 
 .regularTempo {
-    background-color: #1662c0;
+    /* background-color: #1662c0; */
     height: 100%;
     width: 73vh;
 
@@ -1677,7 +1677,7 @@ h2 {
 }
 
 .relatorio {
-    background-color: #465841;
+    /* background-color: #465841; */
     height: 100%;
     width: 50%;
 

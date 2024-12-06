@@ -111,7 +111,7 @@
         <div class="baixo1">
             <div class="espaco"></div>
             <div class="grafico">
-                <canvas id="graficoBandaLarga"></canvas>
+                <canvas id="graficoTrafego"></canvas>
             </div>
             <div class="miniespaco"></div>
         </div>
@@ -166,13 +166,23 @@
 
 
     let numeroSalvo = 0; // Variável para armazenar o número
-
+    let graficoLatencia = null
+    let graficoTrafego = null
     // Função para capturar o valor do input
     function salvarNumero() {
         const input = document.getElementById('FiltroTempo').value; // Obtém o valor do input
         numeroSalvo = Number(input); // Converte para número e salva na variável
         console.log(`Número salvo: ${numeroSalvo}`); // Exibe no console
         // alert(`Número salvo: ${numeroSalvo}`); // Exibe um alerta para o usuário
+        if (graficoLatencia) {
+            graficoLatencia.destroy()
+            graficoLatencia = null
+        }
+
+        if (graficoTrafego) {
+            graficoTrafego.destroy()
+            graficoTrafego = null
+        }
     }
 
     document.getElementById('salvarBtn').addEventListener('click', salvarNumero);
@@ -189,9 +199,13 @@
 
 
 
-    function puxarPacotesPerdidos(numeroSalvo) {
+    function puxarPacotesPerdidos() {
 
         console.log("ENTROU NA FUNCAO pacotes perdidos")
+        // console.log(numeroSalvo)
+        // console.log(numeroSalvo)
+        // console.log(numeroSalvo)
+        // console.log(numeroSalvo)
 
         fetch(`/redeRuan/pacotesPerdidos/${numeroSalvo}`, {
             method: "GET"
@@ -231,7 +245,7 @@
 
     }
 
-    // setInterval(puxarPacotesPerdidos, 5000);
+    setInterval(puxarPacotesPerdidos, 5000);
 
 
 
@@ -240,7 +254,7 @@
 
         console.log("ENTROU NA FUNCAO inatividade")
 
-        fetch(`/redeRuan/inatividade`, {
+        fetch(`/redeRuan/inatividade/${numeroSalvo}`, {
             method: "GET"
         })
             .then(resposta => {
@@ -300,7 +314,7 @@
 
     }
 
-    // setInterval(puxarInatividade, 5000);
+    setInterval(puxarInatividade, 5000);
 
 
 
@@ -309,7 +323,7 @@
 
         console.log("ENTROU NA FUNCAO tempo entre falhas")
 
-        fetch(`/redeRuan/tempoFalhas`, {
+        fetch(`/redeRuan/tempoFalhas/${numeroSalvo}`, {
             method: "GET"
         })
             .then(resposta => {
@@ -350,7 +364,7 @@
 
 
                     // Atualiza o conteúdo da div com o último valor
-                    // document.getElementById("tempoFalhasValor").textContent = ultimoValor;
+                    document.getElementById("tempoFalhasValor").textContent = ultimoValor;
 
                 } else {
                     console.error("Nenhum dado encontrado.");
@@ -365,7 +379,7 @@
 
     }
 
-    // setInterval(puxarTempoFalhas, 5000);
+    setInterval(puxarTempoFalhas, 5000);
 
 
 
@@ -379,78 +393,251 @@
 
 
 
-    function puxarGraficoLatencia() {
+    // function puxarGraficoLatencia() {
 
-        console.log("ENTROU NA FUNCAO graficoLatencia")
+    //     console.log("ENTROU NA FUNCAO graficoLatencia")
 
-        fetch(`/redeRuan/graficoLatencia`, {
-            method: "GET"
-        })
-            .then(resposta => {
-                if (resposta.ok) {
+    //     fetch(`/redeRuan/graficoLatencia/${numeroSalvo}`, {
+    //         method: "GET"
+    //     })
+    //         .then(resposta => {
+    //             if (resposta.ok) {
 
-                    return resposta.json();
+    //                 return resposta.json();
 
 
-                } else {
-                    throw "Não foi possível plotar o gráfico de latencia.";
+    //             } else {
+    //                 throw "Não foi possível plotar o gráfico de latencia.";
+    //             }
+    //         })
+
+    //         .then(dados => {
+    //             console.log(dados);  // Exibe os dados no console (opcional para debugging)
+
+    //             // Verifica se existem dados e exibe o último valor
+    //             if (dados && dados.length > 0) {
+
+
+
+
+    //                 function processarDados(dados) {
+    //                     const labels = [];  // Para os valores no eixo X (data)
+    //                     const valoresCaptura = [];  // Para os valores no eixo Y (captura)
+
+                        
+
+    //                     // Vamos pegar a primeira data e calcular as diferenças
+    //                     let primeiroTempo = new Date(dados[0].dataCaptura);  // Primeira data de captura
+
+    //                     // Função para formatar a data para o formato 'DD/MM/YYYY HH:mm'
+    //                     function formatarData(data) {
+    //                         const dia = data.getDate().toString().padStart(2, '0');
+    //                         const mes = (data.getMonth() + 1).toString().padStart(2, '0');
+    //                         const ano = data.getFullYear();
+    //                         const hora = data.getHours().toString().padStart(2, '0');
+    //                         const minuto = data.getMinutes().toString().padStart(2, '0');
+    //                         return `${dia}/${mes}/${ano} ${hora}:${minuto}`;
+    //                     }
+
+    //                     // Para cada entrada de dados, calcular a diferença em milissegundos e formatar
+    //                     dados.forEach((item) => {
+    //                         const captura = item.captura.toFixed(2);
+    //                         const dataCaptura = new Date(item.dataCaptura);
+
+    //                         // Formatar a data para o formato desejado (dia, mês, ano, hora:minuto)
+    //                         const tempoFormatado = formatarData(dataCaptura);
+
+    //                         // Adiciona os dados para o gráfico
+    //                         labels.push(tempoFormatado);  // Eixo X: data formatada (DD/MM/YYYY HH:mm)
+    //                         valoresCaptura.push(captura);  // Eixo Y: captura (quantidade de pacotes)
+    //                     });
+
+
+
+    //                     console.log(valoresCaptura)
+    //                     console.log(valoresCaptura)
+    //                     console.log(valoresCaptura)
+    //                     console.log(valoresCaptura)
+    //                     console.log(valoresCaptura)
+    //                     return { labels, valoresCaptura };
+    //                 }
+
+    //                 function plotarGrafico(dados) {
+    //                     const { labels, valoresCaptura } = processarDados(dados);
+
+    //                     // Configuração do gráfico no Chart.js
+    //                     const ctx = document.getElementById('graficoLatencia').getContext('2d');
+    //                     const grafico = new Chart(ctx, {
+    //                         type: 'line',  // Tipo de gráfico: linha
+    //                         data: {
+    //                             labels: labels,  // Eixo X: data formatada
+    //                             datasets: [{
+    //                                 label: 'Tempo de resposta (Ms)',
+    //                                 data: valoresCaptura,  // Eixo Y: quantidade de pacotes
+    //                                 borderColor: '#E7FF00',  // Cor da linha
+    //                                 fill: false,  // Não preencher a área sob a linha
+    //                                 tension: 0.1  // Para suavizar as linhas
+    //                             }]
+    //                         },
+    //                         options: {
+    //                             responsive: true,
+    //                             plugins: {
+    //                                 title: {  // Adiciona o título do gráfico
+    //                                     display: true,
+    //                                     text: 'Latência ao longo do tempo',  // Título do gráfico
+    //                                     font: {
+    //                                         size: 18,  // Tamanho do título
+    //                                         weight: 'bold',  // Peso da fonte
+    //                                         family: 'Arial, sans-serif'  // Família da fonte
+    //                                     },
+    //                                     color: '#ffffff'
+    //                                 },
+    //                                 legend: {
+    //                                     labels: {
+    //                                         color: '#ffffff', // Cor da label 'Captura (latência)'
+    //                                         font: {
+    //                                             size: 14, // Tamanho da fonte da legenda
+    //                                             family: 'Arial, sans-serif' // Fonte personalizada
+    //                                         }
+    //                                     }  // Cor do título
+    //                                 },
+    //                                 tooltip: {
+    //                                     enabled: true,  // Exibir informações ao passar o mouse
+    //                                     callbacks: {
+    //                                         label: function (tooltipItem) {
+    //                                             return `Latência: ${tooltipItem.raw} ms`;  // Formatação personalizada do tooltip
+    //                                         }
+    //                                     }
+    //                                 }
+    //                             },
+    //                             scales: {
+    //                                 x: {
+    //                                     type: 'category',  // Tipo de escala do eixo X: categoria (para datas)
+    //                                     title: {
+    //                                         display: true,
+    //                                         text: 'Intervalo de tempo entre a data atual e definida',
+    //                                         color: '#ffffff',
+    //                                         font: {
+    //                                             size: 14,  // Tamanho da fonte do título do eixo X
+    //                                             family: 'Arial, sans-serif',  // Fonte do título (opcional)
+    //                                             weight: 'bold'  // Peso da fonte (opcional)
+    //                                         }
+    //                                     },
+    //                                     ticks: {
+    //                                         // maxRotation: 45, // Rotaciona as labels para melhor visualização
+    //                                         // minRotation: 30
+    //                                         display: false,
+    //                                         color: '#ffffff'
+    //                                     },
+    //                                     grid: {
+    //                                         color: 'gray' // Cor das linhas de grade no eixo X
+    //                                     }
+    //                                 },
+    //                                 y: {
+    //                                     title: {
+    //                                         display: true,
+    //                                         text: 'Latência (Ms)',
+    //                                         color: '#ffffff' // Cor do título do eixo Y
+    //                                     },
+    //                                     ticks: {
+    //                                         color: '#ffffff' // Cor dos rótulos no eixo Y
+    //                                     },
+    //                                     grid: {
+    //                                         color: 'gray' // Cor das linhas de grade no eixo Y
+    //                                     }
+    //                                     // beginAtZero: true  // Começar o eixo Y do zero
+    //                                 }
+    //                             }
+    //                         }
+    //                     });
+    //                 }
+
+
+
+
+    //                 plotarGrafico(dados);
+
+
+    //             } else {
+    //                 console.error("Nenhum dado encontrado.");
+    //             }
+    //         })
+
+    //         .catch(error => {
+    //             console.error(error);
+
+    //         });
+
+
+    // 
+    
+
+
+  // Variável para armazenar a instância do gráfico
+
+function puxarGraficoLatencia() {
+    console.log("ENTROU NA FUNCAO graficoLatencia");
+
+    fetch(`/redeRuan/graficoLatencia/${numeroSalvo}`, {
+        method: "GET"
+    })
+    .then(resposta => {
+        if (resposta.ok) {
+            return resposta.json();
+        } else {
+            throw "Não foi possível plotar o gráfico de latencia.";
+        }
+    })
+    .then(dados => {
+        console.log(dados);  // Exibe os dados no console (opcional para debugging)
+
+        if (dados && dados.length > 0) {
+            function processarDados(dados) {
+                const labels = [];  // Para os valores no eixo X (data)
+                const valoresCaptura = [];  // Para os valores no eixo Y (captura)
+
+                function formatarData(data) {
+                    const dia = data.getDate().toString().padStart(2, '0');
+                    const mes = (data.getMonth() + 1).toString().padStart(2, '0');
+                    const ano = data.getFullYear();
+                    const hora = data.getHours().toString().padStart(2, '0');
+                    const minuto = data.getMinutes().toString().padStart(2, '0');
+                    return `${dia}/${mes}/${ano} ${hora}:${minuto}`;
                 }
-            })
 
-            .then(dados => {
-                console.log(dados);  // Exibe os dados no console (opcional para debugging)
+                dados.forEach((item) => {
+                    const captura = item.captura.toFixed(2);
+                    const dataCaptura = new Date(item.dataCaptura);
+                    const tempoFormatado = formatarData(dataCaptura);
+                    labels.push(tempoFormatado);
+                    valoresCaptura.push(captura);
+                });
 
-                // Verifica se existem dados e exibe o último valor
-                if (dados && dados.length > 0) {
+                return { labels, valoresCaptura };
+            }
 
+            function plotarGrafico(dados) {
+                const { labels, valoresCaptura } = processarDados(dados);
 
-
-
-                    function processarDados(dados) {
-                        const labels = [];  // Para os valores no eixo X (data)
-                        const valoresCaptura = [];  // Para os valores no eixo Y (captura)
-
-                        // Vamos pegar a primeira data e calcular as diferenças
-                        let primeiroTempo = new Date(dados[0].dataCaptura);  // Primeira data de captura
-
-                        // Função para formatar a data para o formato 'DD/MM/YYYY HH:mm'
-                        function formatarData(data) {
-                            const dia = data.getDate().toString().padStart(2, '0');
-                            const mes = (data.getMonth() + 1).toString().padStart(2, '0');
-                            const ano = data.getFullYear();
-                            const hora = data.getHours().toString().padStart(2, '0');
-                            const minuto = data.getMinutes().toString().padStart(2, '0');
-                            return `${dia}/${mes}/${ano} ${hora}:${minuto}`;
-                        }
-
-                        // Para cada entrada de dados, calcular a diferença em milissegundos e formatar
-                        dados.forEach((item) => {
-                            const captura = item.captura.toFixed(2);
-                            const dataCaptura = new Date(item.dataCaptura);
-
-                            // Formatar a data para o formato desejado (dia, mês, ano, hora:minuto)
-                            const tempoFormatado = formatarData(dataCaptura);
-
-                            // Adiciona os dados para o gráfico
-                            labels.push(tempoFormatado);  // Eixo X: data formatada (DD/MM/YYYY HH:mm)
-                            valoresCaptura.push(captura);  // Eixo Y: captura (quantidade de pacotes)
-                        });
-
-                        return { labels, valoresCaptura };
-                    }
-
-                    function plotarGrafico(dados) {
-                        const { labels, valoresCaptura } = processarDados(dados);
-
-                        // Configuração do gráfico no Chart.js
+                if (valoresCaptura.length == 0) {
+                    console.log(valoresCaptura.length);
+                    document.getElementById('graficoLatencia').innerHTML = 'Não há dados para montar o gráfico';
+                } else {
+                    if (graficoLatencia) {
+                        // Se o gráfico já existe, apenas atualize os dados
+                        graficoLatencia.data.labels = labels;
+                        graficoLatencia.data.datasets[0].data = valoresCaptura;
+                        graficoLatencia.update();
+                    } else {
+                        // Caso contrário, crie um novo gráfico
                         const ctx = document.getElementById('graficoLatencia').getContext('2d');
-                        const grafico = new Chart(ctx, {
+                        graficoLatencia = new Chart(ctx, {
                             type: 'line',  // Tipo de gráfico: linha
                             data: {
                                 labels: labels,  // Eixo X: data formatada
                                 datasets: [{
                                     label: 'Tempo de resposta (Ms)',
-                                    data: valoresCaptura,  // Eixo Y: quantidade de pacotes
+                                    data: valoresCaptura,  // Eixo Y: captura (quantidade de pacotes)
                                     borderColor: '#E7FF00',  // Cor da linha
                                     fill: false,  // Não preencher a área sob a linha
                                     tension: 0.1  // Para suavizar as linhas
@@ -459,101 +646,87 @@
                             options: {
                                 responsive: true,
                                 plugins: {
-                                    title: {  // Adiciona o título do gráfico
+                                    title: {
                                         display: true,
-                                        text: 'Latência ao longo do tempo',  // Título do gráfico
+                                        text: 'Latência ao longo do tempo',
                                         font: {
-                                            size: 18,  // Tamanho do título
-                                            weight: 'bold',  // Peso da fonte
-                                            family: 'Arial, sans-serif'  // Família da fonte
+                                            size: 18,
+                                            weight: 'bold',
+                                            family: 'Arial, sans-serif'
                                         },
                                         color: '#ffffff'
                                     },
                                     legend: {
                                         labels: {
-                                            color: '#ffffff', // Cor da label 'Captura (latência)'
+                                            color: '#ffffff',
                                             font: {
-                                                size: 14, // Tamanho da fonte da legenda
-                                                family: 'Arial, sans-serif' // Fonte personalizada
+                                                size: 14,
+                                                family: 'Arial, sans-serif'
                                             }
-                                        }  // Cor do título
+                                        }
                                     },
                                     tooltip: {
-                                        enabled: true,  // Exibir informações ao passar o mouse
+                                        enabled: true,
                                         callbacks: {
                                             label: function (tooltipItem) {
-                                                return `Latência: ${tooltipItem.raw} ms`;  // Formatação personalizada do tooltip
+                                                return `Latência: ${tooltipItem.raw} ms`;
                                             }
                                         }
                                     }
                                 },
                                 scales: {
                                     x: {
-                                        type: 'category',  // Tipo de escala do eixo X: categoria (para datas)
+                                        type: 'category',
                                         title: {
                                             display: true,
                                             text: 'Intervalo de tempo entre a data atual e definida',
                                             color: '#ffffff',
                                             font: {
-                                                size: 14,  // Tamanho da fonte do título do eixo X
-                                                family: 'Arial, sans-serif',  // Fonte do título (opcional)
-                                                weight: 'bold'  // Peso da fonte (opcional)
+                                                size: 14,
+                                                family: 'Arial, sans-serif',
+                                                weight: 'bold'
                                             }
                                         },
                                         ticks: {
-                                            // maxRotation: 45, // Rotaciona as labels para melhor visualização
-                                            // minRotation: 30
                                             display: false,
                                             color: '#ffffff'
                                         },
                                         grid: {
-                                            color: 'gray' // Cor das linhas de grade no eixo X
+                                            color: 'gray'
                                         }
                                     },
                                     y: {
                                         title: {
                                             display: true,
                                             text: 'Latência (Ms)',
-                                            color: '#ffffff' // Cor do título do eixo Y
+                                            color: '#ffffff'
                                         },
                                         ticks: {
-                                            color: '#ffffff' // Cor dos rótulos no eixo Y
+                                            color: '#ffffff'
                                         },
                                         grid: {
-                                            color: 'gray' // Cor das linhas de grade no eixo Y
+                                            color: 'gray'
                                         }
-                                        // beginAtZero: true  // Começar o eixo Y do zero
                                     }
                                 }
                             }
                         });
                     }
-
-
-
-
-                    plotarGrafico(dados);
-
-
-                } else {
-                    console.error("Nenhum dado encontrado.");
                 }
-            })
+            }
 
-            .catch(error => {
-                console.error(error);
+            plotarGrafico(dados);
+        } else {
+            console.error("Nenhum dado encontrado.");
+        }
+    })
+    .catch(error => {
+        console.error(error);
+    });
+}
 
-            });
-
-
-    }
-
-
-    // setInterval(puxarGraficoLatencia, 5000);
-
-
-
-
+// Remover a duplicação de setInterval
+setInterval(puxarGraficoLatencia, 5000);  // Atualiza o gráfico a cada 5 segundos
 
 
 
@@ -563,6 +736,217 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+    // function puxarGraficoTrafego() {
+
+    //     console.log("ENTROU NA FUNCAO graficoTrafego")
+
+    //     fetch(`/redeRuan/graficoTrafego`, {
+    //         method: "GET"
+    //     })
+    //         .then(resposta => {
+    //             if (resposta.ok) {
+
+    //                 return resposta.json();
+
+
+    //             } else {
+    //                 throw "Não foi possível plotar o gráfico tráfego de rede";
+    //             }
+    //         })
+
+    //         .then(dados => {
+    //             console.log(dados);  // Exibe os dados no console (opcional para debugging)
+
+    //             // Verifica se existem dados e exibe o último valor
+    //             if (dados && dados.length > 0) {
+
+
+
+
+
+
+
+
+
+
+
+    //                 // ------------------------------------------------------------------------------------------------------------------------------------
+
+    //                 function processarDados(dados) {
+    //                     const labels = [];  // Para os valores no eixo X (data)
+    //                     const valoresCaptura = [];  // Para os valores no eixo Y (captura)
+
+    //                     // Vamos pegar a primeira data e calcular as diferenças
+    //                     let primeiroTempo = new Date(dados[0].dataCaptura);  // Primeira data de captura
+
+    //                     // Função para formatar a data para o formato 'DD/MM/YYYY HH:mm'
+    //                     function formatarData(data) {
+    //                         const dia = data.getDate().toString().padStart(2, '0');
+    //                         const mes = (data.getMonth() + 1).toString().padStart(2, '0');
+    //                         const ano = data.getFullYear();
+    //                         const hora = data.getHours().toString().padStart(2, '0');
+    //                         const minuto = data.getMinutes().toString().padStart(2, '0');
+    //                         return `${dia}/${mes}/${ano} ${hora}:${minuto}`;
+    //                     }
+
+    //                     // Para cada entrada de dados, calcular a diferença em milissegundos e formatar
+    //                     dados.forEach((item) => {
+    //                         const captura = item.captura.toFixed(2);
+    //                         const dataCaptura = new Date(item.dataCaptura);
+
+    //                         // Formatar a data para o formato desejado (dia, mês, ano, hora:minuto)
+    //                         const tempoFormatado = formatarData(dataCaptura);
+
+    //                         // Adiciona os dados para o gráfico
+    //                         labels.push(tempoFormatado);  // Eixo X: data formatada (DD/MM/YYYY HH:mm)
+    //                         valoresCaptura.push(captura);  // Eixo Y: captura (quantidade de pacotes)
+    //                     });
+
+    //                     return { labels, valoresCaptura };
+    //                 }
+
+    //                 function plotarGrafico(dados) {
+    //                     const { labels, valoresCaptura } = processarDados(dados);
+
+    //                     // Configuração do gráfico no Chart.js
+    //                     const ctx = document.getElementById('graficoTrafego').getContext('2d');
+    //                     const grafico = new Chart(ctx, {
+    //                         type: 'line',  // Tipo de gráfico: linha
+    //                         data: {
+    //                             labels: labels,  // Eixo X: data formatada
+    //                             datasets: [{
+    //                                 label: 'tráfego de dados (MB)',
+    //                                 data: valoresCaptura,  // Eixo Y: quantidade de pacotes
+    //                                 borderColor: '#00FFEF',  // Cor da linha
+    //                                 fill: false,  // Não preencher a área sob a linha
+    //                                 tension: 0.1  // Para suavizar as linhas
+    //                             }]
+    //                         },
+    //                         options: {
+    //                             responsive: true,
+    //                             plugins: {
+    //                                 title: {  // Adiciona o título do gráfico
+    //                                     display: true,
+    //                                     text: 'Tráfego de dados ao longo do tempo',  // Título do gráfico
+    //                                     font: {
+    //                                         size: 18,  // Tamanho do título
+    //                                         weight: 'bold',  // Peso da fonte
+    //                                         family: 'Arial, sans-serif'  // Família da fonte
+    //                                     },
+    //                                     color: '#ffffff'
+    //                                 },
+    //                                 legend: {
+    //                                     labels: {
+    //                                         color: '#ffffff', // Cor da label 'Captura (latência)'
+    //                                         font: {
+    //                                             size: 14, // Tamanho da fonte da legenda
+    //                                             family: 'Arial, sans-serif' // Fonte personalizada
+    //                                         }
+    //                                     }  // Cor do título
+    //                                 },
+    //                                 tooltip: {
+    //                                     enabled: true,  // Exibir informações ao passar o mouse
+    //                                     callbacks: {
+    //                                         label: function (tooltipItem) {
+    //                                             return `Latência: ${tooltipItem.raw} MB`;  // Formatação personalizada do tooltip
+    //                                         }
+    //                                     }
+    //                                 }
+    //                             },
+    //                             scales: {
+    //                                 x: {
+    //                                     type: 'category',  // Tipo de escala do eixo X: categoria (para datas)
+    //                                     title: {
+    //                                         display: true,
+    //                                         text: 'Intervalo de tempo entre a data atual e definida',
+    //                                         color: '#ffffff',
+    //                                         font: {
+    //                                             size: 14,  // Tamanho da fonte do título do eixo X
+    //                                             family: 'Arial, sans-serif',  // Fonte do título (opcional)
+    //                                             weight: 'bold'  // Peso da fonte (opcional)
+    //                                         }
+    //                                     },
+    //                                     ticks: {
+    //                                         // maxRotation: 45, // Rotaciona as labels para melhor visualização
+    //                                         // minRotation: 30
+    //                                         display: false,
+    //                                         color: '#ffffff'
+    //                                     },
+    //                                     grid: {
+    //                                         color: 'gray' // Cor das linhas de grade no eixo X
+    //                                     }
+    //                                 },
+    //                                 y: {
+    //                                     title: {
+    //                                         display: true,
+    //                                         text: 'Tráfego de dados (MB)',
+    //                                         color: '#ffffff' // Cor do título do eixo Y
+    //                                     },
+    //                                     ticks: {
+    //                                         color: '#ffffff' // Cor dos rótulos no eixo Y
+    //                                     },
+    //                                     grid: {
+    //                                         color: 'gray' // Cor das linhas de grade no eixo Y
+    //                                     }
+    //                                     // beginAtZero: true  // Começar o eixo Y do zero
+    //                                 }
+    //                             }
+    //                         }
+    //                     });
+    //                 }
+
+
+
+
+    //                 plotarGrafico(dados);
+
+
+    //             } else {
+    //                 console.error("Nenhum dado encontrado.");
+    //             }
+    //         })
+
+    //         .catch(error => {
+    //             console.error(error);
+
+    //         });
+
+
+    // }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // AGORA EU VOU BIGODAR A PORRA TODA
 
 
 
@@ -570,86 +954,68 @@
 
 
     function puxarGraficoTrafego() {
+    console.log("ENTROU NA FUNCAO graficoTrafego");
 
-        console.log("ENTROU NA FUNCAO graficoTrafego")
+    fetch(`/redeRuan/graficoTrafego/${numeroSalvo}`, {
+        method: "GET"
+    })
+    .then(resposta => {
+        if (resposta.ok) {
+            return resposta.json();
+        } else {
+            throw "Não foi possível plotar o gráfico de graficoTrafego.";
+        }
+    })
+    .then(dados => {
+        console.log(dados);  // Exibe os dados no console (opcional para debugging)
 
-        fetch(`/redeRuan/graficoTrafego`, {
-            method: "GET"
-        })
-            .then(resposta => {
-                if (resposta.ok) {
+        if (dados && dados.length > 0) {
+            function processarDados(dados) {
+                const labels = [];  // Para os valores no eixo X (data)
+                const valoresCaptura = [];  // Para os valores no eixo Y (captura)
 
-                    return resposta.json();
-
-
-                } else {
-                    throw "Não foi possível plotar o gráfico tráfego de rede";
+                function formatarData(data) {
+                    const dia = data.getDate().toString().padStart(2, '0');
+                    const mes = (data.getMonth() + 1).toString().padStart(2, '0');
+                    const ano = data.getFullYear();
+                    const hora = data.getHours().toString().padStart(2, '0');
+                    const minuto = data.getMinutes().toString().padStart(2, '0');
+                    return `${dia}/${mes}/${ano} ${hora}:${minuto}`;
                 }
-            })
 
-            .then(dados => {
-                console.log(dados);  // Exibe os dados no console (opcional para debugging)
+                dados.forEach((item) => {
+                    const captura = item.captura.toFixed(2);
+                    const dataCaptura = new Date(item.dataCaptura);
+                    const tempoFormatado = formatarData(dataCaptura);
+                    labels.push(tempoFormatado);
+                    valoresCaptura.push(captura);
+                });
 
-                // Verifica se existem dados e exibe o último valor
-                if (dados && dados.length > 0) {
+                return { labels, valoresCaptura };
+            }
 
+            function plotarGrafico(dados) {
+                const { labels, valoresCaptura } = processarDados(dados);
 
-
-
-
-
-
-
-
-
-
-                    // ------------------------------------------------------------------------------------------------------------------------------------
-
-                    function processarDados(dados) {
-                        const labels = [];  // Para os valores no eixo X (data)
-                        const valoresCaptura = [];  // Para os valores no eixo Y (captura)
-
-                        // Vamos pegar a primeira data e calcular as diferenças
-                        let primeiroTempo = new Date(dados[0].dataCaptura);  // Primeira data de captura
-
-                        // Função para formatar a data para o formato 'DD/MM/YYYY HH:mm'
-                        function formatarData(data) {
-                            const dia = data.getDate().toString().padStart(2, '0');
-                            const mes = (data.getMonth() + 1).toString().padStart(2, '0');
-                            const ano = data.getFullYear();
-                            const hora = data.getHours().toString().padStart(2, '0');
-                            const minuto = data.getMinutes().toString().padStart(2, '0');
-                            return `${dia}/${mes}/${ano} ${hora}:${minuto}`;
-                        }
-
-                        // Para cada entrada de dados, calcular a diferença em milissegundos e formatar
-                        dados.forEach((item) => {
-                            const captura = item.captura.toFixed(2);
-                            const dataCaptura = new Date(item.dataCaptura);
-
-                            // Formatar a data para o formato desejado (dia, mês, ano, hora:minuto)
-                            const tempoFormatado = formatarData(dataCaptura);
-
-                            // Adiciona os dados para o gráfico
-                            labels.push(tempoFormatado);  // Eixo X: data formatada (DD/MM/YYYY HH:mm)
-                            valoresCaptura.push(captura);  // Eixo Y: captura (quantidade de pacotes)
-                        });
-
-                        return { labels, valoresCaptura };
-                    }
-
-                    function plotarGrafico(dados) {
-                        const { labels, valoresCaptura } = processarDados(dados);
-
-                        // Configuração do gráfico no Chart.js
-                        const ctx = document.getElementById('graficoBandaLarga').getContext('2d');
-                        const grafico = new Chart(ctx, {
+                if (valoresCaptura.length == 0) {
+                    console.log(valoresCaptura.length);
+                    document.getElementById('graficoTrafego').innerHTML = 'Não há dados para montar o gráfico';
+                } else {
+                    if (graficoTrafego) {
+                        // Se o gráfico já existe, apenas atualize os dados
+                        graficoTrafego.data.labels = labels;
+                        graficoTrafego.data.datasets[0].data = valoresCaptura;
+                        graficoTrafego.update();
+                    } else {
+                        // Caso contrário, crie um novo gráfico
+                        const ctx = document.getElementById('graficoTrafego').getContext('2d');
+                        graficoTrafego = new Chart(ctx, {
                             type: 'line',  // Tipo de gráfico: linha
                             data: {
                                 labels: labels,  // Eixo X: data formatada
                                 datasets: [{
-                                    label: 'tráfego de dados (MB)',
-                                    data: valoresCaptura,  // Eixo Y: quantidade de pacotes
+                                    label: 'Tráfego de dados (MB)',
+                                    data: valoresCaptura,  // Eixo Y: captura (quantidade de pacotes)
                                     borderColor: '#00FFEF',  // Cor da linha
                                     fill: false,  // Não preencher a área sob a linha
                                     tension: 0.1  // Para suavizar as linhas
@@ -658,96 +1024,87 @@
                             options: {
                                 responsive: true,
                                 plugins: {
-                                    title: {  // Adiciona o título do gráfico
+                                    title: {
                                         display: true,
-                                        text: 'Tráfego de dados ao longo do tempo',  // Título do gráfico
+                                        text: 'Tráfego de dados ao longo do tempo',
                                         font: {
-                                            size: 18,  // Tamanho do título
-                                            weight: 'bold',  // Peso da fonte
-                                            family: 'Arial, sans-serif'  // Família da fonte
+                                            size: 18,
+                                            weight: 'bold',
+                                            family: 'Arial, sans-serif'
                                         },
                                         color: '#ffffff'
                                     },
                                     legend: {
                                         labels: {
-                                            color: '#ffffff', // Cor da label 'Captura (latência)'
+                                            color: '#ffffff',
                                             font: {
-                                                size: 14, // Tamanho da fonte da legenda
-                                                family: 'Arial, sans-serif' // Fonte personalizada
+                                                size: 14,
+                                                family: 'Arial, sans-serif'
                                             }
-                                        }  // Cor do título
+                                        }
                                     },
                                     tooltip: {
-                                        enabled: true,  // Exibir informações ao passar o mouse
+                                        enabled: true,
                                         callbacks: {
                                             label: function (tooltipItem) {
-                                                return `Latência: ${tooltipItem.raw} MB`;  // Formatação personalizada do tooltip
+                                                return `Trafego de dados: ${tooltipItem.raw} MB`;
                                             }
                                         }
                                     }
                                 },
                                 scales: {
                                     x: {
-                                        type: 'category',  // Tipo de escala do eixo X: categoria (para datas)
+                                        type: 'category',
                                         title: {
                                             display: true,
                                             text: 'Intervalo de tempo entre a data atual e definida',
                                             color: '#ffffff',
                                             font: {
-                                                size: 14,  // Tamanho da fonte do título do eixo X
-                                                family: 'Arial, sans-serif',  // Fonte do título (opcional)
-                                                weight: 'bold'  // Peso da fonte (opcional)
+                                                size: 14,
+                                                family: 'Arial, sans-serif',
+                                                weight: 'bold'
                                             }
                                         },
                                         ticks: {
-                                            // maxRotation: 45, // Rotaciona as labels para melhor visualização
-                                            // minRotation: 30
                                             display: false,
                                             color: '#ffffff'
                                         },
                                         grid: {
-                                            color: 'gray' // Cor das linhas de grade no eixo X
+                                            color: 'gray'
                                         }
                                     },
                                     y: {
                                         title: {
                                             display: true,
-                                            text: 'Tráfego de dados (MB)',
-                                            color: '#ffffff' // Cor do título do eixo Y
+                                            text: 'Trafego de dados (MB)',
+                                            color: '#ffffff'
                                         },
                                         ticks: {
-                                            color: '#ffffff' // Cor dos rótulos no eixo Y
+                                            color: '#ffffff'
                                         },
                                         grid: {
-                                            color: 'gray' // Cor das linhas de grade no eixo Y
+                                            color: 'gray'
                                         }
-                                        // beginAtZero: true  // Começar o eixo Y do zero
                                     }
                                 }
                             }
                         });
                     }
-
-
-
-
-                    plotarGrafico(dados);
-
-
-                } else {
-                    console.error("Nenhum dado encontrado.");
                 }
-            })
+            }
 
-            .catch(error => {
-                console.error(error);
+            plotarGrafico(dados);
+        } else {
+            console.error("Nenhum dado encontrado.");
+        }
+    })
+    .catch(error => {
+        console.error(error);
+    });
+}
 
-            });
-
-
-    }
-
-
+// Remover a duplicação de setInterval
+setInterval(puxarGraficoTrafego, 5000);
 
 
 
