@@ -208,7 +208,7 @@ async def print_system_info(fk_computador):
             mydb.commit()
             print(cursor.rowcount, "alerta vermelho inserido - disco")
 
-        if read_throughput < 120000.00:
+        if read_throughput < 300000.00:
             buscarID = ("""SELECT idCaptura FROM captura WHERE 
                         fkComponente = 3 AND fkAuxComponente = 24
                         ORDER BY idCaptura DESC LIMIT 1""")
@@ -222,7 +222,7 @@ async def print_system_info(fk_computador):
             mydb.commit()
             print(cursor.rowcount, "alerta vermelho inserido - disco")
 
-        if write_throughput < 100000.00:
+        if write_throughput < 300000.00:
             buscarID = ("""SELECT idCaptura FROM captura WHERE 
                         fkComponente = 3 AND fkAuxComponente = 25
                         ORDER BY idCaptura DESC LIMIT 1""")

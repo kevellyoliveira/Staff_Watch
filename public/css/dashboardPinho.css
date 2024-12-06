@@ -116,6 +116,8 @@ header {
     padding: 0.5rem;
     z-index: 10;
     transition: 10ms;
+
+    
 }
 
 .opcoesComponentes h6:hover {
