@@ -143,6 +143,14 @@ router.get("/dados/grafico/:dataSelecionada/:fkEmpresa", function (req, res) {
     funcionarioController.filtrarTempoGrafico(req, res);
 });
 
+router.get("/contarEquipes/:fkEmpresa", function (req, res) {
+    funcionarioController.contarEquipes(req, res);
+});
+
+router.get("/dados/equipeAlerta/:fkEquipe/:fkEmpresa", function (req, res) {
+    funcionarioController.pegarDadosAlerta(req, res);
+});
+
 // Outro projeto
 
 router.get("/pesquisar/:mensagem", function (req, res) {

@@ -392,9 +392,12 @@ function filtrarTempoMedioEspera(dataSelecionada, fkEmpresa) {
 function filtrarTempoChamadaPerdida(dataSelecionada, fkEmpresa) {
     console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function descurtir()");
     var instrucaoSql = `
-    SELECT COUNT(*) AS chamadaPerdida FROM chamada
-    WHERE dataCaptura >= ${dataSelecionada} 
-    AND fkEmpresa = 1`;
+    SELECT 
+    COUNT(CASE WHEN chamada.chamadaPerdida = 1 THEN 1 END) AS chamadaPerdida,
+    COUNT(chamada.chamadaRecebida) AS chamadasRecebidas
+    FROM chamada
+    INNER JOIN funcionario ON chamada.fkFuncionario = funcionario.idFuncionario
+    WHERE funcionario.fkEmpresa = 1 AND dataCaptura >= ${dataSelecionada};`;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
@@ -439,7 +442,48 @@ function plotarGraficoFiltrado(dataSelecionada, fkEmpresa) {
     return database.executar(instrucaoSql);
 }
 
+function contarEquipes(fkEmpresa) {
+    console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function descurtir()");
+    console.log("-----------------------")
+    var instrucaoSql = `
+    SELECT
+    COUNT(*) idEquipe 
+    from equipe WHERE fkEmpresa = ${1}`;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    console.log(instrucaoSql)
+    console.log("-----------------------")
+    return database.executar(instrucaoSql);
+}
 
+function pegarDadosAlerta(fkEquipe, fkEmpresa) {
+    console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function descurtir()");
+    var instrucaoSql = `
+   SELECT 
+        c.tempoChamada
+    FROM 
+        chamada c
+    INNER JOIN 
+        equipe e ON c.fkEmpresa = e.fkEmpresa
+    WHERE 
+        e.idEquipe = ${fkEquipe} 
+        AND c.tempoChamada >= 360
+        AND c.fkEmpresa = ${fkEmpresa}; `;
+
+   var instrucaoSql2 = `
+   SELECT 
+        c.tempoEspera
+    FROM 
+        chamada c
+    INNER JOIN 
+        equipe e ON c.fkEmpresa = e.fkEmpresa
+    WHERE 
+        e.idEquipe = ${fkEquipe} 
+        AND c.tempoEspera >= 20
+        AND c.fkEmpresa = ${fkEmpresa}; `;
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql , instrucaoSql2);
+    return database.executar(instrucaoSql , intrucaoSql2);
+}
 
 
 module.exports = {
@@ -479,4 +523,6 @@ module.exports = {
     plotarGraficoFiltrado,
     cadastroGerenteTI,
     cadastroGerenteOp,
+    contarEquipes,
+    pegarDadosAlerta
 }

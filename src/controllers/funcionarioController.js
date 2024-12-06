@@ -751,6 +751,37 @@ function plotarGraficoFiltrado(req, res) {
 
 }
 
+function pegarDadosAlerta(){
+    const fkEquipe = req.params.fkEquipe;
+    const fkEmpresa = req.params.fkEmpresa;
+
+    funcionarioModel.pegarDadosAlerta(fkEquipe, fkEmpresa)
+        .then((resultado) => {
+            res.json(resultado);
+            console.log(resultado)
+        })
+        .catch((erro) => {
+            console.error("Erro ao listar dados das equipes: ", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        });
+
+}
+
+function contarEquipes(req, res){
+   
+    const fkEmpresa = req.params.fkEmpresa;
+    
+    funcionarioModel.contarEquipes(fkEmpresa)
+        .then((resultado) => {
+            res.json(resultado);
+            console.log(resultado)
+        })
+        .catch((erro) => {
+            console.error("Erro ao listar dados das equipes: ", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
 module.exports = {
     listarPorUsuario,
     editar,
@@ -787,6 +818,8 @@ module.exports = {
     filtrarTempoGrafico,
     plotarGraficoFiltrado,
     cadastrarGerenteTI,
-    cadastrarGerenteOp
+    cadastrarGerenteOp,
+    pegarDadosAlerta,
+    contarEquipes
 }
 

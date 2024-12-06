@@ -178,44 +178,46 @@ if (length(picosTempoFalha) == 0) {
 * **Latência de Rede vs Pacotes Perdidos:** Pacotes perdidos indicam problemas na transmissão, como falhas de rede ou congestionamento. Esse tipo de perda afeta diretamente a latência, pois os pacotes precisam ser retransmitidos, aumentando o tempo total de entrega.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
+# verificar correlação pacotes enviados/latência
+if (nrow(pacotesEnv) == nrow(latencia)) {
+  pctEnvlatencia <- data.frame(pacotesEnv$captura, latencia$captura)
+  
+  ggplot(pctEnvlatencia, aes(x = pacotesEnv$captura, y = latencia$captura)) +
+    geom_point() +
+    geom_smooth(method = "lm", se = FALSE, color = "lightblue") +
+    labs(title = "Pacotes enviados vs Latência", x = "Pacotes enviados (bytes)", y = "Latência (ms)")
+} else {
+  print("Pacotes enviados e latência possuem tamanhos diferentes e não podem ser correlacionados.")
+}
 
-# verificar correlação pacotes enviados/recebidos
-
-pctEnvlatencia <- data.frame(pacotesEnv$captura, latencia$captura)
-
-
-ggplot(pctEnvlatencia, aes(x = pacotesEnv$captura, y = latencia$captura)) +
-  geom_point() +
-  geom_smooth(method = "lm", se = FALSE, color = "lightblue") +  # Adiciona a linha de regressão
-  labs(title = "Pacotes enviados vs Latencia", x = "Pacotes enviados (bytes)", y = "Latencia (Ms)")
-
-
-
-# verificar correlação cpu
+# verificar correlação uso de CPU/latência
 
 usoCpu <- capturaGeral[capturaGeral$fkAuxComponente == 12, ]
 
-CPUlatencia <- data.frame(usoCpu$captura, latencia$captura)
+if (nrow(usoCpu) == nrow(latencia)) {
+  CPUlatencia <- data.frame(usoCpu$captura, latencia$captura)
+  
+  ggplot(CPUlatencia, aes(x = usoCpu$captura, y = latencia$captura)) +
+    geom_point() +
+    geom_smooth(method = "lm", se = FALSE, color = "red") +
+    labs(title = "Uso de CPU vs Latência", x = "Uso de CPU (%)", y = "Latência (ms)")
+} else {
+  print("Uso de CPU e latência possuem tamanhos diferentes e não podem ser correlacionados.")
+}
 
+# verificar correlação pacotes perdidos/latência
+pctPerdidos <- perdaPacotes
 
-ggplot(CPUlatencia, aes(x = usoCpu$captura, y = latencia$captura)) +
-  geom_point() +
-  geom_smooth(method = "lm", se = FALSE, color = "red") +  # Adiciona a linha de regressão
-  labs(title = "Uso de CPU vs Latencia", x = "Uso de CPU (%)", y = "Latencia (Ms)")
-
-
-
-# verificar correlação pacotesPerdidos
-
-pctPerdidos <- capturaGeral[capturaGeral$fkAuxComponente == 21, ]
-
-pctPerdidoslatencia <- data.frame(pctPerdidos$captura, latencia$captura)
-
-
-ggplot(pctPerdidoslatencia, aes(x = pctPerdidos$captura, y = latencia$captura)) +
-  geom_point() +
-  geom_smooth(method = "lm", se = FALSE, color = "lightgreen") +  # Adiciona a linha de regressão
-  labs(title = "Pacotes enviados vs Latencia", x = "Pacotes enviados (bytes)", y = "Latencia (Ms)")
+if (nrow(pctPerdidos) == nrow(latencia)) {
+  pctPerdidoslatencia <- data.frame(pctPerdidos$captura, latencia$captura)
+  
+  ggplot(pctPerdidoslatencia, aes(x = pctPerdidos$captura, y = latencia$captura)) +
+    geom_point() +
+    geom_smooth(method = "lm", se = FALSE, color = "lightgreen") +
+    labs(title = "Pacotes perdidos vs Latência", x = "Pacotes perdidos (%)", y = "Latência (ms)")
+} else {
+  print("Pacotes perdidos e latência possuem tamanhos diferentes e não podem ser correlacionados.")
+}
 
 
 

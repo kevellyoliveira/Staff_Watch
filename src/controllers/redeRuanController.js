@@ -24,8 +24,9 @@ function puxarPacotesPerdidos(req, res) {
 
 function puxarInatividade(req, res) {
     // const idFuncionario = req.params.idFuncionario;
+    var numeroSalvo = req.params.numeroSalvo;
 
-    redeRuanModel.puxarInatividade()
+    redeRuanModel.puxarInatividade(numeroSalvo)
         .then(
             function (resultado) {
                 res.json(resultado);
@@ -44,8 +45,9 @@ function puxarInatividade(req, res) {
 
 function puxarTempoFalhas(req, res) {
     // const idFuncionario = req.params.idFuncionario;
+    var numeroSalvo = req.params.numeroSalvo;
 
-    redeRuanModel.puxarTempoFalhas()
+    redeRuanModel.puxarTempoFalhas(numeroSalvo)
         .then(
             function (resultado) {
                 res.json(resultado);
@@ -70,8 +72,9 @@ function puxarTempoFalhas(req, res) {
 
 function puxarGraficoLatencia(req, res) {
     // const idFuncionario = req.params.idFuncionario;
+    var numeroSalvo = req.params.numeroSalvo;
 
-    redeRuanModel.puxarGraficoLatencia()
+    redeRuanModel.puxarGraficoLatencia(numeroSalvo)
         .then(
             function (resultado) {
                 res.json(resultado);
@@ -92,8 +95,9 @@ function puxarGraficoLatencia(req, res) {
 
 function puxarGraficoTrafego(req, res) {
     // const idFuncionario = req.params.idFuncionario;
+    var numeroSalvo = req.params.numeroSalvo;
 
-    redeRuanModel.puxarGraficoTrafego()
+    redeRuanModel.puxarGraficoTrafego(numeroSalvo)
         .then(
             function (resultado) {
                 res.json(resultado);

@@ -1223,7 +1223,7 @@ h2 {
     color: #fff;
     border-radius: 2vh;
     text-align: center;
-    font-size: 4vh;
+    font-size: 3.5vh;
     padding-top: 5%;
     box-shadow: 5px 10px rgba(0, 0, 0, 0.3);
 }
@@ -1308,7 +1308,7 @@ h2 {
     color: white;
     overflow-x: hidden;
     transition: 0.3s; /* Animação suave */
-    padding-top: 60px;
+    padding-top: 10px;
     margin-top: 14vh;
     text-align: center;
   }
@@ -1321,7 +1321,6 @@ h2 {
     color: white;
     display: block;
     align-items: center;
-
     transition: 0.2s;
   }
 
@@ -1525,4 +1524,10 @@ h2 {
     margin-top: 15px;
     border-radius: 9px;
     color: #000;
+}
+
+.ligacao{
+    text-decoration: none;
+    color:orange;
+    transform: translate(20px,0);
 }

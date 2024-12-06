@@ -117,7 +117,7 @@
             </div>
         </div>
         <div class="son5">
-            <div class="equipAlert">Equipes em alerta<h2 style="color:#FFA400 ;">Dos</h2>
+            <div class="equipAlert">Equipes em alerta<br><a class="ligacao" href='DashboardEquipe_Eduardo2-go.html'>Liga Rápido</a><br><a class="ligacao" href='DashboardEquipe_Eduardo2-go.html'>Desenvolve</a>
             </div>
 
         </div>
@@ -146,7 +146,6 @@
 
     window.onload = obterDadosGrafico();
 
-
     function obterDadosGrafico() {
 
         const fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
@@ -173,137 +172,139 @@
 
 
     function plotarGrafico(resposta) {
-    console.log('Iniciando plotagem do gráfico...');
+        console.log('Iniciando plotagem do gráfico...');
 
-    let labels = [];
-    let chamadasRecebidas = [];
-    let chamadasAtendidas = [];
+        let labels = [];
+        let chamadasRecebidas = [];
+        let chamadasAtendidas = [];
 
-    for (let i = 0; i < resposta.length; i++) {
-        let registro = resposta[i];
-        labels.push(``);
-        chamadasRecebidas.push(registro.chamadaRecebida);
-        chamadasAtendidas.push(registro.chamadaAtendida);
-    }
-
-    const dados = {
-        labels: labels,
-        datasets: [
-            {
-                label: 'Chamadas Recebidas',
-                data: chamadasRecebidas,
-                fill: false,
-                borderColor: 'blue',
-                backgroundColor: 'lightblue',
-                tension: 0.1
-            },
-            {
-                label: 'Chamadas Atendidas',
-                data: chamadasAtendidas,
-                fill: false,
-                borderColor: '#00FFFF',
-                backgroundColor: 'blue',
-                tension: 0.1
-            }
-        ]
-    };
-
-    const config = {
-        type: 'bar',
-        data: dados,
-        options: {
-            responsive: true,
-            scales: {
-                x: { beginAtZero: true }
-            }
+        for (let i = 0; i < resposta.length; i++) {
+            let registro = resposta[i];
+            labels.push(``);
+            chamadasRecebidas.push(registro.chamadaRecebida);
+            chamadasAtendidas.push(registro.chamadaAtendida);
         }
-    };
 
-    // Inicializa apenas se não houver `myChart`
-    if (!window.myChart) {
-        const ctx = document.getElementById('myChartCanvas').getContext('2d');
-        window.myChart = new Chart(ctx, config);
-    } else {
-        console.log('Gráfico já inicializado.');
+        const dados = {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Chamadas Recebidas',
+                    data: chamadasRecebidas,
+                    fill: false,
+                    borderColor: 'blue',
+                    backgroundColor: 'lightblue',
+                    tension: 0.1
+                },
+                {
+                    label: 'Chamadas Atendidas',
+                    data: chamadasAtendidas,
+                    fill: false,
+                    borderColor: '#00FFFF',
+                    backgroundColor: 'blue',
+                    tension: 0.1
+                }
+            ]
+        };
+
+        const config = {
+            type: 'bar',
+            data: dados,
+            options: {
+                responsive: true,
+                scales: {
+                    x: { beginAtZero: true }
+                }
+            }
+        };
+
+        // Inicializa apenas se não houver `myChart`
+        if (!window.myChart) {
+            const ctx = document.getElementById('myChartCanvas').getContext('2d');
+            window.myChart = new Chart(ctx, config);
+        } else {
+            console.log('Gráfico já inicializado.');
+        }
     }
-}
 
 
-function atualizarGraficoFiltrado(resposta) {
-    console.log('Atualizando gráfico com os novos dados filtrados...');
+    function atualizarGraficoFiltrado(resposta) {
+        console.log('Atualizando gráfico com os novos dados filtrados...');
 
-    let labels = [];
-    let chamadasRecebidas = [];
-    let chamadasAtendidas = [];
+        let labels = [];
+        let chamadasRecebidas = [];
+        let chamadasAtendidas = [];
 
-    for (let i = 0; i < resposta.length; i++) {
-        let registro = resposta[i];
-        labels.push(``);  // Customize conforme necessário
-        chamadasRecebidas.push(registro.chamadaRecebida);
-        chamadasAtendidas.push(registro.chamadaAtendida);
+        for (let i = 0; i < resposta.length; i++) {
+            let registro = resposta[i];
+            labels.push(``);  // Customize conforme necessário
+            chamadasRecebidas.push(registro.chamadaRecebida);
+            chamadasAtendidas.push(registro.chamadaAtendida);
+        }
+
+        if (window.myChart) {
+            // Atualiza os dados existentes no gráfico
+            window.myChart.data.labels = labels;
+            window.myChart.data.datasets[0].data = chamadasRecebidas;
+            window.myChart.data.datasets[1].data = chamadasAtendidas;
+            window.myChart.update(); // Atualiza o gráfico
+        } else {
+            console.error('Gráfico não inicializado!');
+        }
     }
-
-    if (window.myChart) {
-        // Atualiza os dados existentes no gráfico
-        window.myChart.data.labels = labels;
-        window.myChart.data.datasets[0].data = chamadasRecebidas;
-        window.myChart.data.datasets[1].data = chamadasAtendidas;
-        window.myChart.update(); // Atualiza o gráfico
-    } else {
-        console.error('Gráfico não inicializado!');
-    }
-}
 
 
     function listarEquipes() {
+    const fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
 
-        const fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
+    fetch(`funcionarios/listarEquipes/${fkEmpresa}`)
+        .then(resposta => {
+            if (resposta.ok) {
+                return resposta.json(); // Se a resposta for válida, converte para JSON
+            } else {
+                console.error("Erro ao carregar equipes, status:", resposta.status);
+                return [];
+            }
+        })
+        .then(dados => {
+            console.log("Equipes carregadas:", dados);
 
-        fetch(`funcionarios/listarEquipes/${fkEmpresa}`)
-            .then(resposta => {
-                if (resposta.ok) {
-                    return resposta.json(); // Se a resposta for válida, converte para JSON
-                } else {
-                    console.error("Erro ao carregar equipes, status:", resposta.status);
-                    return [];
-                }
-            })
-            .then(dados => {
-                console.log("Equipes carregadas:", dados);
+            const menuLateral = document.querySelector(".menuLateral .itens");
+            const historicoItem = document.querySelector("#home");
+            const novaEquipeItem = document.querySelector("#novaEquipe");
 
-                // Seleciona o menu lateral e os itens fixos
-                const menuLateral = document.querySelector(".menuLateral .itens");
-                const historicoItem = document.querySelector("#home");
-                const novaEquipeItem = document.querySelector("#novaEquipe");
+            // Limpa o menu e reinsere os itens fixos
+            menuLateral.innerHTML = '';
+            menuLateral.appendChild(historicoItem);
 
-                // Limpa o menu sem remover os itens fixos
-                menuLateral.innerHTML = ''; // Limpa todos os itens
-                menuLateral.appendChild(historicoItem); // Reinsere o item "Home"
+            if (dados.length > 0) {
+                dados.forEach(equipe => {
+                    const h4 = document.createElement("h4");
+                    h4.textContent = equipe.nome;
+                    h4.classList.add("equipe"); // Classe para estilização
 
-                // Adiciona as equipes dinamicamente
-                if (dados.length > 0) {
-                    dados.forEach(equipe => {
-                        const h4 = document.createElement("h4");
-                        h4.textContent = equipe.nome;
-                        h4.classList.add("equipe"); // Adiciona uma classe para estilização
-                        h4.onclick = () => selecionarItem(equipe.id);
-                        menuLateral.appendChild(h4);
-                    });
-                } else {
-                    // Exibe mensagem caso não existam equipes
-                    const noTeamsMessage = document.createElement("h4");
-                    noTeamsMessage.textContent = "Nenhuma equipe encontrada.";
-                    noTeamsMessage.classList.add("sem-equipes");
-                    menuLateral.appendChild(noTeamsMessage);
-                }
+                    // Redireciona ao clicar na equipe
+                    h4.onclick = () => {
+                        window.location.href = `DashboardEquipe_Eduardo2-go.html?id=${equipe.id}&nome=${encodeURIComponent(equipe.nome)}`;
+                    };
 
-                // Reinsere a opção "Nova Equipe"
-                menuLateral.appendChild(novaEquipeItem);
-            })
-            .catch(erro => {
-                console.error("Erro ao carregar as equipes:", erro);
-            });
-    }
+                    menuLateral.appendChild(h4);
+                });
+            } else {
+                const noTeamsMessage = document.createElement("h4");
+                noTeamsMessage.textContent = "Nenhuma equipe encontrada.";
+                noTeamsMessage.classList.add("sem-equipes");
+                menuLateral.appendChild(noTeamsMessage);
+            }
+
+            // Reinsere o item "Nova Equipe"
+            menuLateral.appendChild(novaEquipeItem);
+        })
+        .catch(erro => {
+            console.error("Erro ao carregar as equipes:", erro);
+        });
+}
+
 
 
     //Empresa
@@ -311,41 +312,45 @@ function atualizarGraficoFiltrado(resposta) {
 
     function puxarDadosEmpresaChamada(fkEmpresa) {
 
-        fetch(`/funcionarios/dados/tempoEspera/${1}`, {
-            method: "GET"
-        })
-            .then(resposta => {
-                if (resposta.ok) {
-                    return resposta.json(); // Retorna os dados em JSON
-                } else {
-                    throw new Error("Não foi possível capturar os dados de tempo de espera dos funcionarios.");
-                }
-            })
-            .then(data => {
-                if (data && Array.isArray(data)) { // Valida se 'data' é um array
-                    const tempoTotal = data.reduce((soma, funcionario) => soma + funcionario.tempoEspera, 0);
-                    const tempoMedio = (tempoTotal / data.length).toFixed(2);
-                    if(tempoMedio <= 20){
-                        
-                        document.querySelector('.minibloco1').textContent = `${tempoMedio}s`; 
-                        document.querySelector('.minibloco1').style.color = '#1be600';
-                    }
-                    else if(tempoMedio <= 60){
-                        document.querySelector('.minibloco1').textContent = `${tempoMedio}s`;
-                        document.querySelector('.minibloco1').style.color = '#ff0000'; 
-                    }else{
-                        document.querySelector('.minibloco1').textContent = `${tempoMedio}s`;
-                        document.querySelector('.minibloco1').style.color = '#ffaa00';
-                    }
-                } else {
-                    throw new Error("Dados inesperados recebidos do servidor.");
-                }
-            })
-            .catch(error => {
-                console.error("Erro:", error.message);
-                document.querySelector('.minibloco').textContent = "Erro ao carregar dados."; // Feedback para o utilizador
-            });
-    }
+fetch(`/funcionarios/dados/tempoEspera/${fkEmpresa}`, {
+    method: "GET"
+})
+    .then(resposta => {
+        if (resposta.ok) {
+            return resposta.json(); // Retorna os dados em JSON
+        } else {
+            throw new Error("Não foi possível capturar os dados de tempo de espera dos funcionários.");
+        }
+    })
+    .then(data => {
+        if (data && Array.isArray(data)) { // Valida se 'data' é um array
+            const tempoTotal = data.reduce((soma, funcionario) => soma + funcionario.tempoEspera, 0);
+            const tempoMedio = (tempoTotal / data.length).toFixed(2);
+
+            // Aplica a subtração de 1732087490 conforme necessário
+            const tempoMedioAjustado = tempoMedio - 1732087490;
+
+            // Ajuste do código para formatar e exibir o tempo médio
+            if (tempoMedioAjustado <= 20) {
+                document.querySelector('.minibloco1').textContent = `${tempoMedioAjustado.toFixed(2)}s`;
+                document.querySelector('.minibloco1').style.color = '#1be600'; // Cor verde
+            } else if (tempoMedioAjustado <= 60) {
+                document.querySelector('.minibloco1').textContent = `${tempoMedioAjustado.toFixed(2)}s`;
+                document.querySelector('.minibloco1').style.color = '#ff0000'; // Cor vermelha
+            } else {
+                document.querySelector('.minibloco1').textContent = `${tempoMedioAjustado.toFixed(2)}s`;
+                document.querySelector('.minibloco1').style.color = '#ffaa00'; // Cor amarela
+            }
+        } else {
+            throw new Error("Dados inesperados recebidos do servidor.");
+        }
+    })
+    .catch(error => {
+        console.error("Erro:", error.message);
+        document.querySelector('.minibloco').textContent = "Erro ao carregar dados."; // Feedback para o usuário
+    });
+}
+
 
     function puxarTempoEmpresaChamada(fkEmpresa) {
         console.log("-")
@@ -364,15 +369,15 @@ function atualizarGraficoFiltrado(resposta) {
                 if (data && Array.isArray(data)) { // Valida se 'data' é um array
                     const tempoTotal = data.reduce((soma, funcionario) => soma + funcionario.tempoChamada, 0);
                     const tempoMedio = (tempoTotal / data.length).toFixed(2);
-                    if(tempoMedio <= 6){
-                        
-                        document.querySelector('.minibloco').textContent = `${tempoMedio}s`; 
+                    if (tempoMedio <= 6) {
+
+                        document.querySelector('.minibloco').textContent = `${tempoMedio}s`;
                         document.querySelector('.minibloco').style.color = '#1be600'; // Aplica a cor vermelha ao texto
                     }
-                    else if(tempoMedio <= 11){
+                    else if (tempoMedio <= 11) {
                         document.querySelector('.minibloco').textContent = `${tempoMedio}s`; // Atualiza a UI
                         document.querySelector('.minibloco').style.color = '#ff0000'; // Aplica a cor vermelha ao texto
-                    }else{
+                    } else {
                         document.querySelector('.minibloco').textContent = `${tempoMedio}s`; // Atualiza a UI
                         document.querySelector('.minibloco').style.color = '#ffaa00'; // Aplica a cor vermelha ao texto
                     } // Cálculo médio e arredondamento
@@ -410,116 +415,116 @@ function atualizarGraficoFiltrado(resposta) {
 
 
     function puxarTotalEmpresaPerdida(fkEmpresa) {
-    fetch(`/funcionarios/dados/totalPerdida/${fkEmpresa}`, { 
-        method: "GET"
-    })
-    .then(resposta => {
-        if (!resposta.ok) {
-            throw new Error("Não foi possível capturar os dados de chamadas da Empresa.");
-        }
-        return resposta.json(); // Retorna os dados em JSON
-    })
-    .then(data => {
-        console.log("------------ Depuração ------------");
-        console.log("Dados recebidos (tipo):", typeof data);
-        console.log("Dados recebidos:", data);
-
-        if (data && typeof data === "object") {
-            // Verifica as propriedades diretamente no console
-            console.log("Propriedade chamadasRecebidas existe?", "chamadasRecebidas" in data);
-            console.log("Propriedade chamadasPerdidas existe?", "chamadasPerdidas" in data);
-
-            const totalChamadasRecebidas = parseInt(data[0].chamadasRecebidas, 10);
-            const totalChamadasPerdidas = parseInt(data[0].chamadasPerdidas, 10);
-
-            console.log("Total Chamadas Recebidas:", totalChamadasRecebidas);
-            console.log("Total Chamadas Perdidas:", totalChamadasPerdidas);
-
-            const elementoBloco = document.querySelector('.minibloco3');
-
-            if (!isNaN(totalChamadasRecebidas) && totalChamadasRecebidas > 0) {
-                const eficiencia = ((totalChamadasRecebidas - totalChamadasPerdidas) / totalChamadasRecebidas) * 100;
-                elementoBloco.textContent = `${eficiencia.toFixed(2)}%`;
-
-                // Muda a cor com base na eficiência
-                if (eficiencia >= 85) {
-                    elementoBloco.style.color = '#1be600'; // Verde
-                } else if (eficiencia >= 70) {
-                    elementoBloco.style.color = '#ffaa00'; // Amarelo
-                } else {
-                    elementoBloco.style.color = '#ff0000'; // Vermelho
+        fetch(`/funcionarios/dados/totalPerdida/${fkEmpresa}`, {
+            method: "GET"
+        })
+            .then(resposta => {
+                if (!resposta.ok) {
+                    throw new Error("Não foi possível capturar os dados de chamadas da Empresa.");
                 }
-            } else {
-                elementoBloco.textContent = "Não há chamadas registradas.";
-                elementoBloco.style.color = ''; // Reseta a cor
-            }
-        } else {
-            console.error("Formato inesperado:", data);
-            throw new Error("Dados recebidos em formato inesperado.");
-        }
-    })
-    .catch(error => {
-        console.error("Erro capturado:", error.message);
-        const elementoBloco = document.querySelector('.minibloco3');
-        elementoBloco.textContent = "Erro ao carregar dados.";
-        elementoBloco.style.color = '#FF0000'; // Vermelho para indicar erro
-    });
-}
+                return resposta.json(); // Retorna os dados em JSON
+            })
+            .then(data => {
+                console.log("------------ Depuração ------------");
+                console.log("Dados recebidos (tipo):", typeof data);
+                console.log("Dados recebidos:", data);
 
+                if (data && typeof data === "object") {
+                    // Verifica as propriedades diretamente no console
+                    console.log("Propriedade chamadasRecebidas existe?", "chamadasRecebidas" in data);
+                    console.log("Propriedade chamadasPerdidas existe?", "chamadasPerdidas" in data);
 
+                    const totalChamadasRecebidas = parseInt(data[0].chamadasRecebidas, 10);
+                    const totalChamadasPerdidas = parseInt(data[0].chamadasPerdidas, 10);
 
+                    console.log("Total Chamadas Recebidas:", totalChamadasRecebidas);
+                    console.log("Total Chamadas Perdidas:", totalChamadasPerdidas);
 
-function eficienciaEmpresaChamada(fkEmpresa) {
-    fetch(`/funcionarios/dados/eficiencia/${fkEmpresa}`, { // Usa fkEmpresa dinamicamente
-        method: "GET"
-    })
-    .then(resposta => {
-        if (resposta.ok) {
-            return resposta.json(); // Retorna os dados em JSON
-        } else {
-            throw new Error("Não foi possível capturar os dados de chamadas da Empresa.");
-        }
-    })
-    .then(data => {
-        console.log("Dados recebidos:", data); // Verifica o formato dos dados
+                    const elementoBloco = document.querySelector('.minibloco3');
 
-        if (Array.isArray(data) && data.length > 0) {
-            const chamadas = data[0];
+                    if (!isNaN(totalChamadasRecebidas) && totalChamadasRecebidas > 0) {
+                        const eficiencia = ((totalChamadasRecebidas - totalChamadasPerdidas) / totalChamadasRecebidas) * 100;
+                        elementoBloco.textContent = `${eficiencia.toFixed(2)}%`;
 
-            if (chamadas.chamadaRecebida !== undefined && chamadas.chamadaAtendida !== undefined) {
-                const totalChamadas = chamadas.chamadaRecebida;
-                const totalChamadasAtendidas = chamadas.chamadaAtendida;
-
-                if (totalChamadas > 0) {
-                    const eficiencia = (totalChamadasAtendidas / totalChamadas) * 100;
-                    const elementoBloco = document.querySelector('.minibloco2');
-                    elementoBloco.textContent = `${eficiencia.toFixed(2)}%`;
-
-                    // Muda a cor com base na eficiência
-                    if (eficiencia >= 85) {
-                        elementoBloco.style.color = '#1be600'; // Verde
-                    } else if (eficiencia >= 70) {
-                        elementoBloco.style.color = '#ffaa00'; // Amarelo
+                        // Muda a cor com base na eficiência
+                        if (eficiencia >= 85) {
+                            elementoBloco.style.color = '#1be600'; // Verde
+                        } else if (eficiencia >= 70) {
+                            elementoBloco.style.color = '#ffaa00'; // Amarelo
+                        } else {
+                            elementoBloco.style.color = '#ff0000'; // Vermelho
+                        }
                     } else {
-                        elementoBloco.style.color = '#ff0000'; // Laranja
+                        elementoBloco.textContent = "Não há chamadas registradas.";
+                        elementoBloco.style.color = ''; // Reseta a cor
                     }
                 } else {
-                    document.querySelector('.minibloco2').textContent = "Não há chamadas registradas.";
+                    console.error("Formato inesperado:", data);
+                    throw new Error("Dados recebidos em formato inesperado.");
                 }
-            } else {
-                throw new Error("Formato inesperado dos dados recebidos: propriedades ausentes.");
-            }
-        } else {
-            throw new Error("Formato inesperado dos dados recebidos: dados não são um array.");
-        }
-    })
-    .catch(error => {
-        console.error("Erro:", error.message);
-        const elementoBloco = document.querySelector('.minibloco2');
-        elementoBloco.textContent = `Erro ao carregar dados: ${error.message}`;
-        elementoBloco.style.color = '#FF0000'; // Vermelho para indicar erro
-    });
-}
+            })
+            .catch(error => {
+                console.error("Erro capturado:", error.message);
+                const elementoBloco = document.querySelector('.minibloco3');
+                elementoBloco.textContent = "Erro ao carregar dados.";
+                elementoBloco.style.color = '#FF0000'; // Vermelho para indicar erro
+            });
+    }
+
+
+
+
+    function eficienciaEmpresaChamada(fkEmpresa) {
+        fetch(`/funcionarios/dados/eficiencia/${fkEmpresa}`, { // Usa fkEmpresa dinamicamente
+            method: "GET"
+        })
+            .then(resposta => {
+                if (resposta.ok) {
+                    return resposta.json(); // Retorna os dados em JSON
+                } else {
+                    throw new Error("Não foi possível capturar os dados de chamadas da Empresa.");
+                }
+            })
+            .then(data => {
+                console.log("Dados recebidos:", data); // Verifica o formato dos dados
+
+                if (Array.isArray(data) && data.length > 0) {
+                    const chamadas = data[0];
+
+                    if (chamadas.chamadaRecebida !== undefined && chamadas.chamadaAtendida !== undefined) {
+                        const totalChamadas = chamadas.chamadaRecebida;
+                        const totalChamadasAtendidas = chamadas.chamadaAtendida;
+
+                        if (totalChamadas > 0) {
+                            const eficiencia = (totalChamadasAtendidas / totalChamadas) * 100;
+                            const elementoBloco = document.querySelector('.minibloco2');
+                            elementoBloco.textContent = `${eficiencia.toFixed(2)}%`;
+
+                            // Muda a cor com base na eficiência
+                            if (eficiencia >= 85) {
+                                elementoBloco.style.color = '#1be600'; // Verde
+                            } else if (eficiencia >= 70) {
+                                elementoBloco.style.color = '#ffaa00'; // Amarelo
+                            } else {
+                                elementoBloco.style.color = '#ff0000'; // Laranja
+                            }
+                        } else {
+                            document.querySelector('.minibloco2').textContent = "Não há chamadas registradas.";
+                        }
+                    } else {
+                        throw new Error("Formato inesperado dos dados recebidos: propriedades ausentes.");
+                    }
+                } else {
+                    throw new Error("Formato inesperado dos dados recebidos: dados não são um array.");
+                }
+            })
+            .catch(error => {
+                console.error("Erro:", error.message);
+                const elementoBloco = document.querySelector('.minibloco2');
+                elementoBloco.textContent = `Erro ao carregar dados: ${error.message}`;
+                elementoBloco.style.color = '#FF0000'; // Vermelho para indicar erro
+            });
+    }
 
 
     function puxarTotalEmpresaAtendida(fkEmpresa) {
@@ -558,50 +563,50 @@ function eficienciaEmpresaChamada(fkEmpresa) {
 
 
     function filtrarTempo() {
-    const dataSelecionada = document.getElementById('dataEscolhida').value;
-    const fkEmpresa = 1; // Defina ou obtenha fkEmpresa corretamente
+        const dataSelecionada = document.getElementById('dataEscolhida').value;
+        const fkEmpresa = 1; // Defina ou obtenha fkEmpresa corretamente
 
-    if (dataSelecionada) {
-        alert(`Data escolhida: ${dataSelecionada}`);
-        filtrarTempoChamadaMedia(dataSelecionada, fkEmpresa);
-        filtrarTempoEficiencia(dataSelecionada, fkEmpresa);
-        filtrarTempoMedioEspera(dataSelecionada, fkEmpresa);
-        filtrarTempoChamadaPerdida(dataSelecionada, fkEmpresa);
-        filtrarTempoGrafico(dataSelecionada, fkEmpresa);
-        
-    } else {
-        alert('Por favor, selecione uma data.');
+        if (dataSelecionada) {
+            alert(`Data escolhida: ${dataSelecionada}`);
+            filtrarTempoChamadaMedia(dataSelecionada, fkEmpresa);
+            filtrarTempoEficiencia(dataSelecionada, fkEmpresa);
+            filtrarTempoMedioEspera(dataSelecionada, fkEmpresa);
+            filtrarTempoChamadaPerdida(dataSelecionada, fkEmpresa);
+            filtrarTempoGrafico(dataSelecionada, fkEmpresa);
+
+        } else {
+            alert('Por favor, selecione uma data.');
+        }
     }
-}
 
-function filtrarTempoChamadaMedia(dataSelecionada, fkEmpresa) {
-    fetch(`/funcionarios/dados/tempo/${dataSelecionada}/${fkEmpresa}`, { // Incluindo data na URL
-        method: "GET"
-    })
-    .then(resposta => {
-        if (resposta.ok) {
-            return resposta.json();
-        } else {
-            throw new Error("Não foi possível capturar os dados de chamada da empresa.");
-        }
-    })
-    .then(data => {
-        if (data && Array.isArray(data)) {
-            const tempoTotal = data.reduce((soma, funcionario) => soma + funcionario.tempoChamada, 0);
-            const tempoMedio = (tempoTotal / data.length).toFixed(2);
-            document.querySelector('.minibloco').textContent = `${tempoMedio}s`;
-        } else {
-            throw new Error("Dados inesperados recebidos do servidor.");
-        }
-    })
-    .catch(error => {
-        console.error("Erro:", error.message);
-        document.querySelector('.minibloco').textContent = "Erro ao carregar dados.";
-    });
-}
+    function filtrarTempoChamadaMedia(dataSelecionada, fkEmpresa) {
+        fetch(`/funcionarios/dados/tempo/${dataSelecionada}/${fkEmpresa}`, { // Incluindo data na URL
+            method: "GET"
+        })
+            .then(resposta => {
+                if (resposta.ok) {
+                    return resposta.json();
+                } else {
+                    throw new Error("Não foi possível capturar os dados de chamada da empresa.");
+                }
+            })
+            .then(data => {
+                if (data && Array.isArray(data)) {
+                    const tempoTotal = data.reduce((soma, funcionario) => soma + funcionario.tempoChamada, 0);
+                    const tempoMedio = (tempoTotal / data.length).toFixed(2);
+                    document.querySelector('.minibloco').textContent = `${tempoMedio}s`;
+                } else {
+                    throw new Error("Dados inesperados recebidos do servidor.");
+                }
+            })
+            .catch(error => {
+                console.error("Erro:", error.message);
+                document.querySelector('.minibloco').textContent = "Erro ao carregar dados.";
+            });
+    }
 
-function filtrarTempoEficiencia(dataSelecionada, fkEmpresa) {
-    fetch(`/funcionarios/dados/tempoEficiencia/${dataSelecionada}/${fkEmpresa}`, {
+    function filtrarTempoEficiencia(dataSelecionada, fkEmpresa) {
+        fetch(`/funcionarios/dados/tempoEficiencia/${dataSelecionada}/${fkEmpresa}`, {
             method: "GET"
         })
             .then(resposta => {
@@ -644,8 +649,8 @@ function filtrarTempoEficiencia(dataSelecionada, fkEmpresa) {
             });
     }
 
-function filtrarTempoMedioEspera(dataSelecionada, fkEmpresa) {
-    fetch(`/funcionarios/dados/tempoEspera/${dataSelecionada}/${fkEmpresa}`, {
+    function filtrarTempoMedioEspera(dataSelecionada, fkEmpresa) {
+        fetch(`/funcionarios/dados/tempoEspera/${dataSelecionada}/${fkEmpresa}`, {
             method: "GET"
         })
             .then(resposta => {
@@ -661,8 +666,10 @@ function filtrarTempoMedioEspera(dataSelecionada, fkEmpresa) {
                 console.log("--------------------------")
                 if (data && Array.isArray(data)) { // Valida se 'data' é um array
                     const tempoTotalEspera = data.reduce((soma, empresa) => soma + empresa.tempoEspera, 0);
-                    const tempoMedioEspera = (tempoTotalEspera / data.length).toFixed(2); // Cálculo médio e arredondamento
-                    document.querySelector('.minibloco1').textContent = `${tempoMedioEspera}s`; // Atualiza a UI
+                    const tempoMedioEspera = (tempoTotalEspera / data.length).toFixed(2);  
+                    const tempoMedioAjustado = tempoMedioEspera - 1732087490; 
+                // Cálculo médio e arredondamento
+                    document.querySelector('.minibloco1').textContent = `${tempoMedioAjustado.toFixed(2)}s`; // Atualiza a UI
                 } else {
                     throw new Error("Dados inesperados recebidos do servidor.");
                 }
@@ -677,63 +684,89 @@ function filtrarTempoMedioEspera(dataSelecionada, fkEmpresa) {
     fetch(`/funcionarios/dados/tempoPerdida/${dataSelecionada}/${fkEmpresa}`, {
         method: "GET"
     })
-    .then(resposta => {
-        if (resposta.ok) {
-            return resposta.json(); // Retorna os dados em formato JSON
-        } else {
-            throw new Error("Não foi possível capturar os dados de chamadas da Empresa.");
-        }
-    })
-    .then(data => {
-        console.log("Dados recebidos:", data); // Verifica o formato dos dados
+        .then(resposta => {
+            if (resposta.ok) {
+                return resposta.json(); // Retorna os dados em formato JSON
+            } else {
+                throw new Error("Não foi possível capturar os dados de chamadas da Empresa.");
+            }
+        })
+        .then(data => {
+            console.log("Dados recebidos:", data); // Verifica o formato dos dados
 
-        // Verifica se os dados são um array de objetos e se há dados disponíveis
-        if (Array.isArray(data) && data.length > 0) {
-            // Acessa o primeiro item do array
-            const chamadas = data[0];
+            // Verifica se os dados são um array de objetos e se há dados disponíveis
+            if (Array.isArray(data) && data.length > 0) {
+                console.log("---------------");
+                console.log(data);
+                console.log("---------------");
 
-            // Verifica se as propriedades chamadasPerdidas e totalChamadas existem
-            if (chamadas.chamadasPerdidas !== undefined && chamadas.totalChamadas !== undefined) {
-                const chamadasPerdidas = chamadas.chamadasPerdidas;
-                const totalChamadas = chamadas.chamadasRecebidas;
+                // Acessa o primeiro item do array
+                const chamadas = data[0];
 
-                // Verifica se totalChamadas é maior que zero
-                if (totalChamadas > 0) {
-                    // Calcula a porcentagem de chamadas perdidas
-                    const porcentagemPerdidas = (chamadasPerdidas / totalChamadas) * 100;
-                    document.querySelector('.minibloco3').textContent = `${porcentagemPerdidas.toFixed(2)}%`; // Exibe o valor formatado
+                // Verifica se as propriedades chamadaPerdida e chamadasRecebidas existem
+                if (chamadas.chamadaPerdida !== undefined && chamadas.chamadasRecebidas !== undefined) {
+                    const chamadaPerdida = chamadas.chamadaPerdida; // Corrigido o nome da propriedade
+                    const chamadasRecebidas = chamadas.chamadasRecebidas; // Corrigido o nome da propriedade
+
+                    // Verifica se chamadasRecebidas é maior que zero
+                    if (chamadasRecebidas > 0) {
+                        // Calcula a porcentagem de chamadas perdidas
+                        const porcentagemPerdidas = (chamadaPerdida / chamadasRecebidas) * 100;
+                        document.querySelector('.minibloco3').textContent = `${porcentagemPerdidas.toFixed(2)}%`; // Exibe o valor formatado
+                    } else {
+                        document.querySelector('.minibloco3').textContent = "Não há chamadas registradas."; // Sem chamadas
+                    }
                 } else {
-                    document.querySelector('.minibloco3').textContent = "Não há chamadas registradas."; // Sem chamadas
+                    throw new Error("Formato inesperado dos dados recebidos: propriedades ausentes.");
                 }
             } else {
-                throw new Error("Formato inesperado dos dados recebidos: propriedades ausentes.");
+                throw new Error("Formato inesperado dos dados recebidos: dados não são um array.");
             }
-        } else {
-            throw new Error("Formato inesperado dos dados recebidos: dados não são um array.");
-        }
-    })
-    .catch(error => {
-        console.error("Erro:", error.message);
-        document.querySelector('.minibloco3').textContent = "Erro ao carregar dados."; // Feedback para o usuário
-    });
+        })
+        .catch(error => {
+            console.error("Erro:", error.message);
+            document.querySelector('.minibloco3').textContent = "Erro ao carregar dados."; // Feedback para o usuário
+        });
 }
 
 
+
     function filtrarTempoGrafico(dataSelecionada, fkEmpresa) {
-    fetch(`/funcionarios/dados/grafico/${dataSelecionada}/${fkEmpresa}`, { cache: 'no-store' })
-        .then(function (response) {
-            if (response.ok) {
-                response.json().then(function (resposta) {
-                    console.log(`Dados filtrados recebidos: ${JSON.stringify(resposta)}`);
-                    resposta.reverse();
-                    atualizarGraficoFiltrado(resposta); // Atualiza o gráfico com os novos dados
-                });
-            } else {
-                console.error('Nenhum dado encontrado ou erro na API');
+        fetch(`/funcionarios/dados/grafico/${dataSelecionada}/${fkEmpresa}`, { cache: 'no-store' })
+            .then(function (response) {
+                if (response.ok) {
+                    response.json().then(function (resposta) {
+                        console.log(`Dados filtrados recebidos: ${JSON.stringify(resposta)}`);
+                        resposta.reverse();
+                        atualizarGraficoFiltrado(resposta); // Atualiza o gráfico com os novos dados
+                    });
+                } else {
+                    console.error('Nenhum dado encontrado ou erro na API');
+                }
+            })
+            .catch(function (error) {
+                console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+            });
+    }
+
+
+    function contarEquipes(fkEmpresa) {
+    return fetch(`/funcionarios/contarEquipes/${fkEmpresa}`, { cache: 'no-store' })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Nenhum dado encontrado ou erro na API.');
             }
+            return response.json(); // Retorna a Promise resolvendo o JSON
         })
-        .catch(function (error) {
-            console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+        .then(resposta => {
+            console.log(`Dados filtrados recebidos: ${JSON.stringify(resposta)}`);
+            console.log(resposta)
+            console.log("------------")
+            return resposta[0].idEquipe; // Retorna o `idEquipe` do primeiro item (ajuste conforme necessário)
+        })
+        .catch(error => {
+            console.error(`Erro na obtenção dos dados: ${error.message}`);
+            return null; // Retorna `null` em caso de erro
         });
 }
 
