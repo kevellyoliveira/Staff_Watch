@@ -113,7 +113,7 @@ WHERE
     cap.fkAuxComponente = 12 AND 
     pc.fkEquipe = ${fkEquipe} AND  
     pc.fkEmpresa= ${fkEmpresa} AND  
-    DATE( date_sub(now(), interval ${tempo} day ));`;
+    dataCaptura BETWEEN DATE_SUB(CURDATE(), INTERVAL ${tempo} DAY) AND CURDATE();`;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
@@ -133,7 +133,7 @@ WHERE
     cap.fkAuxComponente = 8 AND 
     pc.fkEquipe = ${fkEquipe} AND  
     pc.fkEmpresa= ${fkEmpresa} AND  
-    DATE( date_sub(now(), interval ${tempo} day ));`;
+    dataCaptura BETWEEN DATE_SUB(CURDATE(), INTERVAL ${tempo} DAY) AND CURDATE();`;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
@@ -154,7 +154,7 @@ WHERE
     cap.fkAuxComponente IN (22, 23) AND  
     pc.fkEquipe = ${fkEquipe} AND  
     pc.fkEmpresa = ${fkEmpresa} AND  
-    cap.dataCaptura >= DATE_SUB(NOW(), INTERVAL ${tempo} DAY); `;
+    dataCaptura BETWEEN DATE_SUB(CURDATE(), INTERVAL ${tempo} DAY) AND CURDATE(); `;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
@@ -176,7 +176,7 @@ WHERE
     cap.fkAuxComponente IN (24, 25) AND  
     pc.fkEquipe = ${fkEquipe} AND  
     pc.fkEmpresa = ${fkEmpresa} AND  
-    cap.dataCaptura >= DATE_SUB(NOW(), INTERVAL ${tempo} DAY);`;
+    dataCaptura BETWEEN DATE_SUB(CURDATE(), INTERVAL ${tempo} DAY) AND CURDATE();`;
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
@@ -203,7 +203,7 @@ inner JOIN empresa emp ON pc.fkEmpresa = emp.idEmpresa
 WHERE 
     computador.fkEquipe = ${fkEquipe}
     AND computador.fkEmpresa = ${fkEmpresa}
-    AND DATE( date_sub(now(), interval ${tempo} day ));`;
+    AND captura.dataCaptura BETWEEN DATE_SUB(CURDATE(), INTERVAL ${tempo} DAY) AND CURDATE();`;
     }
     else{
 
@@ -224,8 +224,7 @@ WHERE
         computador.fkEquipe = ${fkEquipe}
         AND computador.fkEmpresa = ${fkEmpresa}
         AND componente.idComponente = ${componente}
-        AND  
-    DATE( date_sub(now(), interval ${tempo} day ));`;
+        AND captura.dataCaptura BETWEEN DATE_SUB(CURDATE(), INTERVAL ${tempo} DAY) AND CURDATE();`;
     }
 
     console.log("Executando a instrução SQL: \n" + instrucaoSql);

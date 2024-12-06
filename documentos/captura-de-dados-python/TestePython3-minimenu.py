@@ -29,7 +29,7 @@ async def print_system_info(fk_computador):
     
     #fuso_sao_paulo = pytz.timezone("America/Sao_Paulo")
     #agora = datetime.now(fuso_sao_paulo)
-    start_date = datetime(2023, 3, 5)
+    start_date = datetime(2023, 12, 6)
     end_date = datetime(2024, 12, 6)
     agora = start_date
 

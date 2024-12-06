@@ -22,10 +22,11 @@
                 </div>
 
                 <div class="opcoesComponentes" id="itens">
-                    <h6 class="opcoesMenu slct" onclick="window.location.href='dashboardGeral-gti.html'">Home</h6>
+                    <!-- <h6 class="opcoesMenu slct" onclick="window.location.href='dashboardGeral-gti.html'">Home</h6> -->
                     <h6 class="opcoesMenu associMenu" onclick="abrirMenu()">Associados <img
                             src="./src/img/icons/seta.png" alt="icone menu vertical"></h6>
                     <h6 class="opcoesMenu" onclick="window.location.href='cadastroFuncionario.html'">Cadastrar</h6>
+                    <h6 class="opcoesMenu" onclick="window.location.href='Dash-ruan-rede.html'">Acompanhamento de rede</h6>
                     <div id="menu">
                         <h4 onclick="window.location.href='pagina-operario2.html'">Funcionários</h4>
                         <h4 onclick="window.location.href='pagina-maquina.html'">Dispositivos</h4>
@@ -70,13 +71,13 @@
             <div class="section-up">
                 <button class="open-btn" onclick="openMenu()">☰</button>
                 <div class="section-title">
-                    <div class="title">Histórico dos componentes - Equipe 1 </div>
+                    <div id="nomeEquipe" class="title">Histórico dos componentes - Equipe </div>
                     <select onchange="gerarGraficos()" class="select" id="select_tempo">
                         <option value="#">Tempo</option>
-                        <option value="3">1 Mês</option>
-                        <option value="4">3 Meses</option>
-                        <option value="5">6 Meses</option>
-                        <option value="10">1 Ano</option>
+                        <option value="30">1 Mês</option>
+                        <option value="90">3 Meses</option>
+                        <option value="180">6 Meses</option>
+                        <option value="365">1 Ano</option>
                     </select>
                 </div>
             </div>
@@ -86,25 +87,25 @@
 
                 <div class="grafico">
                     <div class="grafico-text">
-                        <p>Percentual de uso de CPU</p>
+                        <p>Histórico de CPU</p>
                     </div>
                     <canvas id="myChartCanvas"></canvas>
                 </div>
                 <div class="grafico">
                     <div class="grafico-text">
-                        <p>Percentual de uso da memória RAM</p>
+                        <p>Histórico da memória RAM</p>
                     </div>
                     <canvas id="myChartCanvas2"></canvas>
                 </div>
                 <div class="grafico">
                     <div class="grafico-text">
-                        <p>Bytes lidos e escritos do Disco</p>
+                        <p>Taxa de transferência do Disco</p>
                     </div>
                     <canvas id="myChartCanvas3"></canvas>
                 </div>
                 <div class="grafico">
                     <div class="grafico-text">
-                        <p>Leituras e escritas no Discos</p>
+                        <p>Latência no Disco</p>
                     </div>
                     <canvas id="myChartCanvas4"></canvas>
                 </div>
@@ -134,6 +135,13 @@
 </html>
 <script>
 
+
+    function equipeSelecionada(){
+        document.getElementById("nomeEquipe").innerHTML = ``;
+            document.getElementById("nomeEquipe").innerHTML = `Histórico dos componentes - Equipe ${sessionStorage.getItem("equipeSelecionadaNome")}`;
+    }
+
+
     function resetarGraficos() {
         const canvasIds = ['myChartCanvas', 'myChartCanvas2', 'myChartCanvas3', 'myChartCanvas4'];
         canvasIds.forEach(id => {
@@ -152,22 +160,23 @@
         });
     }
 
-    function selecionarItem(elemento) {
+    function selecionarItem(elemento, elemento1) {
         console.log("Elemento recebido (ID):", elemento);
         // console.log("Elemento recebido (Nome):", elemento1);
-        var id = elemento.id;  // Pega o ID da equipe clicada
-        // var nome = elemento1;
+        var id = elemento;  // Pega o ID da equipe clicada
+        var nome = elemento1;
         if (id == 0) {
             // Redireciona para dashboardGeral.html
             window.location.href = "dashboard-Pinho.html";
         } else {
             // Armazena o ID correto da equipe no sessionStorage
             sessionStorage.setItem('equipeSelecionada', id);
-            // sessionStorage.setItem('equipeSelecionadaNome', nome);
+            sessionStorage.setItem('equipeSelecionadaNome', nome);
             // Redireciona para a página da equipe
             window.location.href = 'dashboard-Pinho-equipe.html';
             // window.location.href = 'DashboardEquipe_Eduardo2-go.html';
-            document.getElementsByClassName("title").innerHTML = `Histórico dos componentes - Equipe ${equipe.nome}`
+            
+            
         }
     }
 
@@ -228,7 +237,7 @@
                         // console.log("Elemento recebido (ID):", equipe.idEquipe);
                         // console.log("Elemento recebido (Nome):", equipe.nome);
                         h4.classList.add("equipe"); // Adiciona uma classe para estilização
-                        h4.onclick = () => selecionarItem(equipe.idEquipe);
+                        h4.onclick = () => selecionarItem(equipe.idEquipe, equipe.nome);
                         menuLateral.appendChild(h4);
                     });
                 } else {
@@ -241,6 +250,7 @@
 
                 // Reinsere a opção "Nova Equipe"
                 menuLateral.appendChild(novaEquipeItem);
+                equipeSelecionada();
             })
             .catch(erro => {
                 console.error("Erro ao carregar as equipes:", erro);
@@ -250,6 +260,7 @@
     window.onload = function () {
         listarEquipes();  // Chama a função para listar as equipes
         atualizarFeedEquipe();  // Chama a função para atualizar o feed da equipe
+        
     };
 
 
@@ -366,7 +377,7 @@
         let dados = {
             labels: labels,
             datasets: [{
-                label: 'Histórico de percentual de CPU',
+                label: 'Percentual de CPU',
                 data: [],
                 fill: false,
                 backgroundColor: 'rgba(255, 99, 132, 0.2)',
@@ -445,7 +456,7 @@
         let dados = {
             labels: labels,
             datasets: [{
-                label: 'Histórico de percentual de RAM',
+                label: 'Percentual de RAM',
                 data: [],
                 fill: false,
                 backgroundColor: 'rgba(255, 99, 132, 0.2)',
@@ -527,7 +538,7 @@
             labels: labels,  // As labels (categorias) para o eixo X
             datasets: [
                 {
-                    label: 'Quantidade de Leituras',
+                    label: 'Leituras',
                     data: numeroLeituras,
                     fill: false,
                     borderColor: 'blue',
@@ -535,7 +546,7 @@
                     tension: 0.1
                 },
                 {
-                    label: 'Quantidade de Escritas',
+                    label: 'Escritas',
                     data: numeroEscritas,
                     fill: false,
                     borderColor: '#00FFFF',
@@ -626,7 +637,7 @@
             labels: labels,  // As labels (categorias) para o eixo X
             datasets: [
                 {
-                    label: 'MegaBytes lidos no disco',
+                    label: 'Leituras',
                     data: bytesLidos,
                     fill: false,
                     borderColor: 'blue',
@@ -634,7 +645,7 @@
                     tension: 0.1
                 },
                 {
-                    label: 'MegaBytes escritos no disco',
+                    label: 'Escritas',
                     data: bytesEscritos,
                     fill: false,
                     borderColor: '#00FFFF',

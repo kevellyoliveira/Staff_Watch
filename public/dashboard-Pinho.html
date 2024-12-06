@@ -22,10 +22,10 @@
                 </div>
 
                 <div class="opcoesComponentes" id="itens">
-                    <h6 class="opcoesMenu slct" onclick="window.location.href='dashboardGeral-gti.html'">Home</h6>
                     <h6 class="opcoesMenu associMenu" onclick="abrirMenu()">Associados <img
-                            src="./src/img/icons/seta.png" alt="icone menu vertical"></h6>
-                    <h6 class="opcoesMenu" onclick="window.location.href='cadastroFuncionario.html'">Cadastrar</h6>
+                        src="./src/img/icons/seta.png" alt="icone menu vertical"></h6>
+                <h6 class="opcoesMenu" onclick="window.location.href='cadastroFuncionario.html'">Cadastrar</h6>
+                <h6 class="opcoesMenu" onclick="window.location.href='Dash-ruan-rede.html'">Acompanhamento de rede</h6>
                     <div id="menu">
                         <h4 onclick="window.location.href='pagina-operario2.html'">Funcionários</h4>
                         <h4 onclick="window.location.href='pagina-maquina.html'">Dispositivos</h4>
@@ -70,17 +70,18 @@
                                 <option value="8">Memória RAM</option>
                                 <option value="4">Disco</option>
                             </select> em um período de <select class="select" id="select_tempo">
-                                <option value="#">Selecione o tempo</option>
-                                <option value="1">1 Dia</option>
-                                <option value="2">1 Semana</option>
-                                <option value="3">1 Mês</option>
-                                <option value="4">3 Meses</option>
-                                <option value="5">6 Meses</option>
-                                <option value="6">1 Ano</option>
+                                <option value="#">Selecione o tempo</option> 
+                                <option value="30">1 Mês</option>
+                                <option value="90">3 Meses</option>
+                                <option value="180">6 Meses</option>
+                                <option value="365">1 Ano</option>
                             </select></p>
-                            <button class="grafico-btn" onclick="obterDadosGrafico()">Gerar gráfico</button>
+                            <button class="grafico-btn" onclick="gerarGraficos()">Gerar gráfico</button>
                     </div>
-                    <canvas id="myChartCanvas"></canvas>
+                    <div class="grafico_alerta">
+                        <canvas id="myChartCanvas"></canvas>
+                    </div>
+                    
                 </div>
             </div>
         </main>
@@ -93,6 +94,29 @@
 <script>
 
 
+function gerarGraficos() {
+        resetarGraficos();
+
+        obterDadosGrafico();
+    }
+
+function resetarGraficos() {
+        const canvasIds = ['myChartCanvas'];
+        canvasIds.forEach(id => {
+            const canvas = document.getElementById(id);
+            const parent = canvas.parentElement;
+
+            // Remove o elemento canvas
+            canvas.remove();
+
+            // Cria um novo canvas com o mesmo ID
+            const newCanvas = document.createElement('canvas');
+            newCanvas.id = id;
+
+            // Adiciona o novo canvas no lugar do antigo
+            parent.appendChild(newCanvas);
+        });
+    }
 
     function selecionarItem(elemento) {
         var id = elemento.id;  // Pega o ID da equipe clicada

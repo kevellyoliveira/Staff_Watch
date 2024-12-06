@@ -64,7 +64,7 @@ header {
 
 .opcoesComponentes {
     display: flex;
-    width: 70%;
+    width: 85%;
     justify-content: space-evenly;
     align-items: center;
     white-space: nowrap;
@@ -97,9 +97,25 @@ header {
     position: absolute;
     margin-top: 11rem;
     height: fit-content;
-    left: 16rem;
+    left: 4.5rem;
     padding: 0.5rem;
     z-index: 10;
+}
+
+
+#menu:hover {
+    display: none;
+    flex-direction: column;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #002048b6;
+    position: absolute;
+    margin-top: 11rem;
+    height: fit-content;
+    left: 4.5rem;
+    padding: 0.5rem;
+    z-index: 10;
+    transition: 10ms;
 }
 
 .opcoesComponentes h6:hover {
@@ -115,9 +131,9 @@ header {
     padding: .7rem;
     /* border-style: outset; */
     /* border-top: 1px outset #e7ecef; */
-    border-width: 4px 0 0 0; /* Somente a borda superior */
+    border-width: 1px 0 0 0; /* Somente a borda superior */
   border-style: solid;
-  border-image: linear-gradient(to right, white, black, white) 1; /* Gradiente */
+  border-image: linear-gradient(to right, white, white, white) 1; /* Gradiente */
     height: fit-content;
     cursor: pointer;
 }
@@ -357,17 +373,18 @@ header {
 
 }
 
-/* #myChartCanvas{
+.grafico_alerta{
     height: 80%;
     
 
-} */
+} 
 
 .section-select{
     display: flex;
     padding-top: 10px;
     height: fit-content;
-    width:fit-content
+    width:fit-content;
+    padding-bottom: 30px;
 }
 
 .section-select p{
@@ -509,6 +526,8 @@ header {
     display: flex;
     height: fit-content;
     justify-content:center;
+    align-items: baseline;
+    color: #e7ecef;
 }
 
 /* .right-section .section-alertas .alertas-text select:hover{
