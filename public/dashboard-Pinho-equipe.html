@@ -71,7 +71,7 @@
                 <button class="open-btn" onclick="openMenu()">☰</button>
                 <div class="section-title">
                     <div class="title">Histórico dos componentes - Equipe 1 </div>
-                    <select onchange="gerarGraficos()" class=".custom-select" id="select_tempo">
+                    <select onchange="gerarGraficos()" class="select" id="select_tempo">
                         <option value="#">Tempo</option>
                         <option value="3">1 Mês</option>
                         <option value="4">3 Meses</option>
@@ -114,7 +114,7 @@
                 <div class="section-alertas">
                     <div class="alertas-text">
                         <p id="text-alerta">Alertas
-                            <select onchange="listarAlertas()" id="select_alertas">
+                            <select class="select" onchange="listarAlertas()" id="select_alertas">
                                 <option value="#" disabled selected>Selecione o Componente</option>
                                 <option value="1">Todos</option>
                                 <option value="4">CPU</option>
@@ -153,7 +153,9 @@
     }
 
     function selecionarItem(elemento) {
-        var id = elemento;  // Pega o ID da equipe clicada
+        console.log("Elemento recebido (ID):", elemento);
+        // console.log("Elemento recebido (Nome):", elemento1);
+        var id = elemento.id;  // Pega o ID da equipe clicada
         // var nome = elemento1;
         if (id == 0) {
             // Redireciona para dashboardGeral.html
@@ -165,7 +167,7 @@
             // Redireciona para a página da equipe
             window.location.href = 'dashboard-Pinho-equipe.html';
             // window.location.href = 'DashboardEquipe_Eduardo2-go.html';
-            // document.getElementsByClassName("title").innerHTML = `Histórico dos componentes - Equipe ${nome}`
+            document.getElementsByClassName("title").innerHTML = `Histórico dos componentes - Equipe ${equipe.nome}`
         }
     }
 
@@ -223,6 +225,8 @@
                         const h4 = document.createElement("h4");
                         h4.textContent = equipe.nome;
                         h4.id = equipe.idEquipe;
+                        // console.log("Elemento recebido (ID):", equipe.idEquipe);
+                        // console.log("Elemento recebido (Nome):", equipe.nome);
                         h4.classList.add("equipe"); // Adiciona uma classe para estilização
                         h4.onclick = () => selecionarItem(equipe.idEquipe);
                         menuLateral.appendChild(h4);
@@ -264,67 +268,67 @@
     }
 
     function listarAlertas() {
-var componente = select_alertas.value;
-const fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
+        var componente = select_alertas.value;
+        const fkEmpresa = sessionStorage.getItem("ID_EMPRESA");
         var tempo = select_tempo.value;
         var fkEquipe = sessionStorage.getItem("equipeSelecionada");
 
 
-fetch(`CompPedro/listarAlertas/${fkEquipe}/${fkEmpresa}/${tempo}/${componente}`)
-    .then(resposta => {
-        if (resposta.ok) {
-            return resposta.json(); // Se a resposta for válida, converte para JSON
-        } else {
-            console.error("Erro ao carregar equipes, status:", resposta.status);
-            return [];
-        }
-    })
-    .then(dados => {
-        console.log("Alertas carregados:", dados);
-
-        // Seleciona o menu lateral e os itens fixos
-        
-        const cardAlerta = document.querySelector(".alertas-text");
-        const textAlerta = document.querySelector("#text-alerta");
-        cardAlerta.innerHTML = ``;
-        cardAlerta.appendChild(textAlerta)
-
-        // Adiciona as equipes dinamicamente
-        if (dados.length > 0) {
-            dados.forEach(resposta => {
-
-                var tipoDeAlerta;
-
-                if(resposta.tipoAlerta == 1){
-                    tipoDeAlerta = "Alerta"
+        fetch(`CompPedro/listarAlertas/${fkEquipe}/${fkEmpresa}/${tempo}/${componente}`)
+            .then(resposta => {
+                if (resposta.ok) {
+                    return resposta.json(); // Se a resposta for válida, converte para JSON
                 } else {
-                    tipoDeAlerta = "Crítico"
+                    console.error("Erro ao carregar equipes, status:", resposta.status);
+                    return [];
                 }
+            })
+            .then(dados => {
+                console.log("Alertas carregados:", dados);
 
-                const div = document.createElement("div");
-                div.innerHTML = `Nome do componente: ${resposta.nomeComponente}<br>
+                // Seleciona o menu lateral e os itens fixos
+
+                const cardAlerta = document.querySelector(".alertas-text");
+                const textAlerta = document.querySelector("#text-alerta");
+                cardAlerta.innerHTML = ``;
+                cardAlerta.appendChild(textAlerta)
+
+                // Adiciona as equipes dinamicamente
+                if (dados.length > 0) {
+                    dados.forEach(resposta => {
+
+                        var tipoDeAlerta;
+
+                        if (resposta.tipoAlerta == 1) {
+                            tipoDeAlerta = "Alerta"
+                        } else {
+                            tipoDeAlerta = "Crítico"
+                        }
+
+                        const div = document.createElement("div");
+                        div.innerHTML = `Nome do componente: ${resposta.nomeComponente}<br>
                 Tipo de alerta: ${tipoDeAlerta}<br>
                 Descrição: ${resposta.descricaoAuxComponente}`;
-                div.classList.add("alertas"); // Adiciona uma classe para estilização
-                div.onclick = () => listarAlertas();
-                cardAlerta.appendChild(div);
-            });
-        } else {
-            // Exibe mensagem caso não existam equipes
-            const noTeamsMessage = document.createElement("div");
-            noTeamsMessage.textContent = "Nenhum alerta disparado.";
-            noTeamsMessage.classList.add("Alertas");
-            cardAlerta.appendChild(noTeamsMessage);
-        }
+                        div.classList.add("alertas"); // Adiciona uma classe para estilização
+                        div.onclick = () => listarAlertas();
+                        cardAlerta.appendChild(div);
+                    });
+                } else {
+                    // Exibe mensagem caso não existam equipes
+                    const noTeamsMessage = document.createElement("div");
+                    noTeamsMessage.textContent = "Nenhum alerta disparado.";
+                    noTeamsMessage.classList.add("Alertas");
+                    cardAlerta.appendChild(noTeamsMessage);
+                }
 
-        // Reinsere a opção "Nova Equipe"
-        
-    })
-    .catch(erro => {
-        console.error("Erro ao carregar os alertas:", erro);
-    });
-}
-   
+                // Reinsere a opção "Nova Equipe"
+
+            })
+            .catch(erro => {
+                console.error("Erro ao carregar os alertas:", erro);
+            });
+    }
+
 
 
 
@@ -612,7 +616,7 @@ fetch(`CompPedro/listarAlertas/${fkEquipe}/${fkEmpresa}/${tempo}/${componente}`)
 
     function plotarGrafico4(resposta) {
         console.log('Iniciando plotagem do gráfico...');
-        
+
 
         let labels = [];  // Para armazenar os rótulos do eixo X
         let bytesLidos = [];  // Para armazenar os dados de chamadas recebidas

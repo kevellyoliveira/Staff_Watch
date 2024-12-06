@@ -15,7 +15,7 @@
 
 
 body {
-    background-color: #e7ecef;
+    background-color: #B7ADC4;
     height: auto;
 }
 
@@ -49,7 +49,7 @@ header {
     justify-content: space-between;
     align-items: center;
     height: 6rem;
-    font-size: 2.2rem;
+    font-size: 30px;
     width: 100%;
 }
 
@@ -67,6 +67,16 @@ header {
 .logo img {
     width: 80%;
     cursor: pointer;
+}
+
+.opcoesComponentes.header {
+    display: flex;
+    width: 42%;
+    justify-content:space-around;
+    white-space: nowrap;
+    position: relative;
+    gap: 68px;
+    margin-left: 20px;
 }
 
 .opcoesComponentes {
@@ -209,13 +219,12 @@ header {
     
 .title {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     color: #002148;
     text-align: center;
     gap: 3rem;
-    width: 70%;
-    padding: 3rem 9rem 0;
+    padding: 3rem 0 0;
     justify-content: space-between;
 }
 
@@ -298,7 +307,7 @@ button :hover {
 }
 
 .selectFiltro.cards {
-    height: 1.4rem;
+    height: 1.8rem;
     align-items: center;
 }
 
@@ -308,7 +317,7 @@ button :hover {
     gap: .5rem;
 }
 .filtro.cards {
-    flex-direction: row;
+    flex-direction: column;
 }
 
 .filtros {
@@ -319,7 +328,7 @@ button :hover {
 }
 
 .filtros.cards {
-    flex-direction: column;
+    flex-direction: row;
     gap: 1.5rem;
     font-size: .9rem;
 }
@@ -589,8 +598,8 @@ button :hover {
     font-size: 20px;
     transform: translateY(0) scale(1.0);
     transition: transform 0.5s;
-    height: 13rem;
-    width: 22rem;
+    height: 14rem;
+    width: 24rem;
     align-items: flex-start;
     justify-content: space-around;
 }

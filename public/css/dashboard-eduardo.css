@@ -1822,7 +1822,7 @@ button {
     overflow-x: hidden;
     transition: 0.3s;
     /* Animação suave */
-    padding-top: 60px;
+    padding-top: 5px;
     margin-top: 14vh;
     text-align: center;
     z-index: 100;
@@ -1836,23 +1836,6 @@ button {
     width: 12%;
     min-height: 100%;
     position: relative;
-}
-
-.side-menu {
-    position: fixed;
-    top: -7px;
-    left: -200px;
-    /* Fora da tela inicialmente */
-    width: 200px;
-    height: 100%;
-    background-color: #002148;
-    color: white;
-    overflow-x: hidden;
-    transition: 0.3s;
-    /* Animação suave */
-    padding-top: 60px;
-    margin-top: 14vh;
-    text-align: center;
 }
 
 /* Links dentro do menu */
