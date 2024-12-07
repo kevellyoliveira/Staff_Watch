@@ -410,8 +410,33 @@
             type: 'line',  // Tipo do gráfico (barra)
             data: dados,  // Dados a serem usados no gráfico
             options: {
-                responsive: true,  // O gráfico será redimensionado automaticamente
-            }
+                plugins: {
+        legend: {
+          labels: {
+            color: 'black', // Cor da label (legenda)
+            font: {
+              size: 14, // Tamanho da fonte da label
+            },},},},
+                responsive: true, 
+                scales: {
+        x: {
+          ticks: {
+            color: 'black', // Cor dos números no eixo X
+          },
+          grid: {
+            color: 'black', // Cor das linhas de grade no eixo X
+          },
+        },
+        y: {
+          ticks: {
+            color: 'black', // Cor dos números no eixo Y
+          },
+          grid: {
+            color: 'black', // Cor das linhas de grade no eixo Y
+          },
+        }, // O gráfico será redimensionado automaticamente
+            },
+        },
         };
 
         let myChart = new Chart(
@@ -489,8 +514,34 @@
             type: 'line',  // Tipo do gráfico (barra)
             data: dados,  // Dados a serem usados no gráfico
             options: {
-                responsive: true,  // O gráfico será redimensionado automaticamente
-            }
+                plugins: {
+        legend: {
+          labels: {
+            color: 'black', // Cor da label (legenda)
+            font: {
+              size: 14, // Tamanho da fonte da label
+            },},},},
+                responsive: true,
+                scales: {
+        x: {
+          ticks: {
+            color: 'black', // Cor dos números no eixo X
+          },
+          grid: {
+            color: 'black', // Cor das linhas de grade no eixo X
+          },
+        },
+        y: {
+          ticks: {
+            color: 'black', // Cor dos números no eixo Y
+          },
+          grid: {
+            color: 'black', // Cor das linhas de grade no eixo Y
+          },
+        }, // O gráfico será redimensionado automaticamente
+            },
+        }, // O gráfico será redimensionado automaticamente
+            
         };
 
         let myChart = new Chart(
@@ -549,7 +600,7 @@
                     label: 'Escritas',
                     data: numeroEscritas,
                     fill: false,
-                    borderColor: 'rgba(248, 3, 3, 0.5)',
+                    borderColor: 'rgba(248, 3, 3, 1)',
                     backgroundColor: 'rgba(248, 3, 3, 1)',
                     tension: 0.1
                 }
@@ -583,13 +634,35 @@
             type: 'line',  // Tipo do gráfico (barra)
             data: dados,  // Dados a serem usados no gráfico
             options: {
+                plugins: {
+        legend: {
+          labels: {
+            color: 'black', // Cor da label (legenda)
+            font: {
+              size: 14, // Tamanho da fonte da label
+            },},},},
                 responsive: true,  // O gráfico será redimensionado automaticamente
                 scales: {
-                    x: {
-                        beginAtZero: true,  // Inicia o eixo X a partir de 0
-                    }
-                }
-            }
+        x: {
+            beginAtZero:true,
+          ticks: {
+            color: 'black', // Cor dos números no eixo X
+          },
+          grid: {
+            color: 'black', // Cor das linhas de grade no eixo X
+          },
+        },
+        y: {
+          ticks: {
+            color: 'black', // Cor dos números no eixo Y
+          },
+          grid: {
+            color: 'black', // Cor das linhas de grade no eixo Y
+          },
+        }, // O gráfico será redimensionado automaticamente
+            },
+        },
+            
         };
 
         let myChart = new Chart(
@@ -645,10 +718,10 @@
                     tension: 0.1
                 },
                 {
-                    label: 'Escrito',
+                    label: 'Escrita',
                     data: bytesEscritos,
                     fill: false,
-                    borderColor: 'rgba(248, 3, 3, 0.5)',
+                    borderColor: 'rgba(248, 3, 3, 1)',
                     backgroundColor: 'rgba(248, 3, 3, 1)',
                     tension: 0.1
                 }
@@ -682,13 +755,35 @@
             type: 'line',  // Tipo do gráfico (barra)
             data: dados,  // Dados a serem usados no gráfico
             options: {
+                plugins: {
+        legend: {
+          labels: {
+            color: 'black', // Cor da label (legenda)
+            font: {
+              size: 14, // Tamanho da fonte da label
+            },},},},
                 responsive: true,  // O gráfico será redimensionado automaticamente
                 scales: {
-                    x: {
-                        beginAtZero: true,  // Inicia o eixo X a partir de 0
-                    }
-                }
-            }
+        x: {
+            beginAtZero:true,
+          ticks: {
+            color: 'black', // Cor dos números no eixo X
+          },
+          grid: {
+            color: 'black', // Cor das linhas de grade no eixo X
+          },
+        },
+        y: {
+          ticks: {
+            color: 'black', // Cor dos números no eixo Y
+          },
+          grid: {
+            color: 'black', // Cor das linhas de grade no eixo Y
+          },
+        }, // O gráfico será redimensionado automaticamente
+            },
+        },
+            
         };
 
         let myChart = new Chart(
