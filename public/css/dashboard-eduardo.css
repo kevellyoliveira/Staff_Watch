@@ -1965,3 +1965,49 @@ button {
 #botaoSaida{
     width: 110px;
 }
+
+
+/* Estilo para os filtros */
+#filtro-chamada, #filtro-espera, #filtro-eficiencia, #filtro-perdida {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+#filtro-chamada input[type="date"], 
+#filtro-espera input[type="date"],
+#filtro-eficiencia input[type="date"],
+#filtro-perdida input[type="date"] {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#filtro-chamada .btn-filtrar, 
+#filtro-espera .btn-filtrar,
+#filtro-eficiencia .btn-filtrar,
+#filtro-perdida .btn-filtrar {
+    padding: 5px 10px;
+    background-color: #002148;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#filtro-chamada .btn-filtrar:hover, 
+#filtro-espera .btn-filtrar:hover,
+#filtro-eficiencia .btn-filtrar:hover,
+#filtro-perdida .btn-filtrar:hover {
+    background-color: #001b3a;
+}
+
+#dataFiltro{
+    width: 115px;
+    margin-left: 10px;
+}
+
+.btn-filtrar{
+    width: 110px;
+}

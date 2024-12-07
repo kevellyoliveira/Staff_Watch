@@ -734,6 +734,84 @@ function filtrarTempoGrafico(req, res) {
         });
 }
 
+// Filtro funcionário
+
+function filtrarTempoChamada(req, res) {
+    const dataSelecionada = req.params.dataSelecionada;  // Correção: usar params para pegar dados da URL
+    const idFunc = req.params.idFunc;  // Correção: idFunc está na URL
+
+    console.log("Data selecionada:", dataSelecionada);
+    console.log("ID do Funcionário:", idFunc);
+
+    funcionarioModel.filtrarTempoChamada(dataSelecionada, idFunc)
+        .then((resultado) => {
+            res.json(resultado);
+            console.log(resultado);
+        })
+        .catch((erro) => {
+            console.error("Erro ao listar dados da chamada: ", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
+function filtrarTempoEspera(req, res) {
+    const dataSelecionada = req.params.dataSelecionada;  // Correção: usar params para pegar dados da URL
+    const idFunc = req.params.idFunc;  // Correção: idFunc está na URL
+
+    console.log("Data selecionada:", dataSelecionada);
+    console.log("ID do Funcionário:", idFunc);
+
+    funcionarioModel.filtrarTempoEspera(dataSelecionada, idFunc)
+        .then((resultado) => {
+            res.json(resultado);
+            console.log(resultado);
+        })
+        .catch((erro) => {
+            console.error("Erro ao listar dados da chamada: ", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
+function filtrarEficiencia(req, res) {
+    const dataSelecionada = req.params.dataSelecionada;  // Correção: usar params para pegar dados da URL
+    const idFunc = req.params.idFunc;  // Correção: idFunc está na URL
+
+    console.log("Data selecionada:", dataSelecionada);
+    console.log("ID do Funcionário:", idFunc);
+
+    funcionarioModel.filtrarEficiencia(dataSelecionada, idFunc)
+        .then((resultado) => {
+            res.json(resultado);
+            console.log(resultado);
+        })
+        .catch((erro) => {
+            console.error("Erro ao listar dados da chamada: ", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
+function filtrarPerdida(req, res){
+
+    const dataSelecionada = req.params.dataSelecionada;  // Correção: usar params para pegar dados da URL
+    const idFunc = req.params.idFunc;  // Correção: idFunc está na URL
+
+    console.log("Data selecionada:", dataSelecionada);
+    console.log("ID do Funcionário:", idFunc);
+
+    funcionarioModel.filtrarPerdida(dataSelecionada, idFunc)
+        .then((resultado) => {
+            res.json(resultado);
+            console.log(resultado);
+        })
+        .catch((erro) => {
+            console.error("Erro ao listar dados da chamada: ", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
+
+
+
 function plotarGraficoFiltrado(req, res) {
     
     const dataSelecionada = req.params.dataSelecionada;
@@ -820,6 +898,10 @@ module.exports = {
     cadastrarGerenteTI,
     cadastrarGerenteOp,
     pegarDadosAlerta,
-    contarEquipes
+    contarEquipes,
+    filtrarTempoChamada,
+    filtrarTempoEspera,
+    filtrarEficiencia,
+    filtrarPerdida
 }
 
