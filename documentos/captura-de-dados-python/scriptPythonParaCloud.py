@@ -310,11 +310,11 @@ async def print_system_info(fk_computador):
 
 
         # obtendo tempo médio entre falhas
-        host = "8.8.8.8"
+        host = "localhost"
         task_falhas = asyncio.create_task(monitorar_falhas(fk_computador, host, intervalo=5, duracao=20))
         
         # obtendo tempo de inatividade
-        task_inatividade = asyncio.create_task(monitorar_inatividade(fk_computador, host="8.8.8.8", intervalo=5, duracao=30))
+        task_inatividade = asyncio.create_task(monitorar_inatividade(fk_computador, host="localhost", intervalo=5, duracao=30))
 
         # obtendo ping
         host = "google.com"
