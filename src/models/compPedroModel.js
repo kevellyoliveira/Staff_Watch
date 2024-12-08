@@ -19,7 +19,7 @@ JOIN
     empresa emp ON e.fkEmpresa = emp.idEmpresa
 WHERE 
     emp.idEmpresa = ${fkEmpresa} AND  
-    DATE( date_sub(now(), interval ${tempo} day ))
+    c.dataCaptura BETWEEN DATE_SUB(CURDATE(), INTERVAL ${tempo} DAY) AND CURDATE()
 GROUP BY 
     e.idEquipe, e.nome;`;
 
@@ -43,7 +43,7 @@ GROUP BY
     WHERE 
         emp.idEmpresa = ${fkEmpresa} and 
         c.fkAuxComponente = ${idComponente} AND  
-    DATE( date_sub(now(), interval ${tempo} day ))
+    c.dataCaptura BETWEEN DATE_SUB(CURDATE(), INTERVAL ${tempo} DAY) AND CURDATE()
     GROUP BY 
         e.idEquipe, e.nome;`;
         console.log("Executando a instrução SQL: \n" + instrucaoSql);
@@ -66,7 +66,7 @@ GROUP BY
     WHERE 
         emp.idEmpresa = ${fkEmpresa} and 
         c.fkAuxComponente = ${idComponente} AND  
-    DATE( date_sub(now(), interval ${tempo} day ))
+    c.dataCaptura BETWEEN DATE_SUB(CURDATE(), INTERVAL ${tempo} DAY) AND CURDATE()
     GROUP BY 
         e.idEquipe, e.nome;`;
         console.log("Executando a instrução SQL: \n" + instrucaoSql);
@@ -90,7 +90,7 @@ GROUP BY
     WHERE 
         emp.idEmpresa = ${fkEmpresa} AND 
         c.fkComponente = ${idComponente} AND  
-    DATE( date_sub(now(), interval ${tempo} day ))
+    c.dataCaptura BETWEEN DATE_SUB(CURDATE(), INTERVAL ${tempo} DAY) AND CURDATE()
     GROUP BY 
         e.idEquipe, e.nome;`;
 
