@@ -10,8 +10,8 @@ import asyncio
 
 config = {
     'user': 'root',
-    'password': 'senha_segura',
-    'host': '54.204.167.26',
+    'password': '73917391',
+    'host': 'localhost',
     'database': 'StaffWatch'
 }
 
@@ -343,9 +343,7 @@ async def print_system_info(fk_computador):
                     (default,%s,%s,5,1,%s,%s),
                     (default,%s,%s,20,1,%s,%s),
                     (default,%s,%s,21,1,%s,%s),
-                    (default,%s,%s,28,1,%s,%s),
-                    (default,%s,%s,26,1,%s,%s),
-                    (default,%s,%s,27,1,%s,%s);""")
+                    (default,%s,%s,28,1,%s,%s);""")
 
         data_rede = [bytesEnv, agora, fk_computador, network_model,
                      bytesReceb, agora, fk_computador, network_model,
@@ -353,9 +351,7 @@ async def print_system_info(fk_computador):
                      pctEnv, agora, fk_computador, network_model,
                      latency, agora, fk_computador, network_model,
                      packet_loss, agora, fk_computador, network_model,
-                     trafegoRede, agora, fk_computador, network_model,
-                     task_falhas, agora, fk_computador, network_model,
-                     task_inatividade, agora, fk_computador, network_model]
+                     trafegoRede, agora, fk_computador, network_model]
 
         cursor.execute(add_rede, data_rede)
         mydb.commit()
@@ -466,7 +462,7 @@ async def monitorar_falhas(fk_computador, host="localhost", intervalo=10, duraca
     print("Dados de falhas inseridos no banco.")
     
 # 4. Tempo de inatividade
-async def monitorar_inatividade(fk_computador, host="8.8.8.8", intervalo=10, duracao=20):
+async def monitorar_inatividade(fk_computador, host="localhost", intervalo=10, duracao=20):
     cursor = mydb.cursor()
     fuso_sao_paulo = pytz.timezone("America/Sao_Paulo")
     agora = datetime.now(fuso_sao_paulo)
