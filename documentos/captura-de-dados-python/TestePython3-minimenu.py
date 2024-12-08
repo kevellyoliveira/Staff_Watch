@@ -10,7 +10,7 @@ import asyncio
 
 config = {
     'user': 'root',
-    'password': '73917391',
+    'password': 'sptech',
     'host': 'localhost',
     'database': 'StaffWatch'
 }
@@ -27,14 +27,14 @@ except mysql.connector.Error as err:
 async def print_system_info(fk_computador):
     cursor = mydb.cursor()
     
-    #fuso_sao_paulo = pytz.timezone("America/Sao_Paulo")
-    #agora = datetime.now(fuso_sao_paulo)
-    start_date = datetime(2023, 12, 6)
-    end_date = datetime(2024, 12, 6)
-    agora = start_date
+    fuso_sao_paulo = pytz.timezone("America/Sao_Paulo")
+    agora = datetime.now(fuso_sao_paulo)
+    # start_date = datetime(2023, 12, 6)
+    # end_date = datetime(2024, 12, 6)
+    # agora = start_date
 
 
-    while agora <= end_date:
+    while True:
 
         # --------------------- Uso de Memória RAM ---------------------
         mem = psutil.virtual_memory()
@@ -151,7 +151,7 @@ async def print_system_info(fk_computador):
         mydb.commit()
         print(cursor.rowcount, "registro inserido - disco")
 
-        if discoPerc >= 0:
+        if discoPerc >= 80:
             if discoPerc >= 90:
                 buscarID = ("""SELECT idCaptura FROM captura WHERE 
                         fkComponente = 3 AND fkAuxComponente = 11
@@ -164,7 +164,7 @@ async def print_system_info(fk_computador):
                 dados_alerta = [idObtido[0]]  # Usa o primeiro elemento da tupla
                 cursor.execute(inserirAlerta, dados_alerta)
                 mydb.commit()
-                print(cursor.rowcount, "alerta vermelho inserido - disco")
+                print(cursor.rowcount, "alerta vermelho inserido - disco perc")
 
             else: # entre 80 e 89
                 buscarID = ("""SELECT idCaptura FROM captura WHERE 
@@ -178,7 +178,7 @@ async def print_system_info(fk_computador):
                 dados_alerta = [idObtido[0]]  # Usa o primeiro elemento da tupla
                 cursor.execute(inserirAlerta, dados_alerta)
                 mydb.commit()
-                print(cursor.rowcount, "alerta amarelo inserido - disco")
+                print(cursor.rowcount, "alerta amarelo inserido  perc")
 
         if read_ops  > 20:
             buscarID = ("""SELECT idCaptura FROM captura WHERE 
@@ -422,11 +422,7 @@ async def print_system_info(fk_computador):
                 # tempo_medio_falhas = monitorar_falhas('8.8.8.8', 5, 20)
 
 async def main():
-    print("Bem-vindo ao monitor de sistema!")
-    fk_computador = int(input("Insira a fkComputador para monitoramento (ou 0 para sair): "))
-    if fk_computador == 0:
-        print("Saindo do programa...")
-        return
+    fk_computador = 4
 
     while True:
         await print_system_info(fk_computador)

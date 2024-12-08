@@ -17,9 +17,9 @@ library(RMySQL)
 library(ggplot2)
 
 # Configurações do banco de dados
-host <- "localhost"       # Exemplo: "localhost" ou IP do servidor
+host <- "54.204.167.26"       # Exemplo: "localhost" ou IP do servidor
 user <- "root"    # Nome de usuário do banco
-password <- "Crfsruan1"  # Senha do usuário
+password <- "senha_segura"  # Senha do usuário
 dbname <- "StaffWatch"    # Nome do banco de dados
 port <- 3306               # Porta padrão do MySQL (altere se necessário)
 

@@ -10,8 +10,8 @@ import asyncio
 
 config = {
     'user': 'root',
-    'password': '73917391',
-    'host': 'localhost',
+    'password': 'senha_segura',
+    'host': '54.204.167.26',
     'database': 'StaffWatch'
 }
 
@@ -422,7 +422,7 @@ async def print_system_info(fk_computador):
                  
 
 async def main():
-    fk_computador = 1
+    fk_computador = 4
 
     while True:
         await print_system_info(fk_computador)
