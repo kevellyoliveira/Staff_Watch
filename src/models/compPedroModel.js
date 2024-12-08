@@ -26,73 +26,72 @@ GROUP BY
         console.log("Executando a instrução SQL: \n" + instrucaoSql);
         return database.executar(instrucaoSql);
 
-    } else if (idComponente == 12) {
-        var instrucaoSql =  `SELECT 
-        e.nome AS nomeEquipe,
-        COUNT(a.idAlerta) AS totalAlertas
-    FROM 
-        alerta a
-    JOIN 
-        captura c ON a.fkCaptura = c.idCaptura
-    JOIN 
-        computador comp ON c.fkComputador = comp.idComputador
-    JOIN 
-        equipe e ON comp.fkEquipe = e.idEquipe
-    JOIN 
-        empresa emp ON e.fkEmpresa = emp.idEmpresa
-    WHERE 
-        emp.idEmpresa = ${fkEmpresa} and 
-        c.fkAuxComponente = ${idComponente} AND  
-    c.dataCaptura BETWEEN DATE_SUB(CURDATE(), INTERVAL ${tempo} DAY) AND CURDATE()
-    GROUP BY 
-        e.idEquipe, e.nome;`;
-        console.log("Executando a instrução SQL: \n" + instrucaoSql);
-        return database.executar(instrucaoSql);
-
-    } else if (idComponente == 8) {
-        var instrucaoSql = `SELECT 
-        e.nome AS nomeEquipe,
-        COUNT(a.idAlerta) AS totalAlertas
-    FROM 
-        alerta a
-    JOIN 
-        captura c ON a.fkCaptura = c.idCaptura
-    JOIN 
-        computador comp ON c.fkComputador = comp.idComputador
-    JOIN 
-        equipe e ON comp.fkEquipe = e.idEquipe
-    JOIN 
-        empresa emp ON e.fkEmpresa = emp.idEmpresa
-    WHERE 
-        emp.idEmpresa = ${fkEmpresa} and 
-        c.fkAuxComponente = ${idComponente} AND  
-    c.dataCaptura BETWEEN DATE_SUB(CURDATE(), INTERVAL ${tempo} DAY) AND CURDATE()
-    GROUP BY 
-        e.idEquipe, e.nome;`;
-        console.log("Executando a instrução SQL: \n" + instrucaoSql);
-        return database.executar(instrucaoSql);
-
     } else if (idComponente == 4) {
+        var instrucaoSql =  `SELECT 
+    e.nome AS nomeEquipe,
+    COUNT(a.idAlerta) AS totalAlertas
+FROM 
+    alerta a
+JOIN 
+    captura c ON a.fkCaptura = c.idCaptura
+JOIN 
+    computador comp ON c.fkComputador = comp.idComputador
+JOIN 
+    equipe e ON comp.fkEquipe = e.idEquipe
+JOIN 
+    empresa emp ON e.fkEmpresa = emp.idEmpresa
+WHERE 
+    emp.idEmpresa = ${fkEmpresa} 
+    AND c.fkComponente = ${idComponente} 
+    AND c.dataCaptura BETWEEN DATE_SUB(CURDATE(), INTERVAL ${tempo} DAY) AND CURDATE()
+GROUP BY 
+    e.idEquipe, e.nome;`;
+        console.log("Executando a instrução SQL: \n" + instrucaoSql);
+        return database.executar(instrucaoSql);
+
+    } else if (idComponente == 2) {
         var instrucaoSql = `SELECT 
-		e.idEquipe as idEquipe,
-        e.nome AS nomeEquipe,
-        COUNT(a.idAlerta) AS totalAlertas
-    FROM 
-        alerta a
-    JOIN 
-        captura c ON a.fkCaptura = c.idCaptura
-    JOIN 
-        computador comp ON c.fkComputador = comp.idComputador
-    JOIN 
-        equipe e ON comp.fkEquipe = e.idEquipe
-    JOIN 
-        empresa emp ON e.fkEmpresa = emp.idEmpresa
-    WHERE 
-        emp.idEmpresa = ${fkEmpresa} AND 
-        c.fkComponente = ${idComponente} AND  
-    c.dataCaptura BETWEEN DATE_SUB(CURDATE(), INTERVAL ${tempo} DAY) AND CURDATE()
-    GROUP BY 
-        e.idEquipe, e.nome;`;
+    e.nome AS nomeEquipe,
+    COUNT(a.idAlerta) AS totalAlertas
+FROM 
+    alerta a
+JOIN 
+    captura c ON a.fkCaptura = c.idCaptura
+JOIN 
+    computador comp ON c.fkComputador = comp.idComputador
+JOIN 
+    equipe e ON comp.fkEquipe = e.idEquipe
+JOIN 
+    empresa emp ON e.fkEmpresa = emp.idEmpresa
+WHERE 
+    emp.idEmpresa = ${fkEmpresa} 
+    AND c.fkComponente = ${idComponente} 
+    AND c.dataCaptura BETWEEN DATE_SUB(CURDATE(), INTERVAL ${tempo} DAY) AND CURDATE()
+GROUP BY 
+    e.idEquipe, e.nome;`;
+        console.log("Executando a instrução SQL: \n" + instrucaoSql);
+        return database.executar(instrucaoSql);
+
+    } else if (idComponente == 3) {
+        var instrucaoSql = `SELECT 
+    e.nome AS nomeEquipe,
+    COUNT(a.idAlerta) AS totalAlertas
+FROM 
+    alerta a
+JOIN 
+    captura c ON a.fkCaptura = c.idCaptura
+JOIN 
+    computador comp ON c.fkComputador = comp.idComputador
+JOIN 
+    equipe e ON comp.fkEquipe = e.idEquipe
+JOIN 
+    empresa emp ON e.fkEmpresa = emp.idEmpresa
+WHERE 
+    emp.idEmpresa = ${fkEmpresa} 
+    AND c.fkComponente = ${idComponente} 
+    AND c.dataCaptura BETWEEN DATE_SUB(CURDATE(), INTERVAL ${tempo} DAY) AND CURDATE()
+GROUP BY 
+    e.idEquipe, e.nome;`;
 
         console.log("Executando a instrução SQL: \n" + instrucaoSql);
         return database.executar(instrucaoSql);
