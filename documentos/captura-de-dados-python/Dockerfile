@@ -18,7 +18,7 @@ RUN pip install --no-cache-dir \
     asyncio
 
 # Copie o script Python para dentro do contêiner
-COPY TestePython3-minimenu.py .
+COPY scriptPythonParaCloud.py .
 
 # Defina o comando a ser executado ao iniciar o contêiner
-CMD ["python", "TestePython3-minimenu.py"]
+CMD ["python", "scriptPythonParaCloud.py"]

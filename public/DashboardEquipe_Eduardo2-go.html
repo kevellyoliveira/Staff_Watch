@@ -811,33 +811,46 @@
 
 
     function puxarTotalEquipePerdida(fkEquipe) {
-        fetch(`/funcionarios/dados/totalPerdida/${1}`, {
-            method: "GET"
+    fetch(`/funcionarios/dados/totalPerdida/${1}`, {
+        method: "GET"
+    })
+        .then(resposta => {
+            if (resposta.ok) {
+                return resposta.json(); // Retorna os dados em JSON
+            } else {
+                throw new Error("Não foi possível capturar os dados de chamadas perdidas da equipe.");
+            }
         })
-            .then(resposta => {
-                if (resposta.ok) {
-                    return resposta.json(); // Retorna os dados em JSON
-                } else {
-                    throw new Error("Não foi possível capturar os dados de chamadas perdidas da equipe.");
-                }
-            })
-            .then(data => {
-                console.log("Dados recebidos:", data); // Log para verificar o formato dos dados
+        .then(data => {
+            console.log("Dados recebidos:", data); // Log para verificar o formato dos dados
 
-                // Verifica se o array 'data' não está vazio
-                if (Array.isArray(data) && data.length > 0) {
-                    // Acessa as propriedades do primeiro objeto do array
-                    const totalChamadasPerdidas = data[0].chamadasPerdidas;
-                    document.querySelector('.minibloco3').textContent = `${totalChamadasPerdidas} chamadas perdidas`;
-                } else {
-                    throw new Error("Formato inesperado dos dados recebidos.");
-                }
-            })
-            .catch(error => {
-                console.error("Erro:", error.message);
-                document.querySelector('.minibloco3').textContent = "Erro ao carregar dados."; // Feedback para o utilizador
-            });
-    }
+            // Verifica se o array 'data' não está vazio
+            if (Array.isArray(data) && data.length > 0) {
+
+                console.log(data)
+                console.log("----------a")
+                const totalChamadasRecebidas = data[0].chamadasRecebidas;
+                const totalChamadasPerdidas = data[0].chamadasPerdidas;
+
+                // Calcula a porcentagem de chamadas perdidas
+                const totalChamadas = totalChamadasRecebidas + totalChamadasPerdidas;
+                const porcentagemPerdidas = totalChamadas > 0
+                    ? ((totalChamadasPerdidas / totalChamadas) * 100).toFixed(2)
+                    : 0;
+
+                // Atualiza o conteúdo da interface com os valores
+                document.querySelector('.minibloco3').textContent = `
+                    ${porcentagemPerdidas} %
+                `;
+            } else {
+                throw new Error("Formato inesperado dos dados recebidos.");
+            }
+        })
+        .catch(error => {
+            console.error("Erro:", error.message);
+            document.querySelector('.minibloco3').textContent = "Erro ao carregar dados."; // Feedback para o utilizador
+        });
+}
 
 
 
