@@ -38,6 +38,7 @@ router.get("/detalhes/:fkFuncionario", function (req, res) {
     funcionarioController.abrirModal(req, res);
 });
 
+
 router.get("/dados/tempoEspera/:idFunc", function (req, res) {
     funcionarioController.puxarDadosChamada(req, res);
 });
@@ -150,6 +151,27 @@ router.get("/contarEquipes/:fkEmpresa", function (req, res) {
 router.get("/dados/equipeAlerta/:fkEquipe/:fkEmpresa", function (req, res) {
     funcionarioController.pegarDadosAlerta(req, res);
 });
+
+
+// Filtro do funcionário
+
+router.get("/dados/filtro/tempoChamada/:dataSelecionada/:idFunc", function (req, res) {
+    funcionarioController.filtrarTempoChamada(req, res);
+});
+
+router.get("/dados/filtro/tempoEspera/:dataSelecionada/:idFunc", function (req, res) {
+    funcionarioController.filtrarTempoEspera(req, res);
+});
+
+router.get("/dados/filtro/eficiencia/:dataSelecionada/:idFunc", function (req, res) {
+    funcionarioController.filtrarEficiencia(req, res);
+});
+
+
+router.get("/dados/filtro/totalPerdida/:dataSelecionada/:idFunc", function (req, res) {
+    funcionarioController.filtrarPerdida(req, res);
+});
+
 
 // Outro projeto
 

@@ -26,7 +26,8 @@
                     <h6 class="opcoesMenu associMenu" onclick="abrirMenu()">Associados <img
                             src="./src/img/icons/seta.png" alt="icone menu vertical"></h6>
                     <h6 class="opcoesMenu" onclick="window.location.href='cadastroFuncionario.html'">Cadastrar</h6>
-                    <h6 class="opcoesMenu" onclick="window.location.href='Dash-ruan-rede.html'">Acompanhamento de rede</h6>
+                    <h6 class="opcoesMenu" onclick="window.location.href='Dash-ruan-rede.html'">Acompanhamento de rede
+                    </h6>
                     <div id="menu">
                         <h4 onclick="window.location.href='pagina-operario2.html'">Funcionários</h4>
                         <h4 onclick="window.location.href='pagina-maquina.html'">Dispositivos</h4>
@@ -136,9 +137,9 @@
 <script>
 
 
-    function equipeSelecionada(){
+    function equipeSelecionada() {
         document.getElementById("nomeEquipe").innerHTML = ``;
-            document.getElementById("nomeEquipe").innerHTML = `Histórico dos componentes - Equipe ${sessionStorage.getItem("equipeSelecionadaNome")}`;
+        document.getElementById("nomeEquipe").innerHTML = `Histórico dos componentes - Equipe ${sessionStorage.getItem("equipeSelecionadaNome")}`;
     }
 
 
@@ -175,8 +176,8 @@
             // Redireciona para a página da equipe
             window.location.href = 'dashboard-Pinho-equipe.html';
             // window.location.href = 'DashboardEquipe_Eduardo2-go.html';
-            
-            
+
+
         }
     }
 
@@ -260,7 +261,7 @@
     window.onload = function () {
         listarEquipes();  // Chama a função para listar as equipes
         atualizarFeedEquipe();  // Chama a função para atualizar o feed da equipe
-        
+
     };
 
 
@@ -410,8 +411,36 @@
             type: 'line',  // Tipo do gráfico (barra)
             data: dados,  // Dados a serem usados no gráfico
             options: {
-                responsive: true,  // O gráfico será redimensionado automaticamente
-            }
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'black', // Cor da label (legenda)
+                            font: {
+                                size: 14, // Tamanho da fonte da label
+                            },
+                        },
+                    },
+                },
+                responsive: true,
+                scales: {
+                    x: {
+                        ticks: {
+                            color: 'black', // Cor dos números no eixo X
+                        },
+                        grid: {
+                            color: 'black', // Cor das linhas de grade no eixo X
+                        },
+                    },
+                    y: {
+                        ticks: {
+                            color: 'black', // Cor dos números no eixo Y
+                        },
+                        grid: {
+                            color: 'black', // Cor das linhas de grade no eixo Y
+                        },
+                    }, // O gráfico será redimensionado automaticamente
+                },
+            },
         };
 
         let myChart = new Chart(
@@ -489,8 +518,37 @@
             type: 'line',  // Tipo do gráfico (barra)
             data: dados,  // Dados a serem usados no gráfico
             options: {
-                responsive: true,  // O gráfico será redimensionado automaticamente
-            }
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'black', // Cor da label (legenda)
+                            font: {
+                                size: 14, // Tamanho da fonte da label
+                            },
+                        },
+                    },
+                },
+                responsive: true,
+                scales: {
+                    x: {
+                        ticks: {
+                            color: 'black', // Cor dos números no eixo X
+                        },
+                        grid: {
+                            color: 'black', // Cor das linhas de grade no eixo X
+                        },
+                    },
+                    y: {
+                        ticks: {
+                            color: 'black', // Cor dos números no eixo Y
+                        },
+                        grid: {
+                            color: 'black', // Cor das linhas de grade no eixo Y
+                        },
+                    }, // O gráfico será redimensionado automaticamente
+                },
+            }, // O gráfico será redimensionado automaticamente
+
         };
 
         let myChart = new Chart(
@@ -549,7 +607,7 @@
                     label: 'Escritas',
                     data: numeroEscritas,
                     fill: false,
-                    borderColor: 'rgba(248, 3, 3, 0.5)',
+                    borderColor: 'rgba(248, 3, 3, 1)',
                     backgroundColor: 'rgba(248, 3, 3, 1)',
                     tension: 0.1
                 }
@@ -583,13 +641,38 @@
             type: 'line',  // Tipo do gráfico (barra)
             data: dados,  // Dados a serem usados no gráfico
             options: {
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'black', // Cor da label (legenda)
+                            font: {
+                                size: 14, // Tamanho da fonte da label
+                            },
+                        },
+                    },
+                },
                 responsive: true,  // O gráfico será redimensionado automaticamente
                 scales: {
                     x: {
-                        beginAtZero: true,  // Inicia o eixo X a partir de 0
-                    }
-                }
-            }
+                        beginAtZero: true,
+                        ticks: {
+                            color: 'black', // Cor dos números no eixo X
+                        },
+                        grid: {
+                            color: 'black', // Cor das linhas de grade no eixo X
+                        },
+                    },
+                    y: {
+                        ticks: {
+                            color: 'black', // Cor dos números no eixo Y
+                        },
+                        grid: {
+                            color: 'black', // Cor das linhas de grade no eixo Y
+                        },
+                    }, // O gráfico será redimensionado automaticamente
+                },
+            },
+
         };
 
         let myChart = new Chart(
@@ -645,10 +728,10 @@
                     tension: 0.1
                 },
                 {
-                    label: 'Escrito',
+                    label: 'Escrita',
                     data: bytesEscritos,
                     fill: false,
-                    borderColor: 'rgba(248, 3, 3, 0.5)',
+                    borderColor: 'rgba(248, 3, 3, 1)',
                     backgroundColor: 'rgba(248, 3, 3, 1)',
                     tension: 0.1
                 }
@@ -682,13 +765,38 @@
             type: 'line',  // Tipo do gráfico (barra)
             data: dados,  // Dados a serem usados no gráfico
             options: {
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'black', // Cor da label (legenda)
+                            font: {
+                                size: 14, // Tamanho da fonte da label
+                            },
+                        },
+                    },
+                },
                 responsive: true,  // O gráfico será redimensionado automaticamente
                 scales: {
                     x: {
-                        beginAtZero: true,  // Inicia o eixo X a partir de 0
-                    }
-                }
-            }
+                        beginAtZero: true,
+                        ticks: {
+                            color: 'black', // Cor dos números no eixo X
+                        },
+                        grid: {
+                            color: 'black', // Cor das linhas de grade no eixo X
+                        },
+                    },
+                    y: {
+                        ticks: {
+                            color: 'black', // Cor dos números no eixo Y
+                        },
+                        grid: {
+                            color: 'black', // Cor das linhas de grade no eixo Y
+                        },
+                    }, // O gráfico será redimensionado automaticamente
+                },
+            },
+
         };
 
         let myChart = new Chart(
