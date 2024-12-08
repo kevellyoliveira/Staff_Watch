@@ -10,7 +10,7 @@ import asyncio
 
 config = {
     'user': 'root',
-    'password': 'sptech',
+    'password': '73917391',
     'host': 'localhost',
     'database': 'StaffWatch'
 }
