@@ -351,20 +351,25 @@
                         var txt0 = "Zero falhas"
                         document.getElementById("tempoFalhasValor").textContent = txt0;
                         document.getElementById("tempoFalhasValor").style.fontSize = "20px";
-                        document.getElementById("tempoFalhasValor").style.color = "orange";
-                    }
+                        // document.getElementById("tempoFalhasValor").style.color = "orange";
+                    } else
 
                     if (ultimoValor == 1) {
                         var txt0 = "Apenas uma falha"
                         document.getElementById("tempoFalhasValor").textContent = txt0;
                         document.getElementById("tempoFalhasValor").style.fontSize = "20px";
-                        document.getElementById("tempoFalhasValor").style.color = "orange";
+                        // document.getElementById("tempoFalhasValor").style.color = "orange";
+                    } 
+
+                    if (ultimoValor != 1 && ultimoValor != 0) {
+                        document.getElementById("tempoFalhasValor").style.fontSize = "15px";
+                        document.getElementById("tempoFalhasValor").textContent = ultimoValor;
                     }
 
 
 
                     // Atualiza o conteúdo da div com o último valor
-                    document.getElementById("tempoFalhasValor").textContent = ultimoValor;
+                    // document.getElementById("tempoFalhasValor").textContent = ultimoValor;
 
                 } else {
                     console.error("Nenhum dado encontrado.");
