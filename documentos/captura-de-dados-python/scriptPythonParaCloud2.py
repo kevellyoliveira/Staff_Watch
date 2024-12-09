@@ -151,7 +151,7 @@ async def print_system_info(fk_computador):
     mydb.commit()
     print(cursor.rowcount, "registro inserido - disco")
 
-    if discoPerc >= 0:
+    if discoPerc >= 80:
         if discoPerc >= 90:
             buscarID = ("""SELECT idCaptura FROM captura WHERE 
                     fkComponente = 3 AND fkAuxComponente = 11
@@ -164,7 +164,7 @@ async def print_system_info(fk_computador):
             dados_alerta = [idObtido[0]]  # Usa o primeiro elemento da tupla
             cursor.execute(inserirAlerta, dados_alerta)
             mydb.commit()
-            print(cursor.rowcount, "alerta vermelho inserido - disco")
+            print(cursor.rowcount, "alerta vermelho inserido - disco perc")
 
         else: # entre 80 e 89
             buscarID = ("""SELECT idCaptura FROM captura WHERE 
@@ -178,7 +178,7 @@ async def print_system_info(fk_computador):
             dados_alerta = [idObtido[0]]  # Usa o primeiro elemento da tupla
             cursor.execute(inserirAlerta, dados_alerta)
             mydb.commit()
-            print(cursor.rowcount, "alerta amarelo inserido - disco")
+            print(cursor.rowcount, "alerta amarelo inserido - disco perc")
 
     if read_ops  > 20:
         buscarID = ("""SELECT idCaptura FROM captura WHERE 
@@ -311,10 +311,13 @@ async def print_system_info(fk_computador):
 
     # obtendo tempo médio entre falhas
     host = "localhost"
-    task_falhas = asyncio.create_task(monitorar_falhas(fk_computador, host, intervalo=5, duracao=20))
+    output = os.popen("wmic nic get Description").read()
+    lines = output.splitlines()
+    network_model = lines[4].strip()
+    task_falhas = asyncio.create_task(monitorar_falhas(fk_computador, network_model, host, intervalo=5, duracao=20))
     
     # obtendo tempo de inatividade
-    task_inatividade = asyncio.create_task(monitorar_inatividade(fk_computador, host="localhost", intervalo=5, duracao=30))
+    task_inatividade = asyncio.create_task(monitorar_inatividade(fk_computador, network_model, host="localhost", intervalo=5, duracao=30))
 
     # obtendo ping
     host = "google.com"
@@ -422,14 +425,14 @@ async def print_system_info(fk_computador):
                  
 
 async def main():
-    fk_computador = 1
+    fk_computador = 4
 
     while True:
         await print_system_info(fk_computador)
         await asyncio.sleep(2)
 
 # Tempo médio entre falhas
-async def monitorar_falhas(fk_computador, host="localhost", intervalo=10, duracao=20):  
+async def monitorar_falhas(fk_computador, network_model, host="localhost", intervalo=10, duracao=20):  
     cursor = mydb.cursor()
     fuso_sao_paulo = pytz.timezone("America/Sao_Paulo")
     agora = datetime.now(fuso_sao_paulo)
@@ -456,13 +459,13 @@ async def monitorar_falhas(fk_computador, host="localhost", intervalo=10, duraca
     add_falhas = """INSERT INTO captura
                     (idCaptura, captura, dataCaptura, fkAuxComponente, fkComponente, fkComputador, modelo)
                     VALUES
-                    (default, %s, %s, 25, 1, %s, 'Monitoramento de Falhas')"""
-    cursor.execute(add_falhas, [tempo_medio, agora, fk_computador])
+                    (default, %s, %s, 25, 1, %s, %s)"""
+    cursor.execute(add_falhas, [tempo_medio, agora, fk_computador, network_model])
     mydb.commit()
     print("Dados de falhas inseridos no banco.")
     
 # 4. Tempo de inatividade
-async def monitorar_inatividade(fk_computador, host="localhost", intervalo=10, duracao=20):
+async def monitorar_inatividade(fk_computador, network_model, host="localhost", intervalo=10, duracao=20):
     cursor = mydb.cursor()
     fuso_sao_paulo = pytz.timezone("America/Sao_Paulo")
     agora = datetime.now(fuso_sao_paulo)
@@ -485,8 +488,10 @@ async def monitorar_inatividade(fk_computador, host="localhost", intervalo=10, d
     # Inserir o resultado no banco
     add_inatividade = """INSERT INTO captura
                          (idCaptura, captura, dataCaptura, fkAuxComponente, fkComponente, fkComputador, modelo)
-                         VALUES (default, %s, %s, 26, 1, %s, 'Monitoramento de Inatividade')"""
-    cursor.execute(add_inatividade, [inatividade_total_horas, agora, fk_computador])
+                         VALUES (default, %s, %s, 26, 1, %s, %s)"""
+    print('inatividade inserido - modelo: ')
+    print(network_model)
+    cursor.execute(add_inatividade, [inatividade_total_horas, agora, fk_computador, network_model])
     mydb.commit()
     print("Dados de inatividade inseridos no banco.")
 

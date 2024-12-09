@@ -18,7 +18,7 @@ RUN pip install --no-cache-dir \
     asyncio
 
 # Copie o script Python para dentro do contêiner
-COPY scriptPythonParaCloud.py .
+COPY scriptPythonParaCloud2.py .
 
 # Defina o comando a ser executado ao iniciar o contêiner
-CMD ["python", "scriptPythonParaCloud.py"]
+CMD ["python", "scriptPythonParaCloud2.py"]
