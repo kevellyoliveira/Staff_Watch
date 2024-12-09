@@ -35,19 +35,6 @@ sudo apt install python3 -y
 sudo apt install python3-pip -y 
 fi #fecha o if
 
-#Verificar versão Sql
-echo "Verificando versão do MySql"
-mysql --version
-
-#Baixar Sql
-echo "Verificando se o MySql já está instalado"
-if [ $? = 0 ]; #se retorno for igual a 0
- then #entao,
- echo “Cliente possui mysql instalado!” 
- else #se nao,
- echo “Cliente não possui mysql instalado!”
- sudo apt install mysql-server -y 
- fi #fecha o if
 
 #Verificar versão Node
 echo "Verificando versão do Node"
@@ -65,18 +52,25 @@ sudo docker network create redeContainers
 # sudo systemctl stop mysql
 
 echo "Baixando imagem do Python..."
-sudo docker pull eduardomiyasaki/sprint3:PythonTeste
-echo "Instanciando imagem do MySQL..."
-sudo docker run -d -p 5000:5000 --name containerPython --network redeContainers eduardomiyasaki/sprint3:PythonTeste
-echo "aguardando instalações do MySQL........"
+sudo docker pull izabellefigueiredo/staffwatch:python-filtros
+echo "Instanciando imagem do Python..."
+sudo docker run -d -p 5000:5000 --name containerPython izabellefigueiredo/staffwatch:python-filtros
+echo "Instalando do python ........"
 sleep 5
 
+echo "Baixando imagem do Koltin..."
+sudo docker pull eduardomiyasaki/sprint3:looca2
+echo "Instanciando imagem do Python..."
+sudo docker run -d -p 8081:8081 --name containerLooca eduardomiyasaki/sprint3:looca2
+echo "Instalando Kotlin ........"
+sleep 5
 
-# echo "Baixando imagem do site..."
-# sudo docker pull eduardomiyasaki/staffwatch:sitev1 
-# echo "Instanciando imagem do site..."
-# sudo docker run -d -p 3333:3333 --name containerSite --network redeContainers eduardomiyasaki/staffwatch:sitev1 
-
+echo "Baixando imagem do Koltin..."
+sudo docker pull eduardomiyasaki/sprint3:chamada2
+echo "Instanciando imagem do Python..."
+sudo docker run -d -p 8080:8080 --name containerChamada redeContainers eduardomiyasaki/sprint3:chamada2
+echo "Instalando Kotlin ........"
+sleep 5
 
 
 

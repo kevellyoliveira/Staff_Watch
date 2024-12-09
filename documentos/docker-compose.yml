@@ -13,7 +13,7 @@ services:
 
   app:
     container_name: containerSite
-    image: eduardomiyasaki/sprint3:siteTesteOficial
+    image: izabellefigueiredo/staffwatch:siteOficial
     volumes:
       - ./app:/app  # Mapeia a pasta local para o contêiner
     ports:
@@ -21,7 +21,7 @@ services:
     depends_on:
       - mysql  # Garante que o MySQL esteja ativo antes do Node.js
     environment:
-      DB_HOST: 44.219.224.175
+      DB_HOST: 54.204.167.26
       DB_USER: root
       DB_PASSWORD: senha_segura
       DB_NAME: StaffWatch
