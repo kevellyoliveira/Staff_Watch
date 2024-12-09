@@ -319,8 +319,7 @@
 
                         const div = document.createElement("div");
                         div.innerHTML = `Nome do componente: ${resposta.nomeComponente}<br>
-                Tipo de alerta: ${tipoDeAlerta}<br>
-                Descrição: ${resposta.descricaoAuxComponente}`;
+                Tipo de alerta: ${tipoDeAlerta}<br>`;
                         div.classList.add("alertas"); // Adiciona uma classe para estilização
                         div.onclick = () => listarAlertas();
                         cardAlerta.appendChild(div);

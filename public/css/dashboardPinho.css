@@ -219,7 +219,7 @@ header {
     position: relative;
     display: flex;
     flex-direction: column;
-    top: -90px;
+    top: -97px;
     left: -200px; /* Fora da tela inicialmente */
     width: 200px;
     height: 100vh;
