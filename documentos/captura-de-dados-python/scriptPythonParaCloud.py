@@ -459,7 +459,7 @@ async def monitorar_falhas(fk_computador, network_model, host="localhost", inter
     add_falhas = """INSERT INTO captura
                     (idCaptura, captura, dataCaptura, fkAuxComponente, fkComponente, fkComputador, modelo)
                     VALUES
-                    (default, %s, %s, 25, 1, %s, %s)"""
+                    (default, %s, %s, 26, 1, %s, %s)"""
     cursor.execute(add_falhas, [tempo_medio, agora, fk_computador, network_model])
     mydb.commit()
     print("Dados de falhas inseridos no banco.")
@@ -488,7 +488,7 @@ async def monitorar_inatividade(fk_computador, network_model, host="localhost", 
     # Inserir o resultado no banco
     add_inatividade = """INSERT INTO captura
                          (idCaptura, captura, dataCaptura, fkAuxComponente, fkComponente, fkComputador, modelo)
-                         VALUES (default, %s, %s, 26, 1, %s, %s)"""
+                         VALUES (default, %s, %s, 27, 1, %s, %s)"""
     cursor.execute(add_inatividade, [inatividade_total_horas, agora, fk_computador, network_model])
     mydb.commit()
     print("Dados de inatividade inseridos no banco.")
