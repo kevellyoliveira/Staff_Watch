@@ -29,7 +29,10 @@ GROUP BY
 function numerosBuscarDisco(fkComponente) {
     console.log("ACESSEI O AVISO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function listarPorUsuario()");
     var instrucaoSql = `
-    select count(*) as quantidade_alertas from alerta as a join captura as c on a.fkCaptura = c.idCaptura where fkComponente = 3; 
+    select count(*) as quantidade_alertas from alerta a
+    join captura as c on a.fkCaptura = c.idCaptura 
+    where fkComponente = 3 and c.fkAuxComponente != 22 and c.fkAuxComponente != 23 and c.fkAuxComponente != 24 and c.fkAuxComponente != 25 
+    ; 
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);

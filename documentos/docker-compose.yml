@@ -13,7 +13,7 @@ services:
 
   app:
     container_name: containerSite
-    image: izabellefigueiredo/staffwatch:siteOficial
+    image: eduardomiyasaki/staffwatch:siteOficial10
     volumes:
       - ./app:/app  # Mapeia a pasta local para o contêiner
     ports:

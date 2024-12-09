@@ -178,7 +178,7 @@ function historico(fkEmpresa, idComputador, data, filtroAlerta, filtroComponente
             from captura ca
             right join alerta a on a.fkCaptura = ca.idCaptura
             join componente co on co.idComponente = ca.fkComponente
-            join auxcomponente aux on aux.idAuxComponente = ca.fkAuxComponente
+            join auxComponente aux on aux.idAuxComponente = ca.fkAuxComponente
             join computador maq on maq.idComputador = ca.fkComputador
             where maq.fkEmpresa = ${fkEmpresa} and fkComputador = ${idComputador} and
              ca.fkAuxComponente != 22 and ca.fkAuxComponente != 23 and ca.fkAuxComponente != 24 and ca.fkAuxComponente != 25 `

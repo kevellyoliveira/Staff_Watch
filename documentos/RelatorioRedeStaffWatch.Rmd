@@ -44,9 +44,9 @@ Estabelecendo conexão e verificando se os dados vieram de forma correta
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 # Configurações do banco de dados
-host <- "localhost"
+host <- "54.204.167.26"
 user <- "root"
-password <- "Crfsruan1"
+password <- "senha_segura"
 dbname <- "StaffWatch"
 port <- 3306
 
@@ -72,7 +72,7 @@ pacotesEnv <- capturaGeral[capturaGeral$fkAuxComponente == 2, ]
 pacotesReceb <- capturaGeral[capturaGeral$fkAuxComponente == 3, ]
 latencia <- capturaGeral[capturaGeral$fkAuxComponente == 20, ]
 perdaPacotes <- capturaGeral[capturaGeral$fkAuxComponente == 21, ]
-tempoFalha <- capturaGeral[capturaGeral$fkAuxComponente == 25, ]
+tempoFalha <- capturaGeral[capturaGeral$fkAuxComponente == 26, ]
 
 ```
 ## Médias e Alertas dos dados

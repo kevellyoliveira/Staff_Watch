@@ -2,6 +2,8 @@ CREATE DATABASE IF NOT EXISTS StaffWatch;
 USE StaffWatch;
 -- DROP DATABASE Staffwatch;
 
+  SELECT captura, dataCaptura FROM captura WHERE fkAuxComponente = 26;
+
 CREATE TABLE IF NOT EXISTS componente(
 idComponente INT PRIMARY KEY AUTO_INCREMENT,
 nome VARCHAR(45)

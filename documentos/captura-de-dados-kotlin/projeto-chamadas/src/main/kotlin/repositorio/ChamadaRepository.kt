@@ -19,9 +19,9 @@ class ChamadaRepository {
     fun configurar() {
         val dataSource: BasicDataSource = BasicDataSource()
         dataSource.driverClassName = "com.mysql.cj.jdbc.Driver"
-        dataSource.url = "jdbc:mysql://54.204.167.26:3306/StaffWatch?serverTimezone=America/Sao_Paulo"
+        dataSource.url = "jdbc:mysql://localhost:3306/StaffWatch?serverTimezone=America/Sao_Paulo"
         dataSource.username = "root"
-        dataSource.password = "senha_segura"
+        dataSource.password = "#Gf47722899846"
 
         jdbcTemplate = JdbcTemplate(dataSource)
     }

@@ -52,9 +52,9 @@ sudo docker network create redeContainers
 # sudo systemctl stop mysql
 
 echo "Baixando imagem do Python..."
-sudo docker pull izabellefigueiredo/staffwatch:python-filtros
+sudo docker pull izabellefigueiredo/staffwatch:python-oficial-temporeal
 echo "Instanciando imagem do Python..."
-sudo docker run -d -p 5000:5000 --name containerPython izabellefigueiredo/staffwatch:python-filtros
+sudo docker run -d -p 5000:5000 --name containerPython izabellefigueiredo/staffwatch:python-oficial-temporeal
 echo "Instalando do python ........"
 sleep 5
 

@@ -313,7 +313,7 @@
                 // Calcula o tempo médio
                 const tempoTotal = data.reduce((soma, tempo) => soma + tempo, 0);
                 const tempoMedio = (tempoTotal / data.length).toFixed(2);
-                const tempoCorreto = tempoMedio - 1732087490
+                const tempoCorreto = tempoMedio - (1732087490 + 148470)
                 // Exibe o tempo médio no modal
                 modalBody.innerHTML = `<p>Tempo médio de espera até a chamada ser atendida: ${tempoCorreto.toFixed(2)}s</p>`;
 
@@ -747,7 +747,7 @@
                 if (data && Array.isArray(data)) { // Valida se 'data' é um array
                     const tempoTotalEspera = data.reduce((soma, funcionario) => soma + funcionario.tempoEspera, 0);
                     const tempoMedioEspera = (tempoTotalEspera / data.length).toFixed(2);
-                    const tempoCorreto = tempoTotalEspera - 1368349121700; // Cálculo médio e arredondamento
+                    const tempoCorreto = tempoTotalEspera - 303141293280; // Cálculo médio e arredondamento
                     document.querySelector('.minibloco1').textContent = `${tempoCorreto.toFixed(2)}s`; // Atualiza a UI
                 } else {
                     throw new Error("Dados inesperados recebidos do servidor.");

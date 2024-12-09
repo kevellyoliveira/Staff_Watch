@@ -9,9 +9,9 @@ from cpuinfo import get_cpu_info
 import asyncio
 
 config = {
-    'user': 'root',
-    'password': '73917391',
-    'host': 'localhost',
+   'user': 'root',
+    'password': 'senha_segura',
+    'host': '54.204.167.26',
     'database': 'StaffWatch'
 }
 

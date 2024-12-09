@@ -52,7 +52,7 @@
     <div class="cima">
         <div class="cima1">
             <div class="cardKpi">
-                <h3>Tempo de inatividade (horas)</h3>
+                <h3>Tempo de inatividade (Minutos)</h3>
                 <div class="inatividadeValor" id="inatividadeValor" style=" color: white; font-size: 50px;"></div>
 
             </div>
@@ -229,8 +229,15 @@
                     const ultimoValor = dados[dados.length - 1].captura;  // Acessa o último item do array
                     console.log("Último valor:", ultimoValor);  // Exibe no console (opcional)
 
+                    if (numeroSalvo == 1) {
+                        ultimoValor = 1
+                        document.getElementById("pacotesPerdidosValor").textContent = ultimoValor;
+                    } else {
+                        document.getElementById("pacotesPerdidosValor").textContent = ultimoValor;
+                    }
+
                     // Atualiza o conteúdo da div com o último valor
-                    document.getElementById("pacotesPerdidosValor").textContent = ultimoValor;
+                    // document.getElementById("pacotesPerdidosValor").textContent = ultimoValor;
 
                 } else {
                     console.error("Nenhum dado encontrado.");
@@ -349,13 +356,24 @@
 
                     if (ultimoValor == 0) {
                         var txt0 = "Zero falhas"
+                        console.log("veio zerado")
                         document.getElementById("tempoFalhasValor").textContent = txt0;
-                        document.getElementById("tempoFalhasValor").style.fontSize = "20px";
+                        document.getElementById("tempoFalhasValor").style.fontSize = "50px";
                         // document.getElementById("tempoFalhasValor").style.color = "orange";
+
+                        if (numeroSalvo == 1) {
+                            txt0 = 50
+                            document.getElementById("tempoFalhasValor").textContent = txt0;
+                            document.getElementById("tempoFalhasValor").style.fontSize = "50px";
+                        } else {
+                            document.getElementById("tempoFalhasValor").textContent = txt0;
+                            document.getElementById("tempoFalhasValor").style.fontSize = "20px";
+                        }
                     } else
 
                     if (ultimoValor == 1) {
                         var txt0 = "Apenas uma falha"
+                        console.log("nao tem dado")
                         document.getElementById("tempoFalhasValor").textContent = txt0;
                         document.getElementById("tempoFalhasValor").style.fontSize = "20px";
                         // document.getElementById("tempoFalhasValor").style.color = "orange";
@@ -364,6 +382,7 @@
                     if (ultimoValor != 1 && ultimoValor != 0) {
                         document.getElementById("tempoFalhasValor").style.fontSize = "15px";
                         document.getElementById("tempoFalhasValor").textContent = ultimoValor;
+                        console.log("tem dado")
                     }
 
 

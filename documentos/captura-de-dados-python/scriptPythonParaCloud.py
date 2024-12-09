@@ -9,7 +9,7 @@ from cpuinfo import get_cpu_info
 import asyncio
 
 config = {
-    'user': 'root',
+   'user': 'root',
     'password': 'senha_segura',
     'host': '54.204.167.26',
     'database': 'StaffWatch'
@@ -29,7 +29,7 @@ async def print_system_info(fk_computador):
     
     #fuso_sao_paulo = pytz.timezone("America/Sao_Paulo")
     #agora = datetime.now(fuso_sao_paulo)
-    start_date = datetime(2023, 12, 6)
+    start_date = datetime(2023, 12, 10)
     end_date = datetime(2024, 12, 6)
     agora = start_date
 
