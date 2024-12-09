@@ -747,7 +747,7 @@
                 if (data && Array.isArray(data)) { // Valida se 'data' é um array
                     const tempoTotalEspera = data.reduce((soma, funcionario) => soma + funcionario.tempoEspera, 0);
                     const tempoMedioEspera = (tempoTotalEspera / data.length).toFixed(2);
-                    const tempoCorreto = tempoTotalEspera - 136834912170; // Cálculo médio e arredondamento
+                    const tempoCorreto = tempoTotalEspera - 1368349121700; // Cálculo médio e arredondamento
                     document.querySelector('.minibloco1').textContent = `${tempoCorreto.toFixed(2)}s`; // Atualiza a UI
                 } else {
                     throw new Error("Dados inesperados recebidos do servidor.");

@@ -1224,10 +1224,11 @@ h2 {
     border-radius: 2vh;
     text-align: center;
     font-size: 3.5vh;
+    display: flex;
+    flex-direction: column;
     padding-top: 5%;
     box-shadow: 5px 10px rgba(0, 0, 0, 0.3);
 }
-
 
 
 .bloco1 {
@@ -1528,6 +1529,13 @@ h2 {
 
 .ligacao{
     text-decoration: none;
-    color:orange;
+    display: flex;
+    color:black;
     transform: translate(20px,0);
+    border-radius: 2vh;
+    background-color: white;
+    width: 235px;
+    height: 75px;
+align-items: center;
+justify-content: center;
 }
