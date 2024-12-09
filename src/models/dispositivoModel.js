@@ -180,7 +180,8 @@ function historico(fkEmpresa, idComputador, data, filtroAlerta, filtroComponente
             join componente co on co.idComponente = ca.fkComponente
             join auxcomponente aux on aux.idAuxComponente = ca.fkAuxComponente
             join computador maq on maq.idComputador = ca.fkComputador
-            where maq.fkEmpresa = ${fkEmpresa} and fkComputador = ${idComputador}`
+            where maq.fkEmpresa = ${fkEmpresa} and fkComputador = ${idComputador} and
+             ca.fkAuxComponente != 22 and ca.fkAuxComponente != 23 and ca.fkAuxComponente != 24 and ca.fkAuxComponente != 25 `
 
     // Se o filtro de data for fornecido, adicione uma condição WHERE para filtrar os dados pela data
     if (data != '0') {
